@@ -1,0 +1,35 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"composite": true,
+		"paths": {
+			"@package": [
+				"package.json"
+			],
+			"@config": [
+				"src/config.json"
+			],
+			"@app/*": [
+				"src/app/*"
+			],
+			"@assets/*": [
+				"src/assets/*"
+			],
+			"@hooks/*": [
+				"src/hooks/*"
+			],
+			"@providers/*": [
+				"src/providers/*"
+			],
+			"@styles/*": [
+				"src/styles/*"
+			],
+			"@interfaces/*": [
+				"src/types/*"
+			],
+			"@utils/*": [
+				"src/utils/*"
+			]
+		}
+	}
+}
