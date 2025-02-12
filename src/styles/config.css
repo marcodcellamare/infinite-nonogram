@@ -1,8 +1,13 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @plugin "daisyui" {
 	themes: light --default;
 	root: ":root";
 	include: button;
 	logs: true;
+}
+
+.lucide {
+	stroke-width: 1px;
 }

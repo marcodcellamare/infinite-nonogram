@@ -1,0 +1,62 @@
+{
+	"locale": {
+		"allowed": {
+			"default": "en-GB",
+			"list": [
+				"en-GB"
+			]
+		},
+		"groups": {
+			"default": "default",
+			"list": [
+				"default"
+			]
+		}
+	},
+	"html": {
+		"tags": [
+			"p",
+			"b",
+			"strong",
+			"small",
+			"i",
+			"u",
+			"br",
+			"ul",
+			"ol",
+			"li"
+		],
+		"attr": [
+			"class"
+		]
+	},
+	"fonts": [
+		{
+			"family": "Roboto",
+			"weights": [
+				400,
+				800
+			],
+			"italic": false
+		}
+	],
+	"preload": [
+		{
+			"rel": "dns-prefetch",
+			"href": "https://fonts.googleapis.com"
+		},
+		{
+			"rel": "dns-prefetch",
+			"href": "https://fonts.gstatic.com"
+		},
+		{
+			"rel": "preconnect",
+			"href": "https://fonts.googleapis.com"
+		},
+		{
+			"rel": "preconnect",
+			"href": "https://fonts.googleapis.com",
+			"crossorigin": "anonymous"
+		}
+	]
+}

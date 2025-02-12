@@ -18,14 +18,14 @@
 			"@hooks/*": [
 				"src/hooks/*"
 			],
-			"@providers/*": [
-				"src/providers/*"
+			"@contexts/*": [
+				"src/contexts/*"
 			],
 			"@styles/*": [
 				"src/styles/*"
 			],
 			"@interfaces/*": [
-				"src/types/*"
+				"src/interfaces/*"
 			],
 			"@utils/*": [
 				"src/utils/*"
