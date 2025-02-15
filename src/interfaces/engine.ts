@@ -21,5 +21,6 @@ export interface Engine {
 	difficulty: Difficulty;
 	size: Size;
 	grid: Grid;
+	hints: Hints;
 	generateGrid: ({ w, h, seed, difficulty }: GridProps) => void;
 }

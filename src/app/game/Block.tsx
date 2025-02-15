@@ -1,88 +1,81 @@
+import { useCallback, useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
-
-import { MouseClick } from '@interfaces/mouse';
+import { useEngine } from '@contexts/engine';
+import { useMouse } from '@contexts/mouse';
 
 interface Block {
 	row: number;
 	col: number;
-	//isFilled: boolean;
-	isMouseDown: MouseClick;
 }
 
-const Block = ({ row, col, isMouseDown }: Block) => {
-	const [isClicked, setIsClicked] = useState<'active' | 'locked' | false>(
+const Block = ({ row, col }: Block) => {
+	const { grid } = useEngine();
+	const { isMouseDown, isMouseUp } = useMouse();
+
+	const [hasStatus, setHasStatus] = useState<'active' | 'locked' | false>(
 		false
 	);
 	const [isError, setIsError] = useState<boolean | null>(null);
 
-	const isFilled = useRef(Math.random() < 0.5);
-
 	const onInteraction = useCallback(
 		(e: React.MouseEvent) => {
-			console.log('onInteraction', isClicked);
-
-			if (isClicked === false) {
+			if (
+				hasStatus === false &&
+				((e.type === 'mousemove' && !isMouseUp) ||
+					e.type === 'mousedown')
+			) {
 				switch (isMouseDown) {
 					case 'left':
-						setIsClicked('active');
+						setHasStatus('active');
 						break;
 
 					case 'right':
-						setIsClicked('locked');
+						setHasStatus('locked');
 				}
 			}
-			e.preventDefault();
 		},
-		[isMouseDown, isClicked]
+		[isMouseDown, isMouseUp, hasStatus]
 	);
 
 	const color = useCallback((): string => {
-		if (isClicked !== false) {
-			return isFilled.current ? 'bg-primary' : 'bg-primary-content';
+		if (hasStatus !== false) {
+			return grid[row][col] ? 'bg-primary' : 'bg-primary-content';
 		}
 		return 'bg-neutral-content';
-	}, [isClicked]);
+	}, [hasStatus, grid, row, col]);
 
 	useEffect(() => {
 		setIsError(
-			(isClicked === 'active' && !isFilled.current) ||
-				(isClicked === 'locked' && isFilled.current)
+			(hasStatus === 'active' && !grid[row][col]) ||
+				((hasStatus === 'locked' && grid[row][col]) as boolean)
 		);
-	}, [isClicked]);
+	}, [hasStatus, grid, row, col]);
 
-	return row > 0 && col > 0 ? (
-		<button
-			type='button'
-			className={`aspect-square relative cursor-pointer ${color()}${
-				isError === true ? ' border-5 border-error' : ''
-			}`}
-			onMouseMove={onInteraction}
-			//onMouseDown={onInteraction}
+	useEffect(() => {
+		return () => {
+			setHasStatus(false);
+			setIsError(false);
+		};
+	}, []);
 
-			onContextMenu={(e) => e.preventDefault()}>
-			{isClicked !== false && !isFilled.current ? (
-				<span className='absolute top-1/2 left-1/2 -translate-1/2 w-full h-full text-white'>
-					<X className='w-full h-full' />
-				</span>
-			) : null}
-		</button>
-	) : (
-		<div className='aspect-square relative bg-neutral text-neutral-content'>
-			{row !== 0 || col !== 0 ? (
-				<span
-					className={`absolute p-2 text-xs overflow-hidden break-words max-w-full max-h-full${
-						row === 0
-							? ' bottom-0 left-1/2 -translate-x-1/2 text-center'
-							: ''
-					}${
-						col === 0
-							? ' top-1/2 right-0 -translate-y-1/2 text-right'
-							: ''
-					}`}>
-					{col}.{row} asdfasdfsdfgsdfgsdfgz
-				</span>
-			) : null}
+	return (
+		<div
+			className={`relative aspect-square ${
+				row % 5 < 4 ? 'border-b-1' : 'border-b-3'
+			} ${col % 5 < 4 ? 'border-r-1' : 'border-r-3'} border-gray-300`}>
+			<button
+				type='button'
+				className={`relative block w-full h-full cursor-pointer ${color()}${
+					isError === true ? ' border-5 border-error' : ''
+				}`}
+				onMouseMove={onInteraction}
+				onMouseDown={onInteraction}>
+				{hasStatus !== false && !grid[row][col] ? (
+					<span className='absolute top-1/2 left-1/2 -translate-1/2 w-full h-full text-white'>
+						<X className='w-full h-full' />
+					</span>
+				) : null}
+			</button>
 		</div>
 	);
 };

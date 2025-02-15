@@ -1,6 +1,6 @@
-const Footer = ({ className }: { className: string }) => {
+const Footer = () => {
 	return (
-		<footer className={className}>
+		<footer className='bg-gray-400 p-5 md:px-10'>
 			<div className='prose'>
 				<p>Footer</p>
 			</div>

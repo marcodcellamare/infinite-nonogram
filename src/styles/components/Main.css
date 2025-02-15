@@ -1,0 +1,6 @@
+main {
+	background-color: var(--color-gray-100);
+	background: linear-gradient(45deg, var(--color-gray-100) 0%, var(--color-gray-100) 5%, transparent 5%, transparent 10%, var(--color-gray-100) 10%, var(--color-gray-100) 15%, transparent 15%, transparent 20%, var(--color-gray-100) 20%, var(--color-gray-100) 25%, transparent 25%, transparent 30%, var(--color-gray-100) 30%, var(--color-gray-100) 35%, transparent 35%, transparent 40%, var(--color-gray-100) 40%, var(--color-gray-100) 45%, transparent 45%, transparent 50%, var(--color-gray-100) 50%, var(--color-gray-100) 55%, transparent 55%, transparent 60%, var(--color-gray-100) 60%, var(--color-gray-100) 65%, transparent 65%, transparent 70%, var(--color-gray-100) 70%, var(--color-gray-100) 75%, transparent 70%, transparent 80%, var(--color-gray-100) 80%, var(--color-gray-100) 85%, transparent 85%, transparent 90%, var(--color-gray-100) 90%, var(--color-gray-100) 95%, transparent 95%);
+	background-size: 3em 3em;
+	background-attachment: fixed;
+}

@@ -1,12 +1,12 @@
 import { useEngine } from '@contexts/engine';
 import { useTranslation } from 'react-i18next';
 
-const Header = ({ className }: { className: string }) => {
+const Header = () => {
 	const { i18n } = useTranslation();
-	const { generateGrid } = useEngine();
+	const { seed, generateGrid } = useEngine();
 
 	return (
-		<header className={className}>
+		<header className='flex-none md:w-[30%] lg:w-[25%] bg-gray-200 p-5 md:px-10'>
 			<div className='prose'>
 				<title>{i18n.t('title')}</title>
 				<meta
@@ -14,6 +14,7 @@ const Header = ({ className }: { className: string }) => {
 					content={i18n.t('title')}
 				/>
 				<h1>{i18n.t('title')}</h1>
+				<p className='break-all'>{seed}</p>
 				<button
 					className='btn btn-primary'
 					onClick={() => {

@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { MouseProvider } from '@contexts/mouse';
 import { EngineProvider } from '@contexts/engine';
 import App from './app/index';
 
@@ -11,8 +12,10 @@ import '@styles/main.css';
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<EngineProvider>
-			<App />
-		</EngineProvider>
+		<MouseProvider>
+			<EngineProvider>
+				<App />
+			</EngineProvider>
+		</MouseProvider>
 	</StrictMode>
 );

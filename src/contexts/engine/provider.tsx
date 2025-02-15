@@ -58,145 +58,66 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	);
 
 	const generateHints = useCallback(() => {
-		console.log('HINTS');
-
 		const hints: Hints = { rows: [], cols: [] };
+		let totalBlocks;
 
 		if (grid.length > 0) {
-			grid.map((row) => {
-				let count = 0;
+			// Calculate rows hints
 
-				row.forEach((block) => {
-					if (block) {
-						count++;
-					} else if (count > 0) {
-						hints.rows[count].push(count);
-						count = 0;
+			for (let rowIdx = 0; rowIdx < size.w; rowIdx++) {
+				if (!hints.rows[rowIdx]) hints.rows[rowIdx] = [];
+				totalBlocks = 0;
+
+				for (let colIdx = 0; colIdx < size.h; colIdx++) {
+					if (grid[rowIdx][colIdx]) {
+						totalBlocks++;
 					}
-					console.log('COUNT', count, block);
-				});
-			});
+					if (!grid[rowIdx][colIdx] || colIdx >= size.w - 1) {
+						if (totalBlocks) hints.rows[rowIdx].push(totalBlocks);
 
-			console.log('hints', hints);
+						totalBlocks = 0;
+					}
+				}
+			}
+
+			// Calculate cols hints
+
+			for (let colIdx = 0; colIdx < size.h; colIdx++) {
+				if (!hints.cols[colIdx]) hints.cols[colIdx] = [];
+				totalBlocks = 0;
+
+				for (let rowIdx = 0; rowIdx < size.w; rowIdx++) {
+					if (grid[rowIdx][colIdx]) {
+						totalBlocks++;
+					}
+					if (!grid[rowIdx][colIdx] || rowIdx >= size.h - 1) {
+						if (totalBlocks) hints.cols[colIdx].push(totalBlocks);
+
+						totalBlocks = 0;
+					}
+				}
+			}
 		}
-
-		/*!SECTION function getHints(lines) {
-        return lines.map(row => {
-            let hints = [];
-            let count = 0;
-            row.forEach(cell => {
-                if (cell === 1) {
-                    count++;
-                } else if (count > 0) {
-                    hints.push(count);
-                    count = 0;
-                }
-            });
-            if (count > 0) hints.push(count);
-            return hints.length ? hints : [0];
-        });
-    }
-
-    const rowHints = getHints(grid);
-    const colHints = getHints(grid[0].map((_, col) => grid.map(row => row[col])));
-	*/
-	}, [grid]);
+		setHints(hints);
+	}, [grid, size]);
 
 	useEffect(() => {
 		generateGrid({
-			w: 5,
-			h: 5,
+			w: 10,
+			h: 10,
 			seed: 'gnappo',
-			difficulty: 'hard',
+			difficulty: 'easy',
 		});
 	}, [generateGrid]);
 
 	useEffect(() => {
-		console.log('grid', seed, grid);
-
 		generateHints();
-	}, [grid, seed]);
+	}, [generateHints]);
 
 	return (
 		<EngineContext.Provider
-			value={{ seed, difficulty, size, grid, generateGrid }}>
+			value={{ seed, difficulty, size, grid, hints, generateGrid }}>
 			{children}
 		</EngineContext.Provider>
 	);
 };
-
-/*
-function seededRandom(seed) {
-    let value = seed;
-    return function () {
-        value = (value * 9301 + 49297) % 233280;
-        return value / 233280;
-    };
-}
-
-function generateNonogram(width, height, seed, difficulty = "medium") {
-    const random = seededRandom(seed);
-    const grid = Array.from({ length: height }, () => Array(width).fill(0));
-
-    // Difficulty settings: controls block density & size
-    const difficultySettings = {
-        easy: { minBlocks: 2, maxBlocks: width / 2, fillChance: 0.7 },
-        medium: { minBlocks: 1, maxBlocks: width / 3, fillChance: 0.5 },
-        hard: { minBlocks: 1, maxBlocks: width / 4, fillChance: 0.35 }
-    };
-    const { minBlocks, maxBlocks, fillChance } = difficultySettings[difficulty] || difficultySettings.medium;
-
-    // Fill rows with controlled randomness
-    for (let y = 0; y < height; y++) {
-        if (random() > fillChance) continue; // Chance to skip filling row
-
-        let blocks = Math.floor(random() * (maxBlocks - minBlocks + 1)) + minBlocks;
-        let start = Math.floor(random() * (width - blocks + 1));
-
-        for (let i = 0; i < blocks; i++) {
-            grid[y][start + i] = 1;
-        }
-    }
-
-    // Ensure every column has at least one filled cell
-    for (let x = 0; x < width; x++) {
-        if (grid.some(row => row[x] === 1)) continue; // Already has filled cells
-
-        let blocks = Math.floor(random() * (maxBlocks - minBlocks + 1)) + minBlocks;
-        let start = Math.floor(random() * (height - blocks + 1));
-
-        for (let i = 0; i < blocks; i++) {
-            grid[start + i][x] = 1;
-        }
-    }
-
-    // Calculate hints
-    function getHints(lines) {
-        return lines.map(row => {
-            let hints = [];
-            let count = 0;
-            row.forEach(cell => {
-                if (cell === 1) {
-                    count++;
-                } else if (count > 0) {
-                    hints.push(count);
-                    count = 0;
-                }
-            });
-            if (count > 0) hints.push(count);
-            return hints.length ? hints : [0];
-        });
-    }
-
-    const rowHints = getHints(grid);
-    const colHints = getHints(grid[0].map((_, col) => grid.map(row => row[col])));
-
-    return { grid, rowHints, colHints };
-}
-
-// Example Usage
-const { grid, rowHints, colHints } = generateNonogram(10, 10, 12345, "hard");
-console.log("Grid:", grid);
-console.log("Row Hints:", rowHints);
-console.log("Column Hints:", colHints);
-*/
