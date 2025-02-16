@@ -47,7 +47,7 @@ const Grid = () => {
 			<div
 				className={`grid grid-rows-[minmax(min-content,auto)_repeat(10, auto)] ${
 					sizeClass[size.w]
-				} p-0.5 bg-white min-w-fit min-h-fit h-full max-w-full max-h-full border-5 border-secondary shadow-[0_0.3rem_1.5rem] text-secondary/40`}
+				} p-0.5 bg-white min-w-fit min-h-fit h-full max-w-full max-h-full border-5 border-accent shadow-[0_0.3rem_1.5rem] text-accent/40`}
 				//onMouseDown={onMouseDown}
 				//onMouseUp={onMouseUp}
 				//onMouseEnter={onMouseUp}

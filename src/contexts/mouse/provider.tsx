@@ -1,15 +1,12 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { MouseContext } from './context';
 
 import { MouseClick } from '@interfaces/mouse';
 
 export const MouseProvider = ({ children }: { children: ReactNode }) => {
 	const [isMouseDown, setIsMouseDown] = useState<MouseClick>(false);
-	const [isMouseUp, setIsMouseUp] = useState<boolean>(true);
 
-	const onMouseDown = (e: MouseEvent) => {
-		setIsMouseUp(false);
-
+	const onMouseDown = useCallback((e: MouseEvent | React.MouseEvent) => {
 		switch (e.button) {
 			case 0:
 				setIsMouseDown('left');
@@ -27,11 +24,11 @@ export const MouseProvider = ({ children }: { children: ReactNode }) => {
 				setIsMouseDown(false);
 		}
 		e.preventDefault();
-	};
+	}, []);
 
-	const onMouseUp = () => {
-		setIsMouseUp(true);
-	};
+	const onMouseUp = useCallback(() => {
+		setIsMouseDown(false);
+	}, []);
 
 	const onContextMenu = (e: MouseEvent) => e.preventDefault();
 
@@ -45,10 +42,10 @@ export const MouseProvider = ({ children }: { children: ReactNode }) => {
 			document.removeEventListener('mouseup', onMouseUp);
 			document.removeEventListener('contextmenu', onContextMenu);
 		};
-	}, []);
+	}, [onMouseDown, onMouseUp]);
 
 	return (
-		<MouseContext.Provider value={{ isMouseDown, isMouseUp }}>
+		<MouseContext.Provider value={{ isMouseDown, onMouseDown, onMouseUp }}>
 			{children}
 		</MouseContext.Provider>
 	);

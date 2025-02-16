@@ -13,8 +13,8 @@ const Hint = ({ row, col }: Hint) => {
 		<div
 			className={`flex ${
 				row >= 0 || col >= 0
-					? 'bg-gray-300 text-gray-500 text-xs'
-					: 'bg-gray-400'
+					? 'bg-gray-200 text-gray-500 text-xs'
+					: 'bg-gray-300'
 			}${
 				col < 0 && row >= 0
 					? ' border-x-3 ' +
@@ -25,7 +25,7 @@ const Hint = ({ row, col }: Hint) => {
 					? ' border-y-3 ' +
 					  (col % 5 < 4 ? 'border-r-1' : 'border-r-3')
 					: ''
-			} border-gray-400`}>
+			} border-gray-300`}>
 			{row >= 0 || col >= 0 ? (
 				<>
 					{col < 0 && hints.rows[row] ? (
