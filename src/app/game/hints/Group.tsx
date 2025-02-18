@@ -1,8 +1,10 @@
 import Number from './Number';
 
+import { Hint } from '@_types/engine';
+
 interface Group {
 	type: 'row' | 'col';
-	hints: number[];
+	hints: Hint[];
 }
 
 const Group = ({ type, hints }: Group) => {
@@ -17,7 +19,10 @@ const Group = ({ type, hints }: Group) => {
 				<li
 					key={k}
 					className='leading-none p-0.5'>
-					<Number hint={hint} />
+					<Number
+						total={hint.total}
+						isDone={hint.isDone}
+					/>
 				</li>
 			))}
 		</ul>

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { MouseProvider } from '@contexts/mouse';
+import { HashRouter } from 'react-router-dom';
+import { InteractionProvider } from '@contexts/interaction';
 import { EngineProvider } from '@contexts/engine';
 import App from './app/index';
 
@@ -12,10 +13,12 @@ import '@styles/main.css';
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<MouseProvider>
-			<EngineProvider>
-				<App />
-			</EngineProvider>
-		</MouseProvider>
+		<HashRouter>
+			<InteractionProvider>
+				<EngineProvider>
+					<App />
+				</EngineProvider>
+			</InteractionProvider>
+		</HashRouter>
 	</StrictMode>
 );

@@ -1,9 +1,10 @@
+import Status from '@app/game/Status';
 import { useEngine } from '@contexts/engine';
 import { useTranslation } from 'react-i18next';
 
 const Header = () => {
 	const { i18n } = useTranslation();
-	const { seed, generateGrid } = useEngine();
+	const { seed, setSeed, setSize } = useEngine();
 
 	return (
 		<header className='flex-none md:w-[30%] lg:w-[25%] bg-gray-200 p-5 md:px-10'>
@@ -18,25 +19,26 @@ const Header = () => {
 				<button
 					className='btn btn-primary'
 					onClick={() => {
-						generateGrid({ w: 5, h: 5, difficulty: 'easy' });
+						setSeed();
 					}}>
-					generate EASY
+					new
 				</button>
 				<button
 					className='btn btn-primary'
 					onClick={() => {
-						generateGrid({ w: 5, h: 5, difficulty: 'medium' });
+						setSize(5, 5);
 					}}>
-					generate MEDIUM
+					5x5
 				</button>
 				<button
 					className='btn btn-primary'
 					onClick={() => {
-						generateGrid({ w: 5, h: 5, difficulty: 'hard' });
+						setSize(10, 10);
 					}}>
-					generate HARD
+					10,10
 				</button>
 			</div>
+			<Status />
 		</header>
 	);
 };

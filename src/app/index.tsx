@@ -1,6 +1,7 @@
 import Header from './layout/Header';
 import Main from './layout/Main';
 import Footer from './layout/Footer';
+import Progress from './game/Progress';
 
 const App = () => {
 	return (
@@ -9,6 +10,7 @@ const App = () => {
 				<Header />
 				<Main />
 			</div>
+			<Progress />
 			<Footer />
 		</div>
 	);

@@ -24,8 +24,8 @@
 			"@styles/*": [
 				"src/styles/*"
 			],
-			"@interfaces/*": [
-				"src/interfaces/*"
+			"@_types/*": [
+				"src/types/*"
 			],
 			"@utils/*": [
 				"src/utils/*"

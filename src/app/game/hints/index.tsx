@@ -11,7 +11,7 @@ const Hint = ({ row, col }: Hint) => {
 
 	return (
 		<div
-			className={`flex ${
+			className={`flex min-w-[1rem] min-h-[1rem] ${
 				row >= 0 || col >= 0
 					? 'bg-gray-200 text-gray-500 text-xs'
 					: 'bg-gray-300'

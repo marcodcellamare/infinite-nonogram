@@ -1,3 +1,6 @@
 {
-	"title": "Super Nonogram"
+	"title": "Super Nonogram",
+	"total": "Total",
+	"found": "Found",
+	"errors": "Errors"
 }
