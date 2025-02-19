@@ -4,7 +4,7 @@
 @plugin "daisyui" {
 	themes: light --default;
 	root: ":root";
-	include: join, button, input, range, toggle, progress;
+	include: button, input, range, toggle, progress;
 	logs: true;
 }
 

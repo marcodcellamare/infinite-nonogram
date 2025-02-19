@@ -6,6 +6,11 @@ import { InteractionType } from '@_types/interaction';
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 	const [isClicked, setIsClicked] = useState(false);
 	const [isInteracting, setIsInteracting] = useState<InteractionType>('left');
+	const [isAuto, setIsAuto] = useState(true);
+
+	const gatedSetIsAuto = useCallback((auto: boolean) => {
+		setIsAuto(auto);
+	}, []);
 
 	const interaction = useCallback((type: InteractionType) => {
 		setIsInteracting(type);
@@ -15,19 +20,21 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 		(e: PointerEvent) => {
 			setIsClicked(true);
 
-			if (e.pointerType === 'mouse') {
-				switch (e.button) {
-					default:
-					case 0:
-						interaction('left');
-						break;
+			if (isAuto) {
+				if (e.pointerType === 'mouse') {
+					switch (e.button) {
+						default:
+						case 0:
+							interaction('left');
+							break;
 
-					case 2:
-						interaction('right');
+						case 2:
+							interaction('right');
+					}
 				}
 			}
 		},
-		[interaction]
+		[interaction, isAuto]
 	);
 
 	const onPointerUp = useCallback(() => {
@@ -52,7 +59,13 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 
 	return (
 		<InteractionContext.Provider
-			value={{ isClicked, isInteracting, interaction }}>
+			value={{
+				isClicked,
+				isAuto,
+				isInteracting,
+				interaction,
+				setIsAuto: gatedSetIsAuto,
+			}}>
 			{children}
 		</InteractionContext.Provider>
 	);

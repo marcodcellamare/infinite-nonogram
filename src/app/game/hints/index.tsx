@@ -7,7 +7,7 @@ interface Hint {
 }
 
 const Hint = ({ row, col }: Hint) => {
-	const { hints } = useEngine();
+	const { hints, rows, cols } = useEngine();
 
 	return (
 		<div
@@ -18,12 +18,16 @@ const Hint = ({ row, col }: Hint) => {
 			}${
 				col < 0 && row >= 0
 					? ' border-x-3 ' +
-					  (row % 5 < 4 ? 'border-b-1' : 'border-b-3')
+					  (row % 5 < 4 && row < rows - 1
+							? 'border-b-1'
+							: 'border-b-3')
 					: ''
 			}${
 				row < 0 && col >= 0
 					? ' border-y-3 ' +
-					  (col % 5 < 4 ? 'border-r-1' : 'border-r-3')
+					  (col % 5 < 4 && col < cols - 1
+							? 'border-r-1'
+							: 'border-r-3')
 					: ''
 			} border-gray-300`}>
 			{row >= 0 || col >= 0 ? (

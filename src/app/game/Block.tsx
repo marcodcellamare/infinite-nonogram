@@ -9,7 +9,7 @@ interface Block {
 }
 
 const Block = ({ row, col }: Block) => {
-	const { grid, interacted } = useEngine();
+	const { grid, interacted, rows, cols } = useEngine();
 	const { isClicked, isInteracting } = useInteraction();
 
 	const [isPointerOver, setIsPointerOver] = useState(false);
@@ -58,9 +58,9 @@ const Block = ({ row, col }: Block) => {
 	return (
 		<div
 			className={`relative aspect-square min-w-[1rem] min-h-[1rem] ${
-				row % 5 < 4 ? 'border-b-1' : 'border-b-3'
+				row % 5 < 4 && row < rows - 1 ? 'border-b-1' : 'border-b-3'
 			} ${
-				col % 5 < 4 ? 'border-r-1' : 'border-r-3'
+				col % 5 < 4 && col < cols - 1 ? 'border-r-1' : 'border-r-3'
 			} border-gray-300 text-gray-400`}>
 			<button
 				type='button'
