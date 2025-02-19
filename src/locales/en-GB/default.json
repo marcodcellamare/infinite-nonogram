@@ -1,6 +1,18 @@
 {
 	"title": "Super Nonogram",
-	"total": "Total",
-	"found": "Found",
-	"errors": "Errors"
+	"seed": "Seed",
+	"size": {
+		"width": "Width",
+		"height": "Height"
+	},
+	"difficulties": {
+		"easy": "Easy",
+		"medium": "Medium",
+		"hard": "Hard"
+	},
+	"status": {
+		"total": "Total",
+		"found": "Found",
+		"errors": "Errors"
+	}
 }

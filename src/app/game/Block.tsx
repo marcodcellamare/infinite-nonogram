@@ -69,7 +69,15 @@ const Block = ({ row, col }: Block) => {
 						? grid[row][col]
 							? 'bg-accent'
 							: 'bg-gray-300 inset-shadow-sm inset-shadow-black/15'
-						: 'bg-gray-100 hover:bg-gray-50 cursor-pointer'
+						: ''
+				}${
+					hasStatus === false
+						? `cursor-pointer bg-gray-100 hover:bg-white hover:border-2 ${
+								isInteracting === 'left'
+									? 'hover:border-accent'
+									: 'hover:border-gray-500'
+						  }`
+						: ''
 				}${
 					isError === true
 						? ' border-2 border-error shadow-lg shadow-error z-10'

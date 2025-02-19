@@ -26,7 +26,6 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 						interaction('right');
 				}
 			}
-			e.preventDefault();
 		},
 		[interaction]
 	);

@@ -3,14 +3,14 @@ import seedrandom from 'seedrandom';
 import { EngineContext } from './context';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Difficulty, Grid, Hint, Interactions } from '@_types/engine';
-import { Size } from '@_types/math';
+import { DifficultyTypes, Grid, Hint, Interactions } from '@_types/engine';
 import { InteractionType } from '@_types/interaction';
 
 export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const [seed, setSeed] = useState<string>('');
-	const [difficulty, setDifficulty] = useState<Difficulty>('medium');
-	const [size, setSize] = useState<Size>({ w: 10, h: 10 });
+	const [difficulty, setDifficulty] = useState<DifficultyTypes>('medium');
+	const [rows, setRows] = useState(5);
+	const [cols, setCols] = useState(5);
 
 	const [grid, setGrid] = useState<Grid>([]);
 	const [interactions, setInteractions] = useState<Interactions>([]);
@@ -30,7 +30,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			.trim();
 	};
 
-	const difficultyToProbability = (difficulty: Difficulty) => {
+	const difficultyToProbability = (difficulty: DifficultyTypes) => {
 		switch (difficulty) {
 			case 'easy':
 				return 0.7;
@@ -51,22 +51,30 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	}, []);
 
 	const gatedSetDifficulty = useCallback(
-		(difficulty: Difficulty = 'medium') => {
+		(difficulty: DifficultyTypes = 'medium') => {
 			setDifficulty(difficulty);
 		},
 		[]
 	);
 
-	const gatedSetSize = useCallback((w: number, h: number) => {
-		setSize({ w, h });
+	const gatedSetRows = useCallback((rows: number) => {
+		setRows(rows);
 	}, []);
+
+	const gatedSetCols = useCallback((cols: number) => {
+		setCols(cols);
+	}, []);
+
+	const check = useCallback(() => {
+		return grid.flat().length === rows * cols;
+	}, [grid, rows, cols]);
 
 	const init = useCallback(() => {
 		if (seed) {
 			const rng = seedrandom(seed);
 			const probability = difficultyToProbability(difficulty);
-			const grid = Array.from({ length: size.w }, () =>
-				Array(size.h).fill(false)
+			const grid = Array.from({ length: rows }, () =>
+				Array(cols).fill(false)
 			);
 
 			setGrid(grid.map((row) => row.map(() => rng() < probability)));
@@ -74,7 +82,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		} else {
 			gatedSetSeed();
 		}
-	}, [seed, size, difficulty, gatedSetSeed]);
+	}, [seed, rows, cols, difficulty, gatedSetSeed]);
 
 	const interacted = useCallback(
 		({
@@ -98,68 +106,65 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	);
 
 	const calculateRowHints = useCallback(() => {
-		if (grid.length > 0 && grid[0].length > 0) {
-			let total: number;
-			const rows = grid.length;
-			const cols = grid[0].length;
-			const hints: Hint[][] = Array.from({ length: rows }, () => []);
+		if (!check()) return;
 
-			for (let row = 0; row < rows; row++) {
-				total = 0;
+		let total: number;
+		const hints: Hint[][] = Array.from({ length: rows }, () => []);
 
-				for (let col = 0; col < cols; col++) {
-					if (grid[row][col]) {
-						total++;
-					}
-					if (!grid[row][col] || col >= cols - 1) {
-						if (total > 0) {
-							hints[row].push({
-								total,
-								isDone: false,
-							});
-						}
-						total = 0;
-					}
-				}
-			}
-			setRowHints(hints);
-		}
-	}, [grid]);
-
-	const calculateColHints = useCallback(() => {
-		if (grid.length > 0 && grid[0].length > 0) {
-			let total: number;
-			const rows = grid.length;
-			const cols = grid[0].length;
-			const hints: Hint[][] = Array.from({ length: cols }, () => []);
+		for (let row = 0; row < rows; row++) {
+			total = 0;
 
 			for (let col = 0; col < cols; col++) {
-				total = 0;
-
-				for (let row = 0; row < rows; row++) {
-					if (grid[row][col]) {
-						total++;
+				if (grid[row][col]) {
+					total++;
+				}
+				if (!grid[row][col] || col >= cols - 1) {
+					if (total > 0) {
+						hints[row].push({
+							total,
+							isDone: false,
+						});
 					}
-					if (!grid[row][col] || row >= rows - 1) {
-						if (total > 0) {
-							hints[col].push({
-								total,
-								isDone: false,
-							});
-						}
-						total = 0;
-					}
+					total = 0;
 				}
 			}
-			setColHints(hints);
 		}
-	}, [grid]);
+		setRowHints(hints);
+	}, [check, grid, rows, cols]);
 
+	const calculateColHints = useCallback(() => {
+		if (!check()) return;
+
+		let total: number;
+		const hints: Hint[][] = Array.from({ length: cols }, () => []);
+
+		for (let col = 0; col < cols; col++) {
+			total = 0;
+
+			for (let row = 0; row < rows; row++) {
+				if (grid[row][col]) {
+					total++;
+				}
+				if (!grid[row][col] || row >= rows - 1) {
+					if (total > 0) {
+						hints[col].push({
+							total,
+							isDone: false,
+						});
+					}
+					total = 0;
+				}
+			}
+		}
+		setColHints(hints);
+	}, [check, grid, rows, cols]);
+
+	/*
 	const checkGrid = useCallback(() => {
 		if (grid.length > 0 && grid[0].length > 0) {
 			//console.clear();
-			for (let row = 0; row < size.w; row++) {
-				for (let col = 0; col < size.h; col++) {
+			for (let row = 0; row < cols; row++) {
+				for (let col = 0; col < rows; col++) {
 					//if (interactions[row][col]) {
 					/*
 						console.log(
@@ -173,7 +178,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 								(!grid[row][col] &&
 									interactions[row][col] === 'right')
 						);
-						*/
+						* /
 					//}
 				}
 			}
@@ -185,8 +190,9 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			// Check rows
 			
 		}
-			*/
-	}, [grid, size, interactions]);
+			* /
+	}, [grid, cols, rows, interactions]);
+	*/
 
 	useEffect(() => {
 		init();
@@ -218,18 +224,26 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 						(g === false && interactions.flat()[k] === 'left')
 				).length
 		);
-	}, [grid, interactions]);
+		console.log('SCORE', cols * rows);
+	}, [grid, interactions, cols, rows]);
 
+	/*
 	useEffect(() => {
 		checkGrid();
 	}, [checkGrid]);
+	*/
+
+	useEffect(() => {
+		console.log({ grid, rowHints, colHints, interactions });
+	}, [grid, rowHints, colHints, interactions]);
 
 	return (
 		<EngineContext.Provider
 			value={{
 				seed,
 				difficulty,
-				size,
+				rows,
+				cols,
 				grid,
 				hints: {
 					rows: rowHints,
@@ -242,7 +256,8 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 				},
 				setSeed: gatedSetSeed,
 				setDifficulty: gatedSetDifficulty,
-				setSize: gatedSetSize,
+				setRows: gatedSetRows,
+				setCols: gatedSetCols,
 
 				init,
 				interacted,

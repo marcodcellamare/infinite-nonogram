@@ -25,21 +25,25 @@ const Controls = () => {
 	}, [checked, interaction]);
 
 	return (
-		<label className='flex'>
-			<span className={`text-accent${checked ? ' opacity-30' : ''}`}>
-				<Square />
-			</span>
-			<input
-				type='checkbox'
-				className='toggle bg-accent border-accent toggle-accent checked:bg-gray-500 checked:border-gray-500 checked:text-white mx-1'
-				onChange={() => onChange()}
-				onPointerDown={(e) => e.stopPropagation()}
-				checked={checked}
-			/>
-			<span className={`text-gray-500${!checked ? ' opacity-30' : ''}`}>
-				<X />
-			</span>
-		</label>
+		<>
+			<label className='flex'>
+				<span className={`text-accent${checked ? ' opacity-30' : ''}`}>
+					<Square />
+				</span>
+				<input
+					type='checkbox'
+					className='toggle bg-accent border-accent toggle-accent checked:bg-gray-500 checked:border-gray-500 checked:text-white mx-1'
+					onChange={() => onChange()}
+					onPointerDown={(e) => e.stopPropagation()}
+					checked={checked}
+				/>
+				<span
+					className={`text-gray-500${!checked ? ' opacity-30' : ''}`}>
+					<X />
+				</span>
+			</label>
+			<div>AUTOMATIC ON / OFF</div>
+		</>
 	);
 };
 export default Controls;
