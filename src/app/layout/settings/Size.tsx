@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface SizeProps {
 	label: string;
@@ -9,14 +9,26 @@ interface SizeProps {
 
 const Size = ({ label, min = 5, max = 20, onChange }: SizeProps) => {
 	const [value, setValue] = useState(min);
+	const [isChanging, setIsChanging] = useState(false);
+	const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	useEffect(() => {
+		if (timeout.current !== null) clearTimeout(timeout.current);
+
 		onChange(value);
+		setIsChanging(true);
+
+		timeout.current = setTimeout(() => {
+			setIsChanging(false);
+		}, 700);
 	}, [onChange, value]);
 
 	return (
-		<div className='flex flex-col sm:flex-row md:flex-col xl:flex-row gap-1 border-2 border-primary text-primary rounded p-1'>
-			<span className='text-xs bg-white rounded py-1 px-3 min-w-30 text-center sm:text-left md:text-center xl:text-left'>
+		<div className='indicator indicator-center indicator-middle flex w-full'>
+			<span
+				className={`indicator-item badge badge-xs badge-primary pointer-events-none gap-1 transition-opacity duration-300${
+					!isChanging ? ' opacity-0' : ''
+				}`}>
 				{label}: <strong>{value}</strong>
 			</span>
 			<input

@@ -1,13 +1,14 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '@contexts/engine';
-import colors from 'tailwindcss/colors';
+import useCSSVariable from '@hooks/useCSSVariable';
 import { Grid } from 'lucide-react';
 import pkg from '@package';
 
 const Meta = () => {
 	const { i18n } = useTranslation();
 	const { seed, rows, cols, difficulty } = useEngine();
+	const cssVariable = useCSSVariable();
 
 	return (
 		<>
@@ -25,7 +26,9 @@ const Meta = () => {
 				href={`data:image/svg+xml,${renderToStaticMarkup(
 					<Grid
 						size={24}
-						color={encodeURIComponent(colors.blue[500])}
+						color={encodeURIComponent(
+							cssVariable('--color-primary')
+						)}
 					/>
 				)}`}
 			/>

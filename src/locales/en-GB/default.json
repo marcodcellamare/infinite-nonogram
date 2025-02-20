@@ -1,6 +1,7 @@
 {
-	"title": "Super Nonogram",
+	"title": "Infinite Nonogram",
 	"description": "{{title}}: Enjoy endless Nonogram (Picross) puzzles with randomly generated levels and tons of customization options! Test your logic and play your way with different modes and difficulty levels.",
+	"name": "Name",
 	"seed": "Seed",
 	"auto": "Automatic toggle",
 	"size": {

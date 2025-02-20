@@ -3,7 +3,7 @@ import { Square, X } from 'lucide-react';
 
 import { useInteraction } from '@contexts/interaction';
 
-const Controls = () => {
+const Controller = () => {
 	const { isInteracting, interaction } = useInteraction();
 	const [checked, setChecked] = useState(false);
 
@@ -26,9 +26,9 @@ const Controls = () => {
 
 	return (
 		<label
-			className={`flex gap-2 items-center justify-center border-2 ${
+			className={`flex gap-2 items-center justify-center bg-gray-200 border-2 ${
 				checked ? 'border-gray-500' : 'border-accent'
-			} rounded py-1 px-2`}>
+			} rounded-lg inset-shadow-sm py-1 px-5`}>
 			<span className={`text-accent${checked ? ' opacity-30' : ''}`}>
 				<Square />
 			</span>
@@ -45,4 +45,4 @@ const Controls = () => {
 		</label>
 	);
 };
-export default Controls;
+export default Controller;

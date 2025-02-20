@@ -24,7 +24,7 @@ export interface Engine {
 		found: number;
 		errors: number;
 	};
-
+	cleanSeed: (seed: string) => string;
 	setSeed: (seed?: string) => void;
 	setDifficulty: (difficulty: DifficultyTypes) => void;
 	setRows: (rows: number) => void;

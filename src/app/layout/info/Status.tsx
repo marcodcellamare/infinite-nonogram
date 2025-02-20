@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 
 const Status = () => {
 	const { i18n } = useTranslation();
-	const { total } = useEngine();
+	const { total, rows, cols } = useEngine();
 
 	return (
-		<div className='grid grid-cols-3 gap-1 text-white text-xs text-center'>
+		<div className='grid grid-cols-3 gap-1 grow text-white text-xs text-center'>
 			<div
 				className={`bg-gray-500 rounded py-1 px-2 ${
 					total._ === 0
@@ -14,7 +14,7 @@ const Status = () => {
 						: 'shadow-lg shadow-gray-500/50'
 				}`}>
 				<p>{i18n.t('status.total')}</p>
-				<p className='font-bold'>{total._}</p>
+				<p className='font-bold'>{`${total._}/${rows * cols}`}</p>
 			</div>
 			<div
 				className={`bg-accent rounded py-1 px-2 ${

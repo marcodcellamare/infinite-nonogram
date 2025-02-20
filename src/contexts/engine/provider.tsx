@@ -22,13 +22,13 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const [totalFound, setTotalFound] = useState(0);
 	const [totalErrors, setTotalErrors] = useState(0);
 
-	const cleanSeed = (seed: string): string => {
+	const cleanSeed = useCallback((seed: string): string => {
 		return seed
 			.toLowerCase()
 			.trim()
 			.replace(/[^a-z0-9]/g, '')
 			.trim();
-	};
+	}, []);
 
 	const difficultyToProbability = (difficulty: DifficultyTypes) => {
 		switch (difficulty) {
@@ -233,10 +233,6 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	}, [checkGrid]);
 	*/
 
-	useEffect(() => {
-		console.log({ grid, rowHints, colHints, interactions });
-	}, [grid, rowHints, colHints, interactions]);
-
 	return (
 		<EngineContext.Provider
 			value={{
@@ -254,6 +250,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 					found: totalFound,
 					errors: totalErrors,
 				},
+				cleanSeed,
 				setSeed: gatedSetSeed,
 				setDifficulty: gatedSetDifficulty,
 				setRows: gatedSetRows,

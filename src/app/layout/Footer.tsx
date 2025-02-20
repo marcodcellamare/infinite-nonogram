@@ -1,15 +1,20 @@
 import Status from './info/Status';
-import Controls from './settings/Controls';
+import Timer from './info/Timer';
+import Controller from './settings/Controller';
 
 const Footer = () => {
 	return (
-		<footer className='flex flex-col md:flex-row gap-5 bg-white p-5 md:px-10'>
-			<div className='flex-1'>x</div>
-			<div className='flex-1'>
-				<Status />
+		<footer className='flex flex-col md:flex-row gap-1 md:gap-5 bg-white px-5 md:px-10 py-2'>
+			<div className='flex flex-col md:flex-row gap-1 md:gap-5 grow'>
+				<div className='flex-1'>
+					<Controller />
+				</div>
+				<div className='-flex self-center justtify-self-center min-w-xs'>
+					<Status />
+				</div>
 			</div>
-			<div className='flex-1'>
-				<Controls />
+			<div className='md:w-[30%] lg:w-[25%] md:order-first border'>
+				<Timer />
 			</div>
 		</footer>
 	);
