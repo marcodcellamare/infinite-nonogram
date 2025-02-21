@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '@contexts/engine';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Config from '@config';
+
 import { DifficultyTypes } from '@_types/engine';
 
 const useRouteCheck = () => {
@@ -10,7 +11,22 @@ const useRouteCheck = () => {
 	const params = useParams();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { rows, cols, difficulty, seed } = useEngine();
+	const {
+		rows,
+		cols,
+		difficulty,
+		seed,
+		setRows,
+		setCols,
+		setDifficulty,
+		setSeed,
+	} = useEngine();
+
+	const isUpdatingRef = useRef(false);
+
+	const pageId = useMemo((): string => {
+		return location.pathname.split('/')[2] ?? Config.pages.default;
+	}, [location.pathname]);
 
 	const defaultLanguage = useMemo(() => {
 		return typeof i18n.options.fallbackLng === 'string'
@@ -24,7 +40,7 @@ const useRouteCheck = () => {
 			defaultLanguage &&
 			!Object.keys(i18n.options.resources ?? {}).includes(params.language)
 		) {
-			console.warn(`"${params.language}": Language not allowed.`);
+			console.info(`"${params.language}": Language not allowed.`);
 			return defaultLanguage;
 		} else if (params.language && i18n.language !== params.language) {
 			return i18n.language;
@@ -37,37 +53,26 @@ const useRouteCheck = () => {
 		defaultLanguage,
 	]);
 
-	const checkRows = useMemo((): number => {
-		if (
-			!Number.isNaN(Number(params.rows as string)) &&
-			Number(params.rows as string) !== rows
-		) {
-			return Number(params.rows) >= Config.game.grid.min &&
-				Number(params.rows) <= Config.game.grid.max
-				? Number(params.rows)
-				: Config.game.grid.default;
-		}
-		return rows;
-	}, [params.rows, rows]);
-
-	const checkCols = useMemo((): number => {
-		if (
-			!Number.isNaN(Number(params.cols as string)) &&
-			Number(params.cols as string) !== cols
-		) {
-			return Number(params.cols) >= Config.game.grid.min &&
-				Number(params.cols) <= Config.game.grid.max
-				? Number(params.cols)
-				: Config.game.grid.default;
-		}
-		return cols;
-	}, [params.cols, cols]);
+	const checkLines = useCallback(
+		(line: number, paramLine: number): number => {
+			if (!Number.isNaN(paramLine) && paramLine !== line) {
+				return paramLine >= Config.game.grid.min &&
+					paramLine <= Config.game.grid.max
+					? paramLine
+					: Config.game.grid.default;
+			}
+			return line;
+		},
+		[]
+	);
 
 	const checkDifficulty = useMemo((): DifficultyTypes => {
 		if (
-			!Config.game.difficulty.list.includes(params.difficulty as string)
+			!Object.keys(Config.game.difficulty.list).includes(
+				params.difficulty as string
+			)
 		) {
-			console.warn(`"${params.difficulty}": Difficulty not allowed.`);
+			console.info(`"${params.difficulty}": Difficulty not allowed.`);
 			return Config.game.difficulty.default as DifficultyTypes;
 		} else if (params.difficulty !== difficulty) {
 			return params.difficulty as DifficultyTypes;
@@ -75,24 +80,62 @@ const useRouteCheck = () => {
 		return difficulty;
 	}, [params.difficulty, difficulty]);
 
-	const checkUrl = useCallback(() => {
-		/*
-		navigate(
-			`/${checkLanguage}/${checkCols}/${checkRows}/${checkDifficulty}/${seed}`
-		);
-		*/
-	}, [navigate, checkLanguage, checkCols, checkRows, checkDifficulty, seed]);
+	const checkSeed = useMemo((): string => {
+		return params.seed || seed;
+	}, [params.seed, seed]);
 
-	const changeUrl = useCallback(() => {
-		//navigate(`/game/${i18n.language}/${cols}/${rows}/${difficulty}/${seed}`);
-	}, [navigate, i18n.language, cols, rows, difficulty, seed]);
+	const checkUrl = useCallback(() => {
+		if (isUpdatingRef.current) return;
+
+		i18n.changeLanguage(checkLanguage);
+
+		if (pageId === Config.pages.default) {
+			const checkRows = checkLines(rows, Number(params.rows));
+			const checkCols = checkLines(cols, Number(params.cols));
+
+			if (rows !== checkRows) setRows(checkRows);
+			if (cols !== checkCols) setCols(checkCols);
+			if (difficulty !== checkDifficulty) setDifficulty(checkDifficulty);
+			if (seed !== checkSeed) setSeed(checkSeed);
+		}
+	}, [
+		i18n,
+		pageId,
+		checkLanguage,
+		checkLines,
+		checkDifficulty,
+		checkSeed,
+		params.rows,
+		params.cols,
+		rows,
+		cols,
+		difficulty,
+		seed,
+		setRows,
+		setCols,
+		setDifficulty,
+		setSeed,
+	]);
+
+	const updateUrl = useCallback(() => {
+		isUpdatingRef.current = true;
+
+		if (pageId === Config.pages.default) {
+			navigate(
+				`/${i18n.language}/${pageId}/${cols}/${rows}/${difficulty}/${seed}`,
+				{ replace: false }
+			);
+		} else {
+			navigate(`/${i18n.language}/${pageId}`, { replace: true });
+		}
+	}, [navigate, pageId, i18n.language, cols, rows, difficulty, seed]);
 
 	useEffect(() => {
 		checkUrl();
-	}, [location.pathname, checkUrl]);
+	}, [checkUrl]);
 
 	useEffect(() => {
-		changeUrl();
-	}, [changeUrl]);
+		updateUrl();
+	}, [updateUrl]);
 };
 export default useRouteCheck;

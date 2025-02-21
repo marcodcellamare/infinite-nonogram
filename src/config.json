@@ -13,6 +13,12 @@
 			]
 		}
 	},
+	"pages": {
+		"default": "game",
+		"list": [
+			"game"
+		]
+	},
 	"game": {
 		"grid": {
 			"default": 10,
@@ -21,11 +27,11 @@
 		},
 		"difficulty": {
 			"default": "medium",
-			"list": [
-				"easy",
-				"medium",
-				"hard"
-			]
+			"list": {
+				"easy": 0.75,
+				"medium": 0.55,
+				"hard": 0.35
+			}
 		}
 	},
 	"fonts": [

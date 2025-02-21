@@ -23,7 +23,7 @@ const Router = () => {
 					path='*'
 					element={
 						<Navigate
-							to={`/${i18n.language}/game/${Config.game.grid.default}/${Config.game.grid.default}/${Config.game.difficulty.default}/hello`}
+							to={`/${i18n.language}/${Config.pages.default}`}
 							replace
 						/>
 					}

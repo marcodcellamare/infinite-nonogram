@@ -1,21 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 
-interface SizeProps {
+interface RangeProps {
 	label: string;
+	value: number;
 	min?: number;
 	max?: number;
 	onChange: (value: number) => void;
 }
 
-const Size = ({ label, min = 5, max = 20, onChange }: SizeProps) => {
-	const [value, setValue] = useState(min);
+const Range = ({ label, value, min = 5, max = 20, onChange }: RangeProps) => {
 	const [isChanging, setIsChanging] = useState(false);
 	const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	useEffect(() => {
 		if (timeout.current !== null) clearTimeout(timeout.current);
 
-		onChange(value);
 		setIsChanging(true);
 
 		timeout.current = setTimeout(() => {
@@ -38,9 +37,9 @@ const Size = ({ label, min = 5, max = 20, onChange }: SizeProps) => {
 				max={max}
 				step={1}
 				value={value}
-				onChange={(e) => setValue(Number(e.target.value))}
+				onChange={(e) => onChange(Number(e.target.value))}
 			/>
 		</div>
 	);
 };
-export default Size;
+export default Range;

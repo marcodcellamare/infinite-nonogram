@@ -4,6 +4,7 @@
 	"name": "Name",
 	"seed": "Seed",
 	"auto": "Automatic toggle",
+	"zoom": "Zoom",
 	"size": {
 		"width": "Width",
 		"height": "Height"

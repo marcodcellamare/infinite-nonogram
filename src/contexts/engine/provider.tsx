@@ -1,10 +1,10 @@
 import { useState, ReactNode, useEffect, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
 import { EngineContext } from './context';
 import { useTimer } from '@contexts/timer/hook';
 import { v4 as uuidv4 } from 'uuid';
 import seedrandom from 'seedrandom';
+import { cleanSeed } from '@utils/misc';
+import Config from '@config';
 
 import { DifficultyTypes, Grid, Hint, Interactions } from '@_types/engine';
 import { InteractionType } from '@_types/interaction';
@@ -12,10 +12,10 @@ import { InteractionType } from '@_types/interaction';
 export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const { start, stop } = useTimer();
 
-	const [name, setName] = useState<string>('');
+	const [name, setName] = useState('');
 	const [started, setStarted] = useState(false);
 
-	const [seed, setSeed] = useState('');
+	const [seed, setSeed] = useState(cleanSeed(uuidv4()));
 	const [difficulty, setDifficulty] = useState<DifficultyTypes>('medium');
 	const [rows, setRows] = useState(5);
 	const [cols, setCols] = useState(5);
@@ -30,41 +30,22 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const [totalFound, setTotalFound] = useState(0);
 	const [totalErrors, setTotalErrors] = useState(0);
 
-	const cleanSeed = useCallback((seed: string): string => {
-		return seed
-			.toLowerCase()
-			.trim()
-			.replace(/[^a-z0-9]/g, '')
-			.trim()
-			.substring(0, 20);
-	}, []);
-
 	const difficultyToProbability = (difficulty: DifficultyTypes) => {
-		switch (difficulty) {
-			case 'easy':
-				return 0.7;
-
-			case 'medium':
-				return 0.5;
-
-			default:
-			case 'hard':
-				return 0.3;
-		}
+		return (
+			Config.game.difficulty.list[difficulty] ??
+			Config.game.difficulty.default
+		);
 	};
 
 	const gatedSetName = useCallback((name: string) => {
 		setName(name.trim().substring(0, 15));
 	}, []);
 
-	const gatedSetSeed = useCallback(
-		(seed?: string) => {
-			if (!seed) seed = uuidv4();
+	const gatedSetSeed = useCallback((seed?: string) => {
+		if (!seed) seed = uuidv4();
 
-			setSeed(cleanSeed(seed));
-		},
-		[cleanSeed]
-	);
+		setSeed(cleanSeed(seed));
+	}, []);
 
 	const gatedSetDifficulty = useCallback(
 		(difficulty: DifficultyTypes = 'medium') => {
@@ -97,10 +78,8 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			setStarted(false);
 			setGrid(grid.map((row) => row.map(() => rng() < probability)));
 			setInteractions(grid);
-		} else {
-			gatedSetSeed();
 		}
-	}, [seed, rows, cols, difficulty, gatedSetSeed, stop]);
+	}, [seed, rows, cols, difficulty, stop]);
 
 	const interacted = useCallback(
 		({
@@ -243,7 +222,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 						(g === false && interactions.flat()[k] === 'left')
 				).length
 		);
-		console.log('SCORE', cols * rows);
+		//console.log('SCORE', cols * rows);
 	}, [grid, interactions, cols, rows]);
 
 	useEffect(() => {
