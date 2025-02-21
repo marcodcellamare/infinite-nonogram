@@ -10,6 +10,7 @@ export interface Hint {
 	isDone: boolean;
 }
 export interface Engine {
+	name: string;
 	seed: string;
 	difficulty: DifficultyTypes;
 	rows: number;
@@ -25,6 +26,7 @@ export interface Engine {
 		errors: number;
 	};
 	cleanSeed: (seed: string) => string;
+	setName: (name: string) => void;
 	setSeed: (seed?: string) => void;
 	setDifficulty: (difficulty: DifficultyTypes) => void;
 	setRows: (rows: number) => void;

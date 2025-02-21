@@ -9,9 +9,9 @@ const Difficulty = () => {
 	const { setDifficulty, difficulty } = useEngine();
 	const difficulties: DifficultyTypes[] = ['easy', 'medium', 'hard'];
 	const icons = {
-		easy: <Baby className='h-full' />,
-		medium: <GraduationCap className='h-full' />,
-		hard: <Brain className='h-full' />,
+		easy: <Baby className='w-[1em] h-[1em]' />,
+		medium: <GraduationCap className='w-[1em] h-[1em]' />,
+		hard: <Brain className='w-[1em] h-[1em]' />,
 	};
 
 	return (
@@ -24,7 +24,8 @@ const Difficulty = () => {
 						type='button'
 						disabled={d === difficulty}
 						onClick={() => setDifficulty(d)}>
-						{icons[d]} {i18n.t(`difficulties.${d}`)}
+						<span className='text-xl'>{icons[d]}</span>{' '}
+						{i18n.t(`difficulties.${d}`)}
 					</button>
 				);
 			})}

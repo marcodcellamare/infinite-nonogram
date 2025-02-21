@@ -13,8 +13,8 @@ const Hint = ({ row, col }: Hint) => {
 		<div
 			className={`flex min-w-[1rem] min-h-[1rem] ${
 				row >= 0 || col >= 0
-					? 'bg-gray-200 text-gray-500 text-xs'
-					: 'bg-gray-300'
+					? 'bg-base-200 text-base-content text-xs'
+					: 'bg-base-300'
 			}${
 				col < 0 && row >= 0
 					? ' border-x-3 ' +
@@ -29,7 +29,7 @@ const Hint = ({ row, col }: Hint) => {
 							? 'border-r-1'
 							: 'border-r-3')
 					: ''
-			} border-gray-300`}>
+			} border-base-300`}>
 			{row >= 0 || col >= 0 ? (
 				<>
 					{col < 0 && hints.rows[row] ? (

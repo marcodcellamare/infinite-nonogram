@@ -8,7 +8,7 @@ const Auto = () => {
 	return (
 		<label
 			className={`hidden md:flex gap-2 items-center text-xs font-bold cursor-pointer ${
-				isAuto ? 'text-primary' : 'text-gray-500'
+				isAuto ? 'text-primary' : 'text-base-content'
 			}`}>
 			<input
 				type='checkbox'

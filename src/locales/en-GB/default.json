@@ -17,5 +17,19 @@
 		"total": "Total",
 		"found": "Found",
 		"errors": "Errors"
+	},
+	"timeUnits": {
+		"years_one": "Year",
+		"years_other": "Years",
+		"months_one": "Month",
+		"months_other": "Months",
+		"days_one": "Day",
+		"days_other": "Days",
+		"hours_one": "Hour",
+		"hours_other": "Hours",
+		"minutes_one": "Minute",
+		"minutes_other": "Minutes",
+		"seconds_one": "Second",
+		"seconds_other": "Seconds"
 	}
 }

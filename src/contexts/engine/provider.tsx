@@ -1,13 +1,21 @@
 import { useState, ReactNode, useEffect, useCallback } from 'react';
-import seedrandom from 'seedrandom';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 import { EngineContext } from './context';
+import { useTimer } from '@contexts/timer/hook';
 import { v4 as uuidv4 } from 'uuid';
+import seedrandom from 'seedrandom';
 
 import { DifficultyTypes, Grid, Hint, Interactions } from '@_types/engine';
 import { InteractionType } from '@_types/interaction';
 
 export const EngineProvider = ({ children }: { children: ReactNode }) => {
-	const [seed, setSeed] = useState<string>('');
+	const { start, stop } = useTimer();
+
+	const [name, setName] = useState<string>('');
+	const [started, setStarted] = useState(false);
+
+	const [seed, setSeed] = useState('');
 	const [difficulty, setDifficulty] = useState<DifficultyTypes>('medium');
 	const [rows, setRows] = useState(5);
 	const [cols, setCols] = useState(5);
@@ -27,7 +35,8 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			.toLowerCase()
 			.trim()
 			.replace(/[^a-z0-9]/g, '')
-			.trim();
+			.trim()
+			.substring(0, 20);
 	}, []);
 
 	const difficultyToProbability = (difficulty: DifficultyTypes) => {
@@ -44,11 +53,18 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		}
 	};
 
-	const gatedSetSeed = useCallback((seed?: string) => {
-		if (!seed) seed = uuidv4();
-
-		setSeed(cleanSeed(seed));
+	const gatedSetName = useCallback((name: string) => {
+		setName(name.trim().substring(0, 15));
 	}, []);
+
+	const gatedSetSeed = useCallback(
+		(seed?: string) => {
+			if (!seed) seed = uuidv4();
+
+			setSeed(cleanSeed(seed));
+		},
+		[cleanSeed]
+	);
 
 	const gatedSetDifficulty = useCallback(
 		(difficulty: DifficultyTypes = 'medium') => {
@@ -77,12 +93,14 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 				Array(cols).fill(false)
 			);
 
+			stop();
+			setStarted(false);
 			setGrid(grid.map((row) => row.map(() => rng() < probability)));
 			setInteractions(grid);
 		} else {
 			gatedSetSeed();
 		}
-	}, [seed, rows, cols, difficulty, gatedSetSeed]);
+	}, [seed, rows, cols, difficulty, gatedSetSeed, stop]);
 
 	const interacted = useCallback(
 		({
@@ -94,6 +112,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			col: number;
 			hasClicked: InteractionType;
 		}) => {
+			setStarted(true);
 			setInteractions((prevInteractions) => {
 				const newInteractions = [...prevInteractions];
 				newInteractions[row] = [...newInteractions[row]];
@@ -227,6 +246,19 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		console.log('SCORE', cols * rows);
 	}, [grid, interactions, cols, rows]);
 
+	useEffect(() => {
+		if (started) {
+			start();
+		}
+	}, [started, start]);
+
+	useEffect(() => {
+		if (started && totalFound >= total) {
+			stop();
+			setStarted(false);
+		}
+	}, [started, stop, totalFound, total]);
+
 	/*
 	useEffect(() => {
 		checkGrid();
@@ -236,6 +268,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	return (
 		<EngineContext.Provider
 			value={{
+				name,
 				seed,
 				difficulty,
 				rows,
@@ -251,6 +284,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 					errors: totalErrors,
 				},
 				cleanSeed,
+				setName: gatedSetName,
 				setSeed: gatedSetSeed,
 				setDifficulty: gatedSetDifficulty,
 				setRows: gatedSetRows,

@@ -13,7 +13,7 @@ const Header = () => {
 	const { setRows, setCols } = useEngine();
 
 	return (
-		<header className='flex-none md:w-[30%] lg:w-[25%] bg-gray-100 p-5 md:px-10'>
+		<header className='flex-none md:basis-1/3 xl:basis-1/4 2xl:basis-1/5 bg-base-100 p-5 md:px-10'>
 			<div className='flex flex-col gap-3 md:gap-4'>
 				<Title />
 				<User />

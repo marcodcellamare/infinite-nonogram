@@ -13,22 +13,20 @@
 			]
 		}
 	},
-	"html": {
-		"tags": [
-			"p",
-			"b",
-			"strong",
-			"small",
-			"i",
-			"u",
-			"br",
-			"ul",
-			"ol",
-			"li"
-		],
-		"attr": [
-			"class"
-		]
+	"game": {
+		"grid": {
+			"default": 10,
+			"min": 5,
+			"max": 20
+		},
+		"difficulty": {
+			"default": "medium",
+			"list": [
+				"easy",
+				"medium",
+				"hard"
+			]
+		}
 	},
 	"fonts": [
 		{

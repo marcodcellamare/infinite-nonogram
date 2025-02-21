@@ -26,21 +26,29 @@ const Controller = () => {
 
 	return (
 		<label
-			className={`flex gap-2 items-center justify-center bg-gray-200 border-2 ${
-				checked ? 'border-gray-500' : 'border-accent'
-			} rounded-lg inset-shadow-sm py-1 px-5`}>
-			<span className={`text-accent${checked ? ' opacity-30' : ''}`}>
-				<Square />
+			className={`flex gap-4 items-center justify-center transition-[background-color] duration-300 ${
+				checked ? 'bg-base-content' : 'bg-accent'
+			} rounded-full inset-shadow-sm inset-shadow-black/20 text-xl py-1 px-6 overflow-hidden`}>
+			<span
+				className={`drop-shadow transition-transform duration-300 ${
+					checked ? 'text-white/30 scale-100' : 'text-white scale-140'
+				}`}>
+				<Square className='w-[1em] h-[1em]' />
 			</span>
 			<input
 				type='checkbox'
-				className='toggle toggle-xl toggle-accent bg-accent border-accent checked:bg-gray-500 checked:border-gray-500 checked:text-white'
+				className='toggle toggle-xl toggle-white bg-white border-white text-accent checked:bg-white checked:border-white checked:text-base-content shadow-lg shadow-black/20'
 				onChange={() => onChange()}
 				onPointerDown={(e) => e.stopPropagation()}
 				checked={checked}
 			/>
-			<span className={`text-gray-500${!checked ? ' opacity-30' : ''}`}>
-				<X />
+			<span
+				className={`drop-shadow transition-transform duration-300 ${
+					!checked
+						? 'text-white/50 scale-100'
+						: 'text-white scale-140'
+				}`}>
+				<X className='w-[1em] h-[1em]' />
 			</span>
 		</label>
 	);

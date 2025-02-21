@@ -19,6 +19,7 @@
 	},
 	"dependencies": {
 		"boring-avatars": "^1.11.2",
+		"firebase": "^11.3.1",
 		"i18next": "^24.2.2",
 		"i18next-browser-languagedetector": "^8.0.2",
 		"i18next-http-backend": "^3.0.2",

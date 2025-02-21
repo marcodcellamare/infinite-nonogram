@@ -61,21 +61,21 @@ const Block = ({ row, col }: Block) => {
 				row % 5 < 4 && row < rows - 1 ? 'border-b-1' : 'border-b-3'
 			} ${
 				col % 5 < 4 && col < cols - 1 ? 'border-r-1' : 'border-r-3'
-			} border-gray-300 text-gray-400`}>
+			} border-base-300 text-base-content`}>
 			<button
 				type='button'
 				className={`relative block w-full h-full ${
 					hasStatus !== false
 						? grid[row][col]
 							? 'bg-accent'
-							: 'bg-gray-300 inset-shadow-sm inset-shadow-black/15'
+							: 'bg-base-300 inset-shadow-sm inset-shadow-black/15'
 						: ''
 				}${
 					hasStatus === false
-						? `cursor-pointer bg-gray-100 hover:bg-white hover:border-2 ${
+						? `cursor-pointer bg-base-100 hover:bg-white hover:border-2 ${
 								isInteracting === 'left'
 									? 'hover:border-accent'
-									: 'hover:border-gray-500'
+									: 'hover:border-base-content'
 						  }`
 						: ''
 				}${
