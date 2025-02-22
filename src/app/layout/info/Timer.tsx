@@ -1,9 +1,9 @@
 import { Fragment } from 'react/jsx-runtime';
 
 import { useTranslation } from 'react-i18next';
-import { useTimer } from '@contexts/timer/hook';
+import { useTimer } from '!/contexts/timer/hook';
 
-import { TimeUnit } from '@_types/timer';
+import { TimeUnit } from '!/types/timer';
 
 const Timer = () => {
 	const { i18n } = useTranslation();

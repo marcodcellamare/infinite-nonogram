@@ -1,7 +1,7 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { InteractionContext } from './context';
 
-import { InteractionType } from '@_types/interaction';
+import { InteractionType } from '!/types/interaction';
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 	const [isClicked, setIsClicked] = useState(false);

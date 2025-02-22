@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '@contexts/engine';
-import { useScale } from '@contexts/scale';
+import { useEngine } from '!/contexts/engine';
+import { useScale } from '!/contexts/scale';
 
 import Title from './info/Title';
 import Seed from './settings/Seed';
@@ -9,7 +9,7 @@ import Difficulty from './settings/Difficulty';
 import Auto from './settings/Auto';
 import User from './settings/User';
 
-import Config from '@config';
+import Config from '!config';
 import Share from './info/Share';
 
 const Header = () => {

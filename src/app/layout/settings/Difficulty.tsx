@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '@contexts/engine';
+import { useEngine } from '!/contexts/engine';
 
-import { DifficultyTypes } from '@_types/engine';
+import { DifficultyTypes } from '!/types/engine';
 import { Baby, Brain, GraduationCap } from 'lucide-react';
 
 const Difficulty = () => {

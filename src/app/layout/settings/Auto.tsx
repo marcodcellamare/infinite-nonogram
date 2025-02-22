@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useInteraction } from '@contexts/interaction';
+import { useInteraction } from '!/contexts/interaction';
 
 const Auto = () => {
 	const { i18n } = useTranslation();

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Check, RefreshCcw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '@contexts/engine';
+import { useEngine } from '!/contexts/engine';
 
 const Seed = () => {
 	const ref = useRef<HTMLInputElement>(null);

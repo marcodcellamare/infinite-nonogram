@@ -1,13 +1,13 @@
 import { useState, ReactNode, useEffect, useCallback } from 'react';
 import { EngineContext } from './context';
-import { useTimer } from '@contexts/timer/hook';
+import { useTimer } from '!/contexts/timer/hook';
 import { v4 as uuidv4 } from 'uuid';
 import seedrandom from 'seedrandom';
-import { cleanSeed } from '@utils/misc';
-import Config from '@config';
+import { cleanSeed } from '!/utils/misc';
+import Config from '!config';
 
-import { DifficultyTypes, Grid, Hint, Interactions } from '@_types/engine';
-import { InteractionType } from '@_types/interaction';
+import { DifficultyTypes, Grid, Hint, Interactions } from '!/types/engine';
+import { InteractionType } from '!/types/interaction';
 
 export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const { start, stop } = useTimer();

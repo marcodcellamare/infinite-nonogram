@@ -1,5 +1,5 @@
-import useCSSVariable from '@hooks/useCSSVariable';
-import { useEngine } from '@contexts/engine';
+import useCSSVariable from '!/hooks/useCSSVariable';
+import { useEngine } from '!/contexts/engine';
 import BoringAvatar from 'boring-avatars';
 
 interface AvatarProps {

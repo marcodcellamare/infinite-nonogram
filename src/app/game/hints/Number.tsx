@@ -1,4 +1,4 @@
-import { Hint } from '@_types/engine';
+import { Hint } from '!/types/engine';
 
 const Number = ({ total, isDone }: Hint) => {
 	return <div className={isDone ? 'opacity-50' : ''}>{total}</div>;

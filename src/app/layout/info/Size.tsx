@@ -1,4 +1,4 @@
-import { useEngine } from '@contexts/engine';
+import { useEngine } from '!/contexts/engine';
 import { Grid } from 'lucide-react';
 
 const Size = () => {

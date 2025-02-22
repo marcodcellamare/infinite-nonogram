@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '@contexts/engine';
-import Config from '@config';
+import { useEngine } from '!/contexts/engine';
+import Config from '!config';
 
-import { DifficultyTypes } from '@_types/engine';
+import { DifficultyTypes } from '!/types/engine';
 
 const useRouteCheck = () => {
 	const { i18n } = useTranslation();

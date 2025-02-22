@@ -1,7 +1,7 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { TimerContext } from './context';
 
-import { TimeUnit } from '@_types/timer';
+import { TimeUnit } from '!/types/timer';
 
 export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	const [startDate, setStartDate] = useState<number | null>(null);

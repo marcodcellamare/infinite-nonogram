@@ -1,4 +1,4 @@
-import { useEngine } from '@contexts/engine';
+import { useEngine } from '!/contexts/engine';
 
 const MegaSeed = () => {
 	const { seed } = useEngine();

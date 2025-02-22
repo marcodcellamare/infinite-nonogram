@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 
-import { useEngine } from '@contexts/engine';
-import { useScale } from '@contexts/scale';
+import { useEngine } from '!/contexts/engine';
+import { useScale } from '!/contexts/scale';
 
 import Block from './Block';
 import Hint from './hints';

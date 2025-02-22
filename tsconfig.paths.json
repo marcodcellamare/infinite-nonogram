@@ -3,31 +3,31 @@
 		"baseUrl": ".",
 		"composite": true,
 		"paths": {
-			"@package": [
+			"!package": [
 				"package.json"
 			],
-			"@config": [
+			"!config": [
 				"src/config.json"
 			],
-			"@app/*": [
+			"!/app/*": [
 				"src/app/*"
 			],
-			"@assets/*": [
+			"!/assets/*": [
 				"src/assets/*"
 			],
-			"@hooks/*": [
+			"!/hooks/*": [
 				"src/hooks/*"
 			],
-			"@contexts/*": [
+			"!/contexts/*": [
 				"src/contexts/*"
 			],
-			"@styles/*": [
+			"!/styles/*": [
 				"src/styles/*"
 			],
-			"@_types/*": [
+			"!/types/*": [
 				"src/types/*"
 			],
-			"@utils/*": [
+			"!/utils/*": [
 				"src/utils/*"
 			]
 		}

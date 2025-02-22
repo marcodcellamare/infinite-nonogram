@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { ScaleContext } from './context';
-import Config from '@config';
+import Config from '!config';
 
 export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 	const [scale, setScale] = useState(Config.game.scale.default);

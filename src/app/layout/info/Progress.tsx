@@ -1,6 +1,6 @@
-import { useEngine } from '@contexts/engine';
+import { useEngine } from '!/contexts/engine';
 
-import '@styles/components/Progress.css';
+import '!/styles/components/Progress.css';
 
 const Progress = () => {
 	const { total } = useEngine();

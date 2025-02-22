@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useEngine } from '@contexts/engine';
-import { useInteraction } from '@contexts/interaction';
-import { useScale } from '@contexts/scale';
+import { useEngine } from '!/contexts/engine';
+import { useInteraction } from '!/contexts/interaction';
+import { useScale } from '!/contexts/scale';
 
 import { X } from 'lucide-react';
 
-import Config from '@config';
+import Config from '!config';
 
 interface Block {
 	row: number;

@@ -1,6 +1,6 @@
 import { Infinity as InfinityIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import pkg from '@package';
+import pkg from '!package';
 
 const Title = () => {
 	const { i18n } = useTranslation();

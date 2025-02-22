@@ -1,6 +1,6 @@
-import Grid from '@app/game/Grid';
-import Size from '@app/layout/info/Size';
-import Timer from '@app/layout/info/Timer';
+import Grid from '!/app/game/Grid';
+import Size from '!/app/layout/info/Size';
+import Timer from '!/app/layout/info/Timer';
 
 const Game = () => {
 	return (

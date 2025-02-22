@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
-import { useScale } from '@contexts/scale';
+import { useScale } from '!/contexts/scale';
 
 import Number from './Number';
 
-import { Hint } from '@_types/engine';
+import { Hint } from '!/types/engine';
 
-import Config from '@config';
+import Config from '!config';
 
 interface GroupProps {
 	type: 'row' | 'col';

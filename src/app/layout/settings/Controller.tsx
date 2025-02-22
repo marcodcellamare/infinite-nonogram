@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Square, X } from 'lucide-react';
 
-import { useInteraction } from '@contexts/interaction';
+import { useInteraction } from '!/contexts/interaction';
 
 const Controller = () => {
 	const { isInteracting, interaction } = useInteraction();
