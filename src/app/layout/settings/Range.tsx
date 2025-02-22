@@ -1,14 +1,27 @@
+import { CircleHelp } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 interface RangeProps {
 	label: string;
 	value: number;
-	min?: number;
-	max?: number;
+	showValue?: number | string;
+	min: number;
+	max: number;
+	step?: number;
+	help?: React.ReactNode;
 	onChange: (value: number) => void;
 }
 
-const Range = ({ label, value, min = 5, max = 20, onChange }: RangeProps) => {
+const Range = ({
+	label,
+	value,
+	showValue,
+	min,
+	max,
+	step = 1,
+	help,
+	onChange,
+}: RangeProps) => {
 	const [isChanging, setIsChanging] = useState(false);
 	const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -23,22 +36,29 @@ const Range = ({ label, value, min = 5, max = 20, onChange }: RangeProps) => {
 	}, [onChange, value]);
 
 	return (
-		<div className='indicator indicator-center indicator-middle flex w-full'>
-			<span
-				className={`indicator-item badge badge-xs badge-primary pointer-events-none gap-1 transition-opacity duration-300${
-					!isChanging ? ' opacity-0' : ''
-				}`}>
-				{label}: <strong>{value}</strong>
-			</span>
-			<input
-				type='range'
-				className='range range-primary w-full'
-				min={min}
-				max={max}
-				step={1}
-				value={value}
-				onChange={(e) => onChange(Number(e.target.value))}
-			/>
+		<div>
+			<div className='indicator indicator-middle flex w-full'>
+				<span
+					className={`indicator-item left-0 translate-x-1 -translate-y-1/2 badge badge-xs badge-accent border-none pointer-events-none gap-1 transition-bg duration-300 backdrop-blur-xs ${
+						!isChanging ? 'bg-accent/50' : 'bg-accent/90'
+					}`}>
+					{label}: <strong>{showValue ?? value}</strong>
+				</span>
+				<input
+					type='range'
+					className='range range-primary w-full'
+					min={min}
+					max={max}
+					step={step}
+					value={value}
+					onChange={(e) => onChange(Number(e.target.value))}
+				/>
+			</div>
+			{help ? (
+				<span className='text-xs hidden md:block text-primary italic mt-1'>
+					<CircleHelp className='lucide-text' /> {help}
+				</span>
+			) : null}
 		</div>
 	);
 };

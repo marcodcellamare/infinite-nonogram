@@ -1,15 +1,19 @@
-@import "tailwindcss";
-@plugin "@tailwindcss/typography";
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
 
-@plugin "daisyui" {
+@import './custom/scrollbar.css';
+@import './custom/lucide.css';
+
+@plugin 'daisyui' {
 	themes: emerald --default;
-	root: ":root";
-	include: button, input, range, toggle, progress, indicator, badge, countdown;
+	root: ':root';
+	include: button, input, range, toggle, progress, indicator, badge, countdown,
+		kbd;
 	logs: true;
 }
 
-@plugin "daisyui/theme" {
-	name: "light";
+@plugin 'daisyui/theme' {
+	name: 'light';
 	default: true;
 	--color-primary: var(--color-slate-500);
 	--color-primary-content: var(--color-slate-200);
@@ -19,6 +23,6 @@
 	--color-base-300: var(--color-slate-300);
 }
 
-.lucide {
-	stroke-width: 2px;
+@theme {
+	--color-test: #ff0000;
 }

@@ -9,9 +9,9 @@ const Difficulty = () => {
 	const { setDifficulty, difficulty } = useEngine();
 	const difficulties: DifficultyTypes[] = ['easy', 'medium', 'hard'];
 	const icons = {
-		easy: <Baby className='w-[1em] h-[1em]' />,
-		medium: <GraduationCap className='w-[1em] h-[1em]' />,
-		hard: <Brain className='w-[1em] h-[1em]' />,
+		easy: <Baby className='lucide-text block' />,
+		medium: <GraduationCap className='lucide-text bloxk' />,
+		hard: <Brain className='lucide-text block' />,
 	};
 
 	return (

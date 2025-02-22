@@ -4,7 +4,8 @@
 	"name": "Name",
 	"seed": "Seed",
 	"auto": "Automatic toggle",
-	"zoom": "Zoom",
+	"scale": "Scale",
+	"scrollwheel": "Scrollwheel",
 	"size": {
 		"width": "Width",
 		"height": "Height"
@@ -18,6 +19,10 @@
 		"total": "Total",
 		"found": "Found",
 		"errors": "Errors"
+	},
+	"clipboard": {
+		"copyUrl": "Copy URL",
+		"copied": "Copied"
 	},
 	"timeUnits": {
 		"years_one": "Year",

@@ -32,6 +32,12 @@
 				"medium": 0.55,
 				"hard": 0.35
 			}
+		},
+		"scale": {
+			"default": 1,
+			"min": 0.3,
+			"max": 2,
+			"step": 0.05
 		}
 	},
 	"fonts": [

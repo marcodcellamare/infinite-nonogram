@@ -33,7 +33,7 @@ const Controller = () => {
 				className={`drop-shadow transition-transform duration-300 ${
 					checked ? 'text-white/30 scale-100' : 'text-white scale-140'
 				}`}>
-				<Square className='w-[1em] h-[1em]' />
+				<Square className='lucide-text block' />
 			</span>
 			<input
 				type='checkbox'
@@ -48,7 +48,7 @@ const Controller = () => {
 						? 'text-white/50 scale-100'
 						: 'text-white scale-140'
 				}`}>
-				<X className='w-[1em] h-[1em]' />
+				<X className='lucide-text block' />
 			</span>
 		</label>
 	);
