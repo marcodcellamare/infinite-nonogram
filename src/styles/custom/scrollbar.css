@@ -1,27 +1,27 @@
 @layer components {
 	.scrollbar::-webkit-scrollbar {
-		width: 1rem;
-		height: 1rem;
+		@apply w-[0.5rem]
+			h-[0.5rem];
 	}
 
 	.scrollbar::-webkit-scrollbar-track {
-		border-radius: 100vh;
-		background: var(--color-white);
+		@apply bg-base-100
+			rounded-none;
 	}
 
 	.scrollbar::-webkit-scrollbar-thumb {
-		background: var(--color-base-content);
-		border-radius: 100vh;
-		border: none;
+		@apply bg-base-content
+			border-none
+			rounded-none;
 	}
 
 	.scrollbar::-webkit-scrollbar-thumb:hover {
-		background: var(--color-accent);
-		cursor: grab;
+		@apply bg-accent
+			cursor-grab;
 	}
 
 	.scrollbar::-webkit-scrollbar-thumb:active {
-		background: var(--color-accent);
-		cursor: grabbing;
+		@apply bg-accent
+			cursor-grabbing;
 	}
 }

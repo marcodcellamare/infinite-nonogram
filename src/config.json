@@ -23,7 +23,13 @@
 		"grid": {
 			"default": 10,
 			"min": 5,
-			"max": 20
+			"max": 20,
+			"block": {
+				"size": 2.5
+			},
+			"hint": {
+				"padding": 0.15
+			}
 		},
 		"difficulty": {
 			"default": "medium",
@@ -35,8 +41,8 @@
 		},
 		"scale": {
 			"default": 1,
-			"min": 0.3,
-			"max": 2,
+			"min": 0.6,
+			"max": 1.4,
 			"step": 0.05
 		}
 	},

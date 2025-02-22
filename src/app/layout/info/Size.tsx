@@ -5,7 +5,7 @@ const Size = () => {
 	const { rows, cols } = useEngine();
 
 	return (
-		<div className='absolute top-2.5 md:top-10 left-5 md:left-auto md:right-10 badge md:badge-xl badge-outline badge-primary border-2 font-bold bg-white/30 backdrop-blur-xs shadow shadow-error pointer-events-none'>
+		<div className='badge md:badge-xl badge-outline badge-accent font-mono bg-white/30 backdrop-blur-xs'>
 			<Grid className='lucide-text' /> {`${cols}x${rows}`}
 		</div>
 	);

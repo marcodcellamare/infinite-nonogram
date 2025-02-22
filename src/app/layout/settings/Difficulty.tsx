@@ -20,7 +20,7 @@ const Difficulty = () => {
 				return (
 					<button
 						key={d}
-						className='flex-1 btn btn-sm btn-primary border-2 disabled:!bg-accent disabled:!text-white shadow-none'
+						className='flex-1 btn btn-sm btn-outline btn-primary disabled:!bg-accent disabled:!text-white shadow-none'
 						type='button'
 						disabled={d === difficulty}
 						onClick={() => setDifficulty(d)}>

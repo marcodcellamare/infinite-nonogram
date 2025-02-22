@@ -8,6 +8,8 @@ export type TimeUnit =
 
 export interface TimerContextProps {
 	counter: Partial<Record<TimeUnit, number>>;
+	blink: boolean;
 	start: () => void;
 	stop: () => void;
+	reset: () => void;
 }

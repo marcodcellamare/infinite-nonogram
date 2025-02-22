@@ -1,5 +1,6 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { TimerContext } from './context';
+
 import { TimeUnit } from '@_types/timer';
 
 export const TimerProvider = ({ children }: { children: ReactNode }) => {
@@ -7,8 +8,14 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	const [counter, setCounter] = useState<Partial<Record<TimeUnit, number>>>(
 		{}
 	);
-	const interval = useRef<ReturnType<typeof setInterval> | null>(null);
-	const seconds = useRef<Record<TimeUnit, number>>({
+	const [blink, setBlink] = useState(true);
+
+	const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+	const intervalBlinkRef = useRef<ReturnType<typeof setInterval> | null>(
+		null
+	);
+
+	const secondsRef = useRef<Record<TimeUnit, number>>({
 		years: 60 * 60 * 24 * 365,
 		months: 60 * 60 * 24 * 30,
 		days: 60 * 60 * 24,
@@ -22,21 +29,36 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	const stop = useCallback(() => {
-		if (interval.current !== null) {
-			clearInterval(interval.current);
+		if (intervalRef.current !== null) {
+			clearInterval(intervalRef.current);
 		}
+		if (intervalBlinkRef.current !== null) {
+			clearInterval(intervalBlinkRef.current);
+		}
+		setBlink(true);
 	}, []);
 
+	const reset = useCallback(() => {
+		stop();
+		setStartDate(null);
+		setCounter({
+			minutes: 0,
+			seconds: 0,
+		});
+		setBlink(true);
+	}, [stop]);
+
 	const start = useCallback(() => {
+		reset();
 		setStartDate(date());
-	}, []);
+	}, [reset]);
 
 	const update = useCallback(() => {
 		if (startDate) {
 			const counter: Partial<Record<TimeUnit, number>> = {};
 			let dateDiff = Math.abs((date() - startDate) / 1000);
 
-			Object.entries(seconds.current).forEach(([type, seconds]) => {
+			Object.entries(secondsRef.current).forEach(([type, seconds]) => {
 				counter[type as TimeUnit] = Math.floor(dateDiff / seconds);
 				dateDiff -= (counter[type as TimeUnit] ?? 0) * seconds;
 			});
@@ -47,7 +69,11 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	const timer = useCallback(() => {
 		stop();
 		update();
-		interval.current = setInterval(update, 1000);
+		intervalRef.current = setInterval(update, 1000);
+		intervalBlinkRef.current = setInterval(
+			() => setBlink((prevBlink) => !prevBlink),
+			500
+		);
 	}, [update, stop]);
 
 	useEffect(() => {
@@ -55,15 +81,18 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	}, [timer]);
 
 	useEffect(() => {
+		reset();
 		return () => stop();
-	}, [start, stop]);
+	}, [reset, stop]);
 
 	return (
 		<TimerContext.Provider
 			value={{
 				counter,
+				blink,
 				start,
 				stop,
+				reset,
 			}}>
 			{children}
 		</TimerContext.Provider>

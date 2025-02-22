@@ -1,4 +1,5 @@
 import { useEngine } from '@contexts/engine';
+
 import Group from './Group';
 
 interface Hint {
@@ -11,9 +12,9 @@ const Hint = ({ row, col }: Hint) => {
 
 	return (
 		<div
-			className={`flex min-w-[2.5rem] min-h-[2.5rem] ${
+			className={`flex ${
 				row >= 0 || col >= 0
-					? 'bg-base-200 text-base-content text-xs'
+					? 'bg-base-200 text-base-content'
 					: 'bg-base-300'
 			}${
 				col < 0 && row >= 0

@@ -12,7 +12,7 @@ const Auto = () => {
 			}`}>
 			<input
 				type='checkbox'
-				className='toggle toggle-sm toggle-primary border-2'
+				className='toggle toggle-sm toggle-primary'
 				checked={isAuto}
 				onChange={(e) => setIsAuto(e.target.checked)}
 			/>

@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
-import { X } from 'lucide-react';
 import { useEngine } from '@contexts/engine';
 import { useInteraction } from '@contexts/interaction';
+import { useScale } from '@contexts/scale';
+
+import { X } from 'lucide-react';
+
+import Config from '@config';
 
 interface Block {
 	row: number;
@@ -11,6 +15,7 @@ interface Block {
 const Block = ({ row, col }: Block) => {
 	const { grid, interacted, rows, cols } = useEngine();
 	const { isClicked, isInteracting } = useInteraction();
+	const { scale } = useScale();
 
 	const [isPointerOver, setIsPointerOver] = useState(false);
 	const [hasStatus, setHasStatus] = useState<'active' | 'locked' | false>(
@@ -57,11 +62,15 @@ const Block = ({ row, col }: Block) => {
 
 	return (
 		<div
-			className={`relative aspect-square min-w-[2.5rem] min-h-[2.5rem] ${
+			className={`relative aspect-square ${
 				row % 5 < 4 && row < rows - 1 ? 'border-b-1' : 'border-b-3'
 			} ${
 				col % 5 < 4 && col < cols - 1 ? 'border-r-1' : 'border-r-3'
-			} border-base-300 text-base-content`}>
+			} border-base-300 text-base-content`}
+			style={{
+				minWidth: `${Config.game.grid.block.size * scale}rem`,
+				minHeight: `${Config.game.grid.block.size * scale}rem`,
+			}}>
 			<button
 				type='button'
 				className={`relative block w-full h-full ${

@@ -7,16 +7,15 @@ const User = () => {
 	const { name, setName } = useEngine();
 
 	return (
-		<div className='flex items-center gap-3'>
+		<div className='flex md:flex-col lg:flex-row items-center md:items-start lg:items-center gap-3'>
 			<Avatar
 				variant='beam'
 				className='max-w-[4rem]'
 			/>
-			<label className='input input-primary border-2 flex-1'>
+			<label className='input input-primary w-full'>
 				<strong className='text-primary'>{i18n.t('name')}</strong>
 				<input
 					type='text'
-					className='grow'
 					value={name}
 					onChange={(e) => setName(e.target.value.trim())}
 				/>

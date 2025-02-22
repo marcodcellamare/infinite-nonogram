@@ -1,11 +1,11 @@
 @layer components {
 	.lucide {
-		stroke-width: 2px;
+		@apply stroke-2;
 
 		&.lucide-text {
-			width: 1em;
-			height: 1em;
-			display: inline-block;
+			@apply inline-block
+				w-[1em]
+				h-[1em];
 		}
 	}
 }

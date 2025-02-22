@@ -3,6 +3,10 @@
 
 @import './custom/scrollbar.css';
 @import './custom/lucide.css';
+@import './custom/button.css';
+@import './custom/input.css';
+@import './custom/badge.css';
+@import './custom/toggle.css';
 
 @plugin 'daisyui' {
 	themes: emerald --default;

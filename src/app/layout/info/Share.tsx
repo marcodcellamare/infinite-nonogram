@@ -17,7 +17,7 @@ const Share = () => {
 		<button
 			className={`btn ${
 				!copied ? 'btn-outline btn-primary' : 'btn-accent'
-			} border-2`}
+			}`}
 			onClick={handleClick}>
 			{!copied ? (
 				<Copy className='lucide-text' />

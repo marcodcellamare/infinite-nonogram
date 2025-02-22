@@ -1,15 +1,19 @@
 @import './config.css';
 
-html {
-	scroll-behavior: smooth;
-	height: -webkit-fill-available;
-}
+@layer base {
+	html {
+		scroll-behavior: smooth;
+		width: -webkit-fill-available;
+		height: -webkit-fill-available;
+	}
 
-body {
-	overscroll-behavior-x: none;
-	overscroll-behavior-y: none;
-	min-height: 100vh;
-	min-height: -webkit-fill-available;
-	max-width: 100vw;
-	overflow: hidden;
+	body {
+		@apply overscroll-x-none
+			overscroll-y-none
+			min-h-[100vh]
+			max-w-[100vw]
+			overflow-hidden;
+
+		min-height: -webkit-fill-available;
+	}
 }

@@ -27,12 +27,11 @@ const Seed = () => {
 		<form
 			className='flex flex-row md:flex-col xl:flex-row gap-1'
 			onSubmit={onSubmit}>
-			<label className='input input-primary border-2 grow'>
+			<label className='input input-primary w-full'>
 				<strong className='text-primary'>{i18n.t('seed')}</strong>
 				<input
 					ref={ref}
 					type='text'
-					className='grow'
 					value={value}
 					onChange={(e) => setValue(cleanSeed(e.target.value))}
 					onFocus={() => setValue('')}
