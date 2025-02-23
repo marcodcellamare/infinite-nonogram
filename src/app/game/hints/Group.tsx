@@ -12,14 +12,17 @@ interface GroupProps {
 }
 
 const Group = ({ type, hints }: GroupProps) => {
-	//const { hints } = useEngine();
 	const { scale } = useScale();
 
-	const padding = useMemo(() => {
-		return type === 'col'
-			? Config.game.grid.hint.padding * scale
-			: Config.game.grid.hint.padding;
-	}, [scale, type]);
+	const xSpace = useMemo(
+		() => Config.game.grid.hint.padding * (type === 'row' ? scale : 0),
+		[scale, type]
+	);
+
+	const ySpace = useMemo(
+		() => Config.game.grid.hint.padding * (type === 'col' ? scale : 0),
+		[scale, type]
+	);
 
 	return hints ? (
 		<ul
@@ -27,10 +30,10 @@ const Group = ({ type, hints }: GroupProps) => {
 				type === 'col' ? 'flex-col' : 'flex-row'
 			}`}
 			style={{
-				marginTop: `${padding * 3}em`,
-				marginBottom: `${padding * 3}em`,
-				marginLeft: `${padding * 3}em`,
-				marginRight: `${padding * 3}em`,
+				marginTop: `${ySpace * 2}em`,
+				marginBottom: `${ySpace * 2}em`,
+				marginLeft: `${xSpace * 2}em`,
+				marginRight: `${xSpace * 2}em`,
 				fontSize: `calc(var(--text-xs) * ${scale})`,
 			}}>
 			{hints.map((hint, k) => (
@@ -38,10 +41,10 @@ const Group = ({ type, hints }: GroupProps) => {
 					key={k}
 					className='leading-none'
 					style={{
-						marginTop: `${padding}em`,
-						marginBottom: `${padding}em`,
-						marginLeft: `${padding}em`,
-						marginRight: `${padding}em`,
+						marginTop: `${ySpace}em`,
+						marginBottom: `${ySpace}em`,
+						marginLeft: `${xSpace}em`,
+						marginRight: `${xSpace}em`,
 					}}>
 					<Number
 						total={hint.total}

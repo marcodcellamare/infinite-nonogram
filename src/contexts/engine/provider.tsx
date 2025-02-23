@@ -116,97 +116,74 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const calculateRowHints = useCallback(() => {
 		if (!isReady) return;
 
-		let total: number;
+		let blocks: number[];
+		let found: boolean[];
 		const hints: HintNumbersProps[][] = Array.from(
 			{ length: settings.rows },
 			() => []
 		);
 
 		for (let row = 0; row < settings.rows; row++) {
-			total = 0;
+			blocks = [];
+			found = [];
 
 			for (let col = 0; col < settings.cols; col++) {
 				if (grid[row][col]) {
-					total++;
+					blocks.push(col);
+					found.push(interactions[row][col] !== false);
 				}
 				if (!grid[row][col] || col >= settings.cols - 1) {
-					if (total > 0) {
+					if (blocks.length > 0) {
 						hints[row].push({
-							total,
-							isDone: false,
+							total: blocks.length,
+							blocks: blocks,
+							found: found,
+							isDone: !found.includes(false),
 						});
 					}
-					total = 0;
+					blocks = [];
+					found = [];
 				}
 			}
 		}
 		setRowHints(hints);
-	}, [isReady, grid, settings.rows, settings.cols]);
+	}, [isReady, grid, interactions, settings.rows, settings.cols]);
 
 	const calculateColHints = useCallback(() => {
 		if (!isReady) return;
 
-		let total: number;
+		let blocks: number[];
+		let found: boolean[];
 		const hints: HintNumbersProps[][] = Array.from(
 			{ length: settings.cols },
 			() => []
 		);
 
 		for (let col = 0; col < settings.cols; col++) {
-			total = 0;
+			blocks = [];
+			found = [];
 
 			for (let row = 0; row < settings.rows; row++) {
 				if (grid[row][col]) {
-					total++;
+					blocks.push(row);
+					found.push(interactions[row][col] !== false);
 				}
 				if (!grid[row][col] || row >= settings.rows - 1) {
-					if (total > 0) {
+					if (blocks.length > 0) {
 						hints[col].push({
-							total,
-							isDone: false,
+							total: blocks.length,
+							blocks: blocks,
+							found: found,
+							isDone: !found.includes(false),
 						});
 					}
-					total = 0;
+					blocks = [];
+					found = [];
 				}
 			}
 		}
 		setColHints(hints);
-	}, [isReady, grid, settings.rows, settings.cols]);
-
-	/*
-	const checkGrid = useCallback(() => {
-		if (grid.length > 0 && grid[0].length > 0) {
-			//console.clear();
-			for (let row = 0; row < cols; row++) {
-				for (let col = 0; col < rows; col++) {
-					//if (interactions[row][col]) {
-					/*
-						console.log(
-							'>>>',
-							row,
-							col,
-							'isFilled',
-							interactions[row][col],
-							(grid[row][col] &&
-								interactions[row][col] === 'left') ||
-								(!grid[row][col] &&
-									interactions[row][col] === 'right')
-						);
-						* /
-					//}
-				}
-			}
-		}
-		/*
-		if (grid.length > 0 && interactions.length > 0) {
-			//let gridValidation: boolean[][] = [];
-
-			// Check rows
-			
-		}
-			* /
-	}, [grid, cols, rows, interactions]);
-	*/
+	}, [isReady, grid, interactions, settings.rows, settings.cols]);
 
 	useEffect(() => init(), [init]);
 

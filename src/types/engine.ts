@@ -5,6 +5,8 @@ export type InteractionsGridType = (InteractionType | false)[][];
 
 export interface HintNumbersProps {
 	total: number;
+	blocks?: number[];
+	found?: boolean[];
 	isDone: boolean;
 }
 
