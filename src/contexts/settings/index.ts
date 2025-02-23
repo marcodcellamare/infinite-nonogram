@@ -1,3 +1,3 @@
-export { TimerProvider } from './provider';
-export { TimerContext } from './context';
-export { useTimer } from './hook';
+export { SettingsProvider } from './provider';
+export { SettingsContext } from './context';
+export { useSettings } from './hook';

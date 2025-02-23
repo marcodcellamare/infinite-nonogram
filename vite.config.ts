@@ -14,4 +14,15 @@ export default defineConfig({
 		},
 		hmr: true,
 	},
+	esbuild: {
+		target: 'esnext',
+	},
+	build: {
+		target: 'esnext',
+		rollupOptions: {
+			output: {
+				format: 'es',
+			},
+		},
+	},
 });

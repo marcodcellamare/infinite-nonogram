@@ -34,8 +34,10 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 
 	// TODO
 
-	const handleTouchStart = (event: TouchEvent) => {
+	const handleTouchStart = () => {
 		/*
+		event: TouchEvent
+		
 		if (event.touches.length === 2) {
 			const [touch1, touch2] = event.touches;
 			const startDistance = Math.hypot(

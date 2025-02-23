@@ -20,3 +20,7 @@ export const cleanUser = (user: string): string => {
 export const storageName = (name: string): string => {
 	return `infNono:${name}`;
 };
+
+export const openExternalLink = (link: string) => {
+	window.open(link, '_blank', 'noopener, noreferrer');
+};

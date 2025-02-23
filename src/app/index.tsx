@@ -3,6 +3,7 @@ import Footer from './layout/Footer';
 import Progress from './layout/info/Progress';
 import Meta from './layout/Meta';
 import Router from './misc/Router';
+import Copyright from './layout/Copyright';
 
 const App = () => {
 	return (
@@ -15,6 +16,7 @@ const App = () => {
 				</div>
 				<Progress />
 				<Footer />
+				<Copyright />
 			</div>
 		</>
 	);

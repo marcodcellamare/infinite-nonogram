@@ -7,11 +7,10 @@ const Share = () => {
 	const { i18n } = useTranslation();
 	const { copied, copyToClipboard } = useClipboard();
 
-	const handleClick = useCallback(() => {
-		console.log(window.location.href);
-
-		copyToClipboard(window.location.href);
-	}, [copyToClipboard]);
+	const handleClick = useCallback(
+		() => copyToClipboard(window.location.href),
+		[copyToClipboard]
+	);
 
 	return (
 		<button

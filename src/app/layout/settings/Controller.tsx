@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useInteraction } from '!/contexts/interaction';
+import { useTranslation } from 'react-i18next';
+
 import { Square, X } from 'lucide-react';
 
-import { useInteraction } from '!/contexts/interaction';
-
 const Controller = () => {
-	const { isInteracting, setIsInteracting } = useInteraction();
+	const { i18n } = useTranslation();
+	const { isInteracting, setIsInteracting, isAuto } = useInteraction();
 	const [checked, setChecked] = useState(false);
 
 	const handleChange = (force?: boolean) => {
@@ -26,9 +28,9 @@ const Controller = () => {
 
 	return (
 		<label
-			className={`flex gap-4 items-center justify-center transition-[background-color] duration-300 ${
+			className={`indicator flex gap-4 items-center justify-center transition-[background-color] duration-300 ${
 				checked ? 'bg-base-content' : 'bg-accent'
-			} rounded-full inset-shadow-sm inset-shadow-black/20 text-xl py-1 px-6 overflow-hidden`}>
+			} rounded-full inset-shadow-sm inset-shadow-black/20 text-xl py-1 px-6 ---overflow-hidden`}>
 			<span
 				className={`drop-shadow transition-transform duration-300 ${
 					checked ? 'text-white/30 scale-100' : 'text-white scale-140'
@@ -50,6 +52,12 @@ const Controller = () => {
 				}`}>
 				<X className='lucide-text block' />
 			</span>
+			<div
+				className={`indicator-item badge badge-xs badge-secondary rounded-full transition-opacity duration-400${
+					!isAuto ? ' opacity-0' : ''
+				}`}>
+				{i18n.t('autoShort')}
+			</div>
 		</label>
 	);
 };

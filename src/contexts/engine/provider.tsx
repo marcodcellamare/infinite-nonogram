@@ -207,12 +207,6 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}, [isStarted, isCompleted, totalTimer]);
 
-	/*
-	useEffect(() => {
-		checkGrid();
-	}, [checkGrid]);
-	*/
-
 	return (
 		<EngineContext.Provider
 			value={{

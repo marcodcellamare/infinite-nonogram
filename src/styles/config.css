@@ -11,8 +11,8 @@
 @plugin 'daisyui' {
 	themes: emerald --default;
 	root: ':root';
-	include: button, input, range, toggle, progress, indicator, badge, countdown,
-		kbd;
+	include: button, link, input, range, toggle, progress, indicator, badge,
+		countdown, kbd;
 	logs: true;
 }
 

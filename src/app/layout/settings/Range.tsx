@@ -40,7 +40,7 @@ const Range = ({
 		<div>
 			<div className='indicator indicator-middle flex w-full'>
 				<span
-					className={`indicator-item left-0 translate-x-1 -translate-y-1/2 badge badge-xs badge-accent border-none pointer-events-none gap-1 transition-bg duration-300 backdrop-blur-xs ${
+					className={`indicator-item left-0 translate-x-1 -translate-y-1/2 badge badge-xs badge-accent border-none pointer-events-none gap-1 transition-[background-color] duration-300 backdrop-blur-xs ${
 						!isChanging ? 'bg-accent/50' : 'bg-accent/90'
 					}`}>
 					{label}: <strong>{showValue ?? value}</strong>

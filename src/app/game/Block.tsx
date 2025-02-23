@@ -66,24 +66,24 @@ const Block = ({ row, col }: BlockProps) => {
 			}}>
 			<button
 				type='button'
-				className={`relative block w-full h-full ${
+				className={`relative block w-full h-full transition-[background-color,border-width,border-color] duration-250 ${
 					hasInteracted !== false
 						? gridBlock
 							? 'bg-accent'
 							: 'bg-base-300 inset-shadow-sm inset-shadow-black/15'
-						: ''
+						: 'bg-base-100'
 				}${
 					!isCompleted && hasInteracted === false
-						? `cursor-pointer bg-base-100 hover:bg-white hover:border-2 ${
+						? ` cursor-pointer hover:bg-white hover:border-2 ${
 								isInteracting === 'left'
 									? 'hover:border-accent'
 									: 'hover:border-base-content'
 						  }`
 						: ''
-				}${
+				} ${
 					isError === true
-						? ' border-2 border-error shadow-lg shadow-error z-10'
-						: ''
+						? 'border-2 border-error'
+						: 'border-0 border-error/0'
 				}`}
 				disabled={isCompleted}
 				onPointerEnter={() =>

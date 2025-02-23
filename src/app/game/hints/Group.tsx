@@ -24,16 +24,21 @@ const Group = ({ type, hints }: GroupProps) => {
 		[scale, type]
 	);
 
+	const isDone = useMemo(
+		() => hints.filter((hint) => hint.found?.includes(false)).length === 0,
+		[hints]
+	);
+
 	return hints ? (
 		<ul
-			className={`list-none flex flex-grow items-center justify-end ${
+			className={`list-none flex flex-grow items-center justify-end transition-[background-color] duration-300 ${
 				type === 'col' ? 'flex-col' : 'flex-row'
-			}`}
+			}${isDone ? ' bg-white/50' : ''}`}
 			style={{
-				marginTop: `${ySpace * 2}em`,
-				marginBottom: `${ySpace * 2}em`,
-				marginLeft: `${xSpace * 2}em`,
-				marginRight: `${xSpace * 2}em`,
+				paddingTop: `${ySpace * 2}em`,
+				paddingBottom: `${ySpace * 2}em`,
+				paddingLeft: `${xSpace * 2}em`,
+				paddingRight: `${xSpace * 2}em`,
 				fontSize: `calc(var(--text-xs) * ${scale})`,
 			}}>
 			{hints.map((hint, k) => (

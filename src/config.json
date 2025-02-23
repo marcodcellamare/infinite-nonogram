@@ -23,7 +23,7 @@
 		"grid": {
 			"default": 10,
 			"min": 5,
-			"max": 20,
+			"max": 15,
 			"block": {
 				"size": 2.5
 			},

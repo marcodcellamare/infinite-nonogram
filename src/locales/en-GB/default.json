@@ -1,9 +1,16 @@
 {
 	"title": "Infinite Nonogram",
 	"description": "{{title}}: Enjoy endless Nonogram (Picross) puzzles with randomly generated levels and tons of customization options! Test your logic and play your way with different modes and difficulty levels.",
+	"footer": {
+		"copyright": "<strong>©{{year}}</strong> - Designed and coded by <button>{{author}}</button>",
+		"author": "Marco D. Cellamare",
+		"github": "https://github.com/marcodcellamare",
+		"repository": "https://github.com/marcodcellamare/infinite-nonogram"
+	},
 	"user": "User",
 	"seed": "Seed",
 	"auto": "Automatic toggle",
+	"autoShort": "Auto",
 	"scale": "Scale",
 	"scrollwheel": "Scrollwheel",
 	"size": {
