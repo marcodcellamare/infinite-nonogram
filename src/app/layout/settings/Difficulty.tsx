@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
 
-import { DifficultyTypes } from '!/types/engine';
 import { Baby, Brain, GraduationCap } from 'lucide-react';
+
+import { DifficultyTypes } from '!/types/settings';
 
 const Difficulty = () => {
 	const { i18n } = useTranslation();
-	const { setDifficulty, difficulty } = useEngine();
+	const { setDifficulty, difficulty } = useSettings();
 	const difficulties: DifficultyTypes[] = ['easy', 'medium', 'hard'];
 	const icons = {
 		easy: <Baby className='lucide-text block' />,

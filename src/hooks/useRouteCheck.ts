@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
+
 import Config from '!config';
 
-import { DifficultyTypes } from '!/types/engine';
+import { DifficultyTypes } from '!/types/settings';
 
 const useRouteCheck = () => {
 	const { i18n } = useTranslation();
@@ -20,7 +21,7 @@ const useRouteCheck = () => {
 		setCols,
 		setDifficulty,
 		setSeed,
-	} = useEngine();
+	} = useSettings();
 
 	const isUpdatingRef = useRef(false);
 

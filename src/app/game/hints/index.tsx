@@ -1,14 +1,16 @@
 import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
 
 import Group from './Group';
 
-interface Hint {
+interface HintProps {
 	row: number;
 	col: number;
 }
 
-const Hint = ({ row, col }: Hint) => {
-	const { hints, rows, cols } = useEngine();
+const Hint = ({ row, col }: HintProps) => {
+	const { hints } = useEngine();
+	const { rows, cols } = useSettings();
 
 	return (
 		<div

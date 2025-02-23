@@ -1,9 +1,11 @@
 import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
 import { useTranslation } from 'react-i18next';
 
 const Status = () => {
 	const { i18n } = useTranslation();
-	const { total, rows, cols } = useEngine();
+	const { total } = useEngine();
+	const { rows, cols } = useSettings();
 
 	return (
 		<div className='grid grid-cols-3 gap-1 grow text-xs text-center'>

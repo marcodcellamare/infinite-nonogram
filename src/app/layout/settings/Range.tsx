@@ -1,5 +1,6 @@
+import { ReactNode, useEffect, useRef, useState } from 'react';
+
 import { CircleHelp } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
 
 interface RangeProps {
 	label: string;
@@ -8,7 +9,7 @@ interface RangeProps {
 	min: number;
 	max: number;
 	step?: number;
-	help?: React.ReactNode;
+	help?: ReactNode;
 	onChange: (value: number) => void;
 }
 

@@ -1,36 +1,24 @@
 import { InteractionType } from './interaction';
 
-export type DifficultyTypes = 'easy' | 'medium' | 'hard';
-
 export type Grid = boolean[][];
 export type Interactions = (InteractionType | false)[][];
 
-export interface Hint {
+export interface HintProps {
 	total: number;
 	isDone: boolean;
 }
+
 export interface Engine {
-	name: string;
-	seed: string;
-	difficulty: DifficultyTypes;
-	rows: number;
-	cols: number;
 	grid: Grid;
 	hints: {
-		rows: Hint[][];
-		cols: Hint[][];
+		rows: HintProps[][];
+		cols: HintProps[][];
 	};
 	total: {
 		_: number;
 		found: number;
 		errors: number;
 	};
-	cleanSeed: (seed: string) => string;
-	setName: (name: string) => void;
-	setSeed: (seed?: string) => void;
-	setDifficulty: (difficulty: DifficultyTypes) => void;
-	setRows: (rows: number) => void;
-	setCols: (cols: number) => void;
 
 	init: () => void;
 

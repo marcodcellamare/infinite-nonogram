@@ -18,8 +18,7 @@ const Timer = () => {
 				{Object.keys(counter).map((type) => {
 					const value = counter[type as TimeUnit] ?? 0;
 
-					return ['minutes', 'seconds'].includes(type) ||
-						value > 0 ? (
+					return (
 						<Fragment key={type}>
 							<div className='countdown font-mono text-lg'>
 								<span
@@ -46,7 +45,7 @@ const Timer = () => {
 								</span>
 							) : null}
 						</Fragment>
-					) : null;
+					);
 				})}
 			</div>
 		</div>

@@ -62,6 +62,14 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 				counter[type as TimeUnit] = Math.floor(dateDiff / seconds);
 				dateDiff -= (counter[type as TimeUnit] ?? 0) * seconds;
 			});
+
+			Object.entries(counter).some(([type, count]) => {
+				if (count === 0 && !['minutes', 'seconds'].includes(type)) {
+					delete counter[type as TimeUnit];
+				} else {
+					return true;
+				}
+			});
 			setCounter(counter);
 		}
 	}, [startDate]);

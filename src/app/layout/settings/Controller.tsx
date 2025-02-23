@@ -4,7 +4,7 @@ import { Square, X } from 'lucide-react';
 import { useInteraction } from '!/contexts/interaction';
 
 const Controller = () => {
-	const { isInteracting, interaction } = useInteraction();
+	const { isInteracting, setIsInteracting } = useInteraction();
 	const [checked, setChecked] = useState(false);
 
 	const onChange = (force?: boolean) => {
@@ -21,8 +21,8 @@ const Controller = () => {
 	}, [isInteracting]);
 
 	useEffect(() => {
-		interaction(!checked ? 'left' : 'right');
-	}, [checked, interaction]);
+		setIsInteracting(!checked ? 'left' : 'right');
+	}, [checked, setIsInteracting]);
 
 	return (
 		<label

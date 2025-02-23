@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Check, RefreshCcw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
+
+import { Check, RefreshCcw } from 'lucide-react';
 
 const Seed = () => {
 	const ref = useRef<HTMLInputElement>(null);
 	const { i18n } = useTranslation();
-	const { seed, setSeed, cleanSeed } = useEngine();
+	const { seed, setSeed } = useSettings();
 	const [value, setValue] = useState('');
 
 	const onSubmit = useCallback(
@@ -33,7 +34,7 @@ const Seed = () => {
 					ref={ref}
 					type='text'
 					value={value}
-					onChange={(e) => setValue(cleanSeed(e.target.value))}
+					onChange={(e) => setValue(e.target.value)}
 					onFocus={() => setValue('')}
 					onBlur={(e) => {
 						if (e.target.value.trim().length === 0) {

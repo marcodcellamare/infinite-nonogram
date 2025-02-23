@@ -1,6 +1,8 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { InteractionContext } from './context';
 
+import { storageName } from '!/utils/misc';
+
 import { InteractionType } from '!/types/interaction';
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
@@ -10,9 +12,10 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 
 	const gatedSetIsAuto = useCallback((auto: boolean) => {
 		setIsAuto(auto);
+		localStorage.setItem(storageName('isAuto'), auto.toString());
 	}, []);
 
-	const interaction = useCallback((type: InteractionType) => {
+	const gatedSetIsInteracting = useCallback((type: InteractionType) => {
 		setIsInteracting(type);
 	}, []);
 
@@ -25,16 +28,16 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 					switch (e.button) {
 						default:
 						case 0:
-							interaction('left');
+							setIsInteracting('left');
 							break;
 
 						case 2:
-							interaction('right');
+							setIsInteracting('right');
 					}
 				}
 			}
 		},
-		[interaction, isAuto]
+		[isAuto]
 	);
 
 	const onPointerUp = useCallback(() => {
@@ -42,6 +45,14 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 	}, []);
 
 	const onContextMenu = (e: MouseEvent) => e.preventDefault();
+
+	useEffect(() => {
+		const isAuto = localStorage.getItem(storageName('isAuto')) ?? '';
+
+		gatedSetIsAuto(
+			['true', 'false'].includes(isAuto) ? isAuto === 'true' : true
+		);
+	}, [gatedSetIsAuto]);
 
 	useEffect(() => {
 		document.addEventListener('pointerdown', onPointerDown);
@@ -63,8 +74,9 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 				isClicked,
 				isAuto,
 				isInteracting,
-				interaction,
+
 				setIsAuto: gatedSetIsAuto,
+				setIsInteracting: gatedSetIsInteracting,
 			}}>
 			{children}
 		</InteractionContext.Provider>

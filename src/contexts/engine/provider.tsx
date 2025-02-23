@@ -1,85 +1,55 @@
 import { useState, ReactNode, useEffect, useCallback } from 'react';
 import { EngineContext } from './context';
-import { useTimer } from '!/contexts/timer/hook';
-import { v4 as uuidv4 } from 'uuid';
-import seedrandom from 'seedrandom';
-import { cleanSeed } from '!/utils/misc';
-import Config from '!config';
 
-import { DifficultyTypes, Grid, Hint, Interactions } from '!/types/engine';
+import { useTimer } from '!/contexts/timer/hook';
+import { useSettings } from '../settings/hook';
+
+import seedrandom from 'seedrandom';
+
+import { Grid, HintProps, Interactions } from '!/types/engine';
 import { InteractionType } from '!/types/interaction';
 
 export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const { start, stop } = useTimer();
+	const settings = useSettings();
 
-	const [name, setName] = useState('');
 	const [started, setStarted] = useState(false);
-
-	const [seed, setSeed] = useState(cleanSeed(uuidv4()));
-	const [difficulty, setDifficulty] = useState<DifficultyTypes>('medium');
-	const [rows, setRows] = useState(5);
-	const [cols, setCols] = useState(5);
 
 	const [grid, setGrid] = useState<Grid>([]);
 	const [interactions, setInteractions] = useState<Interactions>([]);
 
-	const [rowHints, setRowHints] = useState<Hint[][]>([]);
-	const [colHints, setColHints] = useState<Hint[][]>([]);
+	const [rowHints, setRowHints] = useState<HintProps[][]>([]);
+	const [colHints, setColHints] = useState<HintProps[][]>([]);
 
 	const [total, setTotal] = useState(0);
 	const [totalFound, setTotalFound] = useState(0);
 	const [totalErrors, setTotalErrors] = useState(0);
 
-	const difficultyToProbability = (difficulty: DifficultyTypes) => {
-		return (
-			Config.game.difficulty.list[difficulty] ??
-			Config.game.difficulty.default
-		);
-	};
-
-	const gatedSetName = useCallback((name: string) => {
-		setName(name.trim().substring(0, 15));
-	}, []);
-
-	const gatedSetSeed = useCallback((seed?: string) => {
-		if (!seed) seed = uuidv4();
-
-		setSeed(cleanSeed(seed));
-	}, []);
-
-	const gatedSetDifficulty = useCallback(
-		(difficulty: DifficultyTypes = 'medium') => {
-			setDifficulty(difficulty);
-		},
-		[]
-	);
-
-	const gatedSetRows = useCallback((rows: number) => {
-		setRows(rows);
-	}, []);
-
-	const gatedSetCols = useCallback((cols: number) => {
-		setCols(cols);
-	}, []);
-
 	const check = useCallback(() => {
-		return grid.flat().length === rows * cols;
-	}, [grid, rows, cols]);
+		return grid.flat().length === settings.rows * settings.cols;
+	}, [grid, settings.rows, settings.cols]);
 
 	const init = useCallback(() => {
-		if (seed) {
-			const rng = seedrandom(seed);
-			const probability = difficultyToProbability(difficulty);
-			const grid = Array.from({ length: rows }, () =>
-				Array(cols).fill(false)
+		if (settings.seed) {
+			const rng = seedrandom(settings.seed);
+			const grid = Array.from({ length: settings.rows }, () =>
+				Array(settings.cols).fill(false)
 			);
 
 			stop();
 			setStarted(false);
-			setGrid(grid.map((row) => row.map(() => rng() < probability)));
+			setGrid(
+				grid.map((row) => row.map(() => rng() < settings.probability))
+			);
 			setInteractions(grid);
 		}
-	}, [seed, rows, cols, difficulty, stop]);
+	}, [
+		settings.seed,
+		settings.rows,
+		settings.cols,
+		settings.probability,
+		stop,
+	]);
 
 	const interacted = useCallback(
 		({
@@ -107,16 +77,19 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		if (!check()) return;
 
 		let total: number;
-		const hints: Hint[][] = Array.from({ length: rows }, () => []);
+		const hints: HintProps[][] = Array.from(
+			{ length: settings.rows },
+			() => []
+		);
 
-		for (let row = 0; row < rows; row++) {
+		for (let row = 0; row < settings.rows; row++) {
 			total = 0;
 
-			for (let col = 0; col < cols; col++) {
+			for (let col = 0; col < settings.cols; col++) {
 				if (grid[row][col]) {
 					total++;
 				}
-				if (!grid[row][col] || col >= cols - 1) {
+				if (!grid[row][col] || col >= settings.cols - 1) {
 					if (total > 0) {
 						hints[row].push({
 							total,
@@ -128,22 +101,25 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			}
 		}
 		setRowHints(hints);
-	}, [check, grid, rows, cols]);
+	}, [check, grid, settings.rows, settings.cols]);
 
 	const calculateColHints = useCallback(() => {
 		if (!check()) return;
 
 		let total: number;
-		const hints: Hint[][] = Array.from({ length: cols }, () => []);
+		const hints: HintProps[][] = Array.from(
+			{ length: settings.cols },
+			() => []
+		);
 
-		for (let col = 0; col < cols; col++) {
+		for (let col = 0; col < settings.cols; col++) {
 			total = 0;
 
-			for (let row = 0; row < rows; row++) {
+			for (let row = 0; row < settings.rows; row++) {
 				if (grid[row][col]) {
 					total++;
 				}
-				if (!grid[row][col] || row >= rows - 1) {
+				if (!grid[row][col] || row >= settings.rows - 1) {
 					if (total > 0) {
 						hints[col].push({
 							total,
@@ -155,7 +131,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			}
 		}
 		setColHints(hints);
-	}, [check, grid, rows, cols]);
+	}, [check, grid, settings.rows, settings.cols]);
 
 	/*
 	const checkGrid = useCallback(() => {
@@ -223,7 +199,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 				).length
 		);
 		//console.log('SCORE', cols * rows);
-	}, [grid, interactions, cols, rows]);
+	}, [grid, interactions]);
 
 	useEffect(() => {
 		if (started) {
@@ -247,11 +223,6 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	return (
 		<EngineContext.Provider
 			value={{
-				name,
-				seed,
-				difficulty,
-				rows,
-				cols,
 				grid,
 				hints: {
 					rows: rowHints,
@@ -262,13 +233,6 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 					found: totalFound,
 					errors: totalErrors,
 				},
-				cleanSeed,
-				setName: gatedSetName,
-				setSeed: gatedSetSeed,
-				setDifficulty: gatedSetDifficulty,
-				setRows: gatedSetRows,
-				setCols: gatedSetCols,
-
 				init,
 				interacted,
 			}}>

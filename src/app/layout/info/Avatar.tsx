@@ -1,5 +1,6 @@
 import useCSSVariable from '!/hooks/useCSSVariable';
-import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
+
 import BoringAvatar from 'boring-avatars';
 
 interface AvatarProps {
@@ -9,18 +10,17 @@ interface AvatarProps {
 
 const Avatar = ({ variant = 'beam', className = '' }: AvatarProps) => {
 	const cssVariable = useCSSVariable();
-	const { name } = useEngine();
+	const { user } = useSettings();
 
 	return (
 		<BoringAvatar
-			name={name}
+			name={user}
 			variant={variant}
 			colors={[
 				cssVariable('--color-primary'),
 				cssVariable('--color-accent'),
-				cssVariable('--color-base-content'),
 				cssVariable('--color-secondary'),
-				cssVariable('--color-info'),
+				cssVariable('--color-base-300'),
 			]}
 			className={className}
 		/>

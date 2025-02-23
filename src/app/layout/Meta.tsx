@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
 import useCSSVariable from '!/hooks/useCSSVariable';
 
 import { Grid } from 'lucide-react';
@@ -11,7 +11,7 @@ import pkg from '!package';
 
 const Meta = () => {
 	const { i18n } = useTranslation();
-	const { seed, rows, cols, difficulty } = useEngine();
+	const { seed, rows, cols, difficulty } = useSettings();
 	const cssVariable = useCSSVariable();
 
 	useEffect(() => {

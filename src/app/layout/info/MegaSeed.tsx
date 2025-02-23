@@ -1,7 +1,7 @@
-import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
 
 const MegaSeed = () => {
-	const { seed } = useEngine();
+	const { seed } = useSettings();
 
 	return (
 		<div className='absolute top-0 bottom-0 left-0 right-0 pointer-events-none overflow-hidden'>

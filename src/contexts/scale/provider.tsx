@@ -1,6 +1,9 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { ScaleContext } from './context';
+
 import Config from '!config';
+
+import { storageName } from '!/utils/misc';
 
 export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 	const [scale, setScale] = useState(Config.game.scale.default);
@@ -10,6 +13,7 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 		if (scale > Config.game.scale.max) scale = Config.game.scale.max;
 
 		setScale(scale);
+		localStorage.setItem(storageName('scale'), scale.toString());
 	}, []);
 
 	const handleWheel = (e: WheelEvent) => {
@@ -27,6 +31,8 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 			);
 		}
 	};
+
+	// TODO
 
 	const handleTouchStart = (event: TouchEvent) => {
 		/*
@@ -71,6 +77,16 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 		}
 			*/
 	};
+
+	useEffect(() => {
+		const scale = localStorage.getItem(storageName('scale'));
+
+		gatedSetScale(
+			scale && !isNaN(Number(scale))
+				? Number(scale)
+				: Config.game.scale.default
+		);
+	}, [gatedSetScale]);
 
 	useEffect(() => {
 		document.addEventListener('wheel', handleWheel, { passive: false });

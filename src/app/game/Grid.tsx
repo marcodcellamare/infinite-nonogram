@@ -1,13 +1,13 @@
 import { Fragment } from 'react';
 
-import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
 import { useScale } from '!/contexts/scale';
 
 import Block from './Block';
 import Hint from './hints';
 
 const Grid = () => {
-	const { rows, cols, difficulty, seed } = useEngine();
+	const { rows, cols, difficulty, seed } = useSettings();
 	const { scale } = useScale();
 
 	const sizeClass: Record<number, string> = {

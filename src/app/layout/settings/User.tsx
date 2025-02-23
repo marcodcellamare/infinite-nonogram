@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
+
 import Avatar from '../info/Avatar';
 
 const User = () => {
 	const { i18n } = useTranslation();
-	const { name, setName } = useEngine();
+	const { user, setUser } = useSettings();
 
 	return (
 		<div className='flex md:flex-col lg:flex-row items-center md:items-start lg:items-center gap-3'>
@@ -13,11 +14,11 @@ const User = () => {
 				className='max-w-[4rem]'
 			/>
 			<label className='input input-primary w-full'>
-				<strong className='text-primary'>{i18n.t('name')}</strong>
+				<strong className='text-primary'>{i18n.t('user')}</strong>
 				<input
 					type='text'
-					value={name}
-					onChange={(e) => setName(e.target.value.trim())}
+					value={user}
+					onChange={(e) => setUser(e.target.value.trim())}
 				/>
 			</label>
 		</div>

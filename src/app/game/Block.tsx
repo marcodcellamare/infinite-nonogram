@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
 import { useScale } from '!/contexts/scale';
@@ -7,13 +8,14 @@ import { X } from 'lucide-react';
 
 import Config from '!config';
 
-interface Block {
+interface BlockProps {
 	row: number;
 	col: number;
 }
 
-const Block = ({ row, col }: Block) => {
-	const { grid, interacted, rows, cols } = useEngine();
+const Block = ({ row, col }: BlockProps) => {
+	const { grid, interacted } = useEngine();
+	const { rows, cols } = useSettings();
 	const { isClicked, isInteracting } = useInteraction();
 	const { scale } = useScale();
 

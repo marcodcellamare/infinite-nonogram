@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '!/contexts/engine';
+import { useSettings } from '!/contexts/settings/hook';
 import { useScale } from '!/contexts/scale';
 
 import Title from './info/Title';
@@ -14,7 +14,7 @@ import Share from './info/Share';
 
 const Header = () => {
 	const { i18n } = useTranslation();
-	const { rows, cols, setRows, setCols } = useEngine();
+	const { rows, cols, setRows, setCols } = useSettings();
 	const { scale, setScale } = useScale();
 
 	return (
