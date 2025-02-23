@@ -1,34 +1,36 @@
 import { InteractionType } from './interaction';
 
-export type Grid = boolean[][];
-export type Interactions = (InteractionType | false)[][];
+export type GridType = boolean[][];
+export type InteractionsGridType = (InteractionType | false)[][];
 
-export interface HintProps {
+export interface HintNumbersProps {
 	total: number;
 	isDone: boolean;
 }
 
-export interface Engine {
-	grid: Grid;
+export interface EngineContextProps {
+	isReady: boolean;
+	isStarted: boolean;
+	isCompleted: boolean;
+	grid: GridType;
+	interactions: InteractionsGridType;
 	hints: {
-		rows: HintProps[][];
-		cols: HintProps[][];
+		rows: HintNumbersProps[][];
+		cols: HintNumbersProps[][];
 	};
-	total: {
-		_: number;
-		found: number;
-		errors: number;
-	};
+	totalAvailable: number;
+	totalFound: number;
+	totalErrors: number;
+	totalInteractions: number;
 
 	init: () => void;
-
-	interacted: ({
+	setInteraction: ({
 		row,
 		col,
-		hasClicked,
+		hasInteracted,
 	}: {
 		row: number;
 		col: number;
-		hasClicked: InteractionType;
+		hasInteracted: InteractionType;
 	}) => void;
 }

@@ -34,7 +34,7 @@ const Range = ({
 		timeout.current = setTimeout(() => {
 			setIsChanging(false);
 		}, 700);
-	}, [onChange, value]);
+	}, [value]);
 
 	return (
 		<div>

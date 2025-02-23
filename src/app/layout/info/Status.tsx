@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 const Status = () => {
 	const { i18n } = useTranslation();
-	const { total } = useEngine();
+	const { totalAvailable, totalFound, totalErrors } = useEngine();
 	const { rows, cols } = useSettings();
 
 	return (
@@ -12,10 +12,10 @@ const Status = () => {
 			<div className='indicator w-full'>
 				<div
 					className={`grow bg-primary text-white rounded py-1 px-2${
-						total._ === 0 ? ' opacity-30' : ''
+						totalAvailable === 0 ? ' opacity-30' : ''
 					}`}>
 					<p>{i18n.t('status.total')}</p>
-					<p className='font-bold'>{total._}</p>
+					<p className='font-bold'>{totalAvailable}</p>
 				</div>
 				<span className='indicator-item badge badge-xs badge-base-content'>
 					<strong>{rows * cols}</strong>
@@ -23,17 +23,17 @@ const Status = () => {
 			</div>
 			<div
 				className={`bg-accent text-base-content rounded py-1 px-2${
-					total.found === 0 ? ' opacity-30' : ''
+					totalFound === 0 ? ' opacity-30' : ''
 				}`}>
 				<p>{i18n.t('status.found')}</p>
-				<p className='font-bold'>{total.found}</p>
+				<p className='font-bold'>{totalFound}</p>
 			</div>
 			<div
 				className={`bg-error text-base-content rounded py-1 px-2${
-					total.errors === 0 ? ' opacity-30' : ''
+					totalErrors === 0 ? ' opacity-30' : ''
 				}`}>
 				<p>{i18n.t('status.errors')}</p>
-				<p className='font-bold'>{total.errors}</p>
+				<p className='font-bold'>{totalErrors}</p>
 			</div>
 		</div>
 	);

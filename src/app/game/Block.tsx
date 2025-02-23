@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
@@ -14,53 +14,44 @@ interface BlockProps {
 }
 
 const Block = ({ row, col }: BlockProps) => {
-	const { grid, interacted } = useEngine();
+	const { grid, setInteraction, interactions, isCompleted, isReady } =
+		useEngine();
 	const { rows, cols } = useSettings();
 	const { isClicked, isInteracting } = useInteraction();
 	const { scale } = useScale();
 
 	const [isPointerOver, setIsPointerOver] = useState(false);
-	const [hasStatus, setHasStatus] = useState<'active' | 'locked' | false>(
-		false
+
+	const gridBlock = useMemo(
+		() => isReady && grid[row][col],
+		[isReady, grid, row, col]
 	);
-	const [isError, setIsError] = useState<boolean | null>(null);
+
+	const hasInteracted = useMemo(
+		() => isReady && interactions[row][col],
+		[isReady, interactions, row, col]
+	);
+
+	const isError = useMemo(
+		() =>
+			(hasInteracted === 'left' && !gridBlock) ||
+			(hasInteracted === 'right' && gridBlock),
+		[hasInteracted, gridBlock]
+	);
 
 	useEffect(() => {
-		if (hasStatus === false && isPointerOver && isClicked) {
-			interacted({ row, col, hasClicked: isInteracting });
-
-			switch (isInteracting) {
-				case 'left':
-					setHasStatus('active');
-					break;
-
-				case 'right':
-					setHasStatus('locked');
-			}
+		if (hasInteracted === false && isPointerOver && isClicked) {
+			setInteraction({ row, col, hasInteracted: isInteracting });
 		}
 	}, [
-		hasStatus,
+		row,
+		col,
+		hasInteracted,
+		setInteraction,
 		isPointerOver,
 		isClicked,
 		isInteracting,
-		row,
-		col,
-		interacted,
 	]);
-
-	useEffect(() => {
-		setIsError(
-			(hasStatus === 'active' && !grid[row][col]) ||
-				((hasStatus === 'locked' && grid[row][col]) as boolean)
-		);
-	}, [hasStatus, grid, row, col]);
-
-	useEffect(() => {
-		return () => {
-			setHasStatus(false);
-			setIsError(false);
-		};
-	}, []);
 
 	return (
 		<div
@@ -76,13 +67,13 @@ const Block = ({ row, col }: BlockProps) => {
 			<button
 				type='button'
 				className={`relative block w-full h-full ${
-					hasStatus !== false
-						? grid[row][col]
+					hasInteracted !== false
+						? gridBlock
 							? 'bg-accent'
 							: 'bg-base-300 inset-shadow-sm inset-shadow-black/15'
 						: ''
 				}${
-					hasStatus === false
+					!isCompleted && hasInteracted === false
 						? `cursor-pointer bg-base-100 hover:bg-white hover:border-2 ${
 								isInteracting === 'left'
 									? 'hover:border-accent'
@@ -94,13 +85,16 @@ const Block = ({ row, col }: BlockProps) => {
 						? ' border-2 border-error shadow-lg shadow-error z-10'
 						: ''
 				}`}
-				onPointerEnter={() => setIsPointerOver(true)}
+				disabled={isCompleted}
+				onPointerEnter={() =>
+					setIsPointerOver(!isCompleted ? true : false)
+				}
 				onPointerLeave={() => setIsPointerOver(false)}>
-				{(hasStatus === false && isInteracting === 'right') ||
-				(hasStatus !== false && !grid[row][col]) ? (
+				{(hasInteracted === false && isInteracting === 'right') ||
+				(hasInteracted !== false && !gridBlock) ? (
 					<span
 						className={`absolute top-1/2 left-1/2 -translate-1/2 w-full h-full${
-							hasStatus === false ? ' opacity-10' : ''
+							hasInteracted === false ? ' opacity-10' : ''
 						}`}>
 						<X className='w-full h-full' />
 					</span>

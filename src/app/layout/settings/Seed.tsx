@@ -10,7 +10,7 @@ const Seed = () => {
 	const { seed, setSeed } = useSettings();
 	const [value, setValue] = useState('');
 
-	const onSubmit = useCallback(
+	const handleSubmit = useCallback(
 		(e: React.FormEvent) => {
 			setSeed(value);
 
@@ -27,7 +27,7 @@ const Seed = () => {
 	return (
 		<form
 			className='flex flex-row md:flex-col xl:flex-row gap-1'
-			onSubmit={onSubmit}>
+			onSubmit={handleSubmit}>
 			<label className='input input-primary w-full'>
 				<strong className='text-primary'>{i18n.t('seed')}</strong>
 				<input

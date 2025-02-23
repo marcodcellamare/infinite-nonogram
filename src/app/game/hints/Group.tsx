@@ -2,14 +2,13 @@ import { useMemo } from 'react';
 import { useScale } from '!/contexts/scale';
 
 import Number from './Number';
-
-import { Hint } from '!/types/engine';
-
 import Config from '!config';
+
+import { HintNumbersProps } from '!/types/engine';
 
 interface GroupProps {
 	type: 'row' | 'col';
-	hints: Hint[];
+	hints: HintNumbersProps[];
 }
 
 const Group = ({ type, hints }: GroupProps) => {

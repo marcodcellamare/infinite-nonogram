@@ -19,7 +19,7 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 		setIsInteracting(type);
 	}, []);
 
-	const onPointerDown = useCallback(
+	const handlePointerDown = useCallback(
 		(e: PointerEvent) => {
 			setIsClicked(true);
 
@@ -40,11 +40,11 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 		[isAuto]
 	);
 
-	const onPointerUp = useCallback(() => {
+	const handlePointerUp = useCallback(() => {
 		setIsClicked(false);
 	}, []);
 
-	const onContextMenu = (e: MouseEvent) => e.preventDefault();
+	const handleContextMenu = (e: MouseEvent) => e.preventDefault();
 
 	useEffect(() => {
 		const isAuto = localStorage.getItem(storageName('isAuto')) ?? '';
@@ -55,18 +55,18 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 	}, [gatedSetIsAuto]);
 
 	useEffect(() => {
-		document.addEventListener('pointerdown', onPointerDown);
-		document.addEventListener('pointerup', onPointerUp);
+		document.addEventListener('pointerdown', handlePointerDown);
+		document.addEventListener('pointerup', handlePointerUp);
 
-		document.addEventListener('contextmenu', onContextMenu);
+		document.addEventListener('contextmenu', handleContextMenu);
 
 		return () => {
-			document.removeEventListener('pointerdown', onPointerDown);
-			document.removeEventListener('pointerup', onPointerUp);
+			document.removeEventListener('pointerdown', handlePointerDown);
+			document.removeEventListener('pointerup', handlePointerUp);
 
-			document.removeEventListener('contextmenu', onContextMenu);
+			document.removeEventListener('contextmenu', handleContextMenu);
 		};
-	}, [onPointerDown, onPointerUp]);
+	}, [handlePointerDown, handlePointerUp]);
 
 	return (
 		<InteractionContext.Provider

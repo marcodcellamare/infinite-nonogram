@@ -7,7 +7,7 @@ const Controller = () => {
 	const { isInteracting, setIsInteracting } = useInteraction();
 	const [checked, setChecked] = useState(false);
 
-	const onChange = (force?: boolean) => {
+	const handleChange = (force?: boolean) => {
 		setChecked((prevChecked) => {
 			if (typeof force === 'boolean') {
 				return force;
@@ -17,7 +17,7 @@ const Controller = () => {
 	};
 
 	useEffect(() => {
-		onChange(isInteracting === 'right');
+		handleChange(isInteracting === 'right');
 	}, [isInteracting]);
 
 	useEffect(() => {
@@ -38,7 +38,7 @@ const Controller = () => {
 			<input
 				type='checkbox'
 				className='toggle toggle-xl toggle-white bg-white border-white text-accent checked:bg-white checked:border-white checked:text-base-content shadow-lg shadow-black/20'
-				onChange={() => onChange()}
+				onChange={() => handleChange()}
 				onPointerDown={(e) => e.stopPropagation()}
 				checked={checked}
 			/>

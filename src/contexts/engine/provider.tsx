@@ -1,4 +1,4 @@
-import { useState, ReactNode, useEffect, useCallback } from 'react';
+import { useState, ReactNode, useEffect, useCallback, useMemo } from 'react';
 import { EngineContext } from './context';
 
 import { useTimer } from '!/contexts/timer/hook';
@@ -6,66 +6,106 @@ import { useSettings } from '../settings/hook';
 
 import seedrandom from 'seedrandom';
 
-import { Grid, HintProps, Interactions } from '!/types/engine';
+import {
+	GridType,
+	HintNumbersProps,
+	InteractionsGridType,
+} from '!/types/engine';
 import { InteractionType } from '!/types/interaction';
 
 export const EngineProvider = ({ children }: { children: ReactNode }) => {
-	const { start, stop } = useTimer();
 	const settings = useSettings();
+	const {
+		start: startTimer,
+		stop: stopTimer,
+		total: totalTimer,
+	} = useTimer();
 
-	const [started, setStarted] = useState(false);
+	const [grid, setGrid] = useState<GridType>([]);
+	const [interactions, setInteractions] = useState<InteractionsGridType>([]);
+	const [rowHints, setRowHints] = useState<HintNumbersProps[][]>([]);
+	const [colHints, setColHints] = useState<HintNumbersProps[][]>([]);
 
-	const [grid, setGrid] = useState<Grid>([]);
-	const [interactions, setInteractions] = useState<Interactions>([]);
-
-	const [rowHints, setRowHints] = useState<HintProps[][]>([]);
-	const [colHints, setColHints] = useState<HintProps[][]>([]);
-
-	const [total, setTotal] = useState(0);
-	const [totalFound, setTotalFound] = useState(0);
-	const [totalErrors, setTotalErrors] = useState(0);
-
-	const check = useCallback(() => {
-		return grid.flat().length === settings.rows * settings.cols;
-	}, [grid, settings.rows, settings.cols]);
+	const emptyGrid = useMemo(
+		() =>
+			Array.from({ length: settings.rows }, () =>
+				Array(settings.cols).fill(false)
+			),
+		[settings.rows, settings.cols]
+	);
 
 	const init = useCallback(() => {
-		if (settings.seed) {
-			const rng = seedrandom(settings.seed);
-			const grid = Array.from({ length: settings.rows }, () =>
-				Array(settings.cols).fill(false)
-			);
+		if (!settings.seed) return;
 
-			stop();
-			setStarted(false);
-			setGrid(
-				grid.map((row) => row.map(() => rng() < settings.probability))
-			);
-			setInteractions(grid);
-		}
-	}, [
-		settings.seed,
-		settings.rows,
-		settings.cols,
-		settings.probability,
-		stop,
-	]);
+		const rng = seedrandom(settings.seed);
 
-	const interacted = useCallback(
+		setGrid(
+			emptyGrid.map((row) => row.map(() => rng() < settings.probability))
+		);
+		setInteractions(emptyGrid);
+		stopTimer();
+	}, [emptyGrid, settings.seed, settings.probability, stopTimer]);
+
+	const totalAvailable = useMemo(
+		() => grid.flat().filter((g) => g === true).length,
+		[grid]
+	);
+
+	const totalFound = useMemo(
+		() =>
+			grid
+				.flat()
+				.filter(
+					(g, k) => g === true && interactions.flat()[k] !== false
+				).length,
+		[grid, interactions]
+	);
+
+	const totalErrors = useMemo(
+		() =>
+			grid
+				.flat()
+				.filter(
+					(g, k) =>
+						(g === true && interactions.flat()[k] === 'right') ||
+						(g === false && interactions.flat()[k] === 'left')
+				).length,
+		[grid, interactions]
+	);
+
+	const totalInteractions = useMemo(
+		() => interactions.flat().filter((i) => i !== false).length,
+		[interactions]
+	);
+
+	const isStarted = useMemo(() => totalInteractions > 0, [totalInteractions]);
+
+	const isReady = useMemo(
+		() =>
+			grid.flat().length === settings.rows * settings.cols &&
+			interactions.flat().length === grid.flat().length,
+		[grid, interactions, settings.rows, settings.cols]
+	);
+
+	const isCompleted = useMemo(
+		() => totalFound >= totalAvailable,
+		[totalFound, totalAvailable]
+	);
+
+	const gatedSetInteraction = useCallback(
 		({
 			row,
 			col,
-			hasClicked,
+			hasInteracted,
 		}: {
 			row: number;
 			col: number;
-			hasClicked: InteractionType;
+			hasInteracted: InteractionType;
 		}) => {
-			setStarted(true);
 			setInteractions((prevInteractions) => {
 				const newInteractions = [...prevInteractions];
 				newInteractions[row] = [...newInteractions[row]];
-				newInteractions[row][col] = hasClicked;
+				newInteractions[row][col] = hasInteracted;
 
 				return newInteractions;
 			});
@@ -74,10 +114,10 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	);
 
 	const calculateRowHints = useCallback(() => {
-		if (!check()) return;
+		if (!isReady) return;
 
 		let total: number;
-		const hints: HintProps[][] = Array.from(
+		const hints: HintNumbersProps[][] = Array.from(
 			{ length: settings.rows },
 			() => []
 		);
@@ -101,13 +141,13 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			}
 		}
 		setRowHints(hints);
-	}, [check, grid, settings.rows, settings.cols]);
+	}, [isReady, grid, settings.rows, settings.cols]);
 
 	const calculateColHints = useCallback(() => {
-		if (!check()) return;
+		if (!isReady) return;
 
 		let total: number;
-		const hints: HintProps[][] = Array.from(
+		const hints: HintNumbersProps[][] = Array.from(
 			{ length: settings.cols },
 			() => []
 		);
@@ -131,7 +171,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			}
 		}
 		setColHints(hints);
-	}, [check, grid, settings.rows, settings.cols]);
+	}, [isReady, grid, settings.rows, settings.cols]);
 
 	/*
 	const checkGrid = useCallback(() => {
@@ -168,9 +208,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	}, [grid, cols, rows, interactions]);
 	*/
 
-	useEffect(() => {
-		init();
-	}, [init]);
+	useEffect(() => init(), [init]);
 
 	useEffect(() => {
 		calculateRowHints();
@@ -178,41 +216,19 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	}, [calculateRowHints, calculateColHints]);
 
 	useEffect(() => {
-		setTotal(grid.flat().filter((g) => g === true).length);
-	}, [grid]);
-
-	useEffect(() => {
-		setTotalFound(
-			grid
-				.flat()
-				.filter(
-					(g, k) => g === true && interactions.flat()[k] !== false
-				).length
-		);
-		setTotalErrors(
-			grid
-				.flat()
-				.filter(
-					(g, k) =>
-						(g === true && interactions.flat()[k] === 'right') ||
-						(g === false && interactions.flat()[k] === 'left')
-				).length
-		);
-		//console.log('SCORE', cols * rows);
-	}, [grid, interactions]);
-
-	useEffect(() => {
-		if (started) {
-			start();
+		if (isStarted && isCompleted) {
+			stopTimer();
+		} else if (isStarted) {
+			startTimer();
 		}
-	}, [started, start]);
+		return () => stopTimer();
+	}, [isStarted, isCompleted, startTimer, stopTimer]);
 
 	useEffect(() => {
-		if (started && totalFound >= total) {
-			stop();
-			setStarted(false);
+		if (isStarted && isCompleted) {
+			console.log('>>> totalTimer', totalTimer);
 		}
-	}, [started, stop, totalFound, total]);
+	}, [isStarted, isCompleted, totalTimer]);
 
 	/*
 	useEffect(() => {
@@ -223,18 +239,22 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	return (
 		<EngineContext.Provider
 			value={{
+				isReady,
+				isStarted,
+				isCompleted,
 				grid,
+				interactions,
 				hints: {
 					rows: rowHints,
 					cols: colHints,
 				},
-				total: {
-					_: total,
-					found: totalFound,
-					errors: totalErrors,
-				},
+				totalAvailable,
+				totalFound,
+				totalErrors,
+				totalInteractions,
+
 				init,
-				interacted,
+				setInteraction: gatedSetInteraction,
 			}}>
 			{children}
 		</EngineContext.Provider>

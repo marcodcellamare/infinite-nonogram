@@ -1,7 +1,10 @@
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
+import { useScale } from '!/contexts/scale';
 
 import Group from './Group';
+
+import Config from '!config';
 
 interface HintProps {
 	row: number;
@@ -11,6 +14,7 @@ interface HintProps {
 const Hint = ({ row, col }: HintProps) => {
 	const { hints } = useEngine();
 	const { rows, cols } = useSettings();
+	const { scale } = useScale();
 
 	return (
 		<div
@@ -32,7 +36,11 @@ const Hint = ({ row, col }: HintProps) => {
 							? 'border-r-1'
 							: 'border-r-3')
 					: ''
-			} border-base-300`}>
+			} border-base-300`}
+			style={{
+				minWidth: `${Config.game.grid.block.size * scale}rem`,
+				minHeight: `${Config.game.grid.block.size * scale}rem`,
+			}}>
 			{row >= 0 || col >= 0 ? (
 				<>
 					{col < 0 && hints.rows[row] ? (

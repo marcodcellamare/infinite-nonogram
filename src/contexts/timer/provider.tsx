@@ -9,6 +9,7 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 		{}
 	);
 	const [blink, setBlink] = useState(true);
+	const [total, setTotal] = useState(0);
 
 	const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 	const intervalBlinkRef = useRef<ReturnType<typeof setInterval> | null>(
@@ -46,6 +47,7 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 			seconds: 0,
 		});
 		setBlink(true);
+		setTotal(0);
 	}, [stop]);
 
 	const start = useCallback(() => {
@@ -57,6 +59,8 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 		if (startDate) {
 			const counter: Partial<Record<TimeUnit, number>> = {};
 			let dateDiff = Math.abs((date() - startDate) / 1000);
+
+			setTotal(dateDiff);
 
 			Object.entries(secondsRef.current).forEach(([type, seconds]) => {
 				counter[type as TimeUnit] = Math.floor(dateDiff / seconds);
@@ -98,6 +102,7 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 			value={{
 				counter,
 				blink,
+				total,
 				start,
 				stop,
 				reset,
