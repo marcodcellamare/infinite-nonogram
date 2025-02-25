@@ -90,15 +90,19 @@ const Block = ({ row, col }: BlockProps) => {
 					setIsPointerOver(!isCompleted ? true : false)
 				}
 				onPointerLeave={() => setIsPointerOver(false)}>
-				{(hasInteracted === false && isInteracting === 'right') ||
-				(hasInteracted !== false && !gridBlock) ? (
-					<span
-						className={`absolute top-1/2 left-1/2 -translate-1/2 w-full h-full${
-							hasInteracted === false ? ' opacity-10' : ''
-						}`}>
-						<X className='w-full h-full' />
-					</span>
-				) : null}
+				<span
+					className={`absolute top-1/2 left-1/2 -translate-1/2 w-full h-full transition-opacity duration-200 ${
+						(hasInteracted !== false && !gridBlock) ||
+						(!isCompleted &&
+							isInteracting === 'right' &&
+							hasInteracted === false)
+							? hasInteracted !== false && !gridBlock
+								? 'opacity-100'
+								: 'opacity-10'
+							: 'opacity-0'
+					}`}>
+					<X className='w-full h-full' />
+				</span>
 			</button>
 		</div>
 	);

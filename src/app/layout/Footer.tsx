@@ -1,5 +1,5 @@
-import Status from './info/Status';
-import Controller from './settings/Controller';
+import Status from '../info/Status';
+import Controller from '../settings/Controller';
 
 const Footer = () => {
 	return (

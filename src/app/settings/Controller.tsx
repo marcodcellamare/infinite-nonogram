@@ -28,8 +28,10 @@ const Controller = () => {
 
 	return (
 		<label
-			className={`indicator flex gap-4 items-center justify-center transition-[background-color] duration-300 ${
+			className={`indicator flex gap-4 items-center justify-center transition-[background-color,outline-color] duration-300 ${
 				checked ? 'bg-base-content' : 'bg-accent'
+			} outline-2 ${
+				isAuto ? 'outline-secondary' : 'outline-secondary/0'
 			} rounded-full inset-shadow-sm inset-shadow-black/20 text-xl py-1 px-6 ---overflow-hidden`}>
 			<span
 				className={`drop-shadow transition-transform duration-300 ${

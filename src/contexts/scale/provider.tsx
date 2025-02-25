@@ -25,7 +25,9 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 					Config.game.scale.max,
 					Math.max(
 						Config.game.scale.min,
-						prevScale - Math.sign(e.deltaY) * Config.game.scale.step
+						prevScale -
+							Math.sign(e.deltaY || e.deltaX) *
+								Config.game.scale.step
 					)
 				)
 			);

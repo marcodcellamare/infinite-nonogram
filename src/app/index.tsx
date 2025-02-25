@@ -1,6 +1,6 @@
 import Header from './layout/Header';
 import Footer from './layout/Footer';
-import Progress from './layout/info/Progress';
+import Progress from './info/Progress';
 import Meta from './layout/Meta';
 import Router from './misc/Router';
 import Copyright from './layout/Copyright';

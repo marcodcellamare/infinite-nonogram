@@ -17,6 +17,34 @@
 		"width": "Width",
 		"height": "Height"
 	},
+	"score": {
+		"time": "Time",
+		"points": "Score",
+		"titles": [
+			"Victory!",
+			"Mission Accomplished",
+			"Well Done!",
+			"You Did It!",
+			"Game Clear",
+			"The End",
+			"You Nailed It!",
+			"Genius!",
+			"Finished!",
+			"Completed"
+		],
+		"next": [
+			"Play Again",
+			"Keep Going",
+			"Retry",
+			"Next Challenge",
+			"One More Time",
+			"Try Again",
+			"Continue",
+			"New Game",
+			"Restart",
+			"Go Again"
+		]
+	},
 	"difficulties": {
 		"easy": "Easy",
 		"medium": "Medium",

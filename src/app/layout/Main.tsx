@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import MegaSeed from './info/MegaSeed';
+import MegaSeed from '../info/MegaSeed';
 
 import useRouteCheck from '!/hooks/useRouteCheck';
 

@@ -33,8 +33,9 @@
 		},
 		"difficulty": {
 			"default": "medium",
+			"____easy": 0.75,
 			"list": {
-				"easy": 0.75,
+				"easy": 0.9,
 				"medium": 0.55,
 				"hard": 0.35
 			}
@@ -42,7 +43,7 @@
 		"scale": {
 			"default": 1,
 			"min": 0.6,
-			"max": 1.4,
+			"max": 1.6,
 			"step": 0.05
 		}
 	},

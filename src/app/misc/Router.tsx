@@ -16,10 +16,6 @@ const Router = () => {
 					element={<Game />}
 				/>
 				<Route
-					path='/:language/about'
-					element={<div>About</div>}
-				/>
-				<Route
 					path='*'
 					element={
 						<Navigate

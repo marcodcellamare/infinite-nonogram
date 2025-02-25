@@ -3,6 +3,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { openExternalLink } from '!/utils/misc';
 
 import {
+	SiDaisyui,
 	SiGithub,
 	SiReact,
 	SiTailwindcss,
@@ -15,7 +16,7 @@ const Copyright = () => {
 
 	return (
 		<footer className='flex flex-col md:flex-row gap-1 md:gap-5 bg-base-200 text-base-content px-5 md:px-10 py-2'>
-			<div className='flex-1 text-xs opacity-50'>
+			<div className='flex-1 text-xs'>
 				<Trans
 					i18nKey='footer.copyright'
 					values={{
@@ -41,17 +42,18 @@ const Copyright = () => {
 				<div className='flex flex-nowrap gap-2'>
 					<button
 						type='button'
-						className='link decoration-0 hover:opacity-50'
+						className='link link-base-content decoration-0 hover:link-secondary'
 						rel='noopener noreferrer'
 						onClick={() =>
 							openExternalLink(i18n.t('footer.repository'))
 						}>
 						<SiGithub />
 					</button>
-					<SiTypescript className='opacity-50' />
-					<SiReact className='opacity-50' />
-					<SiVite className='opacity-50' />
-					<SiTailwindcss className='opacity-50' />
+					<SiTypescript className='text-base-content/50' />
+					<SiReact className='text-base-content/50' />
+					<SiVite className='text-base-content/50' />
+					<SiTailwindcss className='text-base-content/50' />
+					<SiDaisyui className='text-base-content/50' />
 				</div>
 			</div>
 		</footer>

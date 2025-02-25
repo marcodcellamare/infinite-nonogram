@@ -5,7 +5,7 @@ import { useSettings } from '!/contexts/settings/hook';
 import { Check, RefreshCcw } from 'lucide-react';
 
 const Seed = () => {
-	const ref = useRef<HTMLInputElement>(null);
+	const inputRef = useRef<HTMLInputElement>(null);
 	const { i18n } = useTranslation();
 	const { seed, setSeed } = useSettings();
 	const [value, setValue] = useState('');
@@ -15,7 +15,7 @@ const Seed = () => {
 			setSeed(value);
 
 			e.preventDefault();
-			ref.current?.blur();
+			inputRef.current?.blur();
 		},
 		[value, setSeed]
 	);
@@ -31,7 +31,7 @@ const Seed = () => {
 			<label className='input input-primary w-full'>
 				<strong className='text-primary'>{i18n.t('seed')}</strong>
 				<input
-					ref={ref}
+					ref={inputRef}
 					type='text'
 					value={value}
 					onChange={(e) => setValue(e.target.value)}

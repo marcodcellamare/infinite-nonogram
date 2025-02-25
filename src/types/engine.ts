@@ -20,10 +20,13 @@ export interface EngineContextProps {
 		rows: HintNumbersProps[][];
 		cols: HintNumbersProps[][];
 	};
+	total: number;
 	totalAvailable: number;
 	totalFound: number;
 	totalErrors: number;
 	totalInteractions: number;
+	score: number;
+	advancedScore: number;
 
 	init: () => void;
 	setInteraction: ({

@@ -24,14 +24,14 @@ const Range = ({
 	onChange,
 }: RangeProps) => {
 	const [isChanging, setIsChanging] = useState(false);
-	const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	useEffect(() => {
-		if (timeout.current !== null) clearTimeout(timeout.current);
+		if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
 
 		setIsChanging(true);
 
-		timeout.current = setTimeout(() => {
+		timeoutRef.current = setTimeout(() => {
 			setIsChanging(false);
 		}, 700);
 	}, [value]);

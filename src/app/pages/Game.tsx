@@ -1,6 +1,7 @@
-import Grid from '!/app/game/Grid';
-import Size from '!/app/layout/info/Size';
-import Timer from '!/app/layout/info/Timer';
+import Grid from '../game/Grid';
+import Score from '../game/score';
+import Size from '../info/Size';
+import Timer from '../info/Timer';
 
 const Game = () => {
 	return (
@@ -14,6 +15,7 @@ const Game = () => {
 			<div className='absolute bottom-2.5 md:bottom-10 left-5 md:left-auto md:right-10 pointer-events-none'>
 				<Timer />
 			</div>
+			<Score />
 		</>
 	);
 };

@@ -8,11 +8,11 @@ const Auto = () => {
 	return (
 		<label
 			className={`hidden md:flex gap-2 items-center text-xs font-bold cursor-pointer ${
-				isAuto ? 'text-primary' : 'text-base-content'
+				isAuto ? 'text-secondary' : 'text-base-300'
 			}`}>
 			<input
 				type='checkbox'
-				className='toggle toggle-sm toggle-primary'
+				className='toggle toggle-sm toggle-secondary'
 				checked={isAuto}
 				onChange={(e) => setIsAuto(e.target.checked)}
 			/>

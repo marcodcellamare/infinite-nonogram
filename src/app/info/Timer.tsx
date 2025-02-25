@@ -39,9 +39,11 @@ const Timer = () => {
 							)}
 							{['years', 'months', 'days'].includes(type) ? (
 								<span className='text-xs ms-0.5 me-1'>
-									{i18n.t(`timeUnits.${type}`, {
-										count: value,
-									})}
+									{i18n
+										.t(`timeUnits.${type}`, {
+											count: value,
+										})
+										.toLowerCase()}
 								</span>
 							) : null}
 						</Fragment>

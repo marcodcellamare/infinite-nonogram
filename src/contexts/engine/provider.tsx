@@ -18,7 +18,8 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const {
 		start: startTimer,
 		stop: stopTimer,
-		total: totalTimer,
+		total: totalTime,
+		reset: resetTimer,
 	} = useTimer();
 
 	const [grid, setGrid] = useState<GridType>([]);
@@ -44,7 +45,10 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		);
 		setInteractions(emptyGrid);
 		stopTimer();
-	}, [emptyGrid, settings.seed, settings.probability, stopTimer]);
+		resetTimer();
+	}, [emptyGrid, settings.seed, settings.probability, stopTimer, resetTimer]);
+
+	const total = useMemo(() => grid.flat().length, [grid]);
 
 	const totalAvailable = useMemo(
 		() => grid.flat().filter((g) => g === true).length,
@@ -78,6 +82,11 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		[interactions]
 	);
 
+	const totalInteractionsRight = useMemo(
+		() => interactions.flat().filter((i) => i === 'right').length,
+		[interactions]
+	);
+
 	const isStarted = useMemo(() => totalInteractions > 0, [totalInteractions]);
 
 	const isReady = useMemo(
@@ -86,6 +95,25 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			interactions.flat().length === grid.flat().length,
 		[grid, interactions, settings.rows, settings.cols]
 	);
+
+	const score = useMemo(() => {
+		if (totalAvailable === 0) return 0;
+
+		const correctFound = totalFound - totalErrors;
+
+		if (totalFound > 0 && correctFound <= 0) return 0;
+
+		const interactionPenalty = totalInteractionsRight * 0.5;
+
+		return ((correctFound - interactionPenalty) / totalAvailable) * 100;
+	}, [totalFound, totalErrors, totalInteractionsRight, totalAvailable]);
+
+	const advancedScore = useMemo(() => {
+		const timeFactor = 1 / (1 + totalTime / total);
+		const gridSizeBonus = total / 50;
+
+		return score * timeFactor * (1 / settings.probability) * gridSizeBonus;
+	}, [score, total, totalTime, settings.probability]);
 
 	const isCompleted = useMemo(
 		() => totalFound >= totalAvailable,
@@ -130,17 +158,26 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			for (let col = 0; col < settings.cols; col++) {
 				if (grid[row][col]) {
 					blocks.push(col);
-					found.push(interactions[row][col] !== false);
+					found.push(
+						interactions[row][col] !== false &&
+							(col === 0 ||
+								col === settings.cols - 1 ||
+								(col > 0 &&
+									col < settings.cols &&
+									interactions[row][col - 1] !== false &&
+									interactions[row][col + 1] !== false))
+					);
 				}
-				if (!grid[row][col] || col >= settings.cols - 1) {
-					if (blocks.length > 0) {
-						hints[row].push({
-							total: blocks.length,
-							blocks: blocks,
-							found: found,
-							isDone: !found.includes(false),
-						});
-					}
+				if (
+					blocks.length > 0 &&
+					(!grid[row][col] || col >= settings.cols - 1)
+				) {
+					hints[row].push({
+						total: blocks.length,
+						blocks: blocks,
+						found: found,
+						isDone: !found.includes(false),
+					});
 					blocks = [];
 					found = [];
 				}
@@ -166,7 +203,15 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			for (let row = 0; row < settings.rows; row++) {
 				if (grid[row][col]) {
 					blocks.push(row);
-					found.push(interactions[row][col] !== false);
+					found.push(
+						interactions[row][col] !== false &&
+							(row === 0 ||
+								row === settings.rows - 1 ||
+								(row > 0 &&
+									row < settings.rows &&
+									interactions[row - 1][col] !== false &&
+									interactions[row + 1][col] !== false))
+					);
 				}
 				if (!grid[row][col] || row >= settings.rows - 1) {
 					if (blocks.length > 0) {
@@ -201,12 +246,6 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		return () => stopTimer();
 	}, [isStarted, isCompleted, startTimer, stopTimer]);
 
-	useEffect(() => {
-		if (isStarted && isCompleted) {
-			console.log('>>> totalTimer', totalTimer);
-		}
-	}, [isStarted, isCompleted, totalTimer]);
-
 	return (
 		<EngineContext.Provider
 			value={{
@@ -219,10 +258,13 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 					rows: rowHints,
 					cols: colHints,
 				},
+				total,
 				totalAvailable,
 				totalFound,
 				totalErrors,
 				totalInteractions,
+				score,
+				advancedScore,
 
 				init,
 				setInteraction: gatedSetInteraction,
