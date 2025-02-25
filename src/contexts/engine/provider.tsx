@@ -5,6 +5,7 @@ import { useTimer } from '!/contexts/timer/hook';
 import { useSettings } from '../settings/hook';
 
 import seedrandom from 'seedrandom';
+import Config from '!config';
 
 import {
 	GridType,
@@ -65,6 +66,16 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		[grid, interactions]
 	);
 
+	const totalCorrects = useMemo(
+		() =>
+			grid
+				.flat()
+				.filter(
+					(g, k) => g === true && interactions.flat()[k] === 'left'
+				).length,
+		[grid, interactions]
+	);
+
 	const totalErrors = useMemo(
 		() =>
 			grid
@@ -97,22 +108,45 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	);
 
 	const score = useMemo(() => {
-		if (totalAvailable === 0) return 0;
+		if (totalAvailable === 0 || (totalFound > 0 && totalCorrects <= 0))
+			return 0;
 
-		const correctFound = totalFound - totalErrors;
+		const errorsPenalty = totalErrors / Config.game.score.penalty.errors;
+		const interactionPenalty =
+			totalInteractionsRight / Config.game.score.penalty.interactions;
 
-		if (totalFound > 0 && correctFound <= 0) return 0;
+		const errorsPenaltyNormalized = Math.min(
+			(errorsPenalty / 100) * totalCorrects,
+			totalCorrects
+		);
+		const interactionPenaltyNormalized = Math.min(
+			(interactionPenalty / 100) * totalCorrects,
+			totalCorrects
+		);
 
-		const interactionPenalty = totalInteractionsRight * 0.5;
-
-		return ((correctFound - interactionPenalty) / totalAvailable) * 100;
-	}, [totalFound, totalErrors, totalInteractionsRight, totalAvailable]);
+		return Math.max(
+			0,
+			((totalCorrects -
+				errorsPenaltyNormalized -
+				interactionPenaltyNormalized) /
+				totalAvailable) *
+				100
+		);
+	}, [
+		totalFound,
+		totalCorrects,
+		totalErrors,
+		totalInteractionsRight,
+		totalAvailable,
+	]);
 
 	const advancedScore = useMemo(() => {
-		const timeFactor = 1 / (1 + totalTime / total);
-		const gridSizeBonus = total / 50;
+		const timePenalty = 1 / (1 + totalTime / total);
+		const difficultyPenalty = 1 / settings.probability;
+		const gridSizeBonus =
+			total / (Config.game.grid.min * Config.game.grid.min);
 
-		return score * timeFactor * (1 / settings.probability) * gridSizeBonus;
+		return score * timePenalty * difficultyPenalty * gridSizeBonus;
 	}, [score, total, totalTime, settings.probability]);
 
 	const isCompleted = useMemo(
@@ -261,6 +295,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 				total,
 				totalAvailable,
 				totalFound,
+				totalCorrects,
 				totalErrors,
 				totalInteractions,
 				score,

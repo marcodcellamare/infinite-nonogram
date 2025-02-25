@@ -33,9 +33,8 @@
 		},
 		"difficulty": {
 			"default": "medium",
-			"____easy": 0.75,
 			"list": {
-				"easy": 0.9,
+				"easy": 0.75,
 				"medium": 0.55,
 				"hard": 0.35
 			}
@@ -45,6 +44,12 @@
 			"min": 0.6,
 			"max": 1.6,
 			"step": 0.05
+		},
+		"score": {
+			"penalty": {
+				"errors": 0.85,
+				"interactions": 0.25
+			}
 		}
 	},
 	"fonts": [

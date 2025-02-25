@@ -2,6 +2,7 @@ import { InteractionType } from './interaction';
 
 export type GridType = boolean[][];
 export type InteractionsGridType = (InteractionType | false)[][];
+export type ScoreTransitionStatus = 'show' | 'hide' | false;
 
 export interface HintNumbersProps {
 	total: number;
@@ -23,6 +24,7 @@ export interface EngineContextProps {
 	total: number;
 	totalAvailable: number;
 	totalFound: number;
+	totalCorrects: number;
 	totalErrors: number;
 	totalInteractions: number;
 	score: number;

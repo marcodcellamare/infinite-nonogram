@@ -8,13 +8,14 @@ import Points from './Points';
 import Rating from './Rating';
 
 import { RefreshCw } from 'lucide-react';
+import { ScoreTransitionStatus } from '!/types/engine';
 
 const Score = () => {
 	const { i18n } = useTranslation();
 	const { isCompleted } = useEngine();
 	const { setSeed } = useSettings();
 
-	const [hasStatus, setHasStatus] = useState<'show' | 'hide' | false>(false);
+	const [hasStatus, setHasStatus] = useState<ScoreTransitionStatus>(false);
 	const [title, setTitle] = useState('');
 	const [next, setNext] = useState('');
 
@@ -82,12 +83,14 @@ const Score = () => {
 					}${hasStatus !== 'show' ? ' opacity-0' : ''}`}>
 					{title}
 				</div>
-				<div className='flex justify-center'>
-					{hasStatus !== false ? <Time /> : null}
+				<div className='flex justify-center my-5'>
+					{hasStatus !== false ? (
+						<Rating hasStatus={hasStatus} />
+					) : null}
 				</div>
-				<div>
+				<div className='flex justify-center items-center gap-2'>
+					{hasStatus !== false ? <Time /> : null}
 					{hasStatus !== false ? <Points /> : null}
-					{hasStatus !== false ? <Rating /> : null}
 				</div>
 				<div>
 					<button
