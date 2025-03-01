@@ -19,6 +19,7 @@
 			"game"
 		]
 	},
+	"drawer": "Settings",
 	"game": {
 		"grid": {
 			"default": 10,

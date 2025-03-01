@@ -107,7 +107,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		[grid, interactions, settings.rows, settings.cols]
 	);
 
-	const score = useMemo(() => {
+	const rating = useMemo(() => {
 		if (totalAvailable === 0 || (totalFound > 0 && totalCorrects <= 0))
 			return 0;
 
@@ -124,13 +124,15 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			totalCorrects
 		);
 
-		return Math.max(
-			0,
-			((totalCorrects -
-				errorsPenaltyNormalized -
-				interactionPenaltyNormalized) /
-				totalAvailable) *
-				100
+		return Math.min(
+			Math.max(
+				0,
+				(totalCorrects -
+					errorsPenaltyNormalized -
+					interactionPenaltyNormalized) /
+					totalAvailable
+			),
+			1
 		);
 	}, [
 		totalFound,
@@ -140,14 +142,14 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		totalAvailable,
 	]);
 
-	const advancedScore = useMemo(() => {
+	const score = useMemo(() => {
 		const timePenalty = 1 / (1 + totalTime / total);
 		const difficultyPenalty = 1 / settings.probability;
 		const gridSizeBonus =
 			total / (Config.game.grid.min * Config.game.grid.min);
 
-		return score * timePenalty * difficultyPenalty * gridSizeBonus;
-	}, [score, total, totalTime, settings.probability]);
+		return rating * 100 * timePenalty * difficultyPenalty * gridSizeBonus;
+	}, [rating, total, totalTime, settings.probability]);
 
 	const isCompleted = useMemo(
 		() => totalFound >= totalAvailable,
@@ -194,12 +196,10 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 					blocks.push(col);
 					found.push(
 						interactions[row][col] !== false &&
-							(col === 0 ||
-								col === settings.cols - 1 ||
-								(col > 0 &&
-									col < settings.cols &&
-									interactions[row][col - 1] !== false &&
-									interactions[row][col + 1] !== false))
+							(!interactions[row].slice(0, col).includes(false) ||
+								!interactions[row]
+									.slice(col + 1)
+									.includes(false))
 					);
 				}
 				if (
@@ -223,6 +223,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const calculateColHints = useCallback(() => {
 		if (!isReady) return;
 
+		let hintIdx: number;
 		let blocks: number[];
 		let found: boolean[];
 		const hints: HintNumbersProps[][] = Array.from(
@@ -231,6 +232,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		);
 
 		for (let col = 0; col < settings.cols; col++) {
+			hintIdx = 0;
 			blocks = [];
 			found = [];
 
@@ -239,23 +241,27 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 					blocks.push(row);
 					found.push(
 						interactions[row][col] !== false &&
-							(row === 0 ||
-								row === settings.rows - 1 ||
-								(row > 0 &&
-									row < settings.rows &&
-									interactions[row - 1][col] !== false &&
-									interactions[row + 1][col] !== false))
+							(!interactions
+								.slice(0, row)
+								.map((r) => r[col])
+								.includes(false) ||
+								!interactions
+									.slice(row + 1)
+									.map((r) => r[col])
+									.includes(false))
 					);
 				}
-				if (!grid[row][col] || row >= settings.rows - 1) {
-					if (blocks.length > 0) {
-						hints[col].push({
-							total: blocks.length,
-							blocks: blocks,
-							found: found,
-							isDone: !found.includes(false),
-						});
-					}
+				if (
+					blocks.length > 0 &&
+					(!grid[row][col] || row >= settings.rows - 1)
+				) {
+					hints[col][hintIdx] = {
+						total: blocks.length,
+						blocks: blocks,
+						found: found,
+						isDone: !found.includes(false),
+					};
+					hintIdx++;
 					blocks = [];
 					found = [];
 				}
@@ -298,8 +304,8 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 				totalCorrects,
 				totalErrors,
 				totalInteractions,
+				rating,
 				score,
-				advancedScore,
 
 				init,
 				setInteraction: gatedSetInteraction,

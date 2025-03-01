@@ -3,7 +3,7 @@ import Controller from '../settings/Controller';
 
 const Footer = () => {
 	return (
-		<footer className='flex flex-col md:flex-row gap-1 md:gap-5 bg-white px-5 md:px-0 py-2'>
+		<footer className='flex flex-col md:flex-row gap-1 md:gap-5 bg-white px-5 md:px-0 py-2 items-center justify-center'>
 			<div className='flex-1 md:pr-10 my-2 md:my-0'>
 				<div className='self-center justify-self-center'>
 					<Controller />

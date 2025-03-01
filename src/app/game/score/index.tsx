@@ -52,7 +52,7 @@ const Score = () => {
 			setTitle(titles[Math.floor(Math.random() * titles.length)]);
 			setNext(next[Math.floor(Math.random() * next.length)]);
 
-			timeoutRef.current = setTimeout(() => setHasStatus('show'), 200);
+			timeoutRef.current = setTimeout(() => setHasStatus('show'), 1000);
 		}
 	}, [isCompleted, i18n]);
 
@@ -66,7 +66,7 @@ const Score = () => {
 
 	return (
 		<div
-			className={`fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center backdrop-blur-sm bg-primary/50 overflow-hidden z-10 transition-opacity duration-400${
+			className={`overlay fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center overflow-hidden z-10 transition-opacity duration-400${
 				!isCompleted || hasStatus !== 'show'
 					? ' opacity-0 pointer-events-none'
 					: ''

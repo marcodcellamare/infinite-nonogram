@@ -12,6 +12,8 @@
 	"auto": "Automatic toggle",
 	"autoShort": "Auto",
 	"scale": "Scale",
+	"grid": "Grid",
+	"difficulty": "Difficulty",
 	"scrollwheel": "Scrollwheel",
 	"size": {
 		"width": "Width",

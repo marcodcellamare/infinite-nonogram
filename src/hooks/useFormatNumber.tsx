@@ -34,7 +34,7 @@ const useFormatNumber = () => {
 			style: 'percent',
 			minimumFractionDigits: 0,
 			maximumFractionDigits: maxDigits ?? 0,
-		}).format((number ?? 0) / 100);
+		}).format(number ?? 0);
 	};
 
 	return { number, percentage };

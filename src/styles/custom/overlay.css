@@ -1,0 +1,6 @@
+@layer components {
+	.overlay {
+		@apply bg-primary/50
+			backdrop-blur-sm;
+	}
+}

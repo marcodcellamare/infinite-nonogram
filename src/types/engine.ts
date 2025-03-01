@@ -27,8 +27,8 @@ export interface EngineContextProps {
 	totalCorrects: number;
 	totalErrors: number;
 	totalInteractions: number;
+	rating: number;
 	score: number;
-	advancedScore: number;
 
 	init: () => void;
 	setInteraction: ({

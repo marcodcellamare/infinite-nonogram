@@ -8,16 +8,16 @@ import { ListOrdered } from 'lucide-react';
 
 const Points = () => {
 	const { i18n } = useTranslation();
-	const { advancedScore } = useEngine();
+	const { score } = useEngine();
 	const { number } = useFormatNumber();
 
-	const advancedScoreRef = useRef<number>(advancedScore);
+	const scoreRef = useRef<number>(score);
 
 	return (
 		<MegaBadge
 			title={i18n.t('score.points')}
 			icon={<ListOrdered className='lucide-text' />}>
-			<strong>{number(advancedScoreRef.current)}</strong>
+			<strong>{number(scoreRef.current)}</strong>
 		</MegaBadge>
 	);
 };
