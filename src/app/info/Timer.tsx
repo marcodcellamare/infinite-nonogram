@@ -1,17 +1,26 @@
+import { CSSProperties } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 
 import { useTranslation } from 'react-i18next';
 import { useTimer } from '!/contexts/timer/hook';
+import { useEngine } from '!/contexts/engine';
 
 import { TimeUnit } from '!/types/timer';
 
 const Timer = () => {
 	const { i18n } = useTranslation();
 	const { counter, blink } = useTimer();
+	const { isStarted, isCompleted } = useEngine();
 
 	return (
 		<div
-			className={`bg-white/30 backdrop-blur-xs text-primary border-2 border-primary px-3 py-1 rounded-lg transition-opacity duration-500 ease-in-out${
+			className={`btn btn-outline ${
+				!isStarted && !isCompleted
+					? 'btn-accent'
+					: isCompleted
+					? 'btn-primary'
+					: 'btn-secondary'
+			} pointer-events-none transition-[opacity,color] duration-500 ease-in-out${
 				!blink ? ' opacity-80' : ''
 			}`}>
 			<div className='flex-nowrap'>
@@ -20,12 +29,12 @@ const Timer = () => {
 
 					return (
 						<Fragment key={type}>
-							<div className='countdown font-mono text-lg'>
+							<div className='countdown font-mono'>
 								<span
 									style={
 										{
 											'--value': value,
-										} as React.CSSProperties
+										} as CSSProperties
 									}>
 									{value}
 								</span>

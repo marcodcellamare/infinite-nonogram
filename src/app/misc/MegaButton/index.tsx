@@ -27,10 +27,9 @@ const MegaButton = ({
 }: MegaButtonProps) => {
 	const [isOver, setIsOver] = useState(false);
 
-	if (!container) container = <button />;
+	if (!container) container = <button type='button' />;
 
-	const defaultClassName =
-		'indicator gap-0 btn backdrop-blur-xs shadow-none items-stretch h-auto p-0';
+	const defaultClassName = 'indicator gap-0 btn items-stretch h-auto p-0';
 
 	const mergedClassName = useMemo(
 		() =>

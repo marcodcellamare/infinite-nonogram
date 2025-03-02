@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 
@@ -9,9 +9,10 @@ const Seed = () => {
 	const { i18n } = useTranslation();
 	const { seed, setSeed } = useSettings();
 	const [value, setValue] = useState('');
+	const [spin, setSpin] = useState(false);
 
 	const handleSubmit = useCallback(
-		(e: React.FormEvent) => {
+		(e: FormEvent) => {
 			setSeed(value);
 
 			e.preventDefault();
@@ -42,10 +43,26 @@ const Seed = () => {
 						}
 					}}
 				/>
-				<button className='cursor-pointer text-primary'>
+				<button
+					type='button'
+					className={`cursor-pointer transition-[color] duration-400 ${
+						!spin
+							? 'text-primary hover:text-primary/50'
+							: 'text-accent'
+					}`}
+					onClick={() => {
+						setSeed();
+						setSpin(true);
+					}}
+					onTransitionEnd={() => {
+						setSpin(false);
+					}}>
 					<RefreshCcw
-						className='w-full'
-						onClick={() => setValue('')}
+						className={`w-full pointer-events-none duration-500 ${
+							!spin
+								? 'transition-none rotate-0'
+								: 'transition-[rotate] -rotate-360'
+						}`}
 					/>
 				</button>
 			</label>

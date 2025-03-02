@@ -23,7 +23,7 @@ const Block = ({ row, col }: BlockProps) => {
 	const [isPointerOver, setIsPointerOver] = useState(false);
 
 	const gridBlock = useMemo(
-		() => isReady && grid[row][col],
+		() => (isReady && grid[row][col] ? grid[row][col] : false),
 		[isReady, grid, row, col]
 	);
 

@@ -1,4 +1,3 @@
-import Header from './layout/Header';
 import Footer from './layout/Footer';
 import Progress from './info/Progress';
 import Meta from './layout/Meta';
@@ -11,12 +10,11 @@ const App = () => {
 		<>
 			<Meta />
 			<div className='flex flex-col h-screen min-w-xs select-none text-base-content'>
-				<Progress />
 				<Router />
+				<Progress />
 				<Footer />
 				<Copyright />
 			</div>
-			<Header />
 			<Drawer />
 		</>
 	);

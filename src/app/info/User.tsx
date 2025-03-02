@@ -1,4 +1,5 @@
 import { useSettings } from '!/contexts/settings/hook';
+import DrawerToggle from '../layout/DrawerToggle';
 
 import Avatar from './Avatar';
 
@@ -6,17 +7,15 @@ const User = () => {
 	const { user } = useSettings();
 
 	return (
-		<div className='flex flex-row gap-2.5 max-w-[200px] items-center border-2 border-base-100 rounded p-2'>
-			<div>
-				<Avatar
-					variant='beam'
-					className='w-[2.5rem]'
-				/>
-			</div>
-			<div className='min-w-0 flex-1 text-xs text-primary font-bold overflow-hidden text-ellipsis whitespace-nowrap'>
+		<DrawerToggle className='btn btn-lg btn-outline btn-accent max-w-[200px] py-5'>
+			<div className='min-w-0 flex-1 text-xs overflow-hidden text-ellipsis whitespace-nowrap pointer-events-none'>
 				{user}
 			</div>
-		</div>
+			<Avatar
+				variant='beam'
+				className='w-[2rem] pointer-events-none'
+			/>
+		</DrawerToggle>
 	);
 };
 export default User;

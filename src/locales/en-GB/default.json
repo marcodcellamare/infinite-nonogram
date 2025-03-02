@@ -15,6 +15,7 @@
 	"grid": "Grid",
 	"difficulty": "Difficulty",
 	"scrollwheel": "Scrollwheel",
+	"randomize": "Randomize",
 	"size": {
 		"width": "Width",
 		"height": "Height"

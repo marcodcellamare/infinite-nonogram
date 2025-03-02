@@ -9,6 +9,7 @@ import Seed from '../settings/Seed';
 import Difficulty from '../settings/Difficulty';
 import Range from '../settings/Range';
 import Auto from '../settings/Auto';
+import Randomize from '../settings/Randomize';
 
 import Title from '../info/Title';
 import Share from '../info/Share';
@@ -40,26 +41,27 @@ const Drawer = () => {
 						className={`drawer-side absolute top-0 left-0 w-[85vw] md:w-[65vw] lg:w-[40vw] min-w-xs min-h-full max-w-[500px] bg-base-200 text-base-content p-5 md:p-10 pointer-events-auto transition-transform duration-500${
 							!show ? ' -translate-x-full' : ''
 						}`}>
-						<div className='flex flex-col gap-3 md:gap-4'>
+						<div className='flex flex-col gap-7 md:gap-10'>
 							<Title size='lg' />
 							<User />
 							<Seed />
 							<Difficulty />
-							<Range
-								label={i18n.t('size.width')}
-								value={cols}
-								min={Config.game.grid.min}
-								max={Config.game.grid.max}
-								onChange={setCols}
-							/>
-							<Range
-								label={i18n.t('size.height')}
-								value={rows}
-								min={Config.game.grid.min}
-								max={Config.game.grid.max}
-								onChange={setRows}
-							/>
-							<Auto />
+							<div className='flex flex-col gap-1'>
+								<Range
+									label={i18n.t('size.width')}
+									value={cols}
+									min={Config.game.grid.min}
+									max={Config.game.grid.max}
+									onChange={setCols}
+								/>
+								<Range
+									label={i18n.t('size.height')}
+									value={rows}
+									min={Config.game.grid.min}
+									max={Config.game.grid.max}
+									onChange={setRows}
+								/>
+							</div>
 							<Range
 								label={i18n.t('scale')}
 								value={scale}
@@ -75,7 +77,11 @@ const Drawer = () => {
 								}
 								onChange={setScale}
 							/>
-							<Share />
+							<Auto />
+							<div className='flex flex-wrap gap-0.5'>
+								<Randomize />
+								<Share />
+							</div>
 						</div>
 					</div>
 				</div>

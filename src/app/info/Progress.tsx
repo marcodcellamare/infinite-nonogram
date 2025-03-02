@@ -7,7 +7,7 @@ const Progress = () => {
 
 	return (
 		<progress
-			className='progress progress-accent w-full h-[1px] border-none rounded-none'
+			className='progress progress-accent bg-base-200 w-full h-[2px] border-none rounded-none'
 			value={totalFound}
 			max={totalAvailable}
 		/>

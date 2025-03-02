@@ -1,3 +1,7 @@
 .btn {
-	@apply border-2;
+	@apply border-2 shadow-none backdrop-blur-xs;
+
+	* {
+		@apply pointer-events-none;
+	}
 }

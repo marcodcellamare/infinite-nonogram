@@ -12,7 +12,8 @@
 			overscroll-y-none
 			min-h-[100vh]
 			max-w-[100vw]
-			overflow-hidden;
+			overflow-hidden
+			select-none;
 
 		min-height: -webkit-fill-available;
 	}

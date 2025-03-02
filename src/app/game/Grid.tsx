@@ -32,7 +32,7 @@ const Grid = () => {
 	return (
 		<div
 			className='flex flex-col grow justify-center items-center my-auto relative'
-			style={{ padding: `${scale * 2.5}rem` }}>
+			style={{ padding: `${scale * 5}rem` }}>
 			<div
 				className={`grid grid-rows-[minmax(min-content,auto)_repeat(1, auto)] ${sizeClass[cols]} p-0.5 bg-white min-w-fit min-h-fit h-full max-w-full max-h-full border-5 border-accent shadow-[0_0.3rem_1.5rem] shadow-accent/40 rounded-lg`}>
 				{Array.from({ length: rows + 1 }).map((_, row) =>

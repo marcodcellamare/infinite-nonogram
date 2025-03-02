@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+	TransitionEvent,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
@@ -21,7 +27,7 @@ const Score = () => {
 
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-	const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+	const handleTransitionEnd = (e: TransitionEvent<HTMLDivElement>) => {
 		if (e.propertyName === 'opacity') {
 			const computedStyle = window.getComputedStyle(e.currentTarget);
 
@@ -94,6 +100,7 @@ const Score = () => {
 				</div>
 				<div>
 					<button
+						type='button'
 						className='btn btn-xl btn-secondary rounded-full px-15'
 						onClick={() => {
 							setSeed();

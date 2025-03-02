@@ -14,7 +14,8 @@ const Share = () => {
 
 	return (
 		<button
-			className={`btn ${
+			type='button'
+			className={`flex-1 btn ${
 				!copied ? 'btn-outline btn-primary' : 'btn-accent'
 			}`}
 			onClick={handleClick}>
