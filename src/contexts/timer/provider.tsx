@@ -43,7 +43,6 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 		stop();
 		setStartDate(null);
 		setCounter({
-			minutes: 0,
 			seconds: 0,
 		});
 		setBlink(true);
@@ -68,7 +67,7 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 			});
 
 			Object.entries(counter).some(([type, count]) => {
-				if (count === 0 && !['minutes', 'seconds'].includes(type)) {
+				if (count === 0 && !['seconds'].includes(type)) {
 					delete counter[type as TimeUnit];
 				} else {
 					return true;
@@ -82,11 +81,14 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 		stop();
 		update();
 		intervalRef.current = setInterval(update, 1000);
-		intervalBlinkRef.current = setInterval(
-			() => setBlink((prevBlink) => !prevBlink),
-			500
-		);
-	}, [update, stop]);
+
+		if (startDate) {
+			intervalBlinkRef.current = setInterval(
+				() => setBlink((prevBlink) => !prevBlink),
+				500
+			);
+		}
+	}, [update, stop, startDate]);
 
 	useEffect(() => {
 		timer();

@@ -66,7 +66,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		[grid, interactions]
 	);
 
-	const totalCorrects = useMemo(
+	const totalCorrect = useMemo(
 		() =>
 			grid
 				.flat()
@@ -108,7 +108,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	);
 
 	const rating = useMemo(() => {
-		if (totalAvailable === 0 || (totalFound > 0 && totalCorrects <= 0))
+		if (totalAvailable === 0 || (totalFound > 0 && totalCorrect <= 0))
 			return 0;
 
 		const errorsPenalty = totalErrors / Config.game.score.penalty.errors;
@@ -116,18 +116,18 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			totalInteractionsRight / Config.game.score.penalty.interactions;
 
 		const errorsPenaltyNormalized = Math.min(
-			(errorsPenalty / 100) * totalCorrects,
-			totalCorrects
+			(errorsPenalty / 100) * totalCorrect,
+			totalCorrect
 		);
 		const interactionPenaltyNormalized = Math.min(
-			(interactionPenalty / 100) * totalCorrects,
-			totalCorrects
+			(interactionPenalty / 100) * totalCorrect,
+			totalCorrect
 		);
 
 		return Math.min(
 			Math.max(
 				0,
-				(totalCorrects -
+				(totalCorrect -
 					errorsPenaltyNormalized -
 					interactionPenaltyNormalized) /
 					totalAvailable
@@ -136,7 +136,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		);
 	}, [
 		totalFound,
-		totalCorrects,
+		totalCorrect,
 		totalErrors,
 		totalInteractionsRight,
 		totalAvailable,
@@ -301,7 +301,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 				total,
 				totalAvailable,
 				totalFound,
-				totalCorrects,
+				totalCorrect,
 				totalErrors,
 				totalInteractions,
 				rating,

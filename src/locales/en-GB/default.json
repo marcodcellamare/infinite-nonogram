@@ -10,6 +10,7 @@
 	"user": "User",
 	"seed": "Seed",
 	"auto": "Automatic toggle",
+	"intersections": "Show intersections",
 	"autoShort": "Auto",
 	"scale": "Scale",
 	"grid": "Grid",
@@ -55,7 +56,9 @@
 	},
 	"status": {
 		"total": "Total",
+		"available": "Available",
 		"found": "Found",
+		"correct": "Correct",
 		"errors": "Errors"
 	},
 	"clipboard": {

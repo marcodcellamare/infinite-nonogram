@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import useCSSVariable from '!/hooks/useCSSVariable';
 
-import { Grid } from 'lucide-react';
+import { Infinity as InfinityIcon } from 'lucide-react';
 
 import pkg from '!package';
 
@@ -32,7 +32,7 @@ const Meta = () => {
 			<link
 				rel='icon'
 				href={`data:image/svg+xml,${renderToStaticMarkup(
-					<Grid
+					<InfinityIcon
 						size={24}
 						color={encodeURIComponent(
 							cssVariable('--color-primary')

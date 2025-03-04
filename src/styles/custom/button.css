@@ -1,5 +1,14 @@
 .btn {
-	@apply border-2 shadow-none backdrop-blur-xs;
+	@apply border-2
+		shadow-none
+		backdrop-blur-xs;
+
+	* {
+		@apply pointer-events-none;
+	}
+}
+button {
+	@apply pointer-events-auto;
 
 	* {
 		@apply pointer-events-none;

@@ -18,9 +18,9 @@ const Avatar = ({ variant = 'beam', className = '' }: AvatarProps) => {
 			variant={variant}
 			colors={[
 				cssVariable('--color-primary'),
-				cssVariable('--color-accent'),
 				cssVariable('--color-secondary'),
-				cssVariable('--color-base-300'),
+				cssVariable('--color-accent'),
+				cssVariable('--color-error'),
 			]}
 			className={className}
 		/>

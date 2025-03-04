@@ -24,12 +24,13 @@
 		"grid": {
 			"default": 10,
 			"min": 5,
-			"max": 15,
+			"max": 20,
 			"block": {
 				"size": 2.5
 			},
 			"hint": {
-				"padding": 0.25
+				"groupPadding": 0.65,
+				"padding": 0.05
 			}
 		},
 		"difficulty": {

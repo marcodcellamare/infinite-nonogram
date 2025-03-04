@@ -18,25 +18,9 @@ const Hint = ({ row, col }: HintProps) => {
 
 	return (
 		<div
-			className={`flex ${
-				row >= 0 || col >= 0
-					? 'bg-base-200 text-base-content'
-					: 'bg-base-300'
-			}${
-				col < 0 && row >= 0
-					? ' border-x-3 ' +
-					  (row % 5 < 4 && row < rows - 1
-							? 'border-b-1'
-							: 'border-b-3')
-					: ''
-			}${
-				row < 0 && col >= 0
-					? ' border-y-3 ' +
-					  (col % 5 < 4 && col < cols - 1
-							? 'border-r-1'
-							: 'border-r-3')
-					: ''
-			} border-base-300`}
+			className={`flex relative ${
+				row >= 0 || col >= 0 ? 'bg-base-200' : 'bg-base-300'
+			}`}
 			style={{
 				minWidth: `${Config.game.grid.block.size * scale}rem`,
 				minHeight: `${Config.game.grid.block.size * scale}rem`,
@@ -57,6 +41,15 @@ const Hint = ({ row, col }: HintProps) => {
 					) : null}
 				</>
 			) : null}
+			<div
+				className={`absolute top-0 bottom-0 left-0 right-0 ${
+					row % 5 === 0 || row === -1 ? 'border-t-2' : 'border-t-1'
+				} ${col % 5 === 0 || col === -1 ? 'border-l-2' : 'border-l-1'}${
+					row >= rows - 1 || row === -1 ? ' border-b-2' : ''
+				}${
+					col >= cols - 1 || col === -1 ? ' border-r-2' : ''
+				} border-primary/15 ---mix-blend-multiply`}
+			/>
 		</div>
 	);
 };

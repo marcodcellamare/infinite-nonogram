@@ -1,6 +1,7 @@
 export type DifficultyTypes = 'easy' | 'medium' | 'hard';
 
 export interface SettingsContextProps {
+	isRefreshing: boolean;
 	user: string;
 	seed: string;
 	difficulty: DifficultyTypes;

@@ -17,4 +17,9 @@
 
 		min-height: -webkit-fill-available;
 	}
+
+	* {
+		@apply focus-visible:outline-0
+			focus-visible:shadow-none;
+	}
 }

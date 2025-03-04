@@ -9,10 +9,12 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 	const [scale, setScale] = useState(Config.game.scale.default);
 
 	const gatedSetScale = useCallback((scale: number) => {
-		if (scale < Config.game.scale.min) scale = Config.game.scale.min;
-		if (scale > Config.game.scale.max) scale = Config.game.scale.max;
-
-		setScale(scale);
+		setScale(
+			Math.min(
+				Config.game.scale.max,
+				Math.max(Config.game.scale.min, scale)
+			)
+		);
 		localStorage.setItem(storageName('scale'), scale.toString());
 	}, []);
 
@@ -20,8 +22,8 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 		if (e.shiftKey) {
 			e.preventDefault();
 
-			setScale((prevScale) =>
-				Math.min(
+			setScale((prevScale) => {
+				const newScale = Math.min(
 					Config.game.scale.max,
 					Math.max(
 						Config.game.scale.min,
@@ -29,8 +31,11 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 							Math.sign(e.deltaY || e.deltaX) *
 								Config.game.scale.step
 					)
-				)
-			);
+				);
+				localStorage.setItem(storageName('scale'), newScale.toString());
+
+				return newScale;
+			});
 		}
 	};
 

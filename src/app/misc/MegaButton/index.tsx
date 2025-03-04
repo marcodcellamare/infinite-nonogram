@@ -11,8 +11,8 @@ import Icon from './Icon';
 interface MegaButtonProps {
 	container?: ReactElement<{
 		className?: string;
-		onPointerOver?: () => void;
-		onPointerOut?: () => void;
+		onOver?: () => void;
+		onOut?: () => void;
 	}>;
 	containerProps?: Record<string, any>;
 	children?: ReactNode;
@@ -61,8 +61,8 @@ const MegaButton = ({
 		{
 			...containerProps,
 			className: mergedClassName,
-			onPointerOver: () => setIsOver(true),
-			onPointerOut: () => setIsOver(false),
+			onOver: () => setIsOver(true),
+			onOut: () => setIsOver(false),
 		},
 		<>
 			{wrappedChildren}

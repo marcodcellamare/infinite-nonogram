@@ -10,11 +10,16 @@ export const cleanSeed = (seed: string): string => {
 };
 
 export const generateUser = (): string => {
-	return `Nonogrammer${uuidv4().replace(/-/g, '').substring(6)}`;
+	return `Nonogrammer${uuidv4()
+		.replace(/[^A-Za-z0-9]/g, '')
+		.substring(6)}`;
 };
 
 export const cleanUser = (user: string): string => {
-	return user.trim().substring(0, 25).trim();
+	return user
+		.replace(/ /g, '')
+		.replace(/[^A-Za-z0-9]/g, '')
+		.substring(0, 25);
 };
 
 export const storageName = (name: string): string => {

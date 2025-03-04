@@ -2,9 +2,8 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 
-import { Baby, Brain, GraduationCap } from 'lucide-react';
-
 import { DifficultyTypes } from '!/types/settings';
+import DifficultyIcon from '../info/DifficultyIcon';
 
 const Difficulty = () => {
 	const { i18n } = useTranslation();
@@ -14,11 +13,6 @@ const Difficulty = () => {
 		'medium',
 		'hard',
 	]);
-	const icons = {
-		easy: <Baby className='lucide-text text-xl' />,
-		medium: <GraduationCap className='lucide-text text-xl' />,
-		hard: <Brain className='lucide-text text-xl' />,
-	};
 
 	return (
 		<div className='flex flex-wrap gap-0.5 justify-stretch'>
@@ -30,7 +24,10 @@ const Difficulty = () => {
 						type='button'
 						disabled={d === difficulty}
 						onClick={() => setDifficulty(d)}>
-						{icons[d]}
+						<DifficultyIcon
+							difficulty={d}
+							className='text-xl'
+						/>
 						{i18n.t(`difficulties.${d}`)}
 					</button>
 				);

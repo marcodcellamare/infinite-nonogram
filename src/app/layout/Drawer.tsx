@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import { useScale } from '!/contexts/scale';
+import { useInteraction } from '!/contexts/interaction';
 import useFormatNumber from '!/hooks/useFormatNumber';
 
 import User from '../settings/User';
 import Seed from '../settings/Seed';
 import Difficulty from '../settings/Difficulty';
 import Range from '../settings/Range';
-import Auto from '../settings/Auto';
+import Toggle from '../settings/Toggle';
 import Randomize from '../settings/Randomize';
 
 import Title from '../info/Title';
@@ -20,6 +21,8 @@ const Drawer = () => {
 	const { i18n } = useTranslation();
 	const { rows, cols, setRows, setCols } = useSettings();
 	const { scale, setScale } = useScale();
+	const { isAuto, showIntersections, setIsAuto, setShowIntersections } =
+		useInteraction();
 	const { percentage } = useFormatNumber();
 
 	const [show, setShow] = useState(false);
@@ -77,11 +80,24 @@ const Drawer = () => {
 								}
 								onChange={setScale}
 							/>
-							<Auto />
+							<div className='flex flex-col flex-wrap gap-2'>
+								<Toggle
+									label={i18n.t('auto')}
+									checked={isAuto}
+									onChange={setIsAuto}
+								/>
+								<Toggle
+									label={i18n.t('intersections')}
+									checked={showIntersections}
+									onChange={setShowIntersections}
+								/>
+							</div>
+
 							<div className='flex flex-wrap gap-0.5'>
 								<Randomize />
 								<Share />
 							</div>
+							<div>HI SCORE</div>
 						</div>
 					</div>
 				</div>

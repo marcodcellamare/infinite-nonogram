@@ -4,22 +4,22 @@ import Config from '!config';
 interface DrawerToggleProps {
 	className?: string;
 	children?: ReactNode;
-	onPointerOver?: () => void;
-	onPointerOut?: () => void;
+	onOver?: () => void;
+	onOut?: () => void;
 }
 
 const DrawerToggle = ({
 	className = '',
 	children,
-	onPointerOver = () => {},
-	onPointerOut = () => {},
+	onOver = () => {},
+	onOut = () => {},
 }: DrawerToggleProps) => {
 	return (
 		<label
 			htmlFor={Config.drawer}
 			className={`${className} pointer-events-auto`.trim()}
-			onPointerOver={onPointerOver}
-			onPointerOut={onPointerOut}>
+			onPointerOver={onOver}
+			onPointerOut={onOut}>
 			{children}
 		</label>
 	);

@@ -4,8 +4,9 @@ import { useScale } from '!/contexts/scale';
 import useFormatNumber from '!/hooks/useFormatNumber';
 
 import DrawerToggle from '../layout/DrawerToggle';
-import { Settings as SettingsIcon } from 'lucide-react';
 import MegaButton from '../misc/MegaButton';
+import { Grid, Search } from 'lucide-react';
+import DifficultyIcon from './DifficultyIcon';
 
 const Settings = () => {
 	const { i18n } = useTranslation();
@@ -17,30 +18,46 @@ const Settings = () => {
 		<MegaButton
 			container={<DrawerToggle />}
 			containerProps={{
-				className:
-					'indicator-start btn-lg btn-outline btn-accent hover:btn-primary hover:text-accent',
-			}}
-			icon={<SettingsIcon />}>
+				className: 'btn-outline btn-primary hover:text-accent',
+			}}>
 			<>
-				<div className='leading-[1.05em] font-bold'>{`${cols}x${rows}`}</div>
-				<div className='block badge badge-xs bg-white text-accent border-accent'>
-					{i18n.t('grid')}
+				<div className='flex flex-row gap-1 items-center'>
+					<Grid className='lucide-text text-2xl' />
+					<div className='flex flex-col items-start'>
+						<div className='text-xs font-bold leading-[1.2em]'>{`${cols}x${rows}`}</div>
+						<div className='text-xxs leading-[1.2em]'>
+							{i18n.t('grid')}
+						</div>
+					</div>
 				</div>
 			</>
 			<>
-				<div className='leading-[1.05em] font-bold'>
-					{i18n.t(`difficulties.${difficulty}`)}
-				</div>
-				<div className='block badge badge-xs bg-white text-accent border-accent'>
-					{i18n.t('difficulty')}
+				<div className='flex flex-row gap-1 items-center'>
+					<DifficultyIcon
+						difficulty={difficulty}
+						className='text-2xl'
+					/>
+					<div className='flex flex-col items-start'>
+						<div className='text-xs font-bold leading-[1.2em]'>
+							{i18n.t(`difficulties.${difficulty}`)}
+						</div>
+						<div className='text-xxs leading-[1.2em]'>
+							{i18n.t('difficulty')}
+						</div>
+					</div>
 				</div>
 			</>
 			<>
-				<div className='leading-[1.05em] font-bold'>
-					{percentage(scale)}
-				</div>
-				<div className='block badge badge-xs bg-white text-accent border-accent'>
-					{i18n.t('scale')}
+				<div className='flex flex-row gap-1 items-center'>
+					<Search className='lucide-text text-2xl' />
+					<div className='flex flex-col items-start'>
+						<div className='text-xs font-bold leading-[1.2em]'>
+							{percentage(scale)}
+						</div>
+						<div className='text-xxs leading-[1.2em]'>
+							{i18n.t('scale')}
+						</div>
+					</div>
 				</div>
 			</>
 		</MegaButton>

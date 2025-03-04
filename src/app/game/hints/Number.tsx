@@ -1,21 +1,12 @@
-import { useScale } from '!/contexts/scale';
-
 import { HintNumbersProps } from '!/types/engine';
 
 const Number = ({ total, isDone }: HintNumbersProps) => {
-	const { scale } = useScale();
-
 	return (
 		<div
-			className={`relative transition-opacity duration-500 ${
-				isDone ? 'opacity-30' : 'opacity-100'
+			className={`min-w-[1.3em] h-[1.3em] leading-[1.3em] text-center transition-[opacity,color] duration-200 ${
+				!isDone ? 'text-primary font-bold' : 'text-accent'
 			}`}>
-			<div
-				className={`absolute top-1/2 left-1/2 -translate-1/2 aspect-square w-[1.3em] h-[1.3em] border border-dashed rounded-full transition-[opacity,background-color] duration-400 ${
-					isDone ? 'border-base-content' : 'border-base-content/0'
-				}${scale < 0.8 ? ' opacity-0' : ''}`}
-			/>
-			<span className='relative'>{total}</span>
+			{total}
 		</div>
 	);
 };

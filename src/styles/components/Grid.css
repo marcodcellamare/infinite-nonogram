@@ -1,0 +1,24 @@
+.grid-container {
+	> .grid {
+		&.grid-error {
+			animation-name: Shake;
+			animation-duration: 0.2s;
+			animation-iteration-count: infinite;
+		}
+	}
+}
+@keyframes Shake {
+	0%,
+	100% {
+		transform: translateX(0) rotate(0);
+		filter: blur(0);
+	}
+	25%,
+	75% {
+		transform: translateX(0.5%) rotate(0.4deg);
+		filter: blur(0.1rem);
+	}
+	50% {
+		transform: translateX(-0.5%) rotate(-0.4deg);
+	}
+}

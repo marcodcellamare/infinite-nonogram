@@ -1,6 +1,7 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
+import { cleanSeed } from '!/utils/misc';
 
 import { Check, RefreshCcw } from 'lucide-react';
 
@@ -35,7 +36,7 @@ const Seed = () => {
 					ref={inputRef}
 					type='text'
 					value={value}
-					onChange={(e) => setValue(e.target.value)}
+					onChange={(e) => setValue(cleanSeed(e.target.value))}
 					onFocus={() => setValue('')}
 					onBlur={(e) => {
 						if (e.target.value.trim().length === 0) {
@@ -54,15 +55,14 @@ const Seed = () => {
 						setSeed();
 						setSpin(true);
 					}}
-					onTransitionEnd={() => {
-						setSpin(false);
-					}}>
+					disabled={spin}>
 					<RefreshCcw
 						className={`w-full pointer-events-none duration-500 ${
 							!spin
 								? 'transition-none rotate-0'
 								: 'transition-[rotate] -rotate-360'
 						}`}
+						onTransitionEnd={() => setSpin(false)}
 					/>
 				</button>
 			</label>

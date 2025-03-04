@@ -10,7 +10,7 @@
 	}
 
 	.scrollbar::-webkit-scrollbar-thumb {
-		@apply bg-base-content
+		@apply bg-primary
 			border-none
 			rounded-none;
 	}

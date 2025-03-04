@@ -1,7 +1,5 @@
 import { useEngine } from '!/contexts/engine';
 
-import '!/styles/components/Progress.css';
-
 const Progress = () => {
 	const { totalAvailable, totalFound } = useEngine();
 

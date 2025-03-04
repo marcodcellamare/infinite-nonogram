@@ -1,0 +1,17 @@
+progress::-webkit-progress-bar {
+	@apply rounded-none
+		transition-[width]
+		duration-200;
+}
+
+progress::-webkit-progress-value {
+	@apply rounded-none
+		transition-[width]
+		duration-200;
+}
+
+progress::-moz-progress-bar {
+	@apply rounded-none
+		transition-[width]
+		duration-200;
+}

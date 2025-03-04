@@ -1,13 +1,19 @@
 import { Fragment } from 'react';
 
+import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
+import { useInteraction } from '!/contexts/interaction';
 import { useScale } from '!/contexts/scale';
 
 import Block from './Block';
 import Hint from './hints';
 
+import '!/styles/components/Grid.css';
+
 const Grid = () => {
-	const { rows, cols, difficulty, seed } = useSettings();
+	const { isCompleted } = useEngine();
+	const { isRefreshing, rows, cols, difficulty, seed } = useSettings();
+	const { setIsOverGrid, isError } = useInteraction();
 	const { scale } = useScale();
 
 	const sizeClass: Record<number, string> = {
@@ -31,10 +37,24 @@ const Grid = () => {
 
 	return (
 		<div
-			className='flex flex-col grow justify-center items-center my-auto relative'
+			className='grid-container flex flex-col grow justify-center items-center my-auto relative'
 			style={{ padding: `${scale * 5}rem` }}>
 			<div
-				className={`grid grid-rows-[minmax(min-content,auto)_repeat(1, auto)] ${sizeClass[cols]} p-0.5 bg-white min-w-fit min-h-fit h-full max-w-full max-h-full border-5 border-accent shadow-[0_0.3rem_1.5rem] shadow-accent/40 rounded-lg`}>
+				className={`grid grid-rows-[minmax(min-content,auto)_repeat(1, auto)] ${
+					sizeClass[cols]
+				} p-0.5 bg-white min-w-fit min-h-fit h-full max-w-full max-h-full border-5 ${
+					!isError ? 'border-accent' : 'border-error'
+				} shadow-[0_0.3rem_1.5rem] shadow-accent/40 rounded-lg transition-[opacity,filter,scale,border-color] ${
+					isCompleted
+						? 'duration-1500 ease-in delay-100 blur-md scale-50 opacity-0'
+						: `duration-200 ${
+								isRefreshing
+									? 'ease-in blur-xs scale-90 opacity-0'
+									: 'ease-out'
+						  }`
+				}${isError ? ' grid-error' : ''}`}
+				onPointerEnter={() => setIsOverGrid(true)}
+				onPointerLeave={() => setIsOverGrid(false)}>
 				{Array.from({ length: rows + 1 }).map((_, row) =>
 					Array.from({ length: cols + 1 }).map((_, col) => {
 						return (

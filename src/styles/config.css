@@ -1,8 +1,10 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
+@import './custom/misc.css';
 @import './custom/scrollbar.css';
 @import './custom/lucide.css';
+@import './custom/progress.css';
 @import './custom/overlay.css';
 @import './custom/button.css';
 @import './custom/input.css';
@@ -12,8 +14,7 @@
 @plugin 'daisyui' {
 	themes: emerald --default;
 	root: ':root';
-	include: button, link, input, range, toggle, progress, indicator, badge,
-		countdown, kbd;
+	include: button, link, input, range, toggle, progress, indicator, badge, kbd;
 	logs: true;
 }
 
@@ -29,5 +30,6 @@
 }
 
 @theme {
-	--color-test: #ff0000;
+	--text-xxs: 0.5rem;
+	--text-xxs--line-height: calc(1 / 0.5);
 }

@@ -24,7 +24,7 @@ export interface EngineContextProps {
 	total: number;
 	totalAvailable: number;
 	totalFound: number;
-	totalCorrects: number;
+	totalCorrect: number;
 	totalErrors: number;
 	totalInteractions: number;
 	rating: number;

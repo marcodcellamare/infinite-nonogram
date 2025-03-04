@@ -1,4 +1,11 @@
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+	ReactNode,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react';
 import { SettingsContext } from './context';
 
 import { cleanUser, cleanSeed, generateUser, storageName } from '!/utils/misc';
@@ -8,11 +15,14 @@ import Config from '!config';
 import { DifficultyTypes } from '!/types/settings';
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
+	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [user, setUser] = useState('');
 	const [seed, setSeed] = useState(cleanSeed(uuidv4()));
 	const [difficulty, setDifficulty] = useState<DifficultyTypes>('medium');
 	const [rows, setRows] = useState(5);
 	const [cols, setCols] = useState(5);
+
+	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	const gatedSetUser = useCallback((user?: string) => {
 		if (!user) user = generateUser();
@@ -67,9 +77,21 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		gatedSetUser(user ?? undefined);
 	}, [gatedSetUser]);
 
+	useEffect(() => {
+		if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+
+		setIsRefreshing(true);
+		timeoutRef.current = setTimeout(() => setIsRefreshing(false), 300);
+
+		return () => {
+			if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+		};
+	}, [seed, difficulty, rows, cols]);
+
 	return (
 		<SettingsContext.Provider
 			value={{
+				isRefreshing,
 				user,
 				seed,
 				difficulty,
