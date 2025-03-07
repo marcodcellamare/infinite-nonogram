@@ -7,10 +7,16 @@
 		@apply pointer-events-none;
 	}
 }
+a,
 button {
-	@apply pointer-events-auto;
+	&:not(:disabled) {
+		@apply pointer-events-auto;
+	}
+	&:disabled {
+		@apply pointer-events-none;
+	}
 
 	* {
-		@apply pointer-events-none;
+		@apply !pointer-events-none;
 	}
 }

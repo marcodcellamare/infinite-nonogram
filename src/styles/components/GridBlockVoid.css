@@ -1,0 +1,3 @@
+.game-grid-block-void {
+	box-shadow: inset 0 0 calc(var(--scale) * 0.6rem) var(--color-base-content);
+}

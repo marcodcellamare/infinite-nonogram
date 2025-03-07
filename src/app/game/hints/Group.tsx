@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { useScale } from '!/contexts/scale';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
 
 import Number from './Number';
-import Config from '!config';
 
 import { HintNumbersProps } from '!/types/engine';
+
+import '!/styles/components/GridHintGroup.css';
 
 interface GroupProps {
 	type: 'row' | 'col';
@@ -14,29 +14,8 @@ interface GroupProps {
 }
 
 const Group = ({ type, hints }: GroupProps) => {
-	const { scale } = useScale();
 	const { isCompleted } = useEngine();
 	const { isRefreshing } = useSettings();
-
-	const xGroupPadding = useMemo(
-		() => Config.game.grid.hint.groupPadding * (type === 'row' ? scale : 0),
-		[scale, type]
-	);
-
-	const yGroupPadding = useMemo(
-		() => Config.game.grid.hint.groupPadding * (type === 'col' ? scale : 0),
-		[scale, type]
-	);
-
-	const xPadding = useMemo(
-		() => Config.game.grid.hint.padding * (type === 'row' ? scale : 0),
-		[scale, type]
-	);
-
-	const yPadding = useMemo(
-		() => Config.game.grid.hint.padding * (type === 'col' ? scale : 0),
-		[scale, type]
-	);
 
 	const isDone = useMemo(
 		() =>
@@ -47,26 +26,16 @@ const Group = ({ type, hints }: GroupProps) => {
 
 	return hints ? (
 		<ul
-			className={`list-none flex flex-grow items-center justify-end transition-[background-color] duration-300 ${
-				type === 'col' ? 'flex-col' : 'flex-row'
-			}${isDone ? ' bg-white/60' : ''}`}
-			style={{
-				paddingTop: `${yGroupPadding}em`,
-				paddingBottom: `${yGroupPadding}em`,
-				paddingLeft: `${xGroupPadding}em`,
-				paddingRight: `${xGroupPadding}em`,
-				fontSize: `calc(var(--text-xs) * ${scale})`,
-			}}>
+			className={`game-grid-hint-group list-none flex ${
+				type === 'col'
+					? 'game-grid-hint-group-col flex-col'
+					: 'game-grid-hint-group-row flex-row'
+			} flex-grow items-center justify-end transition-[background-color] duration-300 ${
+				isDone ? ' bg-white/60' : ''
+			}`}>
 			{!isRefreshing
 				? hints.map((hint, k) => (
-						<li
-							key={k}
-							style={{
-								paddingTop: `${yPadding}em`,
-								paddingBottom: `${yPadding}em`,
-								paddingLeft: `${xPadding}em`,
-								paddingRight: `${xPadding}em`,
-							}}>
+						<li key={k}>
 							<Number
 								total={hint.total}
 								isDone={isDone || hint.isDone}

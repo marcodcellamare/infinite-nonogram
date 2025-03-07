@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import { useScale } from '!/contexts/scale';
-import { useInteraction } from '!/contexts/interaction';
 import useFormatNumber from '!/hooks/useFormatNumber';
 
 import User from '../settings/User';
@@ -19,10 +18,20 @@ import Config from '!config';
 
 const Drawer = () => {
 	const { i18n } = useTranslation();
-	const { rows, cols, setRows, setCols } = useSettings();
+	const {
+		rows,
+		cols,
+		isAuto,
+		showIntersections,
+		showEffects,
+		setRows,
+		setCols,
+		setIsAuto,
+		setShowIntersections,
+		setShowEffects,
+	} = useSettings();
 	const { scale, setScale } = useScale();
-	const { isAuto, showIntersections, setIsAuto, setShowIntersections } =
-		useInteraction();
+
 	const { percentage } = useFormatNumber();
 
 	const [show, setShow] = useState(false);
@@ -91,8 +100,12 @@ const Drawer = () => {
 									checked={showIntersections}
 									onChange={setShowIntersections}
 								/>
+								<Toggle
+									label={i18n.t('effects')}
+									checked={showEffects}
+									onChange={setShowEffects}
+								/>
 							</div>
-
 							<div className='flex flex-wrap gap-0.5'>
 								<Randomize />
 								<Share />

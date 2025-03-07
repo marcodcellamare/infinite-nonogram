@@ -1,0 +1,22 @@
+.game-grid-block-filled-shining {
+	background: linear-gradient(
+		-45deg,
+		--alpha(var(--color-white) / 0%) 40%,
+		var(--color-white) 50%,
+		--alpha(var(--color-white) / 0%) 60%
+	);
+	animation-name: Light;
+	animation-fill-mode: both;
+	animation-duration: 10s;
+	animation-iteration-count: infinite;
+	animation-delay: var(--delay);
+}
+@keyframes Light {
+	0% {
+		transform-origin: 100% 100%;
+	}
+	20%,
+	100% {
+		transform-origin: 0% 0%;
+	}
+}

@@ -2,7 +2,7 @@ import Title from '../info/Title';
 import Settings from '../info/Settings';
 import Timer from '../info/Timer';
 import User from '../info/User';
-import Status from '../info/Status';
+import Status from '../info/status';
 import Refresh from '../info/Refresh';
 
 const Header = () => {

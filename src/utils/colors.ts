@@ -1,6 +1,6 @@
 import { rgb, oklch } from 'culori';
 
-type RGB = [number, number, number];
+import { RGB } from '!/types/settings';
 
 const clamp = (value: number): number => {
 	return Math.round(Math.max(0, Math.min(255, value)));

@@ -1,5 +1,4 @@
-.game-grid-block {
+.game-grid-hint {
 	min-width: calc(var(--scale) * var(--grid-block-size));
 	min-height: calc(var(--scale) * var(--grid-block-size));
-	font-size: calc(var(--text-4xl) * var(--scale));
 }

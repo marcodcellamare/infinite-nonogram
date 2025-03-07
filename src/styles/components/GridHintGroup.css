@@ -1,0 +1,30 @@
+.game-grid-hint-group {
+	font-size: calc(var(--text-xs) * var(--scale));
+
+	&.game-grid-hint-group-col {
+		padding-top: calc(var(--scale) * var(--grid-hint-group-padding));
+		padding-bottom: calc(var(--scale) * var(--grid-hint-group-padding));
+		padding-left: 0;
+		padding-right: 0;
+
+		> li {
+			padding-top: calc(var(--scale) * var(--grid-hint-padding));
+			padding-bottom: calc(var(--scale) * var(--grid-hint-padding));
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+	&.game-grid-hint-group-row {
+		padding-top: 0;
+		padding-bottom: 0;
+		padding-left: calc(var(--scale) * var(--grid-hint-group-padding));
+		padding-right: calc(var(--scale) * var(--grid-hint-group-padding));
+
+		> li {
+			padding-top: 0;
+			padding-bottom: 0;
+			padding-left: calc(var(--scale) * var(--grid-hint-padding));
+			padding-right: calc(var(--scale) * var(--grid-hint-padding));
+		}
+	}
+}

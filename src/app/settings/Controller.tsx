@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useInteraction } from '!/contexts/interaction';
+import { useSettings } from '!/contexts/settings';
 import { useTranslation } from 'react-i18next';
 
 import { Square, X } from 'lucide-react';
 
 const Controller = () => {
 	const { i18n } = useTranslation();
-	const { isInteracting, setIsInteracting, isAuto } = useInteraction();
+	const { isInteracting, setIsInteracting } = useInteraction();
+	const { isAuto } = useSettings();
 	const [checked, setChecked] = useState(false);
 
 	const handleChange = (force?: boolean) => {

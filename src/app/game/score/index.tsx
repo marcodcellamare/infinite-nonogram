@@ -102,9 +102,12 @@ const Score = () => {
 					<button
 						type='button'
 						className='btn btn-xl btn-secondary rounded-full px-15'
+						disabled={!isCompleted}
 						onClick={() => {
-							setSeed();
-							setHasStatus('hide');
+							if (isCompleted) {
+								setSeed();
+								setHasStatus('hide');
+							}
 						}}>
 						<RefreshCw className='lucide-text' /> {next}
 					</button>

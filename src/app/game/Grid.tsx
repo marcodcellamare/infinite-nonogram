@@ -3,18 +3,17 @@ import { Fragment } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
 import { useInteraction } from '!/contexts/interaction';
-import { useScale } from '!/contexts/scale';
 
-import Block from './Block';
+import Block from './block';
 import Hint from './hints';
 
 import '!/styles/components/Grid.css';
 
 const Grid = () => {
 	const { isCompleted } = useEngine();
-	const { isRefreshing, rows, cols, difficulty, seed } = useSettings();
-	const { setIsOverGrid, isError } = useInteraction();
-	const { scale } = useScale();
+	const { isRefreshing, isGlobalError, rows, cols, difficulty, seed } =
+		useSettings();
+	const { setIsOverGrid } = useInteraction();
 
 	const sizeClass: Record<number, string> = {
 		5: 'grid-cols-[minmax(min-content,auto)_repeat(5,1fr)]',
@@ -37,13 +36,14 @@ const Grid = () => {
 
 	return (
 		<div
-			className='grid-container flex flex-col grow justify-center items-center my-auto relative'
-			style={{ padding: `${scale * 5}rem` }}>
+			className={`game-grid${
+				isGlobalError ? ' game-grid-error' : ''
+			} flex flex-col grow justify-center items-center my-auto relative`}>
 			<div
 				className={`grid grid-rows-[minmax(min-content,auto)_repeat(1, auto)] ${
 					sizeClass[cols]
 				} p-0.5 bg-white min-w-fit min-h-fit h-full max-w-full max-h-full border-5 ${
-					!isError ? 'border-accent' : 'border-error'
+					!isGlobalError ? 'border-accent' : 'border-error'
 				} shadow-[0_0.3rem_1.5rem] shadow-accent/40 rounded-lg transition-[opacity,filter,scale,border-color] ${
 					isCompleted
 						? 'duration-1500 ease-in delay-100 blur-md scale-50 opacity-0'
@@ -52,7 +52,7 @@ const Grid = () => {
 									? 'ease-in blur-xs scale-90 opacity-0'
 									: 'ease-out'
 						  }`
-				}${isError ? ' grid-error' : ''}`}
+				}`}
 				onPointerEnter={() => setIsOverGrid(true)}
 				onPointerLeave={() => setIsOverGrid(false)}>
 				{Array.from({ length: rows + 1 }).map((_, row) =>

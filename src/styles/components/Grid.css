@@ -1,12 +1,63 @@
-.grid-container {
-	> .grid {
-		&.grid-error {
+/*
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css' layer(utilities);
+*/
+
+.game-grid {
+	padding: calc(var(--scale) * 6rem);
+
+	&.game-grid-error {
+		> .grid {
 			animation-name: Shake;
 			animation-duration: 0.2s;
 			animation-iteration-count: infinite;
 		}
 	}
+
+	.game-grid-hint,
+	.game-grid-block {
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			border-top-width: 1px;
+			border-left-width: 1px;
+			border-color: --alpha(var(--color-base-300) / 70%);
+			mix-blend-mode: multiply;
+			pointer-events: none;
+		}
+		&.game-grid-hint-t-strong,
+		&.game-grid-block-t-strong {
+			&::after {
+				border-top-width: 2px;
+			}
+		}
+		&.game-grid-hint-l-strong,
+		&.game-grid-block-l-strong {
+			&::after {
+				border-left-width: 2px;
+			}
+		}
+		&.game-grid-hint-b-strong,
+		&.game-grid-block-b-strong {
+			&::after {
+				border-bottom-width: 2px;
+			}
+		}
+		&.game-grid-hint-r-strong,
+		&.game-grid-block-r-strong {
+			&::after {
+				border-right-width: 2px;
+			}
+		}
+	}
 }
+
 @keyframes Shake {
 	0%,
 	100% {

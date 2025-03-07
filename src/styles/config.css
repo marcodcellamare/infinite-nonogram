@@ -12,7 +12,7 @@
 @import './custom/toggle.css';
 
 @plugin 'daisyui' {
-	themes: emerald --default;
+	themes: light --default;
 	root: ':root';
 	include: button, link, input, range, toggle, progress, indicator, badge, kbd;
 	logs: true;

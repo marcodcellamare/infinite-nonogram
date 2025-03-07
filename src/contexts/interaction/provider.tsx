@@ -1,41 +1,20 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { InteractionContext } from './context';
-
-import { storageName } from '!/utils/misc';
+import { useSettings } from '../settings';
 
 import { InteractionType } from '!/types/interaction';
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
+	const { showIntersections, isAuto } = useSettings();
+
 	const [isClicked, setIsClicked] = useState(false);
 	const [isInteracting, setIsInteracting] = useState<InteractionType>('left');
-	const [isError, setIsError] = useState(false);
-	const [isAuto, setIsAuto] = useState(true);
-	const [showIntersections, setShowIntersections] = useState(true);
 	const [isOverGrid, setIsOverGrid] = useState<boolean>(false);
 	const [isOverCol, setIsOverCol] = useState<number | undefined>();
 	const [isOverRow, setIsOverRow] = useState<number | undefined>();
 
-	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-	const gatedSetIsAuto = useCallback((auto: boolean) => {
-		setIsAuto(auto);
-		localStorage.setItem(storageName('isAuto'), auto.toString());
-	}, []);
-
-	const gatedSetShowIntersections = useCallback((intersections: boolean) => {
-		setShowIntersections(intersections);
-		localStorage.setItem(
-			storageName('showIntersections'),
-			intersections.toString()
-		);
-	}, []);
-
 	const gatedSetIsInteracting = useCallback((type: InteractionType) => {
 		setIsInteracting(type);
-	}, []);
-
-	const gatedSetIsError = useCallback((error: boolean) => {
-		setIsError(error);
 	}, []);
 
 	const gatedSetIsOverGrid = useCallback(
@@ -85,68 +64,38 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 		[isAuto]
 	);
 
-	const handlePointerUp = useCallback(() => {
+	const handlePointerUp = () => {
 		setIsClicked(false);
-	}, []);
+	};
 
 	const handleContextMenu = (e: MouseEvent) => e.preventDefault();
 
-	useEffect(() => {
-		if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
-
-		if (isError) {
-			timeoutRef.current = setTimeout(() => setIsError(false), 500);
-		}
-		return () => {
-			if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
-		};
-	}, [isError]);
+	const cleanupListeners = useCallback(() => {
+		document.removeEventListener('pointerdown', handlePointerDown);
+		document.removeEventListener('pointerup', handlePointerUp);
+		document.removeEventListener('contextmenu', handleContextMenu);
+	}, [handlePointerDown]);
 
 	useEffect(() => {
-		const isAuto = localStorage.getItem(storageName('isAuto')) ?? '';
-		const showIntersections =
-			localStorage.getItem(storageName('showIntersections')) ?? '';
+		cleanupListeners();
 
-		gatedSetIsAuto(
-			['true', 'false'].includes(isAuto) ? isAuto === 'true' : true
-		);
-		gatedSetShowIntersections(
-			['true', 'false'].includes(showIntersections)
-				? showIntersections === 'true'
-				: true
-		);
-	}, [gatedSetIsAuto, gatedSetShowIntersections]);
-
-	useEffect(() => {
 		document.addEventListener('pointerdown', handlePointerDown);
 		document.addEventListener('pointerup', handlePointerUp);
-
 		document.addEventListener('contextmenu', handleContextMenu);
 
-		return () => {
-			document.removeEventListener('pointerdown', handlePointerDown);
-			document.removeEventListener('pointerup', handlePointerUp);
-
-			document.removeEventListener('contextmenu', handleContextMenu);
-		};
-	}, [handlePointerDown, handlePointerUp]);
+		return () => cleanupListeners();
+	}, [handlePointerDown, cleanupListeners]);
 
 	return (
 		<InteractionContext.Provider
 			value={{
 				isClicked,
-				isAuto,
-				showIntersections,
 				isInteracting,
-				isError,
 				isOverGrid,
 				isOverCol,
 				isOverRow,
 
-				setIsAuto: gatedSetIsAuto,
-				setShowIntersections: gatedSetShowIntersections,
 				setIsInteracting: gatedSetIsInteracting,
-				setIsError: gatedSetIsError,
 				setIsOverGrid: gatedSetIsOverGrid,
 				setIsOverCol: gatedSetIsOverCol,
 				setIsOverRow: gatedSetIsOverRow,

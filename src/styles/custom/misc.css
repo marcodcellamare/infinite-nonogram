@@ -1,0 +1,13 @@
+.effects-off {
+	--blur-xs: none !important;
+	--blur-sm: none !important;
+	--blur-md: none !important;
+	--blur-lg: none !important;
+	--blur-xl: none !important;
+	--blur-2xl: none !important;
+	--blur-3xl: none !important;
+
+	* {
+		transition: none !important;
+	}
+}

@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { ScaleContext } from './context';
 
 import Config from '!config';
@@ -6,40 +6,48 @@ import Config from '!config';
 import { storageName } from '!/utils/misc';
 
 export const ScaleProvider = ({ children }: { children: ReactNode }) => {
-	const [scale, setScale] = useState(Config.game.scale.default);
+	const [scale, setScale] = useState<number>(Config.game.scale.default);
 
-	const gatedSetScale = useCallback((scale: number) => {
-		setScale(
-			Math.min(
-				Config.game.scale.max,
-				Math.max(Config.game.scale.min, scale)
-			)
-		);
-		localStorage.setItem(storageName('scale'), scale.toString());
-	}, []);
+	const savedScale = useRef<number>(
+		Number(localStorage.getItem(storageName('scale')))
+	);
 
-	const handleWheel = (e: WheelEvent) => {
-		if (e.shiftKey) {
-			e.preventDefault();
-
-			setScale((prevScale) => {
-				const newScale = Math.min(
+	const calculateScale = useCallback(
+		(scale: number) =>
+			Math.round(
+				Math.min(
 					Config.game.scale.max,
-					Math.max(
-						Config.game.scale.min,
+					Math.max(Config.game.scale.min, scale)
+				) * 1000
+			) / 1000,
+		[]
+	);
+
+	const gatedSetScale = useCallback(
+		(scale: number) => {
+			setScale(calculateScale(scale));
+		},
+		[calculateScale]
+	);
+
+	const handleWheel = useCallback(
+		(e: WheelEvent) => {
+			if (e.shiftKey) {
+				e.preventDefault();
+
+				setScale((prevScale) =>
+					calculateScale(
 						prevScale -
 							Math.sign(e.deltaY || e.deltaX) *
 								Config.game.scale.step
 					)
 				);
-				localStorage.setItem(storageName('scale'), newScale.toString());
+			}
+		},
+		[calculateScale]
+	);
 
-				return newScale;
-			});
-		}
-	};
-
-	// TODO
+	// TODO to handle the pinch and zoom
 
 	const handleTouchStart = () => {
 		/*
@@ -87,27 +95,33 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 			*/
 	};
 
+	const cleanupListeners = useCallback(() => {
+		document.removeEventListener('wheel', handleWheel);
+		//document.removeEventListener('touchstart', handleTouchStart);
+	}, [handleWheel]);
+
 	useEffect(() => {
-		const scale = localStorage.getItem(storageName('scale'));
+		localStorage.setItem(storageName('scale'), scale.toString());
+		document.documentElement.style.setProperty('--scale', scale.toString());
+	}, [scale]);
+
+	useEffect(() => {
+		cleanupListeners();
 
 		gatedSetScale(
-			scale && !isNaN(Number(scale))
-				? Number(scale)
+			savedScale.current && !isNaN(savedScale.current)
+				? savedScale.current
 				: Config.game.scale.default
 		);
-	}, [gatedSetScale]);
-
-	useEffect(() => {
 		document.addEventListener('wheel', handleWheel, { passive: false });
+		/*
 		document.addEventListener('touchstart', handleTouchStart, {
 			passive: false,
 		});
+		*/
 
-		return () => {
-			document.removeEventListener('wheel', handleWheel);
-			document.removeEventListener('touchstart', handleTouchStart);
-		};
-	}, []);
+		return () => cleanupListeners();
+	}, [gatedSetScale, handleWheel, cleanupListeners]);
 
 	return (
 		<ScaleContext.Provider
