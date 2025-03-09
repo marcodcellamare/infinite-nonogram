@@ -15,7 +15,7 @@ interface GroupProps {
 
 const Group = ({ type, hints }: GroupProps) => {
 	const { isCompleted } = useEngine();
-	const { isRefreshing } = useSettings();
+	const { isRefreshing, showEffects } = useSettings();
 
 	const isDone = useMemo(
 		() =>
@@ -30,9 +30,9 @@ const Group = ({ type, hints }: GroupProps) => {
 				type === 'col'
 					? 'game-grid-hint-group-col flex-col'
 					: 'game-grid-hint-group-row flex-row'
-			} flex-grow items-center justify-end transition-[background-color] duration-300 ${
-				isDone ? ' bg-white/60' : ''
-			}`}>
+			} flex-grow items-center justify-end ${
+				showEffects ? ' transition-[background-color] duration-300' : ''
+			} ${isDone ? ' bg-white/60' : ''}`}>
 			{!isRefreshing
 				? hints.map((hint, k) => (
 						<li key={k}>

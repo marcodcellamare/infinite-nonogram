@@ -23,3 +23,9 @@
 			focus-visible:shadow-none;
 	}
 }
+@layer utilities {
+	.forced-to-be-included {
+		@apply text-base;
+		@apply text-sm;
+	}
+}

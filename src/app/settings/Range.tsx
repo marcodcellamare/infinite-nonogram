@@ -23,6 +23,7 @@ const Range = ({
 	help,
 	onChange,
 }: RangeProps) => {
+	const [isOver, setIsOver] = useState(false);
 	const [isChanging, setIsChanging] = useState(false);
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -30,32 +31,37 @@ const Range = ({
 		if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
 
 		setIsChanging(true);
+		timeoutRef.current = setTimeout(() => setIsChanging(false), 700);
 
-		timeoutRef.current = setTimeout(() => {
-			setIsChanging(false);
-		}, 700);
+		return () => {
+			if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+		};
 	}, [value]);
 
 	return (
 		<div>
 			<div className='indicator indicator-middle flex w-full'>
 				<span
-					className={`indicator-item left-0 translate-x-1 -translate-y-1/2 badge badge-xs pointer-events-none gap-1 transition-[background-color] duration-300 backdrop-blur-xs ${
-						!isChanging
-							? 'badge-accent'
-							: 'badge-accent bg-accent/0 border-primary text-primary'
+					className={`indicator-item left-0 translate-x-1 -translate-y-1/2 badge badge-xs pointer-events-none gap-1 transition-[background-color,opacity,border-color,color] duration-300 backdrop-blur-xs badge-accent${
+						isOver ? ' opacity-50' : ''
+					}${
+						isChanging
+							? ' bg-accent/0 border-base-content text-base-content opacity-100'
+							: ''
 					}`}>
 					{label}: <strong>{showValue ?? value}</strong>
 				</span>
 				<input
 					type='range'
 					className={`range ${
-						!isChanging ? 'range-primary' : 'range-accent'
+						isChanging ? 'range-accent' : 'range-primary'
 					} w-full`}
 					min={min}
 					max={max}
 					step={step}
 					value={value}
+					onPointerOver={() => setIsOver(true)}
+					onPointerOut={() => setIsOver(false)}
 					onChange={(e) => onChange(Number(e.target.value))}
 				/>
 			</div>

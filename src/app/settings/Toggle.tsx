@@ -1,22 +1,37 @@
+import { useEffect } from 'react';
+
 interface ToggleProps {
 	label: string;
 	checked: boolean;
+	disabled?: boolean;
 	onChange: (checked: boolean) => void;
 }
 
-const Toggle = ({ label, checked, onChange }: ToggleProps) => {
+const Toggle = ({
+	label,
+	checked,
+	disabled = false,
+	onChange,
+}: ToggleProps) => {
+	useEffect(() => {
+		if (disabled) onChange(false);
+	}, [disabled, onChange]);
+
 	return (
 		<label
-			className={`hidden md:flex gap-2 items-center text-xs font-bold cursor-pointer ${
-				checked ? 'text-secondary' : 'text-base-300'
-			}`}>
+			className={`flex gap-2 items-center text-xs font-bold ${
+				!disabled ? 'cursor-pointer' : 'cursor-not-allowed'
+			} ${checked ? 'text-secondary' : 'text-base-content/50'}`}>
 			<input
 				type='checkbox'
 				className='toggle toggle-sm toggle-secondary'
 				checked={checked}
-				onChange={(e) => onChange(e.target.checked)}
+				disabled={disabled}
+				onChange={(e) => {
+					if (!disabled) onChange(e.target.checked);
+				}}
 			/>
-			<span>{label}</span>
+			<span className={disabled ? 'opacity-50' : ''}>{label}</span>
 		</label>
 	);
 };

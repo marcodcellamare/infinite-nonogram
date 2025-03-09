@@ -10,11 +10,13 @@ interface VoidProps {
 }
 
 const Void = ({ hasInteracted, isOver }: VoidProps) => {
-	const { isGlobalError } = useSettings();
+	const { isGlobalError, showEffects } = useSettings();
 
 	return !isGlobalError ? (
 		<div
-			className={`game-grid-block-void absolute top-0 bottom-0 left-0 right-0 bg-primary transition-[opacity,scale] duration-200${
+			className={`game-grid-block-void absolute top-0 bottom-0 left-0 right-0 bg-primary${
+				showEffects ? ' transition-[opacity,scale] duration-200' : ''
+			}${
 				!isOver && hasInteracted === false ? ' scale-50 opacity-0' : ''
 			}`}
 		/>

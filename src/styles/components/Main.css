@@ -1,47 +1,12 @@
 main {
 	background-color: var(--color-base-100);
-	background: linear-gradient(
+	background-image: repeating-linear-gradient(
 		45deg,
-		var(--color-base-100) 0%,
-		var(--color-base-100) 5%,
-		transparent 5%,
-		transparent 10%,
-		var(--color-base-100) 10%,
-		var(--color-base-100) 15%,
-		transparent 15%,
-		transparent 20%,
-		var(--color-base-100) 20%,
-		var(--color-base-100) 25%,
-		transparent 25%,
-		transparent 30%,
-		var(--color-base-100) 30%,
-		var(--color-base-100) 35%,
-		transparent 35%,
-		transparent 40%,
-		var(--color-base-100) 40%,
-		var(--color-base-100) 45%,
-		transparent 45%,
-		transparent 50%,
-		var(--color-base-100) 50%,
-		var(--color-base-100) 55%,
-		transparent 55%,
-		transparent 60%,
-		var(--color-base-100) 60%,
-		var(--color-base-100) 65%,
-		transparent 65%,
-		transparent 70%,
-		var(--color-base-100) 70%,
-		var(--color-base-100) 75%,
-		transparent 70%,
-		transparent 80%,
-		var(--color-base-100) 80%,
-		var(--color-base-100) 85%,
-		transparent 85%,
-		transparent 90%,
-		var(--color-base-100) 90%,
-		var(--color-base-100) 95%,
-		transparent 95%
+		var(--color-base-200) 0,
+		var(--color-base-200) 0.15rem,
+		transparent 0,
+		transparent 50%
 	);
-	background-size: 3em 3em;
+	background-size: 0.5rem 0.5rem;
 	background-attachment: fixed;
 }

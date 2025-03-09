@@ -1,0 +1,4 @@
+.game-grid-hint-size {
+	padding: calc(var(--scale) * var(--grid-hint-group-padding));
+	font-size: calc(var(--text-lg) * var(--scale));
+}

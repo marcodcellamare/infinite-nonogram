@@ -24,7 +24,7 @@ const Settings = () => {
 				<div className='flex flex-row gap-1 items-center'>
 					<Grid className='lucide-text text-2xl' />
 					<div className='flex flex-col items-start'>
-						<div className='text-xs font-bold leading-[1.2em]'>{`${cols}x${rows}`}</div>
+						<div className='text-xs font-bold leading-[1.2em]'>{`${cols}×${rows}`}</div>
 						<div className='text-xxs leading-[1.2em]'>
 							{i18n.t('grid')}
 						</div>

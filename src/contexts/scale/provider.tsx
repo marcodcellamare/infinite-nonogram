@@ -8,9 +8,9 @@ import { storageName } from '!/utils/misc';
 export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 	const [scale, setScale] = useState<number>(Config.game.scale.default);
 
-	const savedScale = useRef<number>(
-		Number(localStorage.getItem(storageName('scale')))
-	);
+	const storage = useRef({
+		scale: Number(localStorage.getItem(storageName('scale'))),
+	});
 
 	const calculateScale = useCallback(
 		(scale: number) =>
@@ -48,9 +48,9 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 	);
 
 	// TODO to handle the pinch and zoom
-
+	/*
 	const handleTouchStart = () => {
-		/*
+		
 		event: TouchEvent
 		
 		if (event.touches.length === 2) {
@@ -92,8 +92,9 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 			});
 			document.addEventListener('touchend', handleTouchEnd);
 		}
-			*/
+			
 	};
+	*/
 
 	const cleanupListeners = useCallback(() => {
 		document.removeEventListener('wheel', handleWheel);
@@ -109,8 +110,8 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 		cleanupListeners();
 
 		gatedSetScale(
-			savedScale.current && !isNaN(savedScale.current)
-				? savedScale.current
+			storage.current.scale && !isNaN(storage.current.scale)
+				? storage.current.scale
 				: Config.game.scale.default
 		);
 		document.addEventListener('wheel', handleWheel, { passive: false });

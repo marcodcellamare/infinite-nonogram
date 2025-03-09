@@ -10,7 +10,6 @@ import { ScoreTransitionStatus } from '!/types/engine';
 const Rating = ({ hasStatus }: { hasStatus: ScoreTransitionStatus }) => {
 	const { rating } = useEngine();
 	const { percentage } = useFormatNumber();
-	const cssVariable = useCSSVariable();
 
 	const [width, setWidth] = useState(0);
 	const [transitionDuration, setTransitionDuration] = useState(0);
@@ -37,7 +36,7 @@ const Rating = ({ hasStatus }: { hasStatus: ScoreTransitionStatus }) => {
 				className='animate-bounce'
 				style={{
 					filter: `drop-shadow(0 0 1.5rem rgba(${colorToRgb(
-						cssVariable('--color-white')
+						useCSSVariable('--color-white')
 					)}, 0.8)`,
 				}}>
 				<div className='flex flex-nowrap gap-0.2 text-6xl'>

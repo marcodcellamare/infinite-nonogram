@@ -11,8 +11,15 @@ import '!/styles/components/Grid.css';
 
 const Grid = () => {
 	const { isCompleted } = useEngine();
-	const { isRefreshing, isGlobalError, rows, cols, difficulty, seed } =
-		useSettings();
+	const {
+		showEffects,
+		isRefreshing,
+		isGlobalError,
+		rows,
+		cols,
+		difficulty,
+		seed,
+	} = useSettings();
 	const { setIsOverGrid } = useInteraction();
 
 	const sizeClass: Record<number, string> = {
@@ -46,10 +53,14 @@ const Grid = () => {
 					!isGlobalError ? 'border-accent' : 'border-error'
 				} shadow-[0_0.3rem_1.5rem] shadow-accent/40 rounded-lg transition-[opacity,filter,scale,border-color] ${
 					isCompleted
-						? 'duration-1500 ease-in delay-100 blur-md scale-50 opacity-0'
+						? `duration-1500 ease-in delay-100${
+								showEffects ? ' blur-md' : ''
+						  } scale-50 opacity-0`
 						: `duration-200 ${
 								isRefreshing
-									? 'ease-in blur-xs scale-90 opacity-0'
+									? `ease-in${
+											showEffects ? ' blur-xs' : ''
+									  } scale-90 opacity-0`
 									: 'ease-out'
 						  }`
 				}`}

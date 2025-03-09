@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function useClipboard() {
+const useClipboard = () => {
 	const [copied, setCopied] = useState(false);
 
 	const copyToClipboard = async (text: string) => {
@@ -15,4 +15,5 @@ export function useClipboard() {
 		}
 	};
 	return { copyToClipboard, copied };
-}
+};
+export default useClipboard;

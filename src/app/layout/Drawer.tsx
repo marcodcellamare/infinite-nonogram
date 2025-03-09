@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import { useScale } from '!/contexts/scale';
 import useFormatNumber from '!/hooks/useFormatNumber';
+import useBreakpoints from '!/hooks/useBreakpoints';
 
 import User from '../settings/User';
 import Seed from '../settings/Seed';
@@ -10,7 +11,6 @@ import Difficulty from '../settings/Difficulty';
 import Range from '../settings/Range';
 import Toggle from '../settings/Toggle';
 import Randomize from '../settings/Randomize';
-
 import Title from '../info/Title';
 import Share from '../info/Share';
 
@@ -31,15 +31,15 @@ const Drawer = () => {
 		setShowEffects,
 	} = useSettings();
 	const { scale, setScale } = useScale();
-
 	const { percentage } = useFormatNumber();
+	const { currentBreakpoint } = useBreakpoints();
 
 	const [show, setShow] = useState(false);
 
 	return (
 		<>
 			<div
-				className={`drawer fixed top-0 bottom-0 left-0 right-0 z-1${
+				className={`drawer fixed top-0 bottom-0 left-0 right-0 z-10${
 					!show ? ' pointer-events-none' : ''
 				}`}>
 				<label
@@ -93,11 +93,17 @@ const Drawer = () => {
 								<Toggle
 									label={i18n.t('auto')}
 									checked={isAuto}
+									disabled={['xs', 'sm'].includes(
+										currentBreakpoint
+									)}
 									onChange={setIsAuto}
 								/>
 								<Toggle
 									label={i18n.t('intersections')}
 									checked={showIntersections}
+									disabled={['xs', 'sm'].includes(
+										currentBreakpoint
+									)}
 									onChange={setShowIntersections}
 								/>
 								<Toggle

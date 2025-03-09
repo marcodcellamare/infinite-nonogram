@@ -13,7 +13,6 @@ export interface SettingsContextProps {
 	isAuto: boolean;
 	showIntersections: boolean;
 	showEffects: boolean;
-	shadowColor: RGB;
 
 	setIsGlobalError: (error: boolean) => void;
 	setUser: (user?: string) => void;

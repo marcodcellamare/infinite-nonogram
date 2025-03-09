@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
@@ -19,8 +19,14 @@ interface BlockProps {
 const Block = ({ row, col }: BlockProps) => {
 	const { grid, setInteraction, interactions, isCompleted, isReady } =
 		useEngine();
-	const { isRefreshing, isGlobalError, rows, cols, setIsGlobalError } =
-		useSettings();
+	const {
+		isRefreshing,
+		isGlobalError,
+		rows,
+		cols,
+		setIsGlobalError,
+		showIntersections,
+	} = useSettings();
 	const {
 		isClicked,
 		isInteracting,
@@ -48,6 +54,13 @@ const Block = ({ row, col }: BlockProps) => {
 			((hasInteracted === 'left' && !isFilled) ||
 				(hasInteracted === 'right' && isFilled)),
 		[isReady, hasInteracted, isFilled]
+	);
+
+	const hasRandomOpacity = useMemo(() => Math.random() < 0.8, []);
+	const randomOpacity = useMemo(
+		() =>
+			hasRandomOpacity ? Math.round(Math.random() * 0.2 * 100) / 100 : 0,
+		[hasRandomOpacity]
 	);
 
 	useEffect(() => {
@@ -92,7 +105,12 @@ const Block = ({ row, col }: BlockProps) => {
 			}`}
 			disabled={isCompleted || isGlobalError || hasInteracted !== false}
 			onPointerEnter={() => setIsOver(!isCompleted ? true : false)}
-			onPointerLeave={() => setIsOver(false)}>
+			onPointerLeave={() => setIsOver(false)}
+			style={
+				{
+					'--random-opacity': `${randomOpacity * 100}%`,
+				} as CSSProperties
+			}>
 			{!isRefreshing ? (
 				<>
 					{!isCompleted ? (
@@ -108,7 +126,10 @@ const Block = ({ row, col }: BlockProps) => {
 							isError={isError}
 						/>
 					) : (
-						<Empty hasInteracted={hasInteracted} />
+						<Empty
+							hasInteracted={hasInteracted}
+							isError={isError}
+						/>
 					)}
 
 					<Icon
@@ -118,7 +139,8 @@ const Block = ({ row, col }: BlockProps) => {
 						isOver={isOver}
 					/>
 
-					{!isCompleted &&
+					{showIntersections &&
+					!isCompleted &&
 					(isOverCol === col || isOverRow === row) ? (
 						<Highlight />
 					) : null}

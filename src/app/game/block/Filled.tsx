@@ -32,21 +32,13 @@ const Filled = ({ hasInteracted, isError }: FilledProps) => {
 				showEffects && hasInteracted !== false && randomOpacity > 0
 					? ' game-grid-block-filled-random'
 					: ''
-			}${
-				showEffects && hasInteracted !== false
-					? ' game-grid-block-filled-shadow'
-					: ''
-			} absolute top-0 bottom-0 left-0 right-0 bg-accent transition-[opacity,scale] duration-200${
+			} absolute top-0 bottom-0 left-0 right-0 ${
+				!isError ? 'bg-accent' : 'bg-error'
+			} ${showEffects ? ' transition-[opacity,scale] duration-200' : ''}${
 				hasInteracted === false ? ' scale-50 opacity-0' : ''
 			}`}
 			style={{ '--random-opacity': randomOpacity } as CSSProperties}>
-			{
-				// TODO check if animation starts on perfect
-			}
-			{isCompleted &&
-			hasInteracted !== false &&
-			totalErrors === 0 &&
-			!isError ? (
+			{hasInteracted !== false && totalErrors === 0 && !isError ? (
 				<Perfect />
 			) : null}
 

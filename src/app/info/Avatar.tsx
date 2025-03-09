@@ -9,7 +9,6 @@ interface AvatarProps {
 }
 
 const Avatar = ({ variant = 'beam', className = '' }: AvatarProps) => {
-	const cssVariable = useCSSVariable();
 	const { user } = useSettings();
 
 	return (
@@ -17,10 +16,10 @@ const Avatar = ({ variant = 'beam', className = '' }: AvatarProps) => {
 			name={user}
 			variant={variant}
 			colors={[
-				cssVariable('--color-primary'),
-				cssVariable('--color-secondary'),
-				cssVariable('--color-accent'),
-				cssVariable('--color-error'),
+				useCSSVariable('--color-primary'),
+				useCSSVariable('--color-secondary'),
+				useCSSVariable('--color-accent'),
+				useCSSVariable('--color-error'),
 			]}
 			className={className}
 		/>

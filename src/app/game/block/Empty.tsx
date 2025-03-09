@@ -8,9 +8,10 @@ import '!/styles/components/GridBlockEmpty.css';
 
 interface EmptyProps {
 	hasInteracted: InteractionType | false;
+	isError: boolean;
 }
 
-const Empty = ({ hasInteracted }: EmptyProps) => {
+const Empty = ({ hasInteracted, isError }: EmptyProps) => {
 	const { isCompleted } = useEngine();
 	const { showEffects } = useSettings();
 
@@ -23,7 +24,11 @@ const Empty = ({ hasInteracted }: EmptyProps) => {
 				showEffects && hasGlitchingEffect && hasInteracted !== false
 					? ' game-grid-block-empty-glitching'
 					: ''
-			} absolute top-0 bottom-0 left-0 right-0 bg-base-200 transition-[opacity,scale] duration-500${
+			}${
+				isError ? ' game-grid-block-empty-error' : ''
+			} absolute top-0 bottom-0 left-0 right-0 bg-base-200${
+				showEffects ? ' transition-[opacity,scale] duration-500' : ''
+			}${
 				!isCompleted && hasInteracted === false
 					? ' scale-10 opacity-0'
 					: ''

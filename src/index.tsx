@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
 
+import { ResizeProvider } from './contexts/resize';
 import { SettingsProvider } from './contexts/settings/provider';
 import { InteractionProvider } from '!/contexts/interaction';
 import { ScaleProvider } from '!/contexts/scale';
@@ -16,17 +17,19 @@ import '!/styles/index.css';
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
 		<HashRouter>
-			<SettingsProvider>
-				<TimerProvider>
-					<InteractionProvider>
-						<ScaleProvider>
-							<EngineProvider>
-								<App />
-							</EngineProvider>
-						</ScaleProvider>
-					</InteractionProvider>
-				</TimerProvider>
-			</SettingsProvider>
+			<ResizeProvider>
+				<SettingsProvider>
+					<TimerProvider>
+						<InteractionProvider>
+							<ScaleProvider>
+								<EngineProvider>
+									<App />
+								</EngineProvider>
+							</ScaleProvider>
+						</InteractionProvider>
+					</TimerProvider>
+				</SettingsProvider>
+			</ResizeProvider>
 		</HashRouter>
 	</StrictMode>
 );

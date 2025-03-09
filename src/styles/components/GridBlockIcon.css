@@ -1,0 +1,4 @@
+.grid-block-icon {
+	text-shadow: 0 calc(var(--scale) * 0.2rem) 0.2rem
+		--alpha(var(--color-primary) / 25%);
+}

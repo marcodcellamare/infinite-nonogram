@@ -12,7 +12,6 @@ import pkg from '!package';
 const Meta = () => {
 	const { i18n } = useTranslation();
 	const { seed, rows, cols, difficulty } = useSettings();
-	const cssVariable = useCSSVariable();
 
 	useEffect(() => {
 		document.documentElement.setAttribute('lang', i18n.language);
@@ -35,7 +34,7 @@ const Meta = () => {
 					<InfinityIcon
 						size={24}
 						color={encodeURIComponent(
-							cssVariable('--color-primary')
+							useCSSVariable('--color-primary')
 						)}
 					/>
 				)}`}

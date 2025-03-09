@@ -7,18 +7,14 @@ import {
 	useState,
 } from 'react';
 import { SettingsContext } from './context';
-import useCSSVariable from '!/hooks/useCSSVariable';
 
 import { cleanUser, cleanSeed, generateUser, storageName } from '!/utils/misc';
 import { v4 as uuidv4 } from 'uuid';
 import Config from '!config';
-import { colorToRgb } from '!/utils/colors';
 
 import { DifficultyTypes } from '!/types/settings';
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
-	const cssVariable = useCSSVariable();
-
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [isGlobalError, setIsGlobalError] = useState(false);
 	const [user, setUser] = useState('');
@@ -29,6 +25,15 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	const [isAuto, setIsAuto] = useState(true);
 	const [showIntersections, setShowIntersections] = useState(true);
 	const [showEffects, setShowEffects] = useState(true);
+
+	const storage = useRef({
+		user: localStorage.getItem(storageName('user')) ?? '',
+		isAuto: localStorage.getItem(storageName('isAuto')) !== 'false',
+		showIntersections:
+			localStorage.getItem(storageName('showIntersections')) !== 'false',
+		showEffects:
+			localStorage.getItem(storageName('showEffects')) !== 'false',
+	});
 
 	const isRefreshingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
 		null
@@ -49,7 +54,6 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		user = cleanUser(user);
 
 		setUser(user);
-		localStorage.setItem(storageName('user'), user);
 	}, []);
 
 	const gatedSetSeed = useCallback((seed?: string) => {
@@ -83,26 +87,14 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 
 	const gatedSetIsAuto = useCallback((auto: boolean) => {
 		setIsAuto(auto);
-		localStorage.setItem(storageName('isAuto'), auto.toString());
 	}, []);
 
 	const gatedSetShowIntersections = useCallback((intersections: boolean) => {
 		setShowIntersections(intersections);
-		localStorage.setItem(
-			storageName('showIntersections'),
-			intersections.toString()
-		);
 	}, []);
 
 	const gatedSetShowEffects = useCallback((effects: boolean) => {
 		setShowEffects(effects);
-		localStorage.setItem(storageName('showEffects'), effects.toString());
-
-		if (!effects) {
-			document.body.classList.add('effects-off');
-		} else {
-			document.body.classList.remove('effects-off');
-		}
 	}, []);
 
 	const probability = useMemo((): number => {
@@ -113,11 +105,6 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 			]
 		);
 	}, [difficulty]);
-
-	const shadowColor = useMemo(
-		() => colorToRgb(cssVariable('--color-base-content')),
-		[cssVariable]
-	);
 
 	useEffect(() => {
 		const user = localStorage.getItem(storageName('user'));
@@ -160,26 +147,43 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	}, [isGlobalError, isRefreshing]);
 
 	useEffect(() => {
-		const isAuto = localStorage.getItem(storageName('isAuto')) ?? '';
-		const showIntersections =
-			localStorage.getItem(storageName('showIntersections')) ?? '';
-		const showEffects =
-			localStorage.getItem(storageName('showEffects')) ?? '';
+		localStorage.setItem(storageName('user'), user);
+	}, [user]);
 
-		gatedSetIsAuto(
-			['true', 'false'].includes(isAuto) ? isAuto === 'true' : true
+	useEffect(() => {
+		localStorage.setItem(storageName('isAuto'), isAuto.toString());
+	}, [isAuto]);
+
+	useEffect(() => {
+		localStorage.setItem(
+			storageName('showIntersections'),
+			showIntersections.toString()
 		);
-		gatedSetShowIntersections(
-			['true', 'false'].includes(showIntersections)
-				? showIntersections === 'true'
-				: true
+	}, [showIntersections]);
+
+	useEffect(() => {
+		localStorage.setItem(
+			storageName('showEffects'),
+			showEffects.toString()
 		);
-		gatedSetShowEffects(
-			['true', 'false'].includes(showEffects)
-				? showEffects === 'true'
-				: true
-		);
-	}, [gatedSetIsAuto, gatedSetShowIntersections, gatedSetShowEffects]);
+		if (!showEffects) {
+			document.body.classList.add('effects-off');
+		} else {
+			document.body.classList.remove('effects-off');
+		}
+	}, [showEffects]);
+
+	useEffect(() => {
+		gatedSetUser(storage.current.user);
+		gatedSetIsAuto(storage.current.isAuto);
+		gatedSetShowIntersections(storage.current.showIntersections);
+		gatedSetShowEffects(storage.current.showEffects);
+	}, [
+		gatedSetUser,
+		gatedSetIsAuto,
+		gatedSetShowIntersections,
+		gatedSetShowEffects,
+	]);
 
 	useEffect(() => {
 		document.documentElement.style.setProperty(
@@ -210,7 +214,6 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 				isAuto,
 				showIntersections,
 				showEffects,
-				shadowColor,
 
 				setIsGlobalError: gatedSetIsGlobalError,
 				setUser: gatedSetUser,
