@@ -11,7 +11,7 @@ $ npm run preview
 
 ### Remember to add your Firebase configuration file (.env.firebase)
 
-````
+```
 FIREBASE_API_KEY=
 FIREBASE_AUTH_DOMAIN=
 FIREBASE_PROJECT_ID=
