@@ -25,15 +25,18 @@ const useRouteCheck = () => {
 
 	const isUpdatingRef = useRef(false);
 
-	const pageId = useMemo((): string => {
-		return location.pathname.split('/')[2] ?? Config.pages.default;
-	}, [location.pathname]);
+	const pageId = useMemo(
+		(): string => location.pathname.split('/')[2] ?? Config.pages.default,
+		[location.pathname]
+	);
 
-	const defaultLanguage = useMemo(() => {
-		return typeof i18n.options.fallbackLng === 'string'
-			? i18n.options.fallbackLng
-			: Config.locale.allowed.default;
-	}, [i18n.options.fallbackLng]);
+	const defaultLanguage = useMemo(
+		() =>
+			typeof i18n.options.fallbackLng === 'string'
+				? i18n.options.fallbackLng
+				: Config.locale.allowed.default,
+		[i18n.options.fallbackLng]
+	);
 
 	const checkLanguage = useMemo(() => {
 		if (

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useTimer } from '!/contexts/timer';
 
 import MegaBadge from '!/app/misc/MegaBadge';
-import { Clock } from 'lucide-react';
+import { ClockIcon } from 'lucide-react';
 
 import { TimeUnit } from '!/types/timer';
 
@@ -16,7 +16,7 @@ const Time = () => {
 	return (
 		<MegaBadge
 			title={i18n.t('score.time')}
-			icon={<Clock className='lucide-text' />}>
+			icon={<ClockIcon className='lucide-text' />}>
 			{Object.keys(counterRef.current).map((type) => {
 				const value = counterRef.current[type as TimeUnit] ?? 0;
 

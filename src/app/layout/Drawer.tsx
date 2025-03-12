@@ -13,8 +13,20 @@ import Toggle from '../settings/Toggle';
 import Randomize from '../settings/Randomize';
 import Title from '../info/Title';
 import Share from '../info/Share';
+import Leaderboard from '../info/leaderboard';
 
 import Config from '!config';
+import {
+	LocateIcon,
+	LocateOffIcon,
+	MouseIcon,
+	MouseOffIcon,
+	SparkleIcon,
+	SparklesIcon,
+	Volume2Icon,
+	VolumeOffIcon,
+} from 'lucide-react';
+import DrawerContainer from '../misc/DrawerContainer';
 
 const Drawer = () => {
 	const { i18n } = useTranslation();
@@ -24,17 +36,19 @@ const Drawer = () => {
 		isAuto,
 		showIntersections,
 		showEffects,
+		isMusicOn,
 		setRows,
 		setCols,
 		setIsAuto,
 		setShowIntersections,
 		setShowEffects,
+		setIsMusicOn,
 	} = useSettings();
 	const { scale, setScale } = useScale();
 	const { percentage } = useFormatNumber();
 	const { currentBreakpoint } = useBreakpoints();
 
-	const [show, setShow] = useState(false);
+	const [show, setShow] = useState(true);
 
 	return (
 		<>
@@ -50,12 +64,16 @@ const Drawer = () => {
 				/>
 				<div className='absolute top-0 bottom-0 left-0 right-0 overflow-y-auto pointer-events-none'>
 					<div
-						className={`drawer-side absolute top-0 left-0 w-[85vw] md:w-[65vw] lg:w-[40vw] min-w-xs min-h-full max-w-[500px] bg-base-200 text-base-content p-5 md:p-10 pointer-events-auto transition-transform duration-500${
+						className={`drawer-side absolute top-0 left-0 w-[85vw] md:w-[65vw] lg:w-[40vw] min-w-xs min-h-full max-w-[700px] bg-base-200 text-base-content p-5 md:p-10 pointer-events-auto transition-transform duration-500${
 							!show ? ' -translate-x-full' : ''
 						}`}>
 						<div className='flex flex-col gap-7 md:gap-10'>
 							<Title size='lg' />
-							<User />
+							<DrawerContainer
+								show={show}
+								label={'enter your name'}>
+								<User />
+							</DrawerContainer>
 							<Seed />
 							<Difficulty />
 							<div className='flex flex-col gap-1'>
@@ -92,6 +110,8 @@ const Drawer = () => {
 							<div className='flex flex-col flex-wrap gap-2'>
 								<Toggle
 									label={i18n.t('auto')}
+									icon={<MouseIcon />}
+									iconOff={<MouseOffIcon />}
 									checked={isAuto}
 									disabled={['xs', 'sm'].includes(
 										currentBreakpoint
@@ -100,6 +120,8 @@ const Drawer = () => {
 								/>
 								<Toggle
 									label={i18n.t('intersections')}
+									icon={<LocateIcon />}
+									iconOff={<LocateOffIcon />}
 									checked={showIntersections}
 									disabled={['xs', 'sm'].includes(
 										currentBreakpoint
@@ -108,15 +130,28 @@ const Drawer = () => {
 								/>
 								<Toggle
 									label={i18n.t('effects')}
+									icon={<SparklesIcon />}
+									iconOff={<SparkleIcon />}
 									checked={showEffects}
 									onChange={setShowEffects}
+								/>
+								<Toggle
+									label={i18n.t('music')}
+									icon={<Volume2Icon />}
+									iconOff={<VolumeOffIcon />}
+									checked={isMusicOn}
+									onChange={setIsMusicOn}
 								/>
 							</div>
 							<div className='flex flex-wrap gap-0.5'>
 								<Randomize />
 								<Share />
 							</div>
-							<div>HI SCORE</div>
+							<DrawerContainer
+								show={show}
+								label={i18n.t('leaderboard.title')}>
+								<Leaderboard show={show} />
+							</DrawerContainer>
 						</div>
 					</div>
 				</div>
@@ -126,6 +161,7 @@ const Drawer = () => {
 				type='checkbox'
 				className='drawer-toggle'
 				hidden
+				checked={show}
 				onChange={(e) => setShow(e.target.checked)}
 			/>
 		</>

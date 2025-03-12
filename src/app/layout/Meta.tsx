@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import useCSSVariable from '!/hooks/useCSSVariable';
 
-import { Infinity as InfinityIcon } from 'lucide-react';
+import { InfinityIcon } from 'lucide-react';
 
 import pkg from '!package';
 

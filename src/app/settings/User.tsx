@@ -5,12 +5,13 @@ import Avatar from '../info/Avatar';
 
 const User = () => {
 	const { i18n } = useTranslation();
-	const { user, setUser } = useSettings();
+	const { user, country, setUser } = useSettings();
 
 	return (
 		<div className='flex items-center gap-3'>
 			<Avatar
-				variant='beam'
+				name={user}
+				country={country}
 				className='max-w-[4rem]'
 			/>
 			<label className='input input-primary w-full'>
@@ -18,7 +19,14 @@ const User = () => {
 				<input
 					type='text'
 					value={user}
-					onChange={(e) => setUser(e.target.value.trim())}
+					onChange={(e) => setUser(e.target.value)}
+					onBlur={(e) =>
+						setUser(
+							e.target.value.trim().length > 0
+								? e.target.value.trim()
+								: undefined
+						)
+					}
 				/>
 			</label>
 		</div>

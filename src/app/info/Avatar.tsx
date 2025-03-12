@@ -1,28 +1,37 @@
 import useCSSVariable from '!/hooks/useCSSVariable';
-import { useSettings } from '!/contexts/settings/hook';
 
 import BoringAvatar from 'boring-avatars';
 
 interface AvatarProps {
-	variant: 'marble' | 'beam' | 'sunset' | 'pixel' | 'ring';
+	name: string;
+	country?: string | null;
+	variant?: 'marble' | 'beam' | 'sunset' | 'pixel' | 'ring';
 	className?: string;
 }
 
-const Avatar = ({ variant = 'beam', className = '' }: AvatarProps) => {
-	const { user } = useSettings();
-
-	return (
+const Avatar = ({
+	name,
+	country = null,
+	variant = 'marble',
+	className = '',
+}: AvatarProps) => (
+	<div className={`avatar relative ${className}`.trim()}>
 		<BoringAvatar
-			name={user}
+			name={name}
 			variant={variant}
 			colors={[
 				useCSSVariable('--color-primary'),
 				useCSSVariable('--color-secondary'),
 				useCSSVariable('--color-accent'),
-				useCSSVariable('--color-error'),
 			]}
-			className={className}
+			className='w-full'
 		/>
-	);
-};
+		{country ? (
+			<div className='absolute top-1/2 left-1/2 -translate-1/2 badge badge-outline badge-xs !border-base-200 !text-base-200 px-1 rounded-full text-xxs font-black'>
+				{country}
+			</div>
+		) : null}
+	</div>
+);
+
 export default Avatar;

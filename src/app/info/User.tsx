@@ -1,14 +1,14 @@
 import { useSettings } from '!/contexts/settings/hook';
 import { useTranslation } from 'react-i18next';
-import DrawerToggle from '../layout/DrawerToggle';
+import DrawerToggle from '../misc/DrawerToggle';
 import Avatar from './Avatar';
 
-import { Settings } from 'lucide-react';
+import { SettingsIcon } from 'lucide-react';
 import { useState } from 'react';
 
 const User = () => {
 	const { i18n } = useTranslation();
-	const { user } = useSettings();
+	const { user, country } = useSettings();
 
 	const [isOver, setIsOver] = useState(false);
 
@@ -19,12 +19,13 @@ const User = () => {
 			onOut={() => setIsOver(false)}>
 			<div className='bg-accent w-[3rem] sm:w-[2.5rem] aspect-square rounded-full overflow-hidden relative'>
 				<Avatar
-					variant='beam'
-					className={`w-full transition-opacity duration-300${
+					name={user}
+					country={country}
+					className={`transition-opacity duration-300${
 						isOver ? ' opacity-0' : ''
 					}`}
 				/>
-				<Settings
+				<SettingsIcon
 					className={`lucide-text absolute top-1/2 left-1/2 -translate-1/2 text-3xl sm:text-2xl text-primary transition-[opacity,scale] duration-300${
 						!isOver ? ' opacity-0 scale-150' : ''
 					}`}

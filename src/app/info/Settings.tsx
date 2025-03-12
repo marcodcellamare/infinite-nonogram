@@ -3,9 +3,9 @@ import { useSettings } from '!/contexts/settings/hook';
 import { useScale } from '!/contexts/scale';
 import useFormatNumber from '!/hooks/useFormatNumber';
 
-import DrawerToggle from '../layout/DrawerToggle';
+import DrawerToggle from '../misc/DrawerToggle';
 import MegaButton from '../misc/MegaButton';
-import { Grid, Search } from 'lucide-react';
+import { GridIcon, SearchIcon } from 'lucide-react';
 import DifficultyIcon from './DifficultyIcon';
 
 const Settings = () => {
@@ -22,7 +22,7 @@ const Settings = () => {
 			}}>
 			<>
 				<div className='flex flex-row gap-1 items-center'>
-					<Grid className='lucide-text text-2xl' />
+					<GridIcon className='lucide-text text-2xl' />
 					<div className='flex flex-col items-start'>
 						<div className='text-xs font-bold leading-[1.2em]'>{`${cols}×${rows}`}</div>
 						<div className='text-xxs leading-[1.2em]'>
@@ -49,7 +49,7 @@ const Settings = () => {
 			</>
 			<>
 				<div className='flex flex-row gap-1 items-center'>
-					<Search className='lucide-text text-2xl' />
+					<SearchIcon className='lucide-text text-2xl' />
 					<div className='flex flex-col items-start'>
 						<div className='text-xs font-bold leading-[1.2em]'>
 							{percentage(scale)}

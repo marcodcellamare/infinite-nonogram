@@ -27,7 +27,7 @@
 			"max": 20,
 			"block": {
 				"size": 2.5,
-				"disabledByError": 0
+				"disabledByError": 1000
 			},
 			"hint": {
 				"groupPadding": 0.65,
@@ -44,7 +44,7 @@
 		},
 		"scale": {
 			"default": 1,
-			"min": 0.6,
+			"min": 0.5,
 			"max": 1.6,
 			"step": 0.05
 		},

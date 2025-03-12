@@ -8,18 +8,25 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
+import { useFirebase } from '!/contexts/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useTimer } from '!/contexts/timer';
 
 import Time from './Time';
 import Points from './Points';
 import Rating from './Rating';
 
-import { RefreshCw } from 'lucide-react';
+import { RefreshCwIcon } from 'lucide-react';
+
 import { ScoreTransitionStatus } from '!/types/engine';
 
 const Score = () => {
 	const { i18n } = useTranslation();
-	const { isCompleted } = useEngine();
-	const { setSeed } = useSettings();
+	const { isCompleted, score, rating } = useEngine();
+	const { setSeed, user, country, seed, cols, rows, difficulty } =
+		useSettings();
+	const { firestore } = useFirebase();
+	const { total: totalTime } = useTimer();
 
 	const [hasStatus, setHasStatus] = useState<ScoreTransitionStatus>(false);
 	const [title, setTitle] = useState('');
@@ -28,10 +35,12 @@ const Score = () => {
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 	const handleTransitionEnd = (e: TransitionEvent<HTMLDivElement>) => {
+		if (e.target !== e.currentTarget) return;
+
 		if (e.propertyName === 'opacity') {
 			const computedStyle = window.getComputedStyle(e.currentTarget);
 
-			if (computedStyle.opacity === '0') {
+			if (parseInt(computedStyle.opacity) === 0) {
 				reset();
 			}
 		}
@@ -61,6 +70,40 @@ const Score = () => {
 			timeoutRef.current = setTimeout(() => setHasStatus('show'), 1000);
 		}
 	}, [isCompleted, i18n]);
+
+	useEffect(() => {
+		if (!isCompleted || hasStatus !== 'show') return;
+
+		console.log('totalTime', totalTime);
+
+		addDoc(collection(firestore, 'leaderboard'), {
+			date: serverTimestamp(),
+			name: user,
+			country,
+			score,
+			rating,
+			cols,
+			rows,
+			difficulty,
+			seed,
+			time: Math.round(totalTime),
+		}).catch((error) => {
+			console.error(error);
+		});
+	}, [
+		firestore,
+		isCompleted,
+		hasStatus,
+		user,
+		country,
+		cols,
+		rows,
+		difficulty,
+		seed,
+		score,
+		rating,
+		totalTime,
+	]);
 
 	useEffect(() => {
 		show();
@@ -109,7 +152,7 @@ const Score = () => {
 								setHasStatus('hide');
 							}
 						}}>
-						<RefreshCw className='lucide-text' /> {next}
+						<RefreshCwIcon className='lucide-text' /> {next}
 					</button>
 				</div>
 			</div>

@@ -1,25 +1,23 @@
 import { v4 as uuidv4 } from 'uuid';
+import cleanProfanity from './profanity';
 
 export const cleanSeed = (seed: string): string => {
-	return seed
-		.toLowerCase()
-		.trim()
-		.replace(/[^a-z0-9]/g, '')
-		.trim()
-		.substring(0, 20);
+	return cleanProfanity(seed)
+		.replace(/[^A-Za-z0-9*]/g, '')
+		.substring(0, 50);
 };
 
 export const generateUser = (): string => {
-	return `Nonogrammer${uuidv4()
-		.replace(/[^A-Za-z0-9]/g, '')
-		.substring(6)}`;
+	return `Nonogrammer*${uuidv4()
+		.replace(/[^A-Za-z0-9*]/g, '')
+		.substring(10)}`;
 };
 
 export const cleanUser = (user: string): string => {
-	return user
-		.replace(/ /g, '')
-		.replace(/[^A-Za-z0-9]/g, '')
-		.substring(0, 25);
+	return cleanProfanity(user)
+		.replace(/[^A-Za-z0-9*\s]/g, '')
+		.replace(/\s+/g, ' ')
+		.substring(0, 50);
 };
 
 export const storageName = (name: string): string => {

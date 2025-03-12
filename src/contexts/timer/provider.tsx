@@ -1,5 +1,6 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { TimerContext } from './context';
+import { dateMs, secondsToTimer } from '!/utils/timer';
 
 import { TimeUnit } from '!/types/timer';
 
@@ -15,19 +16,6 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	const intervalBlinkRef = useRef<ReturnType<typeof setInterval> | null>(
 		null
 	);
-
-	const secondsRef = useRef<Record<TimeUnit, number>>({
-		years: 60 * 60 * 24 * 365,
-		months: 60 * 60 * 24 * 30,
-		days: 60 * 60 * 24,
-		hours: 60 * 60,
-		minutes: 60,
-		seconds: 1,
-	});
-
-	const date = () => {
-		return new Date().getTime();
-	};
 
 	const stop = useCallback(() => {
 		if (intervalRef.current !== null) {
@@ -51,30 +39,11 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 
 	const start = useCallback(() => {
 		reset();
-		setStartDate(date());
+		setStartDate(dateMs());
 	}, [reset]);
 
 	const update = useCallback(() => {
-		if (startDate) {
-			const counter: Partial<Record<TimeUnit, number>> = {};
-			let dateDiff = Math.abs((date() - startDate) / 1000);
-
-			setTotal(dateDiff);
-
-			Object.entries(secondsRef.current).forEach(([type, seconds]) => {
-				counter[type as TimeUnit] = Math.floor(dateDiff / seconds);
-				dateDiff -= (counter[type as TimeUnit] ?? 0) * seconds;
-			});
-
-			Object.entries(counter).some(([type, count]) => {
-				if (count === 0 && !['seconds'].includes(type)) {
-					delete counter[type as TimeUnit];
-				} else {
-					return true;
-				}
-			});
-			setCounter(counter);
-		}
+		if (startDate) setCounter(secondsToTimer(startDate));
 	}, [startDate]);
 
 	const timer = useCallback(() => {

@@ -3,6 +3,14 @@
 		shadow-none
 		backdrop-blur-xs;
 
+	&.btn-link {
+		@apply p-0
+			inline
+			border-none
+			text-start
+			h-auto;
+	}
+
 	* {
 		@apply pointer-events-none;
 	}

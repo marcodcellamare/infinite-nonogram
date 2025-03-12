@@ -8,7 +8,7 @@ const Number = ({ total, isDone }: HintNumbersProps) => {
 		<div
 			className={`min-w-[1.3em] h-[1.3em] leading-[1.3em] text-center${
 				showEffects ? ' transition-[opacity,color] duration-500' : ''
-			} ${!isDone ? 'text-primary font-bold' : 'text-accent/50'}`}>
+			} ${!isDone ? 'text-primary font-bold' : 'text-accent'}`}>
 			{total}
 		</div>
 	);

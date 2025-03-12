@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import Config from '!config';
 
-import { Dices } from 'lucide-react';
+import { DicesIcon } from 'lucide-react';
 
 import { DifficultyTypes } from '!/types/settings';
 
@@ -54,7 +54,7 @@ const Randomize = () => {
 			type='button'
 			onClick={handleClick}
 			disabled={isClicked}>
-			<Dices
+			<DicesIcon
 				className={`lucide-text duration-500 ${
 					!isClicked
 						? 'transition-none rotate-0'

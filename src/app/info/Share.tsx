@@ -1,5 +1,5 @@
 import useClipboard from '!/hooks/useClipboard';
-import { Check, Copy } from 'lucide-react';
+import { CheckIcon, CopyIcon } from 'lucide-react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -20,9 +20,9 @@ const Share = () => {
 			}`}
 			onClick={handleClick}>
 			{!copied ? (
-				<Copy className='lucide-text' />
+				<CopyIcon className='lucide-text' />
 			) : (
-				<Check className='lucide-text' />
+				<CheckIcon className='lucide-text' />
 			)}{' '}
 			{i18n.t(!copied ? 'clipboard.copyUrl' : 'clipboard.copied')}
 		</button>

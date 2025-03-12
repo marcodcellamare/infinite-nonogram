@@ -4,7 +4,7 @@ import useCSSVariable from '!/hooks/useCSSVariable';
 import useFormatNumber from '!/hooks/useFormatNumber';
 import { colorToRgb } from '!/utils/colors';
 
-import { Award, Star } from 'lucide-react';
+import { AwardIcon, StarIcon } from 'lucide-react';
 import { ScoreTransitionStatus } from '!/types/engine';
 
 const Rating = ({ hasStatus }: { hasStatus: ScoreTransitionStatus }) => {
@@ -41,7 +41,7 @@ const Rating = ({ hasStatus }: { hasStatus: ScoreTransitionStatus }) => {
 				}}>
 				<div className='flex flex-nowrap gap-0.2 text-6xl'>
 					{new Array(3).fill(0).map((_, k) => (
-						<Star
+						<StarIcon
 							key={k}
 							className='lucide-text stroke-1 stroke-secondary'
 						/>
@@ -54,7 +54,7 @@ const Rating = ({ hasStatus }: { hasStatus: ScoreTransitionStatus }) => {
 						transitionDuration: `${transitionDuration}s`,
 					}}>
 					{new Array(3).fill(0).map((_, k) => (
-						<Star
+						<StarIcon
 							key={k}
 							className='lucide-text stroke-1 stroke-secondary fill-secondary flex-shrink-0'
 						/>
@@ -62,7 +62,7 @@ const Rating = ({ hasStatus }: { hasStatus: ScoreTransitionStatus }) => {
 				</div>
 			</div>
 			<div className='indicator-item badge badge-xl bg-white text-secondary border-none rounded-full shadow'>
-				<Award className='lucide-text' />
+				<AwardIcon className='lucide-text' />
 				<strong>{percentage(ratingRef.current, 1)}</strong>
 			</div>
 		</div>

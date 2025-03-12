@@ -1,4 +1,4 @@
-import { Infinity as InfinityIcon } from 'lucide-react';
+import { InfinityIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import pkg from '!package';
 

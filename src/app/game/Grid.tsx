@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, TransitionEvent, useEffect, useState } from 'react';
 
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
@@ -22,6 +22,8 @@ const Grid = () => {
 	} = useSettings();
 	const { setIsOverGrid } = useInteraction();
 
+	const [gridKey, setGridKey] = useState('');
+
 	const sizeClass: Record<number, string> = {
 		5: 'grid-cols-[minmax(min-content,auto)_repeat(5,1fr)]',
 		6: 'grid-cols-[minmax(min-content,auto)_repeat(6,1fr)]',
@@ -41,8 +43,21 @@ const Grid = () => {
 		20: 'grid-cols-[minmax(min-content,auto)_repeat(20,1fr)]',
 	};
 
+	const handleTransitionEnd = (e: TransitionEvent<HTMLDivElement>) => {
+		if (e.target !== e.currentTarget) return;
+
+		if (e.propertyName === 'opacity') {
+			const computedStyle = window.getComputedStyle(e.currentTarget);
+
+			if (parseInt(computedStyle.opacity) === 0) {
+				setGridKey(`${seed}.${rows}x${cols}.${difficulty}`);
+			}
+		}
+	};
+
 	return (
 		<div
+			key={gridKey}
 			className={`game-grid${
 				isGlobalError ? ' game-grid-error' : ''
 			} flex flex-col grow justify-center items-center my-auto relative`}>
@@ -61,16 +76,16 @@ const Grid = () => {
 									? `ease-in${
 											showEffects ? ' blur-xs' : ''
 									  } scale-90 opacity-0`
-									: 'ease-out'
+									: 'delay-100 ease-out'
 						  }`
 				}`}
 				onPointerEnter={() => setIsOverGrid(true)}
-				onPointerLeave={() => setIsOverGrid(false)}>
+				onPointerLeave={() => setIsOverGrid(false)}
+				onTransitionEnd={handleTransitionEnd}>
 				{Array.from({ length: rows + 1 }).map((_, row) =>
 					Array.from({ length: cols + 1 }).map((_, col) => {
 						return (
-							<Fragment
-								key={`${seed}.${rows}x${cols}.${difficulty}.${row}.${col}`}>
+							<Fragment key={`${row}.${col}`}>
 								{row === 0 || col === 0 ? (
 									<Hint
 										row={row - 1}

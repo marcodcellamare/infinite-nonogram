@@ -1,5 +1,5 @@
 import { useEngine } from '!/contexts/engine';
-import { Grid2X2, Square, SquareDashed } from 'lucide-react';
+import { Grid2X2Icon, SquareIcon, SquareDashedIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Item from './Item';
 
@@ -18,20 +18,20 @@ const Status = ({ className = '' }: { className?: string }) => {
 			<Item
 				total={totalAvailable - totalFound}
 				extraTotal={total - totalInteractions}
-				icon={<Grid2X2 />}
+				icon={<Grid2X2Icon />}
 				color='btn-primary'>
 				<strong>{i18n.t('status.available')}</strong>/
 				{i18n.t('status.total')}
 			</Item>
 			<Item
 				total={totalFound}
-				icon={<Square />}
+				icon={<SquareIcon />}
 				color='btn-accent'>
 				{i18n.t('status.found')}
 			</Item>
 			<Item
 				total={totalErrors}
-				icon={<SquareDashed />}
+				icon={<SquareDashedIcon />}
 				color='btn-error'>
 				{i18n.t('status.errors')}
 			</Item>

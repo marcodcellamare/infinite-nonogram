@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
 
+import { FirebaseProvider } from './contexts/firebase';
 import { ResizeProvider } from './contexts/resize';
 import { SettingsProvider } from './contexts/settings/provider';
 import { InteractionProvider } from '!/contexts/interaction';
@@ -16,20 +17,22 @@ import '!/styles/index.css';
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<HashRouter>
-			<ResizeProvider>
-				<SettingsProvider>
-					<TimerProvider>
-						<InteractionProvider>
-							<ScaleProvider>
-								<EngineProvider>
-									<App />
-								</EngineProvider>
-							</ScaleProvider>
-						</InteractionProvider>
-					</TimerProvider>
-				</SettingsProvider>
-			</ResizeProvider>
-		</HashRouter>
+		<FirebaseProvider>
+			<HashRouter>
+				<ResizeProvider>
+					<SettingsProvider>
+						<TimerProvider>
+							<InteractionProvider>
+								<ScaleProvider>
+									<EngineProvider>
+										<App />
+									</EngineProvider>
+								</ScaleProvider>
+							</InteractionProvider>
+						</TimerProvider>
+					</SettingsProvider>
+				</ResizeProvider>
+			</HashRouter>
+		</FirebaseProvider>
 	</StrictMode>
 );

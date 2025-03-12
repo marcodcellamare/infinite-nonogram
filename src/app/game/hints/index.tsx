@@ -1,8 +1,10 @@
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
+import { useInteraction } from '!/contexts/interaction';
 
 import Group from './Group';
 import Size from './Size';
+import Highlight from '../block/Highlight';
 
 import '!/styles/components/GridHint.css';
 
@@ -12,8 +14,9 @@ interface HintProps {
 }
 
 const Hint = ({ row, col }: HintProps) => {
-	const { hints } = useEngine();
-	const { rows, cols } = useSettings();
+	const { hints, isCompleted } = useEngine();
+	const { rows, cols, showIntersections } = useSettings();
+	const { isOverCol, isOverRow } = useInteraction();
 
 	return (
 		<div
@@ -44,6 +47,11 @@ const Hint = ({ row, col }: HintProps) => {
 			) : (
 				<Size />
 			)}
+			{showIntersections &&
+			!isCompleted &&
+			(isOverCol === col || isOverRow === row) ? (
+				<Highlight />
+			) : null}
 		</div>
 	);
 };

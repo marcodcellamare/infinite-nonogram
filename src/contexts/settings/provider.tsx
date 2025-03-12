@@ -10,14 +10,18 @@ import { SettingsContext } from './context';
 
 import { cleanUser, cleanSeed, generateUser, storageName } from '!/utils/misc';
 import { v4 as uuidv4 } from 'uuid';
+import useGeoLocation from 'react-ipgeolocation';
 import Config from '!config';
 
 import { DifficultyTypes } from '!/types/settings';
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
+	const geoLocation = useGeoLocation();
+
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [isGlobalError, setIsGlobalError] = useState(false);
 	const [user, setUser] = useState('');
+	const [country, setCountry] = useState<string | null>(null);
 	const [seed, setSeed] = useState(cleanSeed(uuidv4()));
 	const [difficulty, setDifficulty] = useState<DifficultyTypes>('medium');
 	const [rows, setRows] = useState(5);
@@ -25,6 +29,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	const [isAuto, setIsAuto] = useState(true);
 	const [showIntersections, setShowIntersections] = useState(true);
 	const [showEffects, setShowEffects] = useState(true);
+	const [isMusicOn, setIsMusicOn] = useState(true);
 
 	const storage = useRef({
 		user: localStorage.getItem(storageName('user')) ?? '',
@@ -33,6 +38,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 			localStorage.getItem(storageName('showIntersections')) !== 'false',
 		showEffects:
 			localStorage.getItem(storageName('showEffects')) !== 'false',
+		isMusicOn: localStorage.getItem(storageName('isMusicOn')) !== 'false',
 	});
 
 	const isRefreshingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
@@ -49,15 +55,13 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	}, []);
 
 	const gatedSetUser = useCallback((user?: string) => {
-		if (!user) user = generateUser();
+		if (user === undefined) user = generateUser();
 
-		user = cleanUser(user);
-
-		setUser(user);
+		setUser(cleanUser(user));
 	}, []);
 
 	const gatedSetSeed = useCallback((seed?: string) => {
-		if (!seed) seed = uuidv4();
+		if (seed === undefined) seed = uuidv4();
 
 		setSeed(cleanSeed(seed));
 	}, []);
@@ -95,6 +99,10 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 
 	const gatedSetShowEffects = useCallback((effects: boolean) => {
 		setShowEffects(effects);
+	}, []);
+
+	const gatedSetIsMusicOn = useCallback((music: boolean) => {
+		setIsMusicOn(music);
 	}, []);
 
 	const probability = useMemo((): number => {
@@ -174,15 +182,29 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	}, [showEffects]);
 
 	useEffect(() => {
+		localStorage.setItem(storageName('isMusicOn'), isMusicOn.toString());
+	}, [isMusicOn]);
+
+	useEffect(() => {
+		if (!geoLocation.isLoading) {
+			setCountry(!geoLocation.error ? geoLocation.country : null);
+		} else {
+			setCountry(null);
+		}
+	}, [geoLocation]);
+
+	useEffect(() => {
 		gatedSetUser(storage.current.user);
 		gatedSetIsAuto(storage.current.isAuto);
 		gatedSetShowIntersections(storage.current.showIntersections);
 		gatedSetShowEffects(storage.current.showEffects);
+		gatedSetIsMusicOn(storage.current.isMusicOn);
 	}, [
 		gatedSetUser,
 		gatedSetIsAuto,
 		gatedSetShowIntersections,
 		gatedSetShowEffects,
+		gatedSetIsMusicOn,
 	]);
 
 	useEffect(() => {
@@ -206,6 +228,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 				isRefreshing,
 				isGlobalError,
 				user,
+				country,
 				seed,
 				difficulty,
 				probability,
@@ -214,6 +237,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 				isAuto,
 				showIntersections,
 				showEffects,
+				isMusicOn,
 
 				setIsGlobalError: gatedSetIsGlobalError,
 				setUser: gatedSetUser,
@@ -224,6 +248,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 				setIsAuto: gatedSetIsAuto,
 				setShowIntersections: gatedSetShowIntersections,
 				setShowEffects: gatedSetShowEffects,
+				setIsMusicOn: gatedSetIsMusicOn,
 			}}>
 			{children}
 		</SettingsContext.Provider>

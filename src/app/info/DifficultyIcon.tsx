@@ -1,4 +1,4 @@
-import { Baby, Brain, GraduationCap } from 'lucide-react';
+import { BabyIcon, BrainIcon, GraduationCapIcon } from 'lucide-react';
 
 import { DifficultyTypes } from '!/types/settings';
 
@@ -12,9 +12,11 @@ const DifficultyIcon = ({
 	className = '',
 }: DifficultyIconProps) => {
 	const icons = {
-		easy: <Baby className={`lucide-text ${className}`.trim()} />,
-		medium: <GraduationCap className={`lucide-text ${className}`.trim()} />,
-		hard: <Brain className={`lucide-text ${className}`.trim()} />,
+		easy: <BabyIcon className={`lucide-text ${className}`.trim()} />,
+		medium: (
+			<GraduationCapIcon className={`lucide-text ${className}`.trim()} />
+		),
+		hard: <BrainIcon className={`lucide-text ${className}`.trim()} />,
 	};
 
 	return icons[difficulty];

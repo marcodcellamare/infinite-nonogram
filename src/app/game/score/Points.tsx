@@ -4,7 +4,7 @@ import { useEngine } from '!/contexts/engine';
 import useFormatNumber from '!/hooks/useFormatNumber';
 
 import MegaBadge from '!/app/misc/MegaBadge';
-import { ListOrdered } from 'lucide-react';
+import { ListOrderedIcon } from 'lucide-react';
 
 const Points = () => {
 	const { i18n } = useTranslation();
@@ -16,7 +16,7 @@ const Points = () => {
 	return (
 		<MegaBadge
 			title={i18n.t('score.points')}
-			icon={<ListOrdered className='lucide-text' />}>
+			icon={<ListOrderedIcon className='lucide-text' />}>
 			<strong>{number(scoreRef.current)}</strong>
 		</MegaBadge>
 	);

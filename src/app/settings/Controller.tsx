@@ -3,7 +3,7 @@ import { useInteraction } from '!/contexts/interaction';
 import { useSettings } from '!/contexts/settings';
 import { useTranslation } from 'react-i18next';
 
-import { Square, X } from 'lucide-react';
+import { MouseIcon, SquareIcon, XIcon } from 'lucide-react';
 
 const Controller = () => {
 	const { i18n } = useTranslation();
@@ -30,7 +30,7 @@ const Controller = () => {
 
 	return (
 		<label
-			className={`indicator flex gap-4 items-center justify-center transition-[background-color,outline-color] duration-300 ${
+			className={`indicator indicator-middle indicator-center flex gap-4 items-center justify-center transition-[background-color,outline-color] duration-300 ${
 				checked ? 'bg-base-content' : 'bg-accent'
 			} outline-2 ${
 				isAuto ? 'outline-secondary' : 'outline-secondary/0'
@@ -39,7 +39,7 @@ const Controller = () => {
 				className={`drop-shadow transition-transform duration-300 ${
 					checked ? 'text-white/30 scale-100' : 'text-white scale-140'
 				}`}>
-				<Square className='lucide-text block' />
+				<SquareIcon className='lucide-text block' />
 			</span>
 			<input
 				type='checkbox'
@@ -54,12 +54,13 @@ const Controller = () => {
 						? 'text-white/50 scale-100'
 						: 'text-white scale-140'
 				}`}>
-				<X className='lucide-text block' />
+				<XIcon className='lucide-text block' />
 			</span>
 			<div
-				className={`indicator-item badge badge-xs badge-secondary rounded-full transition-opacity duration-400${
-					!isAuto ? ' opacity-0' : ''
+				className={`indicator-item badge badge-secondary rounded-full gap-1 font-bold uppercase transition-[opacity,background-color,filter] duration-400 ${
+					isAuto ? 'bg-secondary/80 backdrop-blur-sm' : 'opacity-0'
 				}`}>
+				<MouseIcon className='lucide-text' />
 				{i18n.t('autoShort')}
 			</div>
 		</label>

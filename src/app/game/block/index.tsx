@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
@@ -38,6 +38,13 @@ const Block = ({ row, col }: BlockProps) => {
 
 	const [isOver, setIsOver] = useState(false);
 
+	const hasRandomOpacity = useRef(Math.random() < 0.8);
+	const randomOpacity = useRef(
+		hasRandomOpacity.current
+			? Math.round(Math.random() * 0.15 * 100) / 100
+			: 0
+	);
+
 	const isFilled = useMemo(
 		() => (isReady && grid[row][col] ? grid[row][col] : false),
 		[isReady, grid, row, col]
@@ -54,13 +61,6 @@ const Block = ({ row, col }: BlockProps) => {
 			((hasInteracted === 'left' && !isFilled) ||
 				(hasInteracted === 'right' && isFilled)),
 		[isReady, hasInteracted, isFilled]
-	);
-
-	const hasRandomOpacity = useMemo(() => Math.random() < 0.8, []);
-	const randomOpacity = useMemo(
-		() =>
-			hasRandomOpacity ? Math.round(Math.random() * 0.2 * 100) / 100 : 0,
-		[hasRandomOpacity]
 	);
 
 	useEffect(() => {
@@ -94,7 +94,7 @@ const Block = ({ row, col }: BlockProps) => {
 	return (
 		<button
 			type='button'
-			className={`game-grid-block aspect-square relative overflow-hidden text-primary${
+			className={`game-grid-block aspect-square relative overflow-hidden text-primary transition-[background-color] duration-100${
 				hasInteracted === false && !isGlobalError
 					? ' cursor-pointer'
 					: ''
@@ -108,7 +108,9 @@ const Block = ({ row, col }: BlockProps) => {
 			onPointerLeave={() => setIsOver(false)}
 			style={
 				{
-					'--random-opacity': `${randomOpacity * 100}%`,
+					'--random-opacity': `${
+						!isRefreshing ? randomOpacity.current * 100 : 0
+					}%`,
 				} as CSSProperties
 			}>
 			{!isRefreshing ? (

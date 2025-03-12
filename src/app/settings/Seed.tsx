@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import { cleanSeed } from '!/utils/misc';
 
-import { Check, RefreshCcw } from 'lucide-react';
+import { CheckIcon, RefreshCcwIcon } from 'lucide-react';
 
 const Seed = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const { i18n } = useTranslation();
-	const { seed, setSeed } = useSettings();
+	const { seed, setSeed, isRefreshing } = useSettings();
 	const [value, setValue] = useState('');
 	const [spin, setSpin] = useState(false);
 
@@ -36,6 +36,7 @@ const Seed = () => {
 					ref={inputRef}
 					type='text'
 					value={value}
+					disabled={isRefreshing || spin}
 					onChange={(e) => setValue(cleanSeed(e.target.value))}
 					onFocus={() => setValue('')}
 					onBlur={(e) => {
@@ -52,15 +53,17 @@ const Seed = () => {
 							: 'text-accent'
 					}`}
 					onClick={() => {
-						setSeed();
-						setSpin(true);
+						if (!isRefreshing && !spin) {
+							setSeed();
+							setSpin(true);
+						}
 					}}
 					disabled={spin}>
-					<RefreshCcw
+					<RefreshCcwIcon
 						className={`w-full pointer-events-none duration-500 ${
-							!spin
-								? 'transition-none rotate-0'
-								: 'transition-[rotate] -rotate-360'
+							isRefreshing || spin
+								? 'transition-[rotate] -rotate-360'
+								: 'transition-none rotate-0'
 						}`}
 						onTransitionEnd={() => setSpin(false)}
 					/>
@@ -70,7 +73,7 @@ const Seed = () => {
 				type='submit'
 				className='btn btn-primary'
 				disabled={value.length === 0 || value === seed}>
-				<Check className='w-full' />
+				<CheckIcon className='w-full' />
 			</button>
 		</form>
 	);

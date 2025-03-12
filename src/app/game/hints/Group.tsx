@@ -32,7 +32,7 @@ const Group = ({ type, hints }: GroupProps) => {
 					: 'game-grid-hint-group-row flex-row'
 			} flex-grow items-center justify-end ${
 				showEffects ? ' transition-[background-color] duration-300' : ''
-			} ${isDone ? ' bg-white/60' : ''}`}>
+			} ${isDone ? ' bg-accent/25' : ''}`}>
 			{!isRefreshing
 				? hints.map((hint, k) => (
 						<li key={k}>

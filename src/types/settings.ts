@@ -5,6 +5,7 @@ export interface SettingsContextProps {
 	isRefreshing: boolean;
 	isGlobalError: boolean;
 	user: string;
+	country: string | null;
 	seed: string;
 	difficulty: DifficultyTypes;
 	probability: number;
@@ -13,6 +14,7 @@ export interface SettingsContextProps {
 	isAuto: boolean;
 	showIntersections: boolean;
 	showEffects: boolean;
+	isMusicOn: boolean;
 
 	setIsGlobalError: (error: boolean) => void;
 	setUser: (user?: string) => void;
@@ -23,4 +25,5 @@ export interface SettingsContextProps {
 	setIsAuto: (auto: boolean) => void;
 	setShowIntersections: (intersections: boolean) => void;
 	setShowEffects: (effects: boolean) => void;
+	setIsMusicOn: (music: boolean) => void;
 }

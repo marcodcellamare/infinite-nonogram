@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
-import { CircleHelp } from 'lucide-react';
+import { CircleHelpIcon } from 'lucide-react';
 
 interface RangeProps {
 	label: string;
@@ -67,7 +67,7 @@ const Range = ({
 			</div>
 			{help ? (
 				<span className='text-xs hidden md:block text-primary italic mt-1'>
-					<CircleHelp className='lucide-text' /> {help}
+					<CircleHelpIcon className='lucide-text' /> {help}
 				</span>
 			) : null}
 		</div>

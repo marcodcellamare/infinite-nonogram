@@ -1,7 +1,7 @@
 import { useSettings } from '!/contexts/settings';
 
 import '!/styles/components/GridHintSize.css';
-import { ArrowDown, ArrowRight } from 'lucide-react';
+import { ArrowDownIcon, ArrowRightIcon } from 'lucide-react';
 
 const Size = () => {
 	const { cols, rows } = useSettings();
@@ -13,14 +13,14 @@ const Size = () => {
 					<span className='transition-[opacity,filter] duration-500 group-hover:opacity-80 group-hover:blur-[0.2rem]'>
 						{cols}
 					</span>
-					<ArrowRight className='lucide-text absolute top-1/2 left-1/2 -translate-1/2 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100' />
+					<ArrowRightIcon className='lucide-text absolute top-1/2 left-1/2 -translate-1/2 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100' />
 				</div>
 				<div>×</div>
 				<div className='relative'>
 					<span className='transition-[opacity,filter] duration-500 group-hover:opacity-80 group-hover:blur-[0.2rem]'>
 						{rows}
 					</span>
-					<ArrowDown className='lucide-text absolute top-1/2 left-1/2 -translate-1/2 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100' />
+					<ArrowDownIcon className='lucide-text absolute top-1/2 left-1/2 -translate-1/2 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100' />
 				</div>
 			</div>
 		</div>

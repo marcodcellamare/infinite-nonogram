@@ -12,6 +12,7 @@
 	"auto": "Automatic toggle",
 	"intersections": "Show intersections",
 	"effects": "Show effects",
+	"music": "Music",
 	"autoShort": "Auto",
 	"scale": "Scale",
 	"grid": "Grid",
@@ -49,6 +50,9 @@
 			"Restart",
 			"Go Again"
 		]
+	},
+	"leaderboard": {
+		"title": "Leaderboard"
 	},
 	"difficulties": {
 		"easy": "Easy",

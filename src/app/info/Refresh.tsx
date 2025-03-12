@@ -1,5 +1,5 @@
 import { useSettings } from '!/contexts/settings';
-import { RefreshCcw } from 'lucide-react';
+import { RefreshCcwIcon } from 'lucide-react';
 import { useState } from 'react';
 
 const Refresh = () => {
@@ -19,7 +19,7 @@ const Refresh = () => {
 					setSpin(true);
 				}
 			}}>
-			<RefreshCcw
+			<RefreshCcwIcon
 				className={`lucide-text text-xl pointer-events-none duration-500 ${
 					isRefreshing || spin
 						? 'transition-[rotate] -rotate-360'
