@@ -8,4 +8,5 @@ export interface FirebaseContextProps {
 	firestore: Firestore;
 	analytics: Analytics | null;
 	user: User | null;
+	isAuthenticated: boolean;
 }

@@ -28,10 +28,10 @@ const Seed = () => {
 
 	return (
 		<form
-			className='flex flex-row md:flex-col xl:flex-row gap-1'
+			className='flex flex-col sm:flex-row gap-1'
 			onSubmit={handleSubmit}>
 			<label className='input input-primary w-full'>
-				<strong className='text-primary'>{i18n.t('seed')}</strong>
+				<strong className='text-accent'>{i18n.t('seed')}</strong>
 				<input
 					ref={inputRef}
 					type='text'
@@ -49,8 +49,8 @@ const Seed = () => {
 					type='button'
 					className={`cursor-pointer transition-[color] duration-400 ${
 						!spin
-							? 'text-primary hover:text-primary/50'
-							: 'text-accent'
+							? 'text-accent hover:text-accent/50'
+							: 'text-secondary'
 					}`}
 					onClick={() => {
 						if (!isRefreshing && !spin) {

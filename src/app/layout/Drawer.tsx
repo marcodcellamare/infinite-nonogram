@@ -64,14 +64,12 @@ const Drawer = () => {
 				/>
 				<div className='absolute top-0 bottom-0 left-0 right-0 overflow-y-auto pointer-events-none'>
 					<div
-						className={`drawer-side absolute top-0 left-0 w-[85vw] md:w-[65vw] lg:w-[40vw] min-w-xs min-h-full max-w-[700px] bg-base-200 text-base-content p-5 md:p-10 pointer-events-auto transition-transform duration-500${
+						className={`drawer-side absolute top-0 left-0 w-[85vw] md:w-[65vw] xl:w-[45vw] min-w-xs min-h-full max-w-[900px] bg-base-200 text-base-content p-5 md:p-10 pointer-events-auto transition-transform duration-500${
 							!show ? ' -translate-x-full' : ''
 						}`}>
 						<div className='flex flex-col gap-7 md:gap-10'>
 							<Title size='lg' />
-							<DrawerContainer
-								show={show}
-								label={'enter your name'}>
+							<DrawerContainer show={show}>
 								<User />
 							</DrawerContainer>
 							<Seed />

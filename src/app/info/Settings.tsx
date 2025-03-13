@@ -5,8 +5,8 @@ import useFormatNumber from '!/hooks/useFormatNumber';
 
 import DrawerToggle from '../misc/DrawerToggle';
 import MegaButton from '../misc/MegaButton';
+import DifficultyIcon from '../misc/DifficultyIcon';
 import { GridIcon, SearchIcon } from 'lucide-react';
-import DifficultyIcon from './DifficultyIcon';
 
 const Settings = () => {
 	const { i18n } = useTranslation();

@@ -8,7 +8,7 @@ interface DrawerToggleProps {
 
 const DrawerContainer = ({ show, label, children }: DrawerToggleProps) => (
 	<div
-		className={`relative text-primary bg-white p-5 md:p-10 rounded-lg shadow-lg shadow-primary/20 transition-[margin-right] duration-300${
+		className={`relative text-primary bg-white p-5 md:p-10 inline-block min-w-fit rounded-lg shadow-lg shadow-primary/20 transition-[margin-right] duration-300${
 			show ? ' -me-10 md:-me-25' : ''
 		}`}>
 		{children}

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 
 import { DifficultyTypes } from '!/types/settings';
-import DifficultyIcon from '../info/DifficultyIcon';
+import DifficultyIcon from '../misc/DifficultyIcon';
 
 const Difficulty = () => {
 	const { i18n } = useTranslation();

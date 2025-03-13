@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 
 import Avatar from '../info/Avatar';
+import CountryBadge from '../misc/CountryBadge';
 
 const User = () => {
 	const { i18n } = useTranslation();
@@ -15,7 +16,7 @@ const User = () => {
 				className='max-w-[4rem]'
 			/>
 			<label className='input input-primary w-full'>
-				<strong className='text-primary'>{i18n.t('user')}</strong>
+				<strong className='text-accent'>{i18n.t('user')}</strong>
 				<input
 					type='text'
 					value={user}
@@ -27,6 +28,10 @@ const User = () => {
 								: undefined
 						)
 					}
+				/>
+				<CountryBadge
+					country={country}
+					className='badge badge-xs badge-primary'
 				/>
 			</label>
 		</div>

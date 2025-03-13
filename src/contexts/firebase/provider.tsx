@@ -32,6 +32,7 @@ export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
 	const firestore = useMemo(() => getFirestore(firebaseApp), [firebaseApp]);
 	const [analytics, setAnalytics] = useState<Analytics | null>(null);
 	const auth = useMemo(() => getAuth(firebaseApp), [firebaseApp]);
+	const isAuthenticated = useMemo(() => user !== null, [user]);
 
 	useEffect(() => {
 		isSupported().then((supported) => {
@@ -61,6 +62,7 @@ export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
 				firestore,
 				analytics,
 				user,
+				isAuthenticated,
 			}}>
 			{children}
 		</FirebaseContext.Provider>

@@ -1,9 +1,13 @@
+import { FieldValue, Timestamp } from 'firebase/firestore';
 import { DifficultyTypes } from './settings';
 
+export type DateType = Timestamp | FieldValue | string;
+
 export interface LeaderboardPlayerProps {
-	date: string;
+	date?: DateType;
+	id?: string;
 	name: string;
-	country: string;
+	country?: string | null;
 	score: number;
 	rating: number;
 	cols: number;

@@ -8,8 +8,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
-import { useFirebase } from '!/contexts/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { serverTimestamp } from 'firebase/firestore';
 import { useTimer } from '!/contexts/timer';
 
 import Time from './Time';
@@ -19,13 +18,16 @@ import Rating from './Rating';
 import { RefreshCwIcon } from 'lucide-react';
 
 import { ScoreTransitionStatus } from '!/types/engine';
+import useFirestoreCollection from '!/hooks/useFirestoreCollection';
+import { LeaderboardPlayerProps } from '!/types/leaderboard';
 
 const Score = () => {
 	const { i18n } = useTranslation();
+	const { addDocument } =
+		useFirestoreCollection<LeaderboardPlayerProps>('leaderboard');
 	const { isCompleted, score, rating } = useEngine();
 	const { setSeed, user, country, seed, cols, rows, difficulty } =
 		useSettings();
-	const { firestore } = useFirebase();
 	const { total: totalTime } = useTimer();
 
 	const [hasStatus, setHasStatus] = useState<ScoreTransitionStatus>(false);
@@ -76,7 +78,7 @@ const Score = () => {
 
 		console.log('totalTime', totalTime);
 
-		addDoc(collection(firestore, 'leaderboard'), {
+		addDocument({
 			date: serverTimestamp(),
 			name: user,
 			country,
@@ -87,21 +89,19 @@ const Score = () => {
 			difficulty,
 			seed,
 			time: Math.round(totalTime),
-		}).catch((error) => {
-			console.error(error);
 		});
 	}, [
-		firestore,
 		isCompleted,
 		hasStatus,
+		addDocument,
 		user,
 		country,
+		score,
+		rating,
 		cols,
 		rows,
 		difficulty,
 		seed,
-		score,
-		rating,
 		totalTime,
 	]);
 

@@ -19,8 +19,8 @@ const Timer = ({ className = '' }: { className?: string }) => {
 					: !isCompleted
 					? 'btn-accent'
 					: 'btn-primary btn-outline'
-			} flex flex-col gap-0 pointer-events-none h-auto py-0.5 transition-[scale,background-color,color,border-color,filter] duration-300 ease-linear${
-				!blink ? ' scale-98 blur-[0.05rem]' : ''
+			} flex flex-col gap-0 pointer-events-none h-auto py-0.5 transition-[scale,background-color,color,border-color] duration-300 ease-linear${
+				!blink ? ' scale-98' : ''
 			} ${className}`.trim()}>
 			{Object.keys(counter).some((type) =>
 				['years', 'months', 'days'].includes(type)
