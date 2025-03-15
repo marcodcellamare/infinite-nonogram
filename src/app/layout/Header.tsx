@@ -1,6 +1,6 @@
 import Title from '../info/Title';
 import Settings from '../info/Settings';
-import Timer from '../info/Timer';
+import Time from '../info/Time';
 import User from '../info/User';
 import Status from '../info/status';
 import Refresh from '../info/Refresh';
@@ -19,7 +19,7 @@ const Header = () => {
 				<div className='p-5 md:p-10 flex flex-col md:flex-row gap-1 md:justify-between items-stretch md:items-end'>
 					<Settings />
 					<div className='flex flex-col sm:flex-row flex-wrap gap-1 items-start sm:items-end'>
-						<Timer className='self-stretch md:order-last' />
+						<Time className='self-stretch md:order-last' />
 						<Status />
 					</div>
 				</div>

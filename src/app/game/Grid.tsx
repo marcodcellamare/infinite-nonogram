@@ -1,4 +1,4 @@
-import { Fragment, TransitionEvent, useEffect, useState } from 'react';
+import { Fragment, TransitionEvent, useState } from 'react';
 
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
@@ -7,7 +7,7 @@ import { useInteraction } from '!/contexts/interaction';
 import Block from './block';
 import Hint from './hints';
 
-import '!/styles/components/Grid.css';
+import '!/styles/components/game/Grid.css';
 
 const Grid = () => {
 	const { isCompleted } = useEngine();
@@ -64,9 +64,9 @@ const Grid = () => {
 			<div
 				className={`grid grid-rows-[minmax(min-content,auto)_repeat(1, auto)] ${
 					sizeClass[cols]
-				} p-0.5 bg-white min-w-fit min-h-fit h-full max-w-full max-h-full border-5 ${
+				} p-0.5 min-w-fit min-h-fit h-full max-w-full max-h-full border-5 ${
 					!isGlobalError ? 'border-accent' : 'border-error'
-				} shadow-[0_0.3rem_1.5rem] shadow-accent/40 rounded-lg transition-[opacity,filter,scale,border-color] ${
+				} rounded-lg transition-[opacity,filter,scale,border-color] ${
 					isCompleted
 						? `duration-1500 ease-in delay-100${
 								showEffects ? ' blur-md' : ''

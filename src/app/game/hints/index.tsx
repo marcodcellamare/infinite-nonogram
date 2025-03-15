@@ -6,7 +6,7 @@ import Group from './Group';
 import Size from './Size';
 import Highlight from '../block/Highlight';
 
-import '!/styles/components/GridHint.css';
+import '!/styles/components/game/hints/Main.css';
 
 interface HintProps {
 	row: number;

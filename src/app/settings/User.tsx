@@ -19,13 +19,19 @@ const User = () => {
 				<strong className='text-accent'>{i18n.t('user')}</strong>
 				<input
 					type='text'
-					value={user}
-					onChange={(e) => setUser(e.target.value)}
+					value={user || ''}
+					onChange={(e) =>
+						setUser(
+							e.target.value.trim().length > 0
+								? e.target.value
+								: ''
+						)
+					}
 					onBlur={(e) =>
 						setUser(
 							e.target.value.trim().length > 0
 								? e.target.value.trim()
-								: undefined
+								: null
 						)
 					}
 				/>

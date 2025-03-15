@@ -4,7 +4,7 @@ import { useSettings } from '!/contexts/settings';
 
 import { InteractionType } from '!/types/interaction';
 
-import '!/styles/components/GridBlockIcon.css';
+import '!/styles/components/game/block/Icon.css';
 
 interface IconProps {
 	hasInteracted: InteractionType | false;

@@ -1,6 +1,6 @@
 import { CSSProperties, useMemo } from 'react';
 
-import '!/styles/components/GridBlockFilledShining.css';
+import '!/styles/components/game/block/FilledShining.css';
 
 const Shining = () => {
 	const delay = useMemo(() => Math.round(Math.random() * 5 * 100) / 100, []);

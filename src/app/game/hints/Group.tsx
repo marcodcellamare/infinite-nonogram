@@ -6,7 +6,7 @@ import Number from './Number';
 
 import { HintNumbersProps } from '!/types/engine';
 
-import '!/styles/components/GridHintGroup.css';
+import '!/styles/components/game/hints/Group.css';
 
 interface GroupProps {
 	type: 'row' | 'col';

@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import useRouteCheck from '!/hooks/useRouteCheck';
 import { useSettings } from '!/contexts/settings';
 
-import MegaSeed from '../info/MegaSeed';
+import Seed from '../info/Seed';
 import Header from './Header';
 
 import '!/styles/components/Main.css';
@@ -14,7 +14,7 @@ const Main = () => {
 	return (
 		<>
 			<main className='flex flex-1 relative'>
-				{showEffects ? <MegaSeed /> : null}
+				{showEffects ? <Seed /> : null}
 				<Outlet />
 				<Header />
 			</main>

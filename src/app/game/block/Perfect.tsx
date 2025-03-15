@@ -1,6 +1,6 @@
 import { useEngine } from '!/contexts/engine';
 
-import '!/styles/components/GridBlockFilledPerfect.css';
+import '!/styles/components/game/block/FilledPerfect.css';
 
 const Perfect = () => {
 	const { isCompleted } = useEngine();

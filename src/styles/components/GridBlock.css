@@ -1,6 +1,0 @@
-.game-grid-block {
-	min-width: calc(var(--scale) * var(--grid-block-size));
-	min-height: calc(var(--scale) * var(--grid-block-size));
-	font-size: calc(var(--text-4xl) * var(--scale));
-	background-color: --alpha(var(--color-base-300) / var(--random-opacity));
-}

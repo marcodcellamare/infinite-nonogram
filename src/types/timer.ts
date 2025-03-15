@@ -6,10 +6,13 @@ export type TimeUnit =
 	| 'minutes'
 	| 'seconds';
 
+export type TimeUnits = Partial<Record<TimeUnit, number>>;
+
 export interface TimerContextProps {
-	counter: Partial<Record<TimeUnit, number>>;
+	ms: number;
+	timeUnits: TimeUnits;
 	blink: boolean;
-	total: number;
+
 	start: () => void;
 	stop: () => void;
 	reset: () => void;

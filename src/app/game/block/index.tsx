@@ -1,4 +1,11 @@
-import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
+import {
+	CSSProperties,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
@@ -9,7 +16,7 @@ import Highlight from './Highlight';
 import Icon from './Icon';
 import Filled from './Filled';
 
-import '!/styles/components/GridBlock.css';
+import '!/styles/components/game/block/Main.css';
 
 interface BlockProps {
 	row: number;
@@ -36,12 +43,25 @@ const Block = ({ row, col }: BlockProps) => {
 		setIsOverRow,
 	} = useInteraction();
 
+	const intervalGlitchingRef = useRef<ReturnType<typeof setInterval> | null>(
+		null
+	);
+
 	const [isOver, setIsOver] = useState(false);
+	const [isGlitching, setIsGlitching] = useState(false);
 
 	const hasRandomOpacity = useRef(Math.random() < 0.8);
+	const hasRandomGlitch = useRef(Math.random() < 0.2);
+
 	const randomOpacity = useRef(
 		hasRandomOpacity.current
 			? Math.round(Math.random() * 0.15 * 100) / 100
+			: 0
+	);
+
+	const delay = useRef(
+		hasRandomGlitch.current
+			? Math.round(Math.random() * 0.3 * 100) / 100
 			: 0
 	);
 
@@ -62,6 +82,23 @@ const Block = ({ row, col }: BlockProps) => {
 				(hasInteracted === 'right' && isFilled)),
 		[isReady, hasInteracted, isFilled]
 	);
+
+	const cleanup = useCallback(() => {
+		if (intervalGlitchingRef.current !== null) {
+			clearInterval(intervalGlitchingRef.current);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (!hasRandomGlitch.current) return;
+		cleanup();
+
+		intervalGlitchingRef.current = setInterval(() => {
+			setIsGlitching((prevIsGlitching) => !prevIsGlitching);
+		}, 50);
+
+		return () => cleanup();
+	}, [cleanup]);
 
 	useEffect(() => {
 		if (isOver) {
@@ -94,7 +131,7 @@ const Block = ({ row, col }: BlockProps) => {
 	return (
 		<button
 			type='button'
-			className={`game-grid-block aspect-square relative overflow-hidden text-primary transition-[background-color] duration-100${
+			className={`game-grid-block aspect-square relative overflow-hidden transition-[background-color] duration-100${
 				hasInteracted === false && !isGlobalError
 					? ' cursor-pointer'
 					: ''
@@ -102,6 +139,10 @@ const Block = ({ row, col }: BlockProps) => {
 				col % 5 === 0 ? ' game-grid-block-l-strong' : ''
 			}${row >= rows - 1 ? ' game-grid-block-b-strong' : ''}${
 				col >= cols - 1 ? ' game-grid-block-r-strong' : ''
+			}${
+				hasRandomGlitch.current
+					? ' backdrop-blur-sm game-grid-block-glitching'
+					: ''
 			}`}
 			disabled={isCompleted || isGlobalError || hasInteracted !== false}
 			onPointerEnter={() => setIsOver(!isCompleted ? true : false)}
@@ -111,6 +152,7 @@ const Block = ({ row, col }: BlockProps) => {
 					'--random-opacity': `${
 						!isRefreshing ? randomOpacity.current * 100 : 0
 					}%`,
+					'--delay': `${delay}s`,
 				} as CSSProperties
 			}>
 			{!isRefreshing ? (
@@ -133,14 +175,12 @@ const Block = ({ row, col }: BlockProps) => {
 							isError={isError}
 						/>
 					)}
-
 					<Icon
 						hasInteracted={hasInteracted}
 						isFilled={isFilled}
 						isError={isError}
 						isOver={isOver}
 					/>
-
 					{showIntersections &&
 					!isCompleted &&
 					(isOverCol === col || isOverRow === row) ? (

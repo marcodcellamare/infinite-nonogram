@@ -18,7 +18,7 @@ const Toggle = ({
 	onChange,
 }: ToggleProps) => {
 	const iconProps = {
-		className: 'lucide-text text-lg mx-1',
+		className: 'lucide-text text-lg',
 	};
 
 	useEffect(() => {
@@ -27,30 +27,30 @@ const Toggle = ({
 
 	return (
 		<label
-			className={`flex gap-2 items-center text-xs font-bold ${
+			className={`flex gap-2 items-center max-w-fit text-xs font-bold ${
 				!disabled ? 'cursor-pointer' : 'cursor-not-allowed'
-			} ${checked ? 'text-secondary' : 'text-base-content/50'}`}>
+			} ${checked ? 'text-secondary' : 'text-base-content/50'}${
+				disabled ? ' opacity-50' : ' hover:opacity-80'
+			}`}>
 			<input
 				type='checkbox'
-				className='toggle toggle-sm toggle-secondary'
+				className='toggle toggle-sm toggle-secondary disabled:opacity-100'
 				checked={checked}
 				disabled={disabled}
 				onChange={(e) => {
 					if (!disabled) onChange(e.target.checked);
 				}}
 			/>
-			<span className={disabled ? 'opacity-50' : ''}>
-				{icon ? (
-					<>
-						{icon && iconOff
-							? checked
-								? cloneElement(icon, iconProps)
-								: cloneElement(iconOff, iconProps)
-							: cloneElement(icon, iconProps)}{' '}
-					</>
-				) : null}
-				{label}
-			</span>
+			{icon ? (
+				<>
+					{icon && iconOff
+						? checked
+							? cloneElement(icon, iconProps)
+							: cloneElement(iconOff, iconProps)
+						: cloneElement(icon, iconProps)}{' '}
+				</>
+			) : null}
+			<span>{label}</span>
 		</label>
 	);
 };

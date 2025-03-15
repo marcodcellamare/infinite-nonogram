@@ -4,7 +4,7 @@ export type RGB = [number, number, number];
 export interface SettingsContextProps {
 	isRefreshing: boolean;
 	isGlobalError: boolean;
-	user: string;
+	user: string | null;
 	country: string | null;
 	seed: string;
 	difficulty: DifficultyTypes;
@@ -17,7 +17,7 @@ export interface SettingsContextProps {
 	isMusicOn: boolean;
 
 	setIsGlobalError: (error: boolean) => void;
-	setUser: (user?: string) => void;
+	setUser: (user: string | null) => void;
 	setSeed: (seed?: string) => void;
 	setDifficulty: (difficulty: string) => void;
 	setRows: (rows: number) => void;

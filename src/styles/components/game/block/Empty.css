@@ -16,7 +16,7 @@
 			color: var(--color-error);
 		}
 	}
-	&.game-grid-block-empty-glitching {
+	&.game-grid-block-empty-glitch {
 		&::after {
 			content: '';
 			position: absolute;
@@ -25,15 +25,15 @@
 			left: 0;
 			right: 0;
 			background-color: var(--color-primary);
-			animation-name: Glitch;
+			animation-name: EmptyGlitch;
 			animation-fill-mode: both;
 			animation-duration: 1.5s;
 			animation-iteration-count: infinite;
-			animation-delay: var(--delay);
+			animation-delay: var(--glitch-delay);
 		}
 	}
 }
-@keyframes Glitch {
+@keyframes EmptyGlitch {
 	0%,
 	10%,
 	15%,

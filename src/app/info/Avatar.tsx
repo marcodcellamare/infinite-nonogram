@@ -3,7 +3,7 @@ import useCSSVariable from '!/hooks/useCSSVariable';
 import BoringAvatar from 'boring-avatars';
 
 interface AvatarProps {
-	name: string;
+	name: string | null;
 	country?: string | null;
 	variant?: 'marble' | 'beam' | 'sunset' | 'pixel' | 'ring';
 	className?: string;
@@ -17,7 +17,7 @@ const Avatar = ({
 }: AvatarProps) => (
 	<div className={`avatar relative ${className}`.trim()}>
 		<BoringAvatar
-			name={name}
+			name={name || ''}
 			variant={variant}
 			colors={[
 				useCSSVariable('--color-primary'),

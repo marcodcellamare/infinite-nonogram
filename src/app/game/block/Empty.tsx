@@ -1,10 +1,10 @@
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties, useMemo, useRef } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
 
 import { InteractionType } from '!/types/interaction';
 
-import '!/styles/components/GridBlockEmpty.css';
+import '!/styles/components/game/block/Empty.css';
 
 interface EmptyProps {
 	hasInteracted: InteractionType | false;
@@ -15,14 +15,20 @@ const Empty = ({ hasInteracted, isError }: EmptyProps) => {
 	const { isCompleted } = useEngine();
 	const { showEffects } = useSettings();
 
-	const delay = useMemo(() => Math.round(Math.random() * 5 * 100) / 100, []);
-	const hasGlitchingEffect = useMemo(() => Math.random() < 0.2, []);
+	const hasGlitchEffect = useMemo(
+		() => showEffects && Math.random() < 0.2,
+		[showEffects]
+	);
+	const glitchDelay = useMemo(
+		() => (hasGlitchEffect ? Math.round(Math.random() * 5 * 100) / 100 : 0),
+		[hasGlitchEffect]
+	);
 
 	return (
 		<div
 			className={`game-grid-block-empty${
-				showEffects && hasGlitchingEffect && hasInteracted !== false
-					? ' game-grid-block-empty-glitching'
+				hasGlitchEffect && hasInteracted !== false
+					? ' game-grid-block-empty-glitch'
 					: ''
 			}${
 				isError ? ' game-grid-block-empty-error' : ''
@@ -33,7 +39,11 @@ const Empty = ({ hasInteracted, isError }: EmptyProps) => {
 					? ' scale-10 opacity-0'
 					: ''
 			}`}
-			style={{ '--delay': `${delay}s` } as CSSProperties}
+			style={
+				hasGlitchEffect
+					? ({ '--glitch-delay': `${glitchDelay}s` } as CSSProperties)
+					: undefined
+			}
 		/>
 	);
 };

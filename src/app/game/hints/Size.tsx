@@ -1,7 +1,8 @@
 import { useSettings } from '!/contexts/settings';
 
-import '!/styles/components/GridHintSize.css';
 import { ArrowDownIcon, ArrowRightIcon } from 'lucide-react';
+
+import '!/styles/components/game/hints/Size.css';
 
 const Size = () => {
 	const { cols, rows } = useSettings();

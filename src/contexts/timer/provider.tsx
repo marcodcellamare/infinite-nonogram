@@ -1,16 +1,14 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { TimerContext } from './context';
-import { dateMs, secondsToTimer } from '!/utils/timer';
+import { dateMs, msToTimeUnits } from '!/utils/timer';
 
-import { TimeUnit } from '!/types/timer';
+import { TimeUnits } from '!/types/timer';
 
 export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	const [startDate, setStartDate] = useState<number | null>(null);
-	const [counter, setCounter] = useState<Partial<Record<TimeUnit, number>>>(
-		{}
-	);
+	const [ms, setMs] = useState(0);
+	const [timeUnits, setTimeUnits] = useState<TimeUnits>({});
 	const [blink, setBlink] = useState(true);
-	const [total, setTotal] = useState(0);
 
 	const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 	const intervalBlinkRef = useRef<ReturnType<typeof setInterval> | null>(
@@ -30,11 +28,11 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	const reset = useCallback(() => {
 		stop();
 		setStartDate(null);
-		setCounter({
+		setMs(0);
+		setTimeUnits({
 			seconds: 0,
 		});
 		setBlink(true);
-		setTotal(0);
 	}, [stop]);
 
 	const start = useCallback(() => {
@@ -43,7 +41,10 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	}, [reset]);
 
 	const update = useCallback(() => {
-		if (startDate) setCounter(secondsToTimer(startDate));
+		if (startDate) {
+			setMs(Math.abs(dateMs() - startDate));
+			setTimeUnits(msToTimeUnits(dateMs() - startDate));
+		}
 	}, [startDate]);
 
 	const timer = useCallback(() => {
@@ -71,9 +72,10 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	return (
 		<TimerContext.Provider
 			value={{
-				counter,
+				ms,
+				timeUnits,
 				blink,
-				total,
+
 				start,
 				stop,
 				reset,

@@ -19,7 +19,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const {
 		start: startTimer,
 		stop: stopTimer,
-		total: totalTime,
+		ms: totalTime,
 		reset: resetTimer,
 	} = useTimer();
 

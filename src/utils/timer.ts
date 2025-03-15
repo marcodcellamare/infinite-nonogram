@@ -1,6 +1,6 @@
-import { TimeUnit } from '!/types/timer';
+import { TimeUnit, TimeUnits } from '!/types/timer';
 
-const secondsUnits = <Record<TimeUnit, number>>{
+const unitsInSeconds = <Record<TimeUnit, number>>{
 	years: 60 * 60 * 24 * 365,
 	months: 60 * 60 * 24 * 30,
 	days: 60 * 60 * 24,
@@ -12,24 +12,22 @@ const secondsUnits = <Record<TimeUnit, number>>{
 export const date = () => new Date();
 export const dateMs = () => date().getTime();
 
-export const secondsToTimer = (
-	ms: number
-): Partial<Record<TimeUnit, number>> => {
-	const timer: Partial<Record<TimeUnit, number>> = {};
+export const msToTimeUnits = (ms: number): TimeUnits => {
+	const timer: TimeUnits = {};
 
-	let dateDiff = Math.abs((dateMs() - ms) / 1000);
+	let foundNonZero = false;
+	let dateDiff = Math.abs(ms / 1000);
 
-	Object.entries(secondsUnits).forEach(([type, seconds]) => {
-		timer[type as TimeUnit] = Math.floor(dateDiff / seconds);
-		dateDiff -= (timer[type as TimeUnit] ?? 0) * seconds;
+	Object.entries(unitsInSeconds).forEach(([unit, seconds]) => {
+		timer[unit as TimeUnit] = Math.floor(dateDiff / seconds);
+		dateDiff -= (timer[unit as TimeUnit] ?? 0) * seconds;
 	});
 
-	Object.entries(timer).some(([type, count]) => {
-		if (count === 0 && !['seconds'].includes(type)) {
-			delete timer[type as TimeUnit];
-		} else {
-			return true;
-		}
-	});
-	return timer;
+	return Object.fromEntries(
+		Object.entries(timer).filter(([unit, value]) => {
+			if (foundNonZero || unit === 'seconds') return true;
+			if (value !== 0) foundNonZero = true;
+			return foundNonZero;
+		})
+	);
 };

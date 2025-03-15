@@ -2,7 +2,7 @@ import { useSettings } from '!/contexts/settings';
 
 import { InteractionType } from '!/types/interaction';
 
-import '!/styles/components/GridBlockVoid.css';
+import '!/styles/components/game/block/Void.css';
 
 interface VoidProps {
 	hasInteracted: InteractionType | false;

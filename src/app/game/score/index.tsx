@@ -28,7 +28,7 @@ const Score = () => {
 	const { isCompleted, score, rating } = useEngine();
 	const { setSeed, user, country, seed, cols, rows, difficulty } =
 		useSettings();
-	const { total: totalTime } = useTimer();
+	const { ms } = useTimer();
 
 	const [hasStatus, setHasStatus] = useState<ScoreTransitionStatus>(false);
 	const [title, setTitle] = useState('');
@@ -76,11 +76,9 @@ const Score = () => {
 	useEffect(() => {
 		if (!isCompleted || hasStatus !== 'show') return;
 
-		console.log('totalTime', totalTime);
-
 		addDocument({
 			date: serverTimestamp(),
-			name: user,
+			name: user ?? '',
 			country,
 			score,
 			rating,
@@ -88,7 +86,7 @@ const Score = () => {
 			rows,
 			difficulty,
 			seed,
-			time: Math.round(totalTime),
+			time: ms,
 		});
 	}, [
 		isCompleted,
@@ -102,7 +100,7 @@ const Score = () => {
 		rows,
 		difficulty,
 		seed,
-		totalTime,
+		ms,
 	]);
 
 	useEffect(() => {

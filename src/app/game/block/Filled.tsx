@@ -7,7 +7,7 @@ import Shining from './Shining';
 
 import { InteractionType } from '!/types/interaction';
 
-import '!/styles/components/GridBlockFilled.css';
+import '!/styles/components/game/block/Filled.css';
 
 interface FilledProps {
 	hasInteracted: InteractionType | false;
@@ -15,7 +15,7 @@ interface FilledProps {
 }
 
 const Filled = ({ hasInteracted, isError }: FilledProps) => {
-	const { totalErrors, isCompleted } = useEngine();
+	const { totalErrors } = useEngine();
 	const { showEffects } = useSettings();
 
 	const hasShiningEffect = useMemo(() => Math.random() < 0.4, []);

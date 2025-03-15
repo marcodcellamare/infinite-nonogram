@@ -2,8 +2,9 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 
-import { DifficultyTypes } from '!/types/settings';
 import DifficultyIcon from '../misc/DifficultyIcon';
+
+import { DifficultyTypes } from '!/types/settings';
 
 const Difficulty = () => {
 	const { i18n } = useTranslation();
@@ -26,7 +27,7 @@ const Difficulty = () => {
 						onClick={() => setDifficulty(d)}>
 						<DifficultyIcon
 							difficulty={d}
-							className='text-xl'
+							className='text-xl hidden md:block'
 						/>
 						{i18n.t(`difficulties.${d}`)}
 					</button>

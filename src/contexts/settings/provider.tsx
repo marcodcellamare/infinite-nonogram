@@ -8,7 +8,13 @@ import {
 } from 'react';
 import { SettingsContext } from './context';
 
-import { cleanUser, cleanSeed, generateUser, storageName } from '!/utils/misc';
+import {
+	cleanUser,
+	cleanSeed,
+	generateUser,
+	storageName,
+	generateSeed,
+} from '!/utils/misc';
 import { v4 as uuidv4 } from 'uuid';
 import useGeoLocation from 'react-ipgeolocation';
 import Config from '!config';
@@ -20,7 +26,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [isGlobalError, setIsGlobalError] = useState(false);
-	const [user, setUser] = useState('');
+	const [user, setUser] = useState<string | null>(null);
 	const [country, setCountry] = useState<string | null>(null);
 	const [seed, setSeed] = useState(cleanSeed(uuidv4()));
 	const [difficulty, setDifficulty] = useState<DifficultyTypes>('medium');
@@ -32,7 +38,10 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	const [isMusicOn, setIsMusicOn] = useState(true);
 
 	const storage = useRef({
-		user: localStorage.getItem(storageName('user')) ?? '',
+		user:
+			(localStorage.getItem(storageName('user')) || '').trim()?.length > 0
+				? localStorage.getItem(storageName('user'))
+				: null,
 		isAuto: localStorage.getItem(storageName('isAuto')) !== 'false',
 		showIntersections:
 			localStorage.getItem(storageName('showIntersections')) !== 'false',
@@ -54,14 +63,14 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		);
 	}, []);
 
-	const gatedSetUser = useCallback((user?: string) => {
-		if (user === undefined) user = generateUser();
+	const gatedSetUser = useCallback((user: string | null = null) => {
+		if (user === null) user = generateUser();
 
 		setUser(cleanUser(user));
 	}, []);
 
 	const gatedSetSeed = useCallback((seed?: string) => {
-		if (seed === undefined) seed = uuidv4();
+		if (seed === undefined) seed = generateSeed();
 
 		setSeed(cleanSeed(seed));
 	}, []);
@@ -155,7 +164,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	}, [isGlobalError, isRefreshing]);
 
 	useEffect(() => {
-		localStorage.setItem(storageName('user'), user);
+		if (user !== null) localStorage.setItem(storageName('user'), user);
 	}, [user]);
 
 	useEffect(() => {
