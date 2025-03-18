@@ -6,6 +6,7 @@ import { colorToRgb } from '!/utils/colors';
 
 import { AwardIcon, StarIcon } from 'lucide-react';
 import { ScoreTransitionStatus } from '!/types/engine';
+import { timeoutType } from '!/types/timer';
 
 const Rating = ({ hasStatus }: { hasStatus: ScoreTransitionStatus }) => {
 	const { rating } = useEngine();
@@ -15,7 +16,7 @@ const Rating = ({ hasStatus }: { hasStatus: ScoreTransitionStatus }) => {
 	const [transitionDuration, setTransitionDuration] = useState(0);
 
 	const ratingRef = useRef(rating);
-	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const timeoutRef = useRef<timeoutType>(null);
 
 	useEffect(() => {
 		if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
@@ -43,7 +44,7 @@ const Rating = ({ hasStatus }: { hasStatus: ScoreTransitionStatus }) => {
 					{new Array(3).fill(0).map((_, k) => (
 						<StarIcon
 							key={k}
-							className='lucide-text stroke-1 stroke-secondary'
+							className='text-svg-inline stroke-1 stroke-secondary'
 						/>
 					))}
 				</div>
@@ -56,14 +57,16 @@ const Rating = ({ hasStatus }: { hasStatus: ScoreTransitionStatus }) => {
 					{new Array(3).fill(0).map((_, k) => (
 						<StarIcon
 							key={k}
-							className='lucide-text stroke-1 stroke-secondary fill-secondary flex-shrink-0'
+							className='text-svg-inline stroke-1 stroke-secondary fill-secondary flex-shrink-0'
 						/>
 					))}
 				</div>
 			</div>
 			<div className='indicator-item badge badge-xl bg-white text-secondary border-none rounded-full shadow'>
-				<AwardIcon className='lucide-text' />
-				<strong>{percentage(ratingRef.current, 1)}</strong>
+				<AwardIcon className='text-svg-inline' />
+				<span className='font-black'>
+					{percentage(ratingRef.current, 1)}
+				</span>
 			</div>
 		</div>
 	);

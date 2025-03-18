@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import Config from '!config';
 
-interface DrawerToggleProps {
+interface ToggleProps {
 	className?: string;
 	title?: string;
 	children?: ReactNode;
@@ -10,14 +10,14 @@ interface DrawerToggleProps {
 	onClick?: () => void;
 }
 
-const DrawerToggle = ({
+const Toggle = ({
 	className = '',
 	title,
 	children,
 	onOver = () => {},
 	onOut = () => {},
 	onClick = () => {},
-}: DrawerToggleProps) => (
+}: ToggleProps) => (
 	<label
 		htmlFor={Config.drawer}
 		className={`${className} pointer-events-auto`.trim()}
@@ -28,4 +28,4 @@ const DrawerToggle = ({
 		{children}
 	</label>
 );
-export default DrawerToggle;
+export default Toggle;

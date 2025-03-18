@@ -7,9 +7,9 @@
 	&.game-grid-block-glitching {
 		animation-name: Glitching;
 		animation-fill-mode: both;
-		animation-duration: 0.7s;
+		animation-duration: 1s;
 		animation-iteration-count: infinite;
-		animation-delay: var(--delay);
+		animation-delay: var(--glitching-delay);
 	}
 
 	&::before {
@@ -20,42 +20,23 @@
 		left: 0;
 		right: 0;
 		background-color: --alpha(
-			var(--color-base-300) / var(--random-opacity)
+			var(--color-base-300) / var(--block-random-opacity)
 		);
 	}
 }
 @keyframes Glitching {
 	0%,
-	10%,
-	15%,
-	25%,
-	40%,
-	45%,
-	75%,
-	80%,
-	95%,
-	100% {
-		background-color: --alpha(var(--color-white) / 60%);
+	50% {
+		background-color: --alpha(var(--color-white) / 80%);
 	}
 	5%,
 	15%,
-	30%,
-	55%,
-	70% {
+	30% {
 		background-color: --alpha(var(--color-white) / 90%);
 	}
 	3%,
 	20%,
-	35%,
-	85%,
-	90% {
-		background-color: --alpha(var(--color-white) / 50%);
-	}
-	65%,
-	60% {
-		background-color: --alpha(var(--color-white) / 30%);
-	}
-	50% {
-		background-color: --alpha(var(--color-white) / 10%);
+	35% {
+		background-color: --alpha(var(--color-white) / 70%);
 	}
 }

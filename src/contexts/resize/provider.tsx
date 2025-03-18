@@ -3,9 +3,11 @@ import { ResizeContext } from './context';
 
 export const ResizeProvider = ({ children }: { children: ReactNode }) => {
 	const listeners = useRef<Set<() => void>>(new Set());
+	const handleResizeRef = useRef<(() => void) | null>(null);
 
 	const subscribe = (callback: () => void) => {
 		listeners.current.add(callback);
+		handleResizeRef.current?.();
 
 		return () => listeners.current.delete(callback);
 	};
@@ -21,6 +23,8 @@ export const ResizeProvider = ({ children }: { children: ReactNode }) => {
 				200
 			);
 		};
+		handleResizeRef.current = handleResize;
+
 		window.addEventListener('resize', handleResize);
 		handleResize();
 

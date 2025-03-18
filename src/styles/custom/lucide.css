@@ -1,11 +1,10 @@
 @layer components {
 	.lucide {
 		@apply stroke-2;
-
-		&.lucide-text {
-			@apply inline-block
-				w-[1em]
-				h-[1em];
-		}
+	}
+	.text-svg-inline {
+		@apply inline-block
+			w-[1em]
+			h-[1em];
 	}
 }

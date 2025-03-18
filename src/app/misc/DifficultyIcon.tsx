@@ -12,11 +12,13 @@ const DifficultyIcon = ({
 	className = '',
 }: DifficultyIconProps) => {
 	const icons = {
-		easy: <BabyIcon className={`lucide-text ${className}`.trim()} />,
+		easy: <BabyIcon className={`text-svg-inline ${className}`.trim()} />,
 		medium: (
-			<GraduationCapIcon className={`lucide-text ${className}`.trim()} />
+			<GraduationCapIcon
+				className={`text-svg-inline ${className}`.trim()}
+			/>
 		),
-		hard: <BrainIcon className={`lucide-text ${className}`.trim()} />,
+		hard: <BrainIcon className={`text-svg-inline ${className}`.trim()} />,
 	};
 
 	return icons[difficulty];

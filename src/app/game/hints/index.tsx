@@ -1,6 +1,7 @@
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
 import { useInteraction } from '!/contexts/interaction';
+import handleClassNames from 'classnames';
 
 import Group from './Group';
 import Size from './Size';
@@ -20,15 +21,17 @@ const Hint = ({ row, col }: HintProps) => {
 
 	return (
 		<div
-			className={`game-grid-hint flex relative ${
-				row >= 0 || col >= 0 ? 'bg-base-200' : 'bg-accent'
-			}${row % 5 === 0 || row === -1 ? ' game-grid-hint-t-strong' : ''}${
-				col % 5 === 0 || col === -1 ? ' game-grid-hint-l-strong' : ''
-			}${
-				row >= rows - 1 || row === -1 ? ' game-grid-hint-b-strong' : ''
-			}${
-				col >= cols - 1 || col === -1 ? ' game-grid-hint-r-strong' : ''
-			}`}>
+			className={handleClassNames([
+				'game-grid-hint',
+				'flex relative',
+				row >= 0 || col >= 0 ? 'bg-base-200' : 'bg-accent',
+				{
+					'game-grid-hint-t-strong': row % 5 === 0 || row === -1,
+					'game-grid-hint-l-strong': col % 5 === 0 || col === -1,
+					'game-grid-hint-b-strong': row >= rows - 1 || row === -1,
+					'game-grid-hint-r-strong': col >= cols - 1 || col === -1,
+				},
+			])}>
 			{row >= 0 || col >= 0 ? (
 				<>
 					{col < 0 && hints.rows[row] ? (

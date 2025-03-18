@@ -1,14 +1,8 @@
-import {
-	CSSProperties,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from 'react';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
+import handleClassNames from 'classnames';
 
 import Void from './Void';
 import Empty from './Empty';
@@ -33,6 +27,7 @@ const Block = ({ row, col }: BlockProps) => {
 		cols,
 		setIsGlobalError,
 		showIntersections,
+		showEffects,
 	} = useSettings();
 	const {
 		isClicked,
@@ -43,27 +38,7 @@ const Block = ({ row, col }: BlockProps) => {
 		setIsOverRow,
 	} = useInteraction();
 
-	const intervalGlitchingRef = useRef<ReturnType<typeof setInterval> | null>(
-		null
-	);
-
 	const [isOver, setIsOver] = useState(false);
-	const [isGlitching, setIsGlitching] = useState(false);
-
-	const hasRandomOpacity = useRef(Math.random() < 0.8);
-	const hasRandomGlitch = useRef(Math.random() < 0.2);
-
-	const randomOpacity = useRef(
-		hasRandomOpacity.current
-			? Math.round(Math.random() * 0.15 * 100) / 100
-			: 0
-	);
-
-	const delay = useRef(
-		hasRandomGlitch.current
-			? Math.round(Math.random() * 0.3 * 100) / 100
-			: 0
-	);
 
 	const isFilled = useMemo(
 		() => (isReady && grid[row][col] ? grid[row][col] : false),
@@ -83,29 +58,33 @@ const Block = ({ row, col }: BlockProps) => {
 		[isReady, hasInteracted, isFilled]
 	);
 
-	const cleanup = useCallback(() => {
-		if (intervalGlitchingRef.current !== null) {
-			clearInterval(intervalGlitchingRef.current);
-		}
-	}, []);
+	const hasRandomOpacityEffect = useMemo(
+		() => showEffects && hasInteracted === false && Math.random() < 0.5,
+		[showEffects, hasInteracted]
+	);
+	const hasGlitchingEffect = useMemo(
+		() =>
+			showEffects && hasInteracted === false && !isRefreshing
+				? Math.random() < 0.2
+				: 0,
+		[showEffects, hasInteracted, isRefreshing]
+	);
+	const randomOpacity = useMemo(
+		() =>
+			hasRandomOpacityEffect
+				? Math.round(Math.random() * 0.2 * 100) / 100
+				: 0,
+		[hasRandomOpacityEffect]
+	);
+	const glitchingDelay = useMemo(
+		() =>
+			hasGlitchingEffect
+				? Math.round(Math.random() * 0.9 * 100) / 100
+				: 0,
+		[hasGlitchingEffect]
+	);
 
 	useEffect(() => {
-		if (!hasRandomGlitch.current) return;
-		cleanup();
-
-		intervalGlitchingRef.current = setInterval(() => {
-			setIsGlitching((prevIsGlitching) => !prevIsGlitching);
-		}, 50);
-
-		return () => cleanup();
-	}, [cleanup]);
-
-	useEffect(() => {
-		if (isOver) {
-			setIsOverRow(row);
-			setIsOverCol(col);
-		}
-
 		if (hasInteracted === false && isOver && isClicked && !isGlobalError) {
 			setInteraction({ row, col, hasInteracted: isInteracting });
 		}
@@ -114,8 +93,6 @@ const Block = ({ row, col }: BlockProps) => {
 		col,
 		hasInteracted,
 		setInteraction,
-		setIsOverRow,
-		setIsOverCol,
 		isOver,
 		isClicked,
 		isInteracting,
@@ -123,36 +100,49 @@ const Block = ({ row, col }: BlockProps) => {
 	]);
 
 	useEffect(() => {
-		if (isError) setIsGlobalError(true);
+		if (showIntersections && !isCompleted && isOver) {
+			setIsOverRow(row);
+			setIsOverCol(col);
+		}
+	}, [
+		row,
+		col,
+		setIsOverRow,
+		setIsOverCol,
+		showIntersections,
+		isCompleted,
+		isOver,
+	]);
 
+	useEffect(() => {
+		if (isError) setIsGlobalError(true);
 		return () => setIsGlobalError(false);
 	}, [isError, setIsGlobalError]);
 
 	return (
 		<button
 			type='button'
-			className={`game-grid-block aspect-square relative overflow-hidden transition-[background-color] duration-100${
-				hasInteracted === false && !isGlobalError
-					? ' cursor-pointer'
-					: ''
-			}${row % 5 === 0 ? ' game-grid-block-t-strong' : ''}${
-				col % 5 === 0 ? ' game-grid-block-l-strong' : ''
-			}${row >= rows - 1 ? ' game-grid-block-b-strong' : ''}${
-				col >= cols - 1 ? ' game-grid-block-r-strong' : ''
-			}${
-				hasRandomGlitch.current
-					? ' backdrop-blur-sm game-grid-block-glitching'
-					: ''
-			}`}
+			className={handleClassNames([
+				'game-grid-block',
+				'relative aspect-square overflow-hidden',
+				{
+					'game-grid-block-t-strong': row % 5 === 0,
+					'game-grid-block-l-strong': col % 5 === 0,
+					'game-grid-block-b-strong': row >= rows - 1,
+					'game-grid-block-r-strong': col >= cols - 1,
+					'game-grid-block-glitching backdrop-blur-sm':
+						hasGlitchingEffect,
+					'transition-[background-color] duration-100': showEffects,
+					'cursor-pointer': hasInteracted === false && !isGlobalError,
+				},
+			])}
 			disabled={isCompleted || isGlobalError || hasInteracted !== false}
 			onPointerEnter={() => setIsOver(!isCompleted ? true : false)}
 			onPointerLeave={() => setIsOver(false)}
 			style={
 				{
-					'--random-opacity': `${
-						!isRefreshing ? randomOpacity.current * 100 : 0
-					}%`,
-					'--delay': `${delay}s`,
+					'--block-random-opacity': `${randomOpacity * 100}%`,
+					'--glitching-delay': `${glitchingDelay}s`,
 				} as CSSProperties
 			}>
 			{!isRefreshing ? (
@@ -163,7 +153,6 @@ const Block = ({ row, col }: BlockProps) => {
 							isOver={isOver}
 						/>
 					) : null}
-
 					{isFilled ? (
 						<Filled
 							hasInteracted={hasInteracted}

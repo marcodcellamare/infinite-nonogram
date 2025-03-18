@@ -14,6 +14,7 @@ export interface SettingsContextProps {
 	isAuto: boolean;
 	showIntersections: boolean;
 	showEffects: boolean;
+	isLeaderboardOn: boolean;
 	isMusicOn: boolean;
 
 	setIsGlobalError: (error: boolean) => void;
@@ -25,5 +26,6 @@ export interface SettingsContextProps {
 	setIsAuto: (auto: boolean) => void;
 	setShowIntersections: (intersections: boolean) => void;
 	setShowEffects: (effects: boolean) => void;
+	setIsLeaderboardOn: (leaderboard: boolean) => void;
 	setIsMusicOn: (music: boolean) => void;
 }

@@ -6,7 +6,7 @@ interface ItemProps {
 }
 
 const Icon = ({ isOver, children }: ItemProps) => {
-	const defaultClassName = 'lucide-text';
+	const defaultClassName = 'text-svg-inline';
 
 	return (
 		<div

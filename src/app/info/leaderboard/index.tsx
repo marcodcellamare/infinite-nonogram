@@ -26,35 +26,31 @@ const Leaderboard = ({ show }: LeaderboardProps) => {
 		]);
 	}, [getDocuments, show]);
 
-	return (
-		<>
-			{!isLoading ? (
-				!error ? (
-					docs.length > 0 ? (
-						<div className='grid grid-cols-[min-content_min-content_minmax(100px,1fr)_min-content_min-content] gap-x-2 sm:gap-x-5 gap-y-1 md:gap-y-2 justify-items-stretch items-center'>
-							{docs.map((doc, k) =>
-								doc ? (
-									<Player
-										key={k}
-										rank={k}
-										{...doc}
-									/>
-								) : null
-							)}
-						</div>
-					) : (
-						<FrownIcon className='lucide-text text-3xl text-secondary' />
-					)
-				) : (
-					<div className='text-error'>
-						<CloudOffIcon className='lucide-text text-3xl mb-1' />
-						<div className='text-xs font-bold'>{error}</div>
-					</div>
-				)
+	return !isLoading ? (
+		!error ? (
+			docs.length > 0 ? (
+				<div className='grid grid-cols-[min-content_min-content_minmax(100px,1fr)_min-content_min-content] gap-x-2 sm:gap-x-5 gap-y-1 md:gap-y-2 justify-items-stretch items-center'>
+					{docs.map((doc, k) =>
+						doc ? (
+							<Player
+								key={k}
+								rank={k}
+								{...doc}
+							/>
+						) : null
+					)}
+				</div>
 			) : (
-				<div className='loading loading-infinity loading-xl' />
-			)}
-		</>
+				<FrownIcon className='text-svg-inline text-3xl text-secondary' />
+			)
+		) : (
+			<div className='text-error'>
+				<CloudOffIcon className='text-svg-inline text-3xl mb-1' />
+				<div className='text-xs font-bold'>{error}</div>
+			</div>
+		)
+	) : (
+		<div className='loading loading-infinity loading-xl' />
 	);
 };
 export default Leaderboard;

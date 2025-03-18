@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
 import { useSettings } from '!/contexts/settings';
+import useMountTransition from '!/hooks/useMountTransition';
+import handleClassNames from 'classnames';
 
 import { InteractionType } from '!/types/interaction';
 
@@ -11,15 +14,30 @@ interface VoidProps {
 
 const Void = ({ hasInteracted, isOver }: VoidProps) => {
 	const { isGlobalError, showEffects } = useSettings();
+	const { isMounted, isTransitioning, handleTransitionEnd, setCondition } =
+		useMountTransition();
 
-	return !isGlobalError ? (
+	useEffect(
+		() => setCondition(isOver && hasInteracted === false && !isGlobalError),
+		[setCondition, isOver, hasInteracted, isGlobalError]
+	);
+
+	if (!isMounted) return null;
+
+	return (
 		<div
-			className={`game-grid-block-void absolute top-0 bottom-0 left-0 right-0 bg-primary${
-				showEffects ? ' transition-[opacity,scale] duration-200' : ''
-			}${
-				!isOver && hasInteracted === false ? ' scale-50 opacity-0' : ''
-			}`}
+			className={handleClassNames(
+				'game-grid-block-void',
+				'absolute top-0 bottom-0 left-0 right-0',
+				'bg-primary',
+				{
+					'transition-[opacity,scale]': showEffects,
+					'duration-200': isTransitioning,
+					'duration-500 scale-50 opacity-0': !isTransitioning,
+				}
+			)}
+			onTransitionEnd={handleTransitionEnd}
 		/>
-	) : null;
+	);
 };
 export default Void;

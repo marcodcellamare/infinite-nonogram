@@ -39,7 +39,7 @@ const Controller = () => {
 				className={`drop-shadow transition-transform duration-300 ${
 					checked ? 'text-white/30 scale-100' : 'text-white scale-140'
 				}`}>
-				<SquareIcon className='lucide-text block' />
+				<SquareIcon className='text-svg-inline block' />
 			</span>
 			<input
 				type='checkbox'
@@ -54,13 +54,13 @@ const Controller = () => {
 						? 'text-white/50 scale-100'
 						: 'text-white scale-140'
 				}`}>
-				<XIcon className='lucide-text block' />
+				<XIcon className='text-svg-inline block' />
 			</span>
 			<div
 				className={`indicator-item badge badge-secondary rounded-full gap-1 font-bold uppercase transition-[opacity,background-color,filter] duration-400 ${
 					isAuto ? 'bg-secondary/80 backdrop-blur-sm' : 'opacity-0'
 				}`}>
-				<MouseIcon className='lucide-text' />
+				<MouseIcon className='text-svg-inline' />
 				{i18n.t('autoShort')}
 			</div>
 		</label>

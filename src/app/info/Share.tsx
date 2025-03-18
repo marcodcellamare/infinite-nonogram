@@ -20,9 +20,9 @@ const Share = () => {
 			}`}
 			onClick={handleClick}>
 			{!copied ? (
-				<CopyIcon className='lucide-text' />
+				<CopyIcon className='text-svg-inline' />
 			) : (
-				<CheckIcon className='lucide-text' />
+				<CheckIcon className='text-svg-inline' />
 			)}{' '}
 			{i18n.t(!copied ? 'clipboard.copyUrl' : 'clipboard.copied')}
 		</button>

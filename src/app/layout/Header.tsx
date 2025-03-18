@@ -17,10 +17,12 @@ const Header = () => {
 					</div>
 				</div>
 				<div className='p-5 md:p-10 flex flex-col md:flex-row gap-1 md:justify-between items-stretch md:items-end'>
-					<Settings />
-					<div className='flex flex-col sm:flex-row flex-wrap gap-1 items-start sm:items-end'>
-						<Time className='self-stretch md:order-last' />
+					<div className='flex flex-col md:flex-row flex-wrap gap-1 items-start md:items-end'>
+						<Time className='md:order-last' />
 						<Status />
+					</div>
+					<div className='md:order-first'>
+						<Settings />
 					</div>
 				</div>
 			</div>

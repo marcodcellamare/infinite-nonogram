@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 
-interface DrawerToggleProps {
+interface ContainerProps {
 	show: boolean;
 	label?: string;
 	children: ReactNode;
 }
 
-const DrawerContainer = ({ show, label, children }: DrawerToggleProps) => (
+const Container = ({ show, label, children }: ContainerProps) => (
 	<div
 		className={`relative text-primary bg-white p-5 md:p-10 inline-block min-w-fit rounded-lg shadow-lg shadow-primary/20 transition-[margin-right] duration-300${
 			show ? ' -me-10 md:-me-25' : ''
@@ -19,4 +19,4 @@ const DrawerContainer = ({ show, label, children }: DrawerToggleProps) => (
 		) : null}
 	</div>
 );
-export default DrawerContainer;
+export default Container;

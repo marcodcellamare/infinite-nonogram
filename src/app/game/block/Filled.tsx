@@ -1,6 +1,8 @@
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties, useEffect, useMemo } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
+import useMountTransition from '!/hooks/useMountTransition';
+import handleClassNames from 'classnames';
 
 import Perfect from './Perfect';
 import Shining from './Shining';
@@ -18,33 +20,53 @@ const Filled = ({ hasInteracted, isError }: FilledProps) => {
 	const { totalErrors } = useEngine();
 	const { showEffects } = useSettings();
 
-	const hasShiningEffect = useMemo(() => Math.random() < 0.4, []);
-	const hasColorEffect = useMemo(() => Math.random() < 0.6, []);
+	const { isMounted, isTransitioning, handleTransitionEnd, setCondition } =
+		useMountTransition();
+
+	const hasShiningEffect = useMemo(
+		() => showEffects && hasInteracted === 'left' && Math.random() < 0.4,
+		[showEffects, hasInteracted]
+	);
+	const hasRandomOpacityEffect = useMemo(
+		() => showEffects && hasInteracted !== false && Math.random() < 0.6,
+		[showEffects, hasInteracted]
+	);
 	const randomOpacity = useMemo(
 		() =>
-			hasColorEffect ? Math.round(Math.random() * 0.5 * 100) / 100 : 0,
-		[hasColorEffect]
+			hasRandomOpacityEffect
+				? Math.round(Math.random() * 0.5 * 100) / 100
+				: 0,
+		[hasRandomOpacityEffect]
 	);
+
+	useEffect(
+		() => setCondition(hasInteracted !== false),
+		[setCondition, hasInteracted]
+	);
+
+	if (!isMounted) return null;
 
 	return (
 		<div
-			className={`game-grid-block-filled${
-				showEffects && hasInteracted !== false && randomOpacity > 0
-					? ' game-grid-block-filled-random'
-					: ''
-			} absolute top-0 bottom-0 left-0 right-0 ${
-				!isError ? 'bg-accent' : 'bg-error'
-			} ${showEffects ? ' transition-[opacity,scale] duration-200' : ''}${
-				hasInteracted === false ? ' scale-50 opacity-0' : ''
-			}`}
-			style={{ '--random-opacity': randomOpacity } as CSSProperties}>
+			className={handleClassNames(
+				'game-grid-block-filled',
+				'absolute top-0 bottom-0 left-0 right-0',
+				{
+					'bg-accent': !isError,
+					'bg-error': isError,
+					'game-grid-block-filled-random': randomOpacity > 0,
+					'transition-[opacity,scale] duration-200': showEffects,
+					'scale-50 opacity-0': !isTransitioning,
+				}
+			)}
+			style={
+				{ '--filled-random-opacity': randomOpacity } as CSSProperties
+			}
+			onTransitionEnd={handleTransitionEnd}>
 			{hasInteracted !== false && totalErrors === 0 && !isError ? (
 				<Perfect />
 			) : null}
-
-			{showEffects && hasShiningEffect && hasInteracted === 'left' ? (
-				<Shining />
-			) : null}
+			{hasShiningEffect ? <Shining /> : null}
 		</div>
 	);
 };

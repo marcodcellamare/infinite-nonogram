@@ -14,7 +14,7 @@ const Item = ({ total, extraTotal, icon, color, children }: ItemProps) => {
 			className={`btn btn-xs btn-outline ${color} flex-1 flex-row gap-0.5 items-center justify-start h-auto py-0.5 transition-opacity duration-200${
 				total === 0 ? ' opacity-30' : ''
 			}`}>
-			{cloneElement(icon, { className: 'lucide-text text-2xl' })}
+			{cloneElement(icon, { className: 'text-svg-inline text-2xl' })}
 			<span className='flex flex-col items-start'>
 				<span className='text-xs leading-[1.2em]'>
 					<strong>{total}</strong>

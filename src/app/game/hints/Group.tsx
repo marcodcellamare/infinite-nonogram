@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
+import handleClassNames from 'classnames';
 
 import Number from './Number';
 
@@ -24,15 +25,21 @@ const Group = ({ type, hints }: GroupProps) => {
 		[hints, isCompleted]
 	);
 
-	return hints ? (
+	if (!hints) return null;
+
+	return (
 		<ul
-			className={`game-grid-hint-group list-none flex ${
+			className={handleClassNames([
+				'game-grid-hint-group',
+				'list-none flex flex-grow items-center justify-end',
 				type === 'col'
 					? 'game-grid-hint-group-col flex-col'
-					: 'game-grid-hint-group-row flex-row'
-			} flex-grow items-center justify-end ${
-				showEffects ? ' transition-[background-color] duration-300' : ''
-			} ${isDone ? ' bg-accent/25' : ''}`}>
+					: 'game-grid-hint-group-row flex-row',
+				{
+					'transition-[background-color] duration-400': showEffects,
+					'bg-accent/25': isDone,
+				},
+			])}>
 			{!isRefreshing
 				? hints.map((hint, k) => (
 						<li key={k}>
@@ -44,6 +51,6 @@ const Group = ({ type, hints }: GroupProps) => {
 				  ))
 				: null}
 		</ul>
-	) : null;
+	);
 };
 export default Group;

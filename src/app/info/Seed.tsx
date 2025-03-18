@@ -2,12 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { generateSeed } from '!/utils/misc';
 
+import { intervalType } from '!/types/timer';
+
 const Seed = () => {
 	const { seed, isRefreshing } = useSettings();
 
 	const [randomSeed, setRandomSeed] = useState('');
 
-	const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+	const intervalRef = useRef<intervalType>(null);
 
 	const randomize = useCallback(() => setRandomSeed(generateSeed()), []);
 	const cleanup = useCallback(() => {

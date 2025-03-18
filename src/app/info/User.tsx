@@ -1,6 +1,6 @@
 import { useSettings } from '!/contexts/settings/hook';
 import { useTranslation } from 'react-i18next';
-import DrawerToggle from '../misc/DrawerToggle';
+import Toggle from '../layout/drawer/Toggle';
 import Avatar from './Avatar';
 
 import { SettingsIcon } from 'lucide-react';
@@ -13,7 +13,7 @@ const User = () => {
 	const [isOver, setIsOver] = useState(false);
 
 	return (
-		<DrawerToggle
+		<Toggle
 			className='btn btn-lg btn-outline btn-accent hover:btn-primary text-primary hover:text-accent rounded-full p-1 sm:pe-5 h-auto font-normal max-w-[150px]'
 			onOver={() => setIsOver(true)}
 			onOut={() => setIsOver(false)}>
@@ -26,7 +26,7 @@ const User = () => {
 					}`}
 				/>
 				<SettingsIcon
-					className={`lucide-text absolute top-1/2 left-1/2 -translate-1/2 text-3xl sm:text-2xl text-primary transition-[opacity,scale] duration-300${
+					className={`text-svg-inline absolute top-1/2 left-1/2 -translate-1/2 text-3xl sm:text-2xl text-primary transition-[opacity,scale] duration-300${
 						!isOver ? ' opacity-0 scale-150' : ''
 					}`}
 				/>
@@ -37,7 +37,7 @@ const User = () => {
 					{user}
 				</div>
 			</div>
-		</DrawerToggle>
+		</Toggle>
 	);
 };
 export default User;

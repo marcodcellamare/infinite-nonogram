@@ -3,7 +3,7 @@ import Progress from './info/Progress';
 import Meta from './layout/Meta';
 import Router from './misc/Router';
 import Copyright from './layout/Copyright';
-import Drawer from './layout/Drawer';
+import Drawer from './layout/drawer';
 
 const App = () => {
 	return (

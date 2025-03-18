@@ -1,4 +1,6 @@
 import { useSettings } from '!/contexts/settings';
+import handleClassNames from 'classnames';
+
 import { HintNumbersProps } from '!/types/engine';
 
 const Number = ({ total, isDone }: HintNumbersProps) => {
@@ -6,9 +8,14 @@ const Number = ({ total, isDone }: HintNumbersProps) => {
 
 	return (
 		<div
-			className={`min-w-[1.3em] h-[1.3em] leading-[1.3em] text-center${
-				showEffects ? ' transition-[opacity,color] duration-500' : ''
-			} ${!isDone ? 'text-primary font-bold' : 'text-accent'}`}>
+			className={handleClassNames([
+				'min-w-[1.3em] h-[1.3em] leading-[1.3em] text-center',
+				{
+					'transition-[color] duration-200': showEffects,
+					'text-accent': isDone,
+					'text-primary font-bold': !isDone,
+				},
+			])}>
 			{total}
 		</div>
 	);

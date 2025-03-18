@@ -18,7 +18,7 @@ const Toggle = ({
 	onChange,
 }: ToggleProps) => {
 	const iconProps = {
-		className: 'lucide-text text-lg',
+		className: 'text-svg-inline text-lg',
 	};
 
 	useEffect(() => {

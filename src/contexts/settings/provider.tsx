@@ -20,6 +20,7 @@ import useGeoLocation from 'react-ipgeolocation';
 import Config from '!config';
 
 import { DifficultyTypes } from '!/types/settings';
+import { timeoutType } from '!/types/timer';
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	const geoLocation = useGeoLocation();
@@ -35,6 +36,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	const [isAuto, setIsAuto] = useState(true);
 	const [showIntersections, setShowIntersections] = useState(true);
 	const [showEffects, setShowEffects] = useState(true);
+	const [isLeaderboardOn, setIsLeaderboardOn] = useState(true);
 	const [isMusicOn, setIsMusicOn] = useState(true);
 
 	const storage = useRef({
@@ -47,15 +49,13 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 			localStorage.getItem(storageName('showIntersections')) !== 'false',
 		showEffects:
 			localStorage.getItem(storageName('showEffects')) !== 'false',
+		isLeaderboardOn:
+			localStorage.getItem(storageName('isLeaderboardOn')) !== 'false',
 		isMusicOn: localStorage.getItem(storageName('isMusicOn')) !== 'false',
 	});
 
-	const isRefreshingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-		null
-	);
-	const isGlobalErrorTimeoutRef = useRef<ReturnType<
-		typeof setTimeout
-	> | null>(null);
+	const isRefreshingTimeoutRef = useRef<timeoutType>(null);
+	const isGlobalErrorTimeoutRef = useRef<timeoutType>(null);
 
 	const gatedSetIsGlobalError = useCallback((error: boolean) => {
 		setIsGlobalError(
@@ -98,21 +98,17 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		);
 	}, []);
 
-	const gatedSetIsAuto = useCallback((auto: boolean) => {
-		setIsAuto(auto);
-	}, []);
-
-	const gatedSetShowIntersections = useCallback((intersections: boolean) => {
-		setShowIntersections(intersections);
-	}, []);
-
-	const gatedSetShowEffects = useCallback((effects: boolean) => {
-		setShowEffects(effects);
-	}, []);
-
-	const gatedSetIsMusicOn = useCallback((music: boolean) => {
-		setIsMusicOn(music);
-	}, []);
+	const memoizedSetIsAuto = useCallback(setIsAuto, [setIsAuto]);
+	const memoizedSetShowIntersections = useCallback(setShowIntersections, [
+		setShowIntersections,
+	]);
+	const memoizedSetShowEffects = useCallback(setShowEffects, [
+		setShowEffects,
+	]);
+	const memoizedSetIsLeaderboardOn = useCallback(setIsLeaderboardOn, [
+		setIsLeaderboardOn,
+	]);
+	const memoizedSetIsMusicOn = useCallback(setIsMusicOn, [setIsMusicOn]);
 
 	const probability = useMemo((): number => {
 		return (
@@ -167,16 +163,19 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		if (user !== null) localStorage.setItem(storageName('user'), user);
 	}, [user]);
 
-	useEffect(() => {
-		localStorage.setItem(storageName('isAuto'), isAuto.toString());
-	}, [isAuto]);
+	useEffect(
+		() => localStorage.setItem(storageName('isAuto'), isAuto.toString()),
+		[isAuto]
+	);
 
-	useEffect(() => {
-		localStorage.setItem(
-			storageName('showIntersections'),
-			showIntersections.toString()
-		);
-	}, [showIntersections]);
+	useEffect(
+		() =>
+			localStorage.setItem(
+				storageName('showIntersections'),
+				showIntersections.toString()
+			),
+		[showIntersections]
+	);
 
 	useEffect(() => {
 		localStorage.setItem(
@@ -190,30 +189,48 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}, [showEffects]);
 
-	useEffect(() => {
-		localStorage.setItem(storageName('isMusicOn'), isMusicOn.toString());
-	}, [isMusicOn]);
+	useEffect(
+		() =>
+			localStorage.setItem(
+				storageName('isMusicOn'),
+				isMusicOn.toString()
+			),
+		[isMusicOn]
+	);
 
-	useEffect(() => {
-		if (!geoLocation.isLoading) {
-			setCountry(!geoLocation.error ? geoLocation.country : null);
-		} else {
-			setCountry(null);
-		}
-	}, [geoLocation]);
+	useEffect(
+		() =>
+			localStorage.setItem(
+				storageName('isLeaderboardOn'),
+				isLeaderboardOn.toString()
+			),
+		[isLeaderboardOn]
+	);
+
+	useEffect(
+		() =>
+			setCountry(
+				!geoLocation.isLoading && !geoLocation.error
+					? geoLocation.country
+					: null
+			),
+		[geoLocation]
+	);
 
 	useEffect(() => {
 		gatedSetUser(storage.current.user);
-		gatedSetIsAuto(storage.current.isAuto);
-		gatedSetShowIntersections(storage.current.showIntersections);
-		gatedSetShowEffects(storage.current.showEffects);
-		gatedSetIsMusicOn(storage.current.isMusicOn);
+		memoizedSetIsAuto(storage.current.isAuto);
+		memoizedSetShowIntersections(storage.current.showIntersections);
+		memoizedSetShowEffects(storage.current.showEffects);
+		memoizedSetIsLeaderboardOn(storage.current.isLeaderboardOn);
+		memoizedSetIsMusicOn(storage.current.isMusicOn);
 	}, [
 		gatedSetUser,
-		gatedSetIsAuto,
-		gatedSetShowIntersections,
-		gatedSetShowEffects,
-		gatedSetIsMusicOn,
+		memoizedSetIsAuto,
+		memoizedSetShowIntersections,
+		memoizedSetShowEffects,
+		memoizedSetIsLeaderboardOn,
+		memoizedSetIsMusicOn,
 	]);
 
 	useEffect(() => {
@@ -246,6 +263,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 				isAuto,
 				showIntersections,
 				showEffects,
+				isLeaderboardOn,
 				isMusicOn,
 
 				setIsGlobalError: gatedSetIsGlobalError,
@@ -254,10 +272,11 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 				setDifficulty: gatedSetDifficulty,
 				setRows: gatedSetRows,
 				setCols: gatedSetCols,
-				setIsAuto: gatedSetIsAuto,
-				setShowIntersections: gatedSetShowIntersections,
-				setShowEffects: gatedSetShowEffects,
-				setIsMusicOn: gatedSetIsMusicOn,
+				setIsAuto: memoizedSetIsAuto,
+				setShowIntersections: memoizedSetShowIntersections,
+				setShowEffects: memoizedSetShowEffects,
+				setIsLeaderboardOn: memoizedSetIsLeaderboardOn,
+				setIsMusicOn: memoizedSetIsMusicOn,
 			}}>
 			{children}
 		</SettingsContext.Provider>

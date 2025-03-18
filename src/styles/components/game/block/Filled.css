@@ -19,7 +19,7 @@
 			left: 0;
 			right: 0;
 			background-color: var(--color-primary);
-			opacity: var(--random-opacity);
+			opacity: var(--filled-random-opacity);
 		}
 	}
 }

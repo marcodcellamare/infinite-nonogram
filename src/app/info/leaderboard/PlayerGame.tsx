@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import useFormatDate from '!/hooks/useFormatDate';
 import { useSettings } from '!/contexts/settings';
 
-import DrawerToggle from '!/app/misc/DrawerToggle';
+import Toggle from '!/app/layout/drawer/Toggle';
 import DifficultyIcon from '!/app/misc/DifficultyIcon';
 import { BeanIcon, CalendarIcon, GridIcon } from 'lucide-react';
 
@@ -31,7 +31,7 @@ const PlayerGame = ({
 	const { date: formatDate } = useFormatDate();
 
 	return (
-		<DrawerToggle
+		<Toggle
 			className={`btn btn-xs btn-link !block text-base-300 no-underline hover:!no-underline hover:text-accent truncate ${
 				rank < 10 ? 'text-xs' : 'text-xxs'
 			}`}
@@ -48,12 +48,12 @@ const PlayerGame = ({
 			}}>
 			{date ? (
 				<span className={rank < 10 ? 'me-2' : 'me-1'}>
-					<CalendarIcon className='lucide-text me-0.5' />
+					<CalendarIcon className='text-svg-inline me-0.5' />
 					{formatDate(date.toString())}
 				</span>
 			) : null}
 			<span className={rank < 10 ? 'me-2' : 'me-1'}>
-				<GridIcon className='lucide-text me-0.5' />
+				<GridIcon className='text-svg-inline me-0.5' />
 				{`${cols}×${rows}`}
 			</span>
 			<span className={rank < 10 ? 'me-2' : 'me-1'}>
@@ -64,10 +64,10 @@ const PlayerGame = ({
 				{i18n.t(`difficulties.${difficulty}`)}
 			</span>
 			<span>
-				<BeanIcon className='lucide-text me-0.5' />
+				<BeanIcon className='text-svg-inline me-0.5' />
 				{seed}
 			</span>
-		</DrawerToggle>
+		</Toggle>
 	);
 };
 export default PlayerGame;

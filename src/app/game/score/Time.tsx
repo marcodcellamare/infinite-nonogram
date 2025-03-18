@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTimer } from '!/contexts/timer';
 
@@ -8,15 +9,17 @@ const Time = () => {
 	const { i18n } = useTranslation();
 	const { timeUnits } = useTimer();
 
+	const timeUnitsRef = useRef(timeUnits);
+
 	return (
-		<div>
-			<ClockIcon className='lucide-text' />
-			{i18n.t('score.time')}
+		<div className='badge badge-lg badge-primary rounded-sm'>
+			<ClockIcon className='text-svg-inline' />
+			{i18n.t('score.time')}:
 			<Timer
-				timeUnits={timeUnits}
+				timeUnits={timeUnitsRef.current}
 				units='abbr'
 				separator={false}
-				className='flex gap-1'
+				className='flex gap-1 font-black text-white'
 			/>
 		</div>
 	);

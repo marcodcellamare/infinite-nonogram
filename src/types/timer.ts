@@ -1,3 +1,6 @@
+export type timeoutType = ReturnType<typeof setTimeout> | null;
+export type intervalType = ReturnType<typeof setInterval> | null;
+
 export type TimeUnit =
 	| 'years'
 	| 'months'

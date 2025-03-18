@@ -3,7 +3,7 @@ import { useSettings } from '!/contexts/settings/hook';
 import { useScale } from '!/contexts/scale';
 import useFormatNumber from '!/hooks/useFormatNumber';
 
-import DrawerToggle from '../misc/DrawerToggle';
+import Toggle from '../layout/drawer/Toggle';
 import MegaButton from '../misc/MegaButton';
 import DifficultyIcon from '../misc/DifficultyIcon';
 import { GridIcon, SearchIcon } from 'lucide-react';
@@ -16,13 +16,13 @@ const Settings = () => {
 
 	return (
 		<MegaButton
-			container={<DrawerToggle />}
+			container={<Toggle />}
 			containerProps={{
 				className: 'btn-outline btn-primary hover:text-accent',
 			}}>
 			<>
 				<div className='flex flex-row gap-1 items-center'>
-					<GridIcon className='lucide-text text-2xl' />
+					<GridIcon className='text-svg-inline text-2xl' />
 					<div className='flex flex-col items-start'>
 						<div className='text-xs font-bold leading-[1.2em]'>{`${cols}×${rows}`}</div>
 						<div className='text-xxs leading-[1.2em]'>
@@ -49,7 +49,7 @@ const Settings = () => {
 			</>
 			<>
 				<div className='flex flex-row gap-1 items-center'>
-					<SearchIcon className='lucide-text text-2xl' />
+					<SearchIcon className='text-svg-inline text-2xl' />
 					<div className='flex flex-col items-start'>
 						<div className='text-xs font-bold leading-[1.2em]'>
 							{percentage(scale)}

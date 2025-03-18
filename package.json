@@ -1,7 +1,7 @@
 {
 	"name": "infinite-nonogram",
 	"private": true,
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"author": {
 		"name": "Marco D. Cellamare",
 		"email": "md.cellamare@gmail.com",
@@ -19,11 +19,12 @@
 	},
 	"dependencies": {
 		"boring-avatars": "^1.11.2",
+		"classnames": "^2.5.1",
 		"firebase": "^11.3.1",
 		"i18next": "^24.2.2",
 		"i18next-browser-languagedetector": "^8.0.2",
 		"i18next-http-backend": "^3.0.2",
-		"lucide-react": "^0.479.0",
+		"lucide-react": "^0.482.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-i18next": "^15.4.0",

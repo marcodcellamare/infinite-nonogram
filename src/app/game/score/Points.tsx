@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useEngine } from '!/contexts/engine';
 import useFormatNumber from '!/hooks/useFormatNumber';
 
-import MegaBadge from '!/app/misc/MegaBadge';
 import { ListOrderedIcon } from 'lucide-react';
 
 const Points = () => {
@@ -11,14 +10,16 @@ const Points = () => {
 	const { score } = useEngine();
 	const { number } = useFormatNumber();
 
-	const scoreRef = useRef<number>(score);
+	const scoreRef = useRef(score);
 
 	return (
-		<MegaBadge
-			title={i18n.t('score.points')}
-			icon={<ListOrderedIcon className='lucide-text' />}>
-			<strong>{number(scoreRef.current)}</strong>
-		</MegaBadge>
+		<div className='badge badge-lg badge-primary rounded-sm'>
+			<ListOrderedIcon className='text-svg-inline' />
+			{i18n.t('score.points')}:
+			<span className='font-black text-white'>
+				{number(scoreRef.current)}
+			</span>
+		</div>
 	);
 };
 export default Points;

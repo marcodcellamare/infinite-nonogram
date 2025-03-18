@@ -5,13 +5,13 @@
 		var(--color-white) 50%,
 		--alpha(var(--color-white) / 0%) 60%
 	);
-	animation-name: Light;
+	animation-name: Shining;
 	animation-fill-mode: both;
 	animation-duration: 10s;
 	animation-iteration-count: infinite;
-	animation-delay: var(--delay);
+	animation-delay: var(--shining-delay);
 }
-@keyframes Light {
+@keyframes Shining {
 	0% {
 		transform-origin: 100% 100%;
 	}

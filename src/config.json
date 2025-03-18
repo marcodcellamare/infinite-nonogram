@@ -27,7 +27,8 @@
 			"max": 20,
 			"block": {
 				"size": 2.5,
-				"disabledByError": 1000
+				"disabledByError": 0,
+				"__disabledByError": 1000
 			},
 			"hint": {
 				"groupPadding": 0.65,
@@ -37,8 +38,7 @@
 		"difficulty": {
 			"default": "medium",
 			"list": {
-				"easy": 1,
-				"__easy": 0.75,
+				"easy": 0.75,
 				"medium": 0.55,
 				"hard": 0.35
 			}

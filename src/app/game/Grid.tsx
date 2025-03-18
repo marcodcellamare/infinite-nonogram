@@ -1,8 +1,8 @@
 import { Fragment, TransitionEvent, useState } from 'react';
-
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
 import { useInteraction } from '!/contexts/interaction';
+import handleClassNames from 'classnames';
 
 import Block from './block';
 import Hint from './hints';
@@ -58,27 +58,32 @@ const Grid = () => {
 	return (
 		<div
 			key={gridKey}
-			className={`game-grid${
-				isGlobalError ? ' game-grid-error' : ''
-			} flex flex-col grow justify-center items-center my-auto relative`}>
+			className={handleClassNames([
+				'game-grid',
+				{ 'game-grid-error': isGlobalError },
+				'flex flex-col grow justify-center items-center my-auto relative',
+			])}>
 			<div
-				className={`grid grid-rows-[minmax(min-content,auto)_repeat(1, auto)] ${
-					sizeClass[cols]
-				} p-0.5 min-w-fit min-h-fit h-full max-w-full max-h-full border-5 ${
-					!isGlobalError ? 'border-accent' : 'border-error'
-				} rounded-lg transition-[opacity,filter,scale,border-color] ${
-					isCompleted
-						? `duration-1500 ease-in delay-100${
-								showEffects ? ' blur-md' : ''
-						  } scale-50 opacity-0`
-						: `duration-200 ${
-								isRefreshing
-									? `ease-in${
-											showEffects ? ' blur-xs' : ''
-									  } scale-90 opacity-0`
-									: 'delay-100 ease-out'
-						  }`
-				}`}
+				className={handleClassNames([
+					'grid grid-rows-[minmax(min-content,auto)_repeat(1, auto)]',
+					sizeClass[cols],
+					'p-0.5 min-w-fit min-h-fit h-full max-w-full max-h-full',
+					'border-5 rounded-lg',
+					!isGlobalError ? 'border-accent' : 'border-error',
+					showEffects
+						? 'transition-[opacity,filter,scale,border-color]'
+						: 'transition-[opacity,scale,border-color]',
+					{
+						'duration-1500 ease-in delay-100': isCompleted,
+						'duration-200 ease-out': !isCompleted,
+						'blur-md': showEffects && isCompleted,
+						'blur-xs': showEffects && !isCompleted && isRefreshing,
+						'scale-50 opacity-0': isCompleted,
+						'delay-100 ease-out': !isCompleted && !isRefreshing,
+						'scale-90 opacity-0 ease-in':
+							!isCompleted && isRefreshing,
+					},
+				])}
 				onPointerEnter={() => setIsOverGrid(true)}
 				onPointerLeave={() => setIsOverGrid(false)}
 				onTransitionEnd={handleTransitionEnd}>

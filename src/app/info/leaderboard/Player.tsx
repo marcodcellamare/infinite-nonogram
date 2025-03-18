@@ -49,6 +49,7 @@ const Player = ({
 						: undefined
 				}
 			/>
+			{rating}
 		</div>
 		<PlayerScore
 			rank={rank}

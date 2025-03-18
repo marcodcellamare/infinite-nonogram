@@ -20,7 +20,7 @@ const Refresh = () => {
 				}
 			}}>
 			<RefreshCcwIcon
-				className={`lucide-text text-xl pointer-events-none duration-500 ${
+				className={`text-svg-inline text-xl pointer-events-none duration-500 ${
 					isRefreshing || spin
 						? 'transition-[rotate] -rotate-360'
 						: 'transition-none rotate-0'

@@ -1,6 +1,10 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
+import handleClassNames from 'classnames';
 
 import { CircleHelpIcon } from 'lucide-react';
+
+import { timeoutType } from '!/types/timer';
+import { useSettings } from '!/contexts/settings';
 
 interface RangeProps {
 	label: string;
@@ -23,9 +27,12 @@ const Range = ({
 	help,
 	onChange,
 }: RangeProps) => {
+	const { showEffects } = useSettings();
+
 	const [isOver, setIsOver] = useState(false);
 	const [isChanging, setIsChanging] = useState(false);
-	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+	const timeoutRef = useRef<timeoutType>(null);
 
 	useEffect(() => {
 		if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
@@ -42,20 +49,25 @@ const Range = ({
 		<div>
 			<div className='indicator indicator-middle flex w-full'>
 				<span
-					className={`indicator-item left-0 translate-x-1 -translate-y-1/2 badge badge-xs pointer-events-none gap-1 transition-[background-color,opacity,border-color,color] duration-300 backdrop-blur-xs badge-accent${
-						isOver ? ' opacity-50' : ''
-					}${
-						isChanging
-							? ' bg-accent/0 border-base-content text-base-content opacity-100'
-							: ''
-					}`}>
+					className={handleClassNames([
+						'indicator-item gap-1 left-0 translate-x-1 -translate-y-1/2',
+						'badge badge-xs badge-accent pointer-events-none',
+						{
+							'transition-[background-color,opacity,border-color,color] duration-300 backdrop-blur-xs':
+								showEffects,
+							'opacity-50': isOver,
+							'bg-accent/0 border-base-content text-base-content opacity-100':
+								isOver && isChanging,
+						},
+					])}>
 					{label}: <strong>{showValue ?? value}</strong>
 				</span>
 				<input
 					type='range'
-					className={`range ${
-						isChanging ? 'range-accent' : 'range-primary'
-					} w-full`}
+					className={handleClassNames([
+						'range w-full',
+						isOver && isChanging ? 'range-accent' : 'range-primary',
+					])}
 					min={min}
 					max={max}
 					step={step}
@@ -67,7 +79,7 @@ const Range = ({
 			</div>
 			{help ? (
 				<span className='text-xs hidden md:block text-primary italic mt-1'>
-					<CircleHelpIcon className='lucide-text' /> {help}
+					<CircleHelpIcon className='text-svg-inline' /> {help}
 				</span>
 			) : null}
 		</div>

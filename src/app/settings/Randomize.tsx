@@ -6,6 +6,7 @@ import Config from '!config';
 import { DicesIcon } from 'lucide-react';
 
 import { DifficultyTypes } from '!/types/settings';
+import { timeoutType } from '!/types/timer';
 
 const Randomize = () => {
 	const { i18n } = useTranslation();
@@ -17,7 +18,7 @@ const Randomize = () => {
 		'medium',
 		'hard',
 	]);
-	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const timeoutRef = useRef<timeoutType>(null);
 
 	const randomSize = () =>
 		Math.floor(
@@ -55,7 +56,7 @@ const Randomize = () => {
 			onClick={handleClick}
 			disabled={isClicked}>
 			<DicesIcon
-				className={`lucide-text duration-500 ${
+				className={`text-svg-inline duration-500 ${
 					!isClicked
 						? 'transition-none rotate-0'
 						: 'transition-[rotate] rotate-360'

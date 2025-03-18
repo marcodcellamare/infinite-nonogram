@@ -1,22 +1,14 @@
 import { Trans, useTranslation } from 'react-i18next';
-
 import { openExternalLink } from '!/utils/misc';
 
-import {
-	SiDaisyui,
-	SiGithub,
-	SiReact,
-	SiTailwindcss,
-	SiTypescript,
-	SiVite,
-} from 'react-icons/si';
+import { SiGithub } from 'react-icons/si';
 
 const Copyright = () => {
 	const { i18n } = useTranslation();
 
 	return (
-		<footer className='flex flex-col md:flex-row gap-2 md:gap-5 bg-primary px-5 md:px-10 py-2'>
-			<div className='flex-1 text-xs text-accent'>
+		<footer className='flex flex-col md:flex-row gap-2 md:gap-5 bg-base-200 text-xs text-primary px-5 md:px-10 py-1.5'>
+			<div className='flex-1'>
 				<Trans
 					i18nKey='footer.copyright'
 					values={{
@@ -28,8 +20,7 @@ const Copyright = () => {
 						button: (
 							<button
 								type='button'
-								className='link link-hover font-bold'
-								rel='noopener noreferrer'
+								className='link hover:text-accent font-bold'
 								onClick={() =>
 									openExternalLink(i18n.t('footer.github'))
 								}
@@ -39,21 +30,15 @@ const Copyright = () => {
 				/>
 			</div>
 			<div className='text-md'>
-				<div className='flex flex-nowrap gap-2'>
+				<div className='flex flex-nowrap gap-0.5'>
 					<button
 						type='button'
-						className='link link-accent hover:text-white decoration-0'
-						rel='noopener noreferrer'
+						className='link hover:text-accent decoration-0'
 						onClick={() =>
 							openExternalLink(i18n.t('footer.repository'))
 						}>
-						<SiGithub />
+						<SiGithub className='text-svg-inline' />
 					</button>
-					<SiTypescript className='text-accent/50' />
-					<SiReact className='text-accent/50' />
-					<SiVite className='text-accent/50' />
-					<SiTailwindcss className='text-accent/50' />
-					<SiDaisyui className='text-accent/50' />
 				</div>
 			</div>
 		</footer>
