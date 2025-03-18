@@ -37,7 +37,9 @@ const Score = () => {
 		isMounted,
 		handleTransitionEnd,
 		setCondition,
+		setTransitioningDelay,
 		setIsMountedCallback,
+		setIsTransitioningCallback,
 		setIsUnmountingCallback,
 		setIsUnmountedCallback,
 	} = useMountTransition();
@@ -61,21 +63,28 @@ const Score = () => {
 	);
 
 	useEffect(() => {
+		setTransitioningDelay(1000);
 		setCondition(isReady && isCompleted);
 
 		if (isReady && isCompleted) {
 			setTitle(randomText('score.titles'));
 			setNext(randomText('score.next'));
 		}
-	}, [setCondition, isReady, isCompleted, randomText]);
+	}, [setCondition, setTransitioningDelay, isReady, isCompleted, randomText]);
 
 	useEffect(() => {
-		setIsMountedCallback(() => setHasStatus('show'));
+		setIsMountedCallback(() => setHasStatus(false));
+		setIsTransitioningCallback(() => setHasStatus('show'));
 		setIsUnmountingCallback(() => setHasStatus('hide'));
 		setIsUnmountedCallback(() => setHasStatus(false));
 
 		return () => setHasStatus(false);
-	}, [setIsMountedCallback, setIsUnmountingCallback, setIsUnmountedCallback]);
+	}, [
+		setIsMountedCallback,
+		setIsTransitioningCallback,
+		setIsUnmountingCallback,
+		setIsUnmountedCallback,
+	]);
 
 	useEffect(() => {
 		if (isLeaderboardOn && (!isCompleted || hasStatus !== 'show')) return;
@@ -126,14 +135,11 @@ const Score = () => {
 				<div
 					className={handleClassNames([
 						'text-[12vw] tracking-tight leading-[0.8em] font-black',
-						hasStatus === false
-							? '-translate-x-full'
-							: hasStatus === 'show'
-							? 'translate-x-0'
-							: 'translate-x-full',
 						{
 							'transition-[translate,opacity] duration-1000 drop-shadow-xl':
 								showEffects,
+							'-translate-x-full': hasStatus === false,
+							'translate-x-full': hasStatus === 'hide',
 							'opacity-0': hasStatus !== 'show',
 						},
 					])}>

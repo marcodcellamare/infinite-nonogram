@@ -32,8 +32,9 @@ const Void = ({ hasInteracted, isOver }: VoidProps) => {
 				'bg-primary',
 				{
 					'transition-[opacity,scale]': showEffects,
-					'duration-200': isTransitioning,
-					'duration-500 scale-50 opacity-0': !isTransitioning,
+					'duration-200': showEffects && isTransitioning,
+					'duration-500 scale-50 opacity-0':
+						showEffects && !isTransitioning,
 				}
 			)}
 			onTransitionEnd={handleTransitionEnd}

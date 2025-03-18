@@ -1,12 +1,12 @@
 import { CSSProperties, useEffect, useMemo } from 'react';
 import { useSettings } from '!/contexts/settings';
+import { useEngine } from '!/contexts/engine';
 import useMountTransition from '!/hooks/useMountTransition';
 import handleClassNames from 'classnames';
 
 import { InteractionType } from '!/types/interaction';
 
 import '!/styles/components/game/block/Empty.css';
-import { useEngine } from '!/contexts/engine';
 
 interface EmptyProps {
 	hasInteracted: InteractionType | false;

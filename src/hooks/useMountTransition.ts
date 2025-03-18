@@ -15,7 +15,9 @@ interface useMountTransitionReturn {
 
 	handleTransitionEnd: (e: TransitionEvent<HTMLDivElement>) => void;
 	setCondition: React.Dispatch<React.SetStateAction<boolean>>;
+	setTransitioningDelay: (ms: number) => void;
 	setIsMountedCallback: (fn: () => void) => void;
+	setIsTransitioningCallback: (fn: () => void) => void;
 	setIsUnmountingCallback: (fn: () => void) => void;
 	setIsUnmountedCallback: (fn: () => void) => void;
 }
@@ -24,16 +26,23 @@ const useMountTransition = (): useMountTransitionReturn => {
 	const { showEffects } = useSettings();
 
 	const [isMounted, setIsMounted] = useState(false);
+	const [isUnmounting, setIsUnmounting] = useState(false);
 	const [isTransitioning, setIsTransitioning] = useState(false);
 	const [condition, setCondition] = useState(false);
+	const [transitionDelay, setTransitioningDelay] = useState(10);
 
 	const isMountedCallbackRef = useRef<() => void | null>(null);
+	const isTransitioningCallbackRef = useRef<() => void | null>(null);
 	const isUnmountingCallbackRef = useRef<() => void | null>(null);
 	const isUnmountedCallbackRef = useRef<() => void | null>(null);
 	const timeoutRef = useRef<timeoutType>(null);
 
 	const setIsMountedCallback = useCallback(
 		(fn: () => void) => (isMountedCallbackRef.current = fn),
+		[]
+	);
+	const setIsTransitioningCallback = useCallback(
+		(fn: () => void) => (isTransitioningCallbackRef.current = fn),
 		[]
 	);
 	const setIsUnmountingCallback = useCallback(
@@ -44,6 +53,10 @@ const useMountTransition = (): useMountTransitionReturn => {
 		(fn: () => void) => (isUnmountedCallbackRef.current = fn),
 		[]
 	);
+
+	const memoizedSetTransitioningDelay = useCallback(setTransitioningDelay, [
+		setTransitioningDelay,
+	]);
 
 	const handleTransitionEnd = (e: TransitionEvent<HTMLDivElement>) => {
 		if (e.target !== e.currentTarget) return;
@@ -63,28 +76,45 @@ const useMountTransition = (): useMountTransitionReturn => {
 		cleanup();
 
 		if (condition) {
+			setIsUnmounting(false);
 			setIsMounted(true);
-			timeoutRef.current = setTimeout(() => setIsTransitioning(true), 10);
+			timeoutRef.current = setTimeout(
+				() => setIsTransitioning(true),
+				transitionDelay
+			);
 		} else {
-			setIsTransitioning(false);
-			if (!showEffects) setIsMounted(false);
+			if (isMounted && isTransitioning) {
+				setIsTransitioning(false);
+				setIsUnmounting(true);
+				if (!showEffects) setIsMounted(false);
+			}
 		}
 		return () => cleanup();
-	}, [condition, showEffects]);
+	}, [condition, showEffects, transitionDelay, isMounted, isTransitioning]);
 
 	useEffect(() => {
-		if (isMounted) isMountedCallbackRef.current?.();
-		if (isMounted && !isTransitioning) isUnmountingCallbackRef.current?.();
-		if (!isMounted) isUnmountedCallbackRef.current?.();
-	}, [isMounted, isTransitioning]);
+		if (isMounted) {
+			isMountedCallbackRef.current?.();
+
+			if (isTransitioning) {
+				isTransitioningCallbackRef.current?.();
+			} else if (isUnmounting) {
+				isUnmountingCallbackRef.current?.();
+			}
+		} else {
+			isUnmountedCallbackRef.current?.();
+		}
+	}, [isMounted, isTransitioning, isUnmounting]);
 
 	return {
 		isMounted,
 		isTransitioning,
-		handleTransitionEnd,
 
+		handleTransitionEnd,
 		setCondition,
+		setTransitioningDelay: memoizedSetTransitioningDelay,
 		setIsMountedCallback,
+		setIsTransitioningCallback,
 		setIsUnmountingCallback,
 		setIsUnmountedCallback,
 	};

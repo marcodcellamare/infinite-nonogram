@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useEngine } from '!/contexts/engine';
-
 import useFormatNumber from '!/hooks/useFormatNumber';
+import handleClassNames from 'classnames';
 
 const Progress = () => {
 	const { totalAvailable, totalFound } = useEngine();
@@ -20,11 +20,16 @@ const Progress = () => {
 				max={totalAvailable}
 			/>
 			<div
-				className={`absolute top-1/2 -translate-1/2 transition-[left,opacity] duration-150 badge badge-xs badge-accent font-bold${
-					totalFoundPercentage === 0 || totalFoundPercentage === 100
-						? ' opacity-0'
-						: ''
-				} `}
+				className={handleClassNames([
+					'badge badge-xs badge-accent font-bold',
+					'absolute top-1/2 -translate-1/2',
+					'transition-[left,opacity] duration-150',
+					{
+						'opacity-0':
+							totalFoundPercentage === 0 ||
+							totalFoundPercentage === 100,
+					},
+				])}
 				style={{ left: `${totalFoundPercentage}%` }}>
 				{percentage(totalFoundPercentage / 100)}
 			</div>

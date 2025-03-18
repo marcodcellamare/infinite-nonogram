@@ -19,7 +19,6 @@ interface FilledProps {
 const Filled = ({ hasInteracted, isError }: FilledProps) => {
 	const { totalErrors } = useEngine();
 	const { showEffects } = useSettings();
-
 	const { isMounted, isTransitioning, handleTransitionEnd, setCondition } =
 		useMountTransition();
 

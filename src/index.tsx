@@ -9,6 +9,7 @@ import { InteractionProvider } from '!/contexts/interaction';
 import { ScaleProvider } from '!/contexts/scale';
 import { EngineProvider } from '!/contexts/engine';
 import { TimerProvider } from '!/contexts/timer/provider';
+import { AudioProvider } from './contexts/audio';
 
 import App from './app/index';
 
@@ -21,15 +22,17 @@ createRoot(document.getElementById('root')!).render(
 			<HashRouter>
 				<ResizeProvider>
 					<SettingsProvider>
-						<TimerProvider>
-							<InteractionProvider>
-								<ScaleProvider>
-									<EngineProvider>
-										<App />
-									</EngineProvider>
-								</ScaleProvider>
-							</InteractionProvider>
-						</TimerProvider>
+						<AudioProvider>
+							<TimerProvider>
+								<InteractionProvider>
+									<ScaleProvider>
+										<EngineProvider>
+											<App />
+										</EngineProvider>
+									</ScaleProvider>
+								</InteractionProvider>
+							</TimerProvider>
+						</AudioProvider>
 					</SettingsProvider>
 				</ResizeProvider>
 			</HashRouter>
