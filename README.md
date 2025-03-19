@@ -20,3 +20,10 @@ FIREBASE_MESSAGING_SENDER_ID=
 FIREBASE_APP_ID=
 FIREBASE_MEASUREMENT_ID=
 ```
+
+### TODO
+
+* Effect when complete line
+* Sound effects
+* Pinch and zoom on mobile
+* Intersections should go disabled on mobile, but not working

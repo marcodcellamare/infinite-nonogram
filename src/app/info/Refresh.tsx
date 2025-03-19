@@ -19,7 +19,7 @@ const Refresh = () => {
 			onClick={() => {
 				if (!isRefreshing && !isSpinning) {
 					setSeed();
-					setIsSpinning(true);
+					if (showEffects) setIsSpinning(true);
 				}
 			}}>
 			<RefreshCcwIcon

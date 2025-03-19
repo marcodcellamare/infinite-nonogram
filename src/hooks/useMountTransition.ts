@@ -86,8 +86,8 @@ const useMountTransition = (): useMountTransitionReturn => {
 			if (isMounted && isTransitioning) {
 				setIsTransitioning(false);
 				setIsUnmounting(true);
-				if (!showEffects) setIsMounted(false);
 			}
+			if (!showEffects) setIsMounted(false);
 		}
 		return () => cleanup();
 	}, [condition, showEffects, transitionDelay, isMounted, isTransitioning]);

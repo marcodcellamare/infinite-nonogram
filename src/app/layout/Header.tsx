@@ -2,7 +2,7 @@ import Title from '../info/Title';
 import Settings from '../info/Settings';
 import Time from '../info/Time';
 import User from '../info/User';
-import Status from '../info/status';
+import Status from '../info/Status';
 import Refresh from '../info/Refresh';
 
 const Header = () => (
@@ -15,14 +15,12 @@ const Header = () => (
 					<User />
 				</div>
 			</div>
-			<div className='p-5 md:p-10 flex flex-col md:flex-row gap-1 md:justify-between items-stretch md:items-end'>
-				<div className='flex flex-col md:flex-row flex-wrap gap-1 items-start md:items-end'>
-					<Time className='md:order-last' />
-					<Status />
+			<div className='p-5 md:p-10 flex flex-col md:flex-row gap-1 md:justify-between items-start md:items-end'>
+				<Status />
+				<div className='order-first md:order-none'>
+					<Time />
 				</div>
-				<div className='md:order-first'>
-					<Settings />
-				</div>
+				<Settings />
 			</div>
 		</div>
 	</header>

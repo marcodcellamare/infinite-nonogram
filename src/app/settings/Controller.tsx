@@ -34,10 +34,14 @@ const Controller = () => {
 			className={classNames([
 				'indicator indicator-middle indicator-center outline-2',
 				'flex gap-4 items-center justify-center',
-				checked ? 'bg-base-content' : 'bg-accent',
-				isAuto ? 'outline-secondary' : 'outline-secondary/0',
+				checked ? 'bg-primary' : 'bg-accent',
 				'rounded-full text-xl py-1 px-6',
 				{
+					'outline-secondary pointer-events-none': isAuto,
+					'cursor-pointer': !isAuto,
+					'outline-primary/0 hover:outline-primary':
+						!isAuto && !checked,
+					'outline-accent/0 hover:outline-accent': !isAuto && checked,
 					'inset-shadow-sm inset-shadow-black/20': showEffects,
 					'transition-[background-color,outline-color] duration-300':
 						showEffects,
@@ -60,7 +64,7 @@ const Controller = () => {
 				className={classNames([
 					'toggle toggle-xl toggle-white',
 					'bg-white border-white text-accent',
-					'checked:bg-white checked:border-white checked:text-base-content',
+					'checked:bg-white checked:border-white checked:text-primary',
 					{
 						'shadow-lg shadow-black/20': showEffects,
 					},

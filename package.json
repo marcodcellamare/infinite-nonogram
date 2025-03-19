@@ -1,7 +1,7 @@
 {
 	"name": "infinite-nonogram",
 	"private": true,
-	"version": "1.0.11",
+	"version": "1.0.12",
 	"author": {
 		"name": "Marco D. Cellamare",
 		"email": "md.cellamare@gmail.com",
@@ -13,6 +13,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
+		"dev:host": "vite --host",
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview"

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import Timer from '../misc/Timer';
 
-const Time = ({ className = '' }: { className?: string }) => {
+const Time = () => {
 	const { showEffects } = useSettings();
 	const { timeUnits, blink } = useTimer();
 	const { isStarted, isCompleted } = useEngine();
@@ -19,13 +19,12 @@ const Time = ({ className = '' }: { className?: string }) => {
 					: !isCompleted
 					? 'btn-accent'
 					: 'btn-primary btn-outline',
-				'flex flex-col gap-0 pointer-events-none h-auto py-0.5',
+				'flex flex-col gap-0 pointer-events-none h-auto px-2 py-1',
 				{
 					'transition-[scale,background-color,color,border-color] duration-500 ease-in-out':
 						showEffects,
 					'scale-95': !blink,
 				},
-				className,
 			])}>
 			<Timer
 				timeUnits={timeUnits}
