@@ -27,3 +27,4 @@ FIREBASE_MEASUREMENT_ID=
 * Sound effects
 * Pinch and zoom on mobile
 * Intersections should go disabled on mobile, but not working
+* Hold a key to have right click (trackpad enhance)
