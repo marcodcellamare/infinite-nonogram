@@ -1,7 +1,9 @@
-import useClipboard from '!/hooks/useClipboard';
-import { CheckIcon, CopyIcon } from 'lucide-react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import useClipboard from '!/hooks/useClipboard';
+import classNames from 'classnames';
+
+import { CheckIcon, CopyIcon } from 'lucide-react';
 
 const Share = () => {
 	const { i18n } = useTranslation();
@@ -15,9 +17,10 @@ const Share = () => {
 	return (
 		<button
 			type='button'
-			className={`flex-1 btn ${
-				!copied ? 'btn-outline btn-primary' : 'btn-accent'
-			}`}
+			className={classNames([
+				'btn flex-1',
+				!copied ? 'btn-outline btn-primary' : 'btn-accent',
+			])}
 			onClick={handleClick}>
 			{!copied ? (
 				<CopyIcon className='text-svg-inline' />

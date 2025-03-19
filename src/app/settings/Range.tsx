@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 import { CircleHelpIcon } from 'lucide-react';
 
@@ -34,22 +34,27 @@ const Range = ({
 
 	const timeoutRef = useRef<timeoutType>(null);
 
+	const cleanup = () => {
+		if (timeoutRef.current !== null) {
+			clearTimeout(timeoutRef.current);
+			timeoutRef.current = null;
+		}
+	};
+
 	useEffect(() => {
-		if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+		cleanup();
 
 		setIsChanging(true);
 		timeoutRef.current = setTimeout(() => setIsChanging(false), 700);
 
-		return () => {
-			if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
-		};
+		return () => cleanup();
 	}, [value]);
 
 	return (
 		<div>
 			<div className='indicator indicator-middle flex w-full'>
 				<span
-					className={handleClassNames([
+					className={classNames([
 						'indicator-item gap-1 left-0 translate-x-1 -translate-y-1/2',
 						'badge badge-xs badge-accent pointer-events-none',
 						{
@@ -64,7 +69,7 @@ const Range = ({
 				</span>
 				<input
 					type='range'
-					className={handleClassNames([
+					className={classNames([
 						'range w-full',
 						isOver && isChanging ? 'range-accent' : 'range-primary',
 					])}

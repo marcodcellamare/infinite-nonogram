@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
-import useCSSVariable from '!/hooks/useCSSVariable';
+import { cssVariable } from '!/utils/misc';
 
 import { InfinityIcon } from 'lucide-react';
 
@@ -34,7 +33,7 @@ const Meta = () => {
 					<InfinityIcon
 						size={24}
 						color={encodeURIComponent(
-							useCSSVariable('--color-primary')
+							cssVariable('--color-primary')
 						)}
 					/>
 				)}`}

@@ -2,7 +2,7 @@ import { Fragment, TransitionEvent, useState } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
 import { useInteraction } from '!/contexts/interaction';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 import Block from './block';
 import Hint from './hints';
@@ -58,13 +58,13 @@ const Grid = () => {
 	return (
 		<div
 			key={gridKey}
-			className={handleClassNames([
+			className={classNames([
 				'game-grid',
 				{ 'game-grid-error': isGlobalError },
 				'flex flex-col grow justify-center items-center my-auto relative',
 			])}>
 			<div
-				className={handleClassNames([
+				className={classNames([
 					'grid grid-rows-[minmax(min-content,auto)_repeat(1, auto)]',
 					sizeClass[cols],
 					'p-0.5 min-w-fit min-h-fit h-full max-w-full max-h-full',

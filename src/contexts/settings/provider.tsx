@@ -119,6 +119,20 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		);
 	}, [difficulty]);
 
+	const cleanupIsRefreshing = () => {
+		if (isRefreshingTimeoutRef.current !== null) {
+			clearTimeout(isRefreshingTimeoutRef.current);
+			isRefreshingTimeoutRef.current = null;
+		}
+	};
+
+	const cleanupIsGlobalError = () => {
+		if (isGlobalErrorTimeoutRef.current !== null) {
+			clearTimeout(isGlobalErrorTimeoutRef.current);
+			isGlobalErrorTimeoutRef.current = null;
+		}
+	};
+
 	useEffect(() => {
 		const user = localStorage.getItem(storageName('user'));
 
@@ -126,26 +140,20 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	}, [gatedSetUser]);
 
 	useEffect(() => {
-		if (isRefreshingTimeoutRef.current !== null)
-			clearTimeout(isRefreshingTimeoutRef.current);
+		cleanupIsRefreshing();
 
 		setIsRefreshing(true);
 		isRefreshingTimeoutRef.current = setTimeout(
 			() => setIsRefreshing(false),
 			300
 		);
-
-		return () => {
-			if (isRefreshingTimeoutRef.current !== null)
-				clearTimeout(isRefreshingTimeoutRef.current);
-		};
+		return () => cleanupIsRefreshing();
 	}, [seed, difficulty, rows, cols]);
 
 	useEffect(() => {
 		if (Config.game.grid.block.disabledByError === 0) return;
 
-		if (isGlobalErrorTimeoutRef.current !== null)
-			clearTimeout(isGlobalErrorTimeoutRef.current);
+		cleanupIsGlobalError();
 
 		if (isGlobalError) {
 			isGlobalErrorTimeoutRef.current = setTimeout(
@@ -153,10 +161,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 				Config.game.grid.block.disabledByError
 			);
 		}
-		return () => {
-			if (isGlobalErrorTimeoutRef.current !== null)
-				clearTimeout(isGlobalErrorTimeoutRef.current);
-		};
+		return () => cleanupIsGlobalError();
 	}, [isGlobalError, isRefreshing]);
 
 	useEffect(() => {

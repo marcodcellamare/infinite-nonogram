@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { limit, orderBy } from 'firebase/firestore';
+import { limit, orderBy, where } from 'firebase/firestore';
 import useFirestoreCollection from '!/hooks/useFirestoreCollection';
 
-import Player from './Player';
+import Player from './player';
 import { CloudOffIcon, FrownIcon } from 'lucide-react';
 
 import { LeaderboardPlayerProps } from '!/types/leaderboard';
@@ -13,12 +13,19 @@ interface LeaderboardProps {
 
 const Leaderboard = ({ show }: LeaderboardProps) => {
 	const { getDocuments, docs, isLoading, error } =
-		useFirestoreCollection<LeaderboardPlayerProps>('leaderboard');
+		useFirestoreCollection<LeaderboardPlayerProps>(
+			process.env.FIREBASE_LEADERBOARD_COLLECTION ?? ''
+		);
 
 	useEffect(() => {
 		if (!show) return;
 
 		getDocuments([
+			where('name', '>=', ''),
+			where('name', '<=', '\uf8ff'),
+			where('time', '>', 0),
+			where('score', '>', 0),
+			where('rating', '>', 0),
 			orderBy('score', 'desc'),
 			orderBy('time', 'asc'),
 			orderBy('name', 'asc'),
@@ -46,7 +53,9 @@ const Leaderboard = ({ show }: LeaderboardProps) => {
 		) : (
 			<div className='text-error'>
 				<CloudOffIcon className='text-svg-inline text-3xl mb-1' />
-				<div className='text-xs font-bold'>{error}</div>
+				<div className='text-xs font-bold text-wrap break-words'>
+					{error}
+				</div>
 			</div>
 		)
 	) : (

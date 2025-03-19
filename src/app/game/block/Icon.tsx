@@ -3,7 +3,7 @@ import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
 import { useSettings } from '!/contexts/settings';
 import useMountTransition from '!/hooks/useMountTransition';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 import { InteractionType } from '!/types/interaction';
 
@@ -39,7 +39,7 @@ const Icon = ({ hasInteracted, isFilled, isError, isOver }: IconProps) => {
 
 	return (
 		<div
-			className={handleClassNames([
+			className={classNames([
 				'grid-block-icon',
 				'absolute top-0 bottom-0 left-0 right-0',
 				'flex items-center justify-center',

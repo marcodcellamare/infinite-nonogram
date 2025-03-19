@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useEngine } from '!/contexts/engine';
 import useFormatNumber from '!/hooks/useFormatNumber';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 const Progress = () => {
 	const { totalAvailable, totalFound } = useEngine();
@@ -20,7 +20,7 @@ const Progress = () => {
 				max={totalAvailable}
 			/>
 			<div
-				className={handleClassNames([
+				className={classNames([
 					'badge badge-xs badge-accent font-bold',
 					'absolute top-1/2 -translate-1/2',
 					'transition-[left,opacity] duration-150',

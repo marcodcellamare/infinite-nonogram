@@ -19,7 +19,19 @@ export const cleanUser = (user: string): string =>
 		.replace(/\s+/g, ' ')
 		.substring(0, 50);
 
+export const isOnlyAsterisks = (str: string): boolean => /^[*]+$/.test(str);
+
 export const storageName = (name: string): string => `infNono:${name}`;
+
+export const cssVariable = (variableName: string) => {
+	const root = getComputedStyle(document.documentElement);
+	return root.getPropertyValue(variableName).trim();
+};
+
+export const windowSize = {
+	width: () => window.innerWidth,
+	height: () => window.innerHeight,
+};
 
 export const openExternalLink = (link: string) =>
 	window.open(link, '_blank', 'noopener, noreferrer');

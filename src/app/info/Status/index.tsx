@@ -1,6 +1,8 @@
-import { useEngine } from '!/contexts/engine';
-import { Grid2X2Icon, SquareIcon, SquareDashedIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useEngine } from '!/contexts/engine';
+import classNames from 'classnames';
+
+import { Grid2X2Icon, SquareIcon, SquareDashedIcon } from 'lucide-react';
 import Item from './Item';
 
 const Status = ({ className = '' }: { className?: string }) => {
@@ -14,7 +16,7 @@ const Status = ({ className = '' }: { className?: string }) => {
 	} = useEngine();
 
 	return (
-		<div className={`flex flex-wrap gap-1 ${className}`.trim()}>
+		<div className={classNames(['flex flex-wrap gap-1', className])}>
 			<Item
 				total={totalAvailable - totalFound}
 				extraTotal={total - totalInteractions}

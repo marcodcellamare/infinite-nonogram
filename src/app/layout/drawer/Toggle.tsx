@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import classNames from 'classnames';
 import Config from '!config';
 
 interface ToggleProps {
@@ -20,7 +21,7 @@ const Toggle = ({
 }: ToggleProps) => (
 	<label
 		htmlFor={Config.drawer}
-		className={`${className} pointer-events-auto`.trim()}
+		className={classNames(['pointer-events-auto', className])}
 		title={title}
 		onPointerOver={onOver}
 		onPointerOut={onOut}

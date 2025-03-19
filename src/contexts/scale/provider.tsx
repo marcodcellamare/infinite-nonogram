@@ -96,7 +96,7 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 	};
 	*/
 
-	const cleanupListeners = useCallback(() => {
+	const cleanup = useCallback(() => {
 		document.removeEventListener('wheel', handleWheel);
 		//document.removeEventListener('touchstart', handleTouchStart);
 	}, [handleWheel]);
@@ -107,7 +107,7 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 	}, [scale]);
 
 	useEffect(() => {
-		cleanupListeners();
+		cleanup();
 
 		gatedSetScale(
 			storage.current.scale && !isNaN(storage.current.scale)
@@ -121,8 +121,8 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 		});
 		*/
 
-		return () => cleanupListeners();
-	}, [gatedSetScale, handleWheel, cleanupListeners]);
+		return () => cleanup();
+	}, [gatedSetScale, handleWheel, cleanup]);
 
 	return (
 		<ScaleContext.Provider

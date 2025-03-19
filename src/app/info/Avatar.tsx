@@ -1,4 +1,5 @@
-import useCSSVariable from '!/hooks/useCSSVariable';
+import classNames from 'classnames';
+import { cssVariable } from '!/utils/misc';
 
 import BoringAvatar from 'boring-avatars';
 
@@ -15,14 +16,14 @@ const Avatar = ({
 	variant = 'marble',
 	className = '',
 }: AvatarProps) => (
-	<div className={`avatar relative ${className}`.trim()}>
+	<div className={classNames(['avatar relative', className])}>
 		<BoringAvatar
 			name={name || ''}
 			variant={variant}
 			colors={[
-				useCSSVariable('--color-primary'),
-				useCSSVariable('--color-secondary'),
-				useCSSVariable('--color-accent'),
+				cssVariable('--color-primary'),
+				cssVariable('--color-secondary'),
+				cssVariable('--color-accent'),
 			]}
 			className='w-full'
 		/>

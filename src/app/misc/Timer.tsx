@@ -1,5 +1,6 @@
 import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 
 import { TimeUnit, TimeUnits } from '!/types/timer';
 
@@ -44,7 +45,11 @@ const Timer = ({
 
 				return forceTimeUnits || unit === 'seconds' || value > 0 ? (
 					<Fragment key={unit}>
-						<div className={`counter-${unit} text-nowrap`}>
+						<div
+							className={classNames([
+								`counter-${unit}`,
+								'text-nowrap',
+							])}>
 							<span className='counter-value'>
 								{leadingZero ? ('0' + value).slice(-2) : value}
 							</span>
@@ -69,9 +74,10 @@ const Timer = ({
 							{separator !== false &&
 							k < timeUnitsIntersection.length - 1 ? (
 								<span
-									className={`counter-separator${
-										blink ? ' opacity-0' : ''
-									}`}>
+									className={classNames([
+										'counter-separator',
+										{ 'opacity-0': blink },
+									])}>
 									{separator === 'auto'
 										? (units === 'normal' &&
 												k <

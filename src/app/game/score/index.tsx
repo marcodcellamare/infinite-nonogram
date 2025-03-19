@@ -6,7 +6,7 @@ import { serverTimestamp } from 'firebase/firestore';
 import useFirestoreCollection from '!/hooks/useFirestoreCollection';
 import { useTimer } from '!/contexts/timer';
 import useMountTransition from '!/hooks/useMountTransition';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 import Time from './Time';
 import Points from './Points';
@@ -19,8 +19,9 @@ import { LeaderboardPlayerProps } from '!/types/leaderboard';
 
 const Score = () => {
 	const { i18n } = useTranslation();
-	const { addDocument } =
-		useFirestoreCollection<LeaderboardPlayerProps>('leaderboard');
+	const { addDocument } = useFirestoreCollection<LeaderboardPlayerProps>(
+		process.env.FIREBASE_LEADERBOARD_COLLECTION ?? ''
+	);
 	const { isReady, isCompleted, score, rating } = useEngine();
 	const {
 		setSeed,
@@ -121,7 +122,7 @@ const Score = () => {
 
 	return (
 		<div
-			className={handleClassNames([
+			className={classNames([
 				'overlay overflow-hidden',
 				'fixed top-0 bottom-0 left-0 right-0 z-10',
 				'flex justify-center items-center',
@@ -133,7 +134,7 @@ const Score = () => {
 			onTransitionEnd={handleTransitionEnd}>
 			<div className='flex flex-col gap-10 text-white text-center'>
 				<div
-					className={handleClassNames([
+					className={classNames([
 						'text-[12vw] tracking-tight leading-[0.8em] font-black',
 						{
 							'transition-[translate,opacity] duration-1000 drop-shadow-xl':
@@ -146,7 +147,7 @@ const Score = () => {
 					{title}
 				</div>
 				<div className='flex justify-center my-5'>
-					<Rating hasStatus={hasStatus} />
+					<Rating />
 				</div>
 				<div className='flex flex-row justify-center gap-0.5'>
 					<Time />

@@ -1,5 +1,6 @@
-import useDisplayNames from '!/hooks/useDisplayNames';
 import { useEffect, useState } from 'react';
+import useDisplayNames from '!/hooks/useDisplayNames';
+import classNames from 'classnames';
 
 interface CountryBadgeProps {
 	country: string | null;
@@ -18,7 +19,7 @@ const CountryBadge = ({ country, className }: CountryBadgeProps) => {
 	}, [isoToCountry, country]);
 
 	return countryName ? (
-		<span className={className}>{countryName}</span>
+		<span className={classNames(className)}>{countryName}</span>
 	) : null;
 };
 export default CountryBadge;

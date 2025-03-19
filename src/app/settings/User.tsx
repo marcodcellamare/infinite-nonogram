@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
+import { isOnlyAsterisks } from '!/utils/misc';
 
 import Avatar from '../info/Avatar';
 import CountryBadge from '../misc/CountryBadge';
@@ -29,7 +30,8 @@ const User = () => {
 					}
 					onBlur={(e) =>
 						setUser(
-							e.target.value.trim().length > 0
+							e.target.value.trim().length > 0 &&
+								!isOnlyAsterisks(e.target.value.trim())
 								? e.target.value.trim()
 								: null
 						)

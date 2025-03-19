@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useMemo } from 'react';
 import { useSettings } from '!/contexts/settings';
 import { useEngine } from '!/contexts/engine';
 import useMountTransition from '!/hooks/useMountTransition';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 import { InteractionType } from '!/types/interaction';
 
@@ -41,7 +41,7 @@ const Empty = ({ hasInteracted, isError }: EmptyProps) => {
 
 	return (
 		<div
-			className={handleClassNames([
+			className={classNames([
 				'game-grid-block-empty',
 				'absolute top-0 bottom-0 left-0 right-0',
 				'bg-base-200',

@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 import Void from './Void';
 import Empty from './Empty';
@@ -122,7 +122,7 @@ const Block = ({ row, col }: BlockProps) => {
 	return (
 		<button
 			type='button'
-			className={handleClassNames([
+			className={classNames([
 				'game-grid-block',
 				'relative aspect-square overflow-hidden',
 				{

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 import Number from './Number';
 
@@ -29,7 +29,7 @@ const Group = ({ type, hints }: GroupProps) => {
 
 	return (
 		<ul
-			className={handleClassNames([
+			className={classNames([
 				'game-grid-hint-group',
 				'list-none flex flex-grow items-center justify-end',
 				type === 'col'

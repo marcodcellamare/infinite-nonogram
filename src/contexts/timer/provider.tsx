@@ -16,9 +16,11 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	const stop = useCallback(() => {
 		if (intervalRef.current !== null) {
 			clearInterval(intervalRef.current);
+			intervalRef.current = null;
 		}
 		if (intervalBlinkRef.current !== null) {
 			clearInterval(intervalBlinkRef.current);
+			intervalBlinkRef.current = null;
 		}
 		setBlink(true);
 	}, []);

@@ -70,21 +70,21 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 
 	const handleContextMenu = (e: MouseEvent) => e.preventDefault();
 
-	const cleanupListeners = useCallback(() => {
+	const cleanup = useCallback(() => {
 		document.removeEventListener('pointerdown', handlePointerDown);
 		document.removeEventListener('pointerup', handlePointerUp);
 		document.removeEventListener('contextmenu', handleContextMenu);
 	}, [handlePointerDown]);
 
 	useEffect(() => {
-		cleanupListeners();
+		cleanup();
 
 		document.addEventListener('pointerdown', handlePointerDown);
 		document.addEventListener('pointerup', handlePointerUp);
 		document.addEventListener('contextmenu', handleContextMenu);
 
-		return () => cleanupListeners();
-	}, [handlePointerDown, cleanupListeners]);
+		return () => cleanup();
+	}, [handlePointerDown, cleanup]);
 
 	return (
 		<InteractionContext.Provider

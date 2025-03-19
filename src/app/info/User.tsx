@@ -1,14 +1,15 @@
+import { useState } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
+
 import Toggle from '../layout/drawer/Toggle';
 import Avatar from './Avatar';
-
 import { SettingsIcon } from 'lucide-react';
-import { useState } from 'react';
 
 const User = () => {
 	const { i18n } = useTranslation();
-	const { user, country } = useSettings();
+	const { user, country, showEffects } = useSettings();
 
 	const [isOver, setIsOver] = useState(false);
 
@@ -21,14 +22,21 @@ const User = () => {
 				<Avatar
 					name={user}
 					country={country}
-					className={`transition-opacity duration-300${
-						isOver ? ' opacity-0' : ''
-					}`}
+					className={classNames({
+						'transition-opacity duration-300': showEffects,
+						'opacity-0': isOver,
+					})}
 				/>
 				<SettingsIcon
-					className={`text-svg-inline absolute top-1/2 left-1/2 -translate-1/2 text-3xl sm:text-2xl text-primary transition-[opacity,scale] duration-300${
-						!isOver ? ' opacity-0 scale-150' : ''
-					}`}
+					className={classNames([
+						'text-svg-inline absolute top-1/2 left-1/2 -translate-1/2',
+						'text-3xl sm:text-2xl text-primary',
+						{
+							'transition-[opacity,scale] duration-300':
+								showEffects,
+							'opacity-0 scale-150': !isOver,
+						},
+					])}
 				/>
 			</div>
 			<div className='hidden sm:flex flex-col flex-1 min-w-0 text-xs text-start leading-[1em]'>

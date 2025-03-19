@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import useMountTransition from '!/hooks/useMountTransition';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 import Container from './Container';
 import User from '!/app/settings/User';
@@ -28,14 +28,14 @@ const Wrapper = ({ show }: { show: boolean }) => {
 
 	return (
 		<div
-			className={handleClassNames([
+			className={classNames([
 				'drawer',
 				'fixed top-0 bottom-0 left-0 right-0 z-10',
 				{ 'pointer-events-none': !show },
 			])}>
 			<label
 				htmlFor={Config.drawer}
-				className={handleClassNames([
+				className={classNames([
 					'drawer-overlay overlay',
 					'fixed top-0 bottom-0 left-0 right-0',
 					{
@@ -47,12 +47,12 @@ const Wrapper = ({ show }: { show: boolean }) => {
 			/>
 			<div className='absolute top-0 bottom-0 left-0 right-0 overflow-y-auto pointer-events-none'>
 				<div
-					className={handleClassNames([
+					className={classNames([
 						'drawer-side',
 						'absolute top-0 left-0',
 						'bg-base-200 text-base-content',
 						'w-[85vw] md:w-[65vw] lg:w-[50vw] xl:w-[45vw]',
-						'min-w-xs min-h-full max-w-[900px]',
+						'min-w-xs max-w-[900px] min-h-full',
 						'p-5 md:p-10 pointer-events-auto',
 						{
 							'transition-transform duration-500': showEffects,

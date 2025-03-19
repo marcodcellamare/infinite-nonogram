@@ -1,4 +1,5 @@
 import { cloneElement, ReactElement, useEffect } from 'react';
+import classNames from 'classnames';
 
 interface ToggleProps {
 	label: string;
@@ -27,11 +28,13 @@ const Toggle = ({
 
 	return (
 		<label
-			className={`flex gap-2 items-center max-w-fit text-xs font-bold ${
-				!disabled ? 'cursor-pointer' : 'cursor-not-allowed'
-			} ${checked ? 'text-secondary' : 'text-base-content/50'}${
-				disabled ? ' opacity-50' : ' hover:opacity-80'
-			}`}>
+			className={classNames([
+				'flex gap-2 items-center max-w-fit',
+				'text-xs font-bold',
+				!disabled ? 'cursor-pointer' : 'cursor-not-allowed',
+				checked ? 'text-secondary' : 'text-base-content/50',
+				disabled ? ' opacity-50' : ' hover:opacity-80',
+			])}>
 			<input
 				type='checkbox'
 				className='toggle toggle-sm toggle-secondary disabled:opacity-100'

@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useMemo } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
 import useMountTransition from '!/hooks/useMountTransition';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 import Perfect from './Perfect';
 import Shining from './Shining';
@@ -47,7 +47,7 @@ const Filled = ({ hasInteracted, isError }: FilledProps) => {
 
 	return (
 		<div
-			className={handleClassNames(
+			className={classNames(
 				'game-grid-block-filled',
 				'absolute top-0 bottom-0 left-0 right-0',
 				{

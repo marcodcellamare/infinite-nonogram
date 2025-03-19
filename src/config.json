@@ -20,6 +20,7 @@
 		]
 	},
 	"drawer": "Settings",
+	"profanity": "numbers",
 	"game": {
 		"grid": {
 			"default": 10,

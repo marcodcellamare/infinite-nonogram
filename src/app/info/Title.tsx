@@ -1,5 +1,7 @@
 import { InfinityIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
+
 import pkg from '!package';
 
 interface TitleProps {
@@ -11,11 +13,12 @@ const Title = ({ size = 'md' }: TitleProps) => {
 
 	return (
 		<h1
-			className={`block ${
+			className={classNames([
+				'block font-black text-primary align-middle',
 				size === 'md'
 					? 'text-2xl max-w-[200px] leading-[0.9em]'
-					: 'text-4xl max-w-[250px] leading-[0.85em]'
-			} font-black text-primary align-middle`}>
+					: 'text-4xl max-w-[250px] leading-[0.85em]',
+			])}>
 			<InfinityIcon className='inline-block md:block w-[1em] h-[1em] scale-250 origin-[80%_50%] md:origin-center mr-5' />
 			<span className='relative inline-block'>
 				{i18n.t('title')}

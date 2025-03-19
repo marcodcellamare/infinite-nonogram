@@ -1,22 +1,17 @@
 import { rgb, oklch } from 'culori';
-
 import { RGB } from '!/types/settings';
 
-const clamp = (value: number): number => {
-	return Math.round(Math.max(0, Math.min(255, value)));
-};
+const clamp = (value: number): number =>
+	Math.round(Math.max(0, Math.min(255, value)));
 
-export const isOkLCH = (color: string): boolean => {
-	return /^oklch\(([\d.]+)%?\s+([\d.]+)\s+([\d.]+)\)$/.test(color);
-};
+export const isOkLCH = (color: string): boolean =>
+	/^oklch\(([\d.]+)%?\s+([\d.]+)\s+([\d.]+)\)$/.test(color);
 
-export const isRgb = (color: string): boolean => {
-	return /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/.test(color);
-};
+export const isRgb = (color: string): boolean =>
+	/^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/.test(color);
 
-export const isHex = (color: string): boolean => {
-	return /^#[0-9A-Fa-f]{3,6}$/.test(color);
-};
+export const isHex = (color: string): boolean =>
+	/^#[0-9A-Fa-f]{3,6}$/.test(color);
 
 export const colorToRgb = (color: string): RGB => {
 	let r = 0;

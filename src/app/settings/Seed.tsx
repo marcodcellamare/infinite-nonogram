@@ -1,16 +1,17 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
-import { cleanSeed } from '!/utils/misc';
+import classNames from 'classnames';
 
+import { cleanSeed } from '!/utils/misc';
 import { CheckIcon, RefreshCcwIcon } from 'lucide-react';
 
 const Seed = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const { i18n } = useTranslation();
-	const { seed, setSeed, isRefreshing } = useSettings();
+	const { seed, setSeed, isRefreshing, showEffects } = useSettings();
 	const [value, setValue] = useState('');
-	const [spin, setSpin] = useState(false);
+	const [isSpinning, setIsSpinning] = useState(false);
 
 	const handleSubmit = useCallback(
 		(e: FormEvent) => {
@@ -36,7 +37,7 @@ const Seed = () => {
 					ref={inputRef}
 					type='text'
 					value={value}
-					disabled={isRefreshing || spin}
+					disabled={isRefreshing || isSpinning}
 					onChange={(e) => setValue(cleanSeed(e.target.value))}
 					onFocus={() => setValue('')}
 					onBlur={(e) => {
@@ -47,25 +48,34 @@ const Seed = () => {
 				/>
 				<button
 					type='button'
-					className={`cursor-pointer transition-[color] duration-400 ${
-						!spin
+					className={classNames([
+						'cursor-pointer',
+						!isSpinning
 							? 'text-accent hover:text-accent/50'
-							: 'text-secondary'
-					}`}
+							: 'text-secondary',
+						{
+							'transition-[color] duration-400': showEffects,
+						},
+					])}
 					onClick={() => {
-						if (!isRefreshing && !spin) {
+						if (!isRefreshing && !isSpinning) {
 							setSeed();
-							setSpin(true);
+							setIsSpinning(true);
 						}
 					}}
-					disabled={spin}>
+					disabled={isSpinning}>
 					<RefreshCcwIcon
-						className={`w-full pointer-events-none duration-500 ${
-							isRefreshing || spin
-								? 'transition-[rotate] -rotate-360'
-								: 'transition-none rotate-0'
-						}`}
-						onTransitionEnd={() => setSpin(false)}
+						className={classNames([
+							'w-full pointer-events-none',
+							{
+								'duration-500': showEffects,
+								'transition-[rotate] -rotate-360':
+									showEffects && (isRefreshing || isSpinning),
+								'transition-none rotate-0':
+									!isRefreshing && !isSpinning,
+							},
+						])}
+						onTransitionEnd={() => setIsSpinning(false)}
 					/>
 				</button>
 			</label>

@@ -7,7 +7,7 @@ import * as dotenv from 'dotenv';
 // https://vite.dev/config/
 
 export default defineConfig(({ mode }) => {
-	const env = loadEnv(mode, process.cwd(), 'VITE_');
+	const env = loadEnv(mode, process.cwd(), ['VITE_', 'FIREBASE_']);
 	const firebaseEnv = dotenv.config({ path: '.env.firebase' }).parsed || {};
 
 	return {

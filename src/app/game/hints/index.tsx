@@ -1,7 +1,7 @@
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
 import { useInteraction } from '!/contexts/interaction';
-import handleClassNames from 'classnames';
+import classNames from 'classnames';
 
 import Group from './Group';
 import Size from './Size';
@@ -21,7 +21,7 @@ const Hint = ({ row, col }: HintProps) => {
 
 	return (
 		<div
-			className={handleClassNames([
+			className={classNames([
 				'game-grid-hint',
 				'flex relative',
 				row >= 0 || col >= 0 ? 'bg-base-200' : 'bg-accent',

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
+import classNames from 'classnames';
 import Config from '!config';
 
 import { DicesIcon } from 'lucide-react';
@@ -10,7 +11,8 @@ import { timeoutType } from '!/types/timer';
 
 const Randomize = () => {
 	const { i18n } = useTranslation();
-	const { setSeed, setRows, setCols, setDifficulty } = useSettings();
+	const { setSeed, setRows, setCols, setDifficulty, showEffects } =
+		useSettings();
 
 	const [isClicked, setIsClicked] = useState(false);
 	const difficultiesRef = useRef<DifficultyTypes[]>([
@@ -26,9 +28,16 @@ const Randomize = () => {
 				Config.game.grid.min
 		);
 
+	const cleanup = () => {
+		if (timeoutRef.current !== null) {
+			clearTimeout(timeoutRef.current);
+			timeoutRef.current = null;
+		}
+	};
+
 	const handleClick = useCallback(() => {
 		if (!isClicked) {
-			if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
+			cleanup();
 
 			setIsClicked(true);
 			setSeed();
@@ -44,9 +53,7 @@ const Randomize = () => {
 	}, [isClicked, setSeed, setRows, setCols, setDifficulty]);
 
 	useEffect(() => {
-		return () => {
-			if (timeoutRef.current !== null) clearTimeout(timeoutRef.current);
-		};
+		return () => cleanup();
 	}, []);
 
 	return (
@@ -56,11 +63,15 @@ const Randomize = () => {
 			onClick={handleClick}
 			disabled={isClicked}>
 			<DicesIcon
-				className={`text-svg-inline duration-500 ${
-					!isClicked
-						? 'transition-none rotate-0'
-						: 'transition-[rotate] rotate-360'
-				}`}
+				className={classNames([
+					'text-svg-inline',
+					{
+						'duration-500': showEffects,
+						'transition-[rotate] rotate-360':
+							showEffects && isClicked,
+						'transition-none rotate-0': !isClicked,
+					},
+				])}
 			/>
 			{i18n.t('randomize')}
 		</button>

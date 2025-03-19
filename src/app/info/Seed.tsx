@@ -12,11 +12,13 @@ const Seed = () => {
 	const intervalRef = useRef<intervalType>(null);
 
 	const randomize = useCallback(() => setRandomSeed(generateSeed()), []);
-	const cleanup = useCallback(() => {
+
+	const cleanup = () => {
 		if (intervalRef.current !== null) {
 			clearInterval(intervalRef.current);
+			intervalRef.current = null;
 		}
-	}, []);
+	};
 
 	useEffect(() => {
 		cleanup();
@@ -28,7 +30,7 @@ const Seed = () => {
 			setRandomSeed('');
 		}
 		return () => cleanup();
-	}, [isRefreshing, randomize, cleanup]);
+	}, [isRefreshing, randomize]);
 
 	return (
 		<div className='absolute top-0 bottom-0 left-0 right-0 pointer-events-none overflow-hidden'>

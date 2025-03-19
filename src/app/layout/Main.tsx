@@ -12,13 +12,11 @@ const Main = () => {
 	const { showEffects } = useSettings();
 
 	return (
-		<>
-			<main className='flex flex-1 relative'>
-				{showEffects ? <Seed /> : null}
-				<Outlet />
-				<Header />
-			</main>
-		</>
+		<main className='flex flex-1 relative'>
+			{showEffects ? <Seed /> : null}
+			<Outlet />
+			<Header />
+		</main>
 	);
 };
 export default Main;

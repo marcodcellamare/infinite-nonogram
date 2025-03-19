@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import useFormatDate from '!/hooks/useFormatDate';
 import { useSettings } from '!/contexts/settings';
+import classNames from 'classnames';
 
 import Toggle from '!/app/layout/drawer/Toggle';
 import DifficultyIcon from '!/app/misc/DifficultyIcon';
@@ -9,7 +10,7 @@ import { BeanIcon, CalendarIcon, GridIcon } from 'lucide-react';
 import { DateType } from '!/types/leaderboard';
 import { DifficultyTypes } from '!/types/settings';
 
-interface PlayerGameProps {
+interface GameProps {
 	rank: number;
 	cols: number;
 	rows: number;
@@ -18,23 +19,19 @@ interface PlayerGameProps {
 	date?: DateType;
 }
 
-const PlayerGame = ({
-	rank,
-	cols,
-	rows,
-	difficulty,
-	seed,
-	date,
-}: PlayerGameProps) => {
+const Game = ({ rank, cols, rows, difficulty, seed, date }: GameProps) => {
 	const { i18n } = useTranslation();
 	const { setSeed, setCols, setRows, setDifficulty } = useSettings();
 	const { date: formatDate } = useFormatDate();
 
 	return (
 		<Toggle
-			className={`btn btn-xs btn-link !block text-base-300 no-underline hover:!no-underline hover:text-accent truncate ${
-				rank < 10 ? 'text-xs' : 'text-xxs'
-			}`}
+			className={classNames([
+				'btn btn-xs btn-link',
+				'!block text-base-300 no-underline truncate',
+				'hover:!no-underline hover:text-accent',
+				rank < 10 ? 'text-xs' : 'text-xxs',
+			])}
 			title={`${i18n.t('grid')}: ${cols}×${rows} - ${i18n.t(
 				'difficulty'
 			)}: ${i18n.t(`difficulties.${difficulty}`)} - ${i18n.t(
@@ -70,4 +67,4 @@ const PlayerGame = ({
 		</Toggle>
 	);
 };
-export default PlayerGame;
+export default Game;
