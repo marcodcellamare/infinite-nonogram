@@ -2,7 +2,7 @@
 	min-width: calc(var(--scale) * var(--grid-block-size));
 	min-height: calc(var(--scale) * var(--grid-block-size));
 	font-size: calc(var(--text-4xl) * var(--scale));
-	background-color: --alpha(var(--color-white) / 60%);
+	background-color: rgba(var(--block-color), var(--block-random-opacity));
 
 	&.game-grid-block-glitching {
 		animation-name: Glitching;
@@ -11,32 +11,24 @@
 		animation-iteration-count: infinite;
 		animation-delay: var(--glitching-delay);
 	}
-
-	&::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background-color: --alpha(
-			var(--color-base-300) / var(--block-random-opacity)
-		);
-	}
 }
 @keyframes Glitching {
 	0%,
-	50% {
-		background-color: --alpha(var(--color-white) / 80%);
+	56% {
+		background-color: rgba(var(--block-color), 0.6);
 	}
-	5%,
-	15%,
-	30% {
-		background-color: --alpha(var(--color-white) / 90%);
+	8%,
+	16%,
+	32% {
+		background-color: rgba(var(--block-color), 0.4);
 	}
-	3%,
-	20%,
-	35% {
-		background-color: --alpha(var(--color-white) / 70%);
+	4%,
+	24%,
+	48% {
+		background-color: rgba(var(--block-color), 0.7);
+	}
+	60%,
+	100 {
+		background-color: rgba(var(--block-color), 0.3);
 	}
 }

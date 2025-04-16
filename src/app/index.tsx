@@ -2,7 +2,6 @@ import Footer from './layout/Footer';
 import Progress from './info/Progress';
 import Meta from './layout/Meta';
 import Router from './misc/Router';
-import Copyright from './layout/Copyright';
 import Drawer from './layout/drawer';
 
 const App = () => (
@@ -12,7 +11,6 @@ const App = () => (
 			<Router />
 			<Progress />
 			<Footer />
-			<Copyright />
 		</div>
 		<Drawer />
 	</>

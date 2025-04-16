@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
 import classNames from 'classnames';
 
@@ -12,18 +10,11 @@ import '!/styles/components/game/hints/Group.css';
 interface GroupProps {
 	type: 'row' | 'col';
 	hints: HintNumbersProps[];
+	isLineDone: boolean;
 }
 
-const Group = ({ type, hints }: GroupProps) => {
-	const { isCompleted } = useEngine();
+const Group = ({ type, hints, isLineDone }: GroupProps) => {
 	const { isRefreshing, showEffects } = useSettings();
-
-	const isDone = useMemo(
-		() =>
-			isCompleted ||
-			hints.filter((hint) => hint.found?.includes(false)).length === 0,
-		[hints, isCompleted]
-	);
 
 	if (!hints) return null;
 
@@ -37,18 +28,20 @@ const Group = ({ type, hints }: GroupProps) => {
 					: 'game-grid-hint-group-row flex-row',
 				{
 					'transition-[background-color] duration-400': showEffects,
-					'bg-accent/25': isDone,
+					'bg-accent/25': isLineDone,
 				},
 			])}>
 			{!isRefreshing
-				? hints.map((hint, k) => (
-						<li key={k}>
-							<Number
-								total={hint.total}
-								isDone={isDone || hint.isDone}
-							/>
-						</li>
-				  ))
+				? hints.map((hint, k) =>
+						hint.filled ? (
+							<li key={k}>
+								<Number
+									total={hint.total}
+									isDone={isLineDone || hint.isDone}
+								/>
+							</li>
+						) : null
+				  )
 				: null}
 		</ul>
 	);

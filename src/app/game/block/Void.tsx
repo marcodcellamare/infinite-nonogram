@@ -1,44 +1,44 @@
-import { useEffect } from 'react';
 import { useSettings } from '!/contexts/settings';
-import useMountTransition from '!/hooks/useMountTransition';
+import MountTransition from '!/app/misc/MountTransition';
 import classNames from 'classnames';
-
-import { InteractionType } from '!/types/interaction';
 
 import '!/styles/components/game/block/Void.css';
 
 interface VoidProps {
-	hasInteracted: InteractionType | false;
 	isOver: boolean;
 }
 
-const Void = ({ hasInteracted, isOver }: VoidProps) => {
-	const { isGlobalError, showEffects } = useSettings();
-	const { isMounted, isTransitioning, handleTransitionEnd, setCondition } =
-		useMountTransition();
-
-	useEffect(
-		() => setCondition(isOver && hasInteracted === false && !isGlobalError),
-		[setCondition, isOver, hasInteracted, isGlobalError]
-	);
-
-	if (!isMounted) return null;
+const Void = ({ isOver }: VoidProps) => {
+	const { showEffects } = useSettings();
 
 	return (
-		<div
-			className={classNames(
-				'game-grid-block-void',
-				'absolute top-0 bottom-0 left-0 right-0',
-				'bg-primary',
-				{
-					'transition-[opacity,scale]': showEffects,
-					'duration-200': showEffects && isTransitioning,
-					'duration-500 scale-50 opacity-0':
-						showEffects && !isTransitioning,
-				}
+		<MountTransition
+			mountIf={isOver}
+			timeout={
+				showEffects
+					? {
+							entering: 150,
+							exiting: 600,
+					  }
+					: 0
+			}>
+			{({ isEntering, isMounting }) => (
+				<div
+					className={classNames([
+						'game-grid-block-void',
+						'absolute top-0 bottom-0 left-0 right-0 bg-primary',
+						isEntering
+							? 'opacity-100 scale-100'
+							: 'opacity-0 scale-80',
+						{
+							'transition-[opacity,scale]': showEffects,
+							'duration-150': showEffects && isMounting,
+							'duration-600': showEffects && !isMounting,
+						},
+					])}
+				/>
 			)}
-			onTransitionEnd={handleTransitionEnd}
-		/>
+		</MountTransition>
 	);
 };
 export default Void;

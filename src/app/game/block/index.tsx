@@ -3,12 +3,15 @@ import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
 import classNames from 'classnames';
+import { colorToRgb } from '!/utils/colors';
+import { cssVariable } from '!/utils/misc';
 
 import Void from './Void';
 import Empty from './Empty';
 import Highlight from './Highlight';
 import Icon from './Icon';
 import Filled from './Filled';
+import Done from './Done';
 
 import '!/styles/components/game/block/Main.css';
 
@@ -18,7 +21,7 @@ interface BlockProps {
 }
 
 const Block = ({ row, col }: BlockProps) => {
-	const { grid, setInteraction, interactions, isCompleted, isReady } =
+	const { grid, setInteraction, interactions, isCompleted, isReady, isDone } =
 		useEngine();
 	const {
 		isRefreshing,
@@ -62,6 +65,7 @@ const Block = ({ row, col }: BlockProps) => {
 		() => showEffects && hasInteracted === false && Math.random() < 0.5,
 		[showEffects, hasInteracted]
 	);
+
 	const hasGlitchingEffect = useMemo(
 		() =>
 			showEffects && hasInteracted === false && !isRefreshing
@@ -69,13 +73,15 @@ const Block = ({ row, col }: BlockProps) => {
 				: 0,
 		[showEffects, hasInteracted, isRefreshing]
 	);
+
 	const randomOpacity = useMemo(
 		() =>
 			hasRandomOpacityEffect
-				? Math.round(Math.random() * 0.2 * 100) / 100
-				: 0,
+				? Math.round(Math.random() * 0.4 * 100) / 100
+				: 0.4,
 		[hasRandomOpacityEffect]
 	);
+
 	const glitchingDelay = useMemo(
 		() =>
 			hasGlitchingEffect
@@ -84,8 +90,13 @@ const Block = ({ row, col }: BlockProps) => {
 		[hasGlitchingEffect]
 	);
 
+	const isDisabled = useMemo(
+		() => isCompleted || isGlobalError || hasInteracted !== false,
+		[isCompleted, isGlobalError, hasInteracted]
+	);
+
 	useEffect(() => {
-		if (hasInteracted === false && isOver && isClicked && !isGlobalError) {
+		if (!isDisabled && isOver && isClicked) {
 			setInteraction({ row, col, hasInteracted: isInteracting });
 		}
 	}, [
@@ -93,6 +104,7 @@ const Block = ({ row, col }: BlockProps) => {
 		col,
 		hasInteracted,
 		setInteraction,
+		isDisabled,
 		isOver,
 		isClicked,
 		isInteracting,
@@ -100,7 +112,7 @@ const Block = ({ row, col }: BlockProps) => {
 	]);
 
 	useEffect(() => {
-		if (showIntersections && !isCompleted && isOver) {
+		if (showIntersections && isOver) {
 			setIsOverRow(row);
 			setIsOverCol(col);
 		}
@@ -110,6 +122,7 @@ const Block = ({ row, col }: BlockProps) => {
 		setIsOverRow,
 		setIsOverCol,
 		showIntersections,
+		isDisabled,
 		isCompleted,
 		isOver,
 	]);
@@ -130,29 +143,28 @@ const Block = ({ row, col }: BlockProps) => {
 					'game-grid-block-l-strong': col % 5 === 0,
 					'game-grid-block-b-strong': row >= rows - 1,
 					'game-grid-block-r-strong': col >= cols - 1,
-					'game-grid-block-glitching backdrop-blur-sm':
-						hasGlitchingEffect,
+					'game-grid-block-glitching': hasGlitchingEffect,
 					'transition-[background-color] duration-100': showEffects,
-					'cursor-pointer': hasInteracted === false && !isGlobalError,
+					'cursor-pointer': !isDisabled,
 				},
 			])}
-			disabled={isCompleted || isGlobalError || hasInteracted !== false}
-			onPointerEnter={() => setIsOver(!isCompleted ? true : false)}
+			onPointerEnter={() => setIsOver(true)}
 			onPointerLeave={() => setIsOver(false)}
 			style={
 				{
-					'--block-random-opacity': `${randomOpacity * 100}%`,
+					'--block-random-opacity': randomOpacity,
 					'--glitching-delay': `${glitchingDelay}s`,
+					'--block-color': `${colorToRgb(
+						cssVariable('--color-white')
+					)}`,
 				} as CSSProperties
 			}>
 			{!isRefreshing ? (
 				<>
 					{!isCompleted ? (
-						<Void
-							hasInteracted={hasInteracted}
-							isOver={isOver}
-						/>
+						<Void isOver={!isDisabled ? isOver : false} />
 					) : null}
+
 					{isFilled ? (
 						<Filled
 							hasInteracted={hasInteracted}
@@ -168,12 +180,26 @@ const Block = ({ row, col }: BlockProps) => {
 						hasInteracted={hasInteracted}
 						isFilled={isFilled}
 						isError={isError}
-						isOver={isOver}
+						isOver={!isDisabled && isOver}
 					/>
+					{showEffects ? (
+						<>
+							<Done
+								mountIf={isDone.cols[col]}
+								delay={row * 100}
+							/>
+							<Done
+								mountIf={isDone.rows[row]}
+								delay={col * 100}
+							/>
+						</>
+					) : null}
 					{showIntersections &&
 					!isCompleted &&
 					(isOverCol === col || isOverRow === row) ? (
-						<Highlight />
+						<Highlight
+							isTarget={isOverCol === col && isOverRow === row}
+						/>
 					) : null}
 				</>
 			) : null}

@@ -2,7 +2,7 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { TimerContext } from './context';
 import { dateMs, msToTimeUnits } from '!/utils/timer';
 
-import { intervalType, TimeUnits } from '!/types/timer';
+import { IntervalType, TimeUnits } from '!/types/timer';
 
 export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	const [startDate, setStartDate] = useState<number | null>(null);
@@ -10,8 +10,8 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 	const [timeUnits, setTimeUnits] = useState<TimeUnits>({});
 	const [blink, setBlink] = useState(true);
 
-	const intervalRef = useRef<intervalType>(null);
-	const intervalBlinkRef = useRef<intervalType>(null);
+	const intervalRef = useRef<IntervalType>(null);
+	const intervalBlinkRef = useRef<IntervalType>(null);
 
 	const stop = useCallback(() => {
 		if (intervalRef.current !== null) {

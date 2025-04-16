@@ -33,7 +33,7 @@ const Toggle = ({
 				'text-xs font-bold',
 				!disabled ? 'cursor-pointer' : 'cursor-not-allowed',
 				checked ? 'text-secondary' : 'text-base-content/50',
-				disabled ? ' opacity-50' : ' hover:opacity-80',
+				disabled ? 'opacity-50' : 'hover:opacity-80',
 			])}>
 			<input
 				type='checkbox'

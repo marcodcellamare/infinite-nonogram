@@ -1,7 +1,8 @@
-import { Fragment, TransitionEvent, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
 import { useInteraction } from '!/contexts/interaction';
+import MountTransition from '!/app/misc/MountTransition';
 import classNames from 'classnames';
 
 import Block from './block';
@@ -43,71 +44,81 @@ const Grid = () => {
 		20: 'grid-cols-[minmax(min-content,auto)_repeat(20,1fr)]',
 	};
 
-	const handleTransitionEnd = (e: TransitionEvent<HTMLDivElement>) => {
-		if (e.target !== e.currentTarget) return;
-
-		if (e.propertyName === 'opacity') {
-			const computedStyle = window.getComputedStyle(e.currentTarget);
-
-			if (parseInt(computedStyle.opacity) === 0) {
-				setGridKey(`${seed}.${rows}x${cols}.${difficulty}`);
-			}
-		}
-	};
-
 	return (
-		<div
-			key={gridKey}
-			className={classNames([
-				'game-grid',
-				{ 'game-grid-error': isGlobalError },
-				'flex flex-col grow justify-center items-center my-auto relative',
-			])}>
-			<div
-				className={classNames([
-					'grid grid-rows-[minmax(min-content,auto)_repeat(1, auto)]',
-					sizeClass[cols],
-					'p-0.5 min-w-fit min-h-fit h-full max-w-full max-h-full',
-					'border-5 rounded-lg',
-					!isGlobalError ? 'border-accent' : 'border-error',
-					showEffects
-						? 'transition-[opacity,filter,scale,border-color]'
-						: 'transition-[opacity,scale,border-color]',
-					{
-						'duration-1500 ease-in delay-100': isCompleted,
-						'duration-200 ease-out': !isCompleted,
-						'blur-md': showEffects && isCompleted,
-						'blur-xs': showEffects && !isCompleted && isRefreshing,
-						'scale-50 opacity-0': isCompleted,
-						'delay-100 ease-out': !isCompleted && !isRefreshing,
-						'scale-90 opacity-0 ease-in':
-							!isCompleted && isRefreshing,
-					},
-				])}
-				onPointerEnter={() => setIsOverGrid(true)}
-				onPointerLeave={() => setIsOverGrid(false)}
-				onTransitionEnd={handleTransitionEnd}>
-				{Array.from({ length: rows + 1 }).map((_, row) =>
-					Array.from({ length: cols + 1 }).map((_, col) => {
-						return (
-							<Fragment key={`${row}.${col}`}>
-								{row === 0 || col === 0 ? (
-									<Hint
-										row={row - 1}
-										col={col - 1}
-									/>
-								) : (
-									<Block
-										row={row - 1}
-										col={col - 1}
-									/>
-								)}
-							</Fragment>
-						);
-					})
-				)}
-			</div>
-		</div>
+		<MountTransition
+			mountIf={!isCompleted && !isRefreshing}
+			timeout={{
+				entering: 300,
+				exiting: !isCompleted ? 300 : 1700,
+			}}
+			onMounted={() =>
+				setGridKey(`${seed}.${rows}x${cols}.${difficulty}`)
+			}>
+			{({ isEntering }) => {
+				return (
+					<div
+						key={gridKey}
+						className={classNames([
+							'game-grid',
+							{ 'game-grid-error': isGlobalError },
+							'flex flex-col grow justify-center items-center my-auto relative',
+						])}>
+						<div
+							className={classNames([
+								'grid grid-rows-[minmax(min-content,auto)_repeat(1, auto)]',
+								sizeClass[cols],
+								'p-0.5 min-w-fit min-h-fit h-full max-w-full max-h-full',
+								'border-5 rounded-lg',
+								!isGlobalError
+									? 'border-accent'
+									: 'border-error',
+								!isEntering
+									? isCompleted
+										? 'scale-50 opacity-0'
+										: 'scale-90 opacity-0'
+									: 'opacity-100 scale-100',
+								showEffects
+									? 'transition-[opacity,filter,scale,border-color]'
+									: 'transition-[opacity,scale,border-color]',
+								!isCompleted
+									? 'duration-300 ease-out'
+									: 'duration-1200 ease-in delay-500',
+								{
+									'blur-md': showEffects && isCompleted,
+									'blur-xs':
+										showEffects &&
+										!isCompleted &&
+										isRefreshing,
+								},
+							])}
+							onPointerEnter={() => setIsOverGrid(true)}
+							onPointerLeave={() => setIsOverGrid(false)}>
+							{Array.from({ length: rows + 1 }).map((_, row) =>
+								Array.from({ length: cols + 1 }).map(
+									(_, col) => {
+										return (
+											<Fragment key={`${row}.${col}`}>
+												{row === 0 || col === 0 ? (
+													<Hint
+														row={row - 1}
+														col={col - 1}
+													/>
+												) : (
+													<Block
+														row={row - 1}
+														col={col - 1}
+													/>
+												)}
+											</Fragment>
+										);
+									}
+								)
+							)}
+						</div>
+					</div>
+				);
+			}}
+		</MountTransition>
 	);
 };
 export default Grid;

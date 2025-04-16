@@ -17,13 +17,15 @@ import {
 } from '!/utils/misc';
 import { v4 as uuidv4 } from 'uuid';
 import useGeoLocation from 'react-ipgeolocation';
+import useBreakpoints from '!/hooks/useBreakpoints';
 import Config from '!config';
 
 import { DifficultyTypes } from '!/types/settings';
-import { timeoutType } from '!/types/timer';
+import { TimeoutType } from '!/types/timer';
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	const geoLocation = useGeoLocation();
+	const { currentBreakpoint } = useBreakpoints();
 
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const [isGlobalError, setIsGlobalError] = useState(false);
@@ -54,8 +56,8 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		isMusicOn: localStorage.getItem(storageName('isMusicOn')) !== 'false',
 	});
 
-	const isRefreshingTimeoutRef = useRef<timeoutType>(null);
-	const isGlobalErrorTimeoutRef = useRef<timeoutType>(null);
+	const isRefreshingTimeoutRef = useRef<TimeoutType>(null);
+	const isGlobalErrorTimeoutRef = useRef<TimeoutType>(null);
 
 	const gatedSetIsGlobalError = useCallback((error: boolean) => {
 		setIsGlobalError(
@@ -145,7 +147,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		setIsRefreshing(true);
 		isRefreshingTimeoutRef.current = setTimeout(
 			() => setIsRefreshing(false),
-			300
+			500
 		);
 		return () => cleanupIsRefreshing();
 	}, [seed, difficulty, rows, cols]);
@@ -237,6 +239,13 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		memoizedSetIsLeaderboardOn,
 		memoizedSetIsMusicOn,
 	]);
+
+	useEffect(() => {
+		if (['xs', 'sm'].includes(currentBreakpoint)) {
+			memoizedSetIsAuto(false);
+			memoizedSetShowIntersections(false);
+		}
+	}, [currentBreakpoint, memoizedSetIsAuto, memoizedSetShowIntersections]);
 
 	useEffect(() => {
 		document.documentElement.style.setProperty(

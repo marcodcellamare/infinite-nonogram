@@ -180,6 +180,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const calculateRowHints = useCallback(() => {
 		if (!isReady) return;
 
+		let filled: boolean;
 		let blocks: number[];
 		let found: boolean[];
 		const hints: HintNumbersProps[][] = Array.from(
@@ -192,22 +193,20 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 			found = [];
 
 			for (let col = 0; col < settings.cols; col++) {
-				if (grid[row][col]) {
-					blocks.push(col);
-					found.push(
-						interactions[row][col] !== false &&
-							(!interactions[row].slice(0, col).includes(false) ||
-								!interactions[row]
-									.slice(col + 1)
-									.includes(false))
-					);
-				}
+				filled = grid[row][col];
+				blocks.push(col);
+				found.push(
+					interactions[row][col] !== false &&
+						(!interactions[row].slice(0, col).includes(false) ||
+							!interactions[row].slice(col + 1).includes(false))
+				);
 				if (
-					blocks.length > 0 &&
-					(!grid[row][col] || col >= settings.cols - 1)
+					grid[row][col + 1] !== grid[row][col] ||
+					col >= settings.cols - 1
 				) {
 					hints[row].push({
 						total: blocks.length,
+						filled: filled,
 						blocks: blocks,
 						found: found,
 						isDone: !found.includes(false),
@@ -223,7 +222,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const calculateColHints = useCallback(() => {
 		if (!isReady) return;
 
-		let hintIdx: number;
+		let filled: boolean;
 		let blocks: number[];
 		let found: boolean[];
 		const hints: HintNumbersProps[][] = Array.from(
@@ -232,36 +231,34 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		);
 
 		for (let col = 0; col < settings.cols; col++) {
-			hintIdx = 0;
 			blocks = [];
 			found = [];
 
 			for (let row = 0; row < settings.rows; row++) {
-				if (grid[row][col]) {
-					blocks.push(row);
-					found.push(
-						interactions[row][col] !== false &&
-							(!interactions
-								.slice(0, row)
+				filled = grid[row][col];
+				blocks.push(row);
+				found.push(
+					interactions[row][col] !== false &&
+						(!interactions
+							.slice(0, row)
+							.map((r) => r[col])
+							.includes(false) ||
+							!interactions
+								.slice(row + 1)
 								.map((r) => r[col])
-								.includes(false) ||
-								!interactions
-									.slice(row + 1)
-									.map((r) => r[col])
-									.includes(false))
-					);
-				}
+								.includes(false))
+				);
 				if (
-					blocks.length > 0 &&
-					(!grid[row][col] || row >= settings.rows - 1)
+					grid[row + 1]?.[col] !== grid[row][col] ||
+					row >= settings.rows - 1
 				) {
-					hints[col][hintIdx] = {
+					hints[col].push({
 						total: blocks.length,
+						filled: filled,
 						blocks: blocks,
 						found: found,
 						isDone: !found.includes(false),
-					};
-					hintIdx++;
+					});
 					blocks = [];
 					found = [];
 				}
@@ -269,6 +266,18 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		}
 		setColHints(hints);
 	}, [isReady, grid, interactions, settings.rows, settings.cols]);
+
+	const isDone = useMemo(
+		() => ({
+			rows: rowHints.map((row) =>
+				row.every((hint) => hint.isDone === true)
+			),
+			cols: colHints.map((col) =>
+				col.every((hint) => hint.isDone === true)
+			),
+		}),
+		[rowHints, colHints]
+	);
 
 	useEffect(() => init(), [init]);
 
@@ -292,12 +301,15 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 				isReady,
 				isStarted,
 				isCompleted,
+				isDone,
+
 				grid,
 				interactions,
 				hints: {
 					rows: rowHints,
 					cols: colHints,
 				},
+
 				total,
 				totalAvailable,
 				totalFound,

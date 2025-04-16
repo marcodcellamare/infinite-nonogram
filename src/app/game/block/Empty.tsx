@@ -1,7 +1,7 @@
-import { CSSProperties, useEffect, useMemo } from 'react';
+import { CSSProperties, useMemo } from 'react';
 import { useSettings } from '!/contexts/settings';
 import { useEngine } from '!/contexts/engine';
-import useMountTransition from '!/hooks/useMountTransition';
+import MountTransition from '!/app/misc/MountTransition';
 import classNames from 'classnames';
 
 import { InteractionType } from '!/types/interaction';
@@ -16,8 +16,6 @@ interface EmptyProps {
 const Empty = ({ hasInteracted, isError }: EmptyProps) => {
 	const { showEffects } = useSettings();
 	const { isCompleted } = useEngine();
-	const { isMounted, isTransitioning, handleTransitionEnd, setCondition } =
-		useMountTransition();
 
 	const hasGlitchEffect = useMemo(
 		() => showEffects && hasInteracted !== false && Math.random() < 0.1,
@@ -28,33 +26,35 @@ const Empty = ({ hasInteracted, isError }: EmptyProps) => {
 		[hasGlitchEffect]
 	);
 
-	useEffect(
-		() =>
-			setCondition(
-				hasInteracted !== false ||
-					(hasInteracted === false && isCompleted)
-			),
-		[setCondition, hasInteracted, isCompleted]
-	);
-
-	if (!isMounted) return null;
-
 	return (
-		<div
-			className={classNames([
-				'game-grid-block-empty',
-				'absolute top-0 bottom-0 left-0 right-0',
-				'bg-base-200',
-				{
-					'game-grid-block-empty-glitch': hasGlitchEffect,
-					'game-grid-block-empty-error': isError,
-					'transition-[opacity,scale] duration-200': showEffects,
-					'scale-10 opacity-0': !isTransitioning,
-				},
-			])}
-			style={{ '--glitch-delay': `${glitchDelay}s` } as CSSProperties}
-			onTransitionEnd={handleTransitionEnd}
-		/>
+		<MountTransition
+			mountIf={
+				hasInteracted !== false ||
+				(hasInteracted === false && isCompleted)
+			}
+			timeout={showEffects ? 200 : 0}>
+			{({ isEntering }) => (
+				<div
+					className={classNames([
+						'game-grid-block-empty',
+						'absolute top-0 bottom-0 left-0 right-0',
+						'bg-base-200 text-sm',
+						isEntering
+							? 'opacity-100 scale-100'
+							: 'opacity-0 scale-10',
+						{
+							'game-grid-block-empty-glitch': hasGlitchEffect,
+							'game-grid-block-empty-error': isError,
+							'transition-[opacity,scale] duration-200':
+								showEffects,
+						},
+					])}
+					style={
+						{ '--glitch-delay': `${glitchDelay}s` } as CSSProperties
+					}
+				/>
+			)}
+		</MountTransition>
 	);
 };
 export default Empty;

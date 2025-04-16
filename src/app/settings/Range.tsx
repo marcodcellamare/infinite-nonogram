@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { CircleHelpIcon } from 'lucide-react';
 
-import { timeoutType } from '!/types/timer';
+import { TimeoutType } from '!/types/timer';
 import { useSettings } from '!/contexts/settings';
 
 interface RangeProps {
@@ -32,7 +32,7 @@ const Range = ({
 	const [isOver, setIsOver] = useState(false);
 	const [isChanging, setIsChanging] = useState(false);
 
-	const timeoutRef = useRef<timeoutType>(null);
+	const timeoutRef = useRef<TimeoutType>(null);
 
 	const cleanup = () => {
 		if (timeoutRef.current !== null) {

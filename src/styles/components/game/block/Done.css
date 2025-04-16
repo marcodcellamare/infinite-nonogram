@@ -1,0 +1,17 @@
+.game-grid-block-done {
+	animation-name: Glowing;
+	animation-duration: 1s;
+	animation-fill-mode: both;
+	animation-iteration-count: 1;
+}
+@keyframes Glowing {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}

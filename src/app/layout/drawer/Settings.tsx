@@ -82,6 +82,20 @@ const Settings = () => {
 			/>
 			<div className='flex flex-col flex-wrap gap-2'>
 				<Toggle
+					label={i18n.t('music')}
+					icon={<Volume2Icon />}
+					iconOff={<VolumeOffIcon />}
+					checked={isMusicOn}
+					onChange={setIsMusicOn}
+				/>
+				<Toggle
+					label={i18n.t('effects')}
+					icon={<SparklesIcon />}
+					iconOff={<SparkleIcon />}
+					checked={showEffects}
+					onChange={setShowEffects}
+				/>
+				<Toggle
 					label={i18n.t('auto')}
 					icon={<MouseIcon />}
 					iconOff={<MouseOffIcon />}
@@ -98,25 +112,11 @@ const Settings = () => {
 					onChange={setShowIntersections}
 				/>
 				<Toggle
-					label={i18n.t('effects')}
-					icon={<SparklesIcon />}
-					iconOff={<SparkleIcon />}
-					checked={showEffects}
-					onChange={setShowEffects}
-				/>
-				<Toggle
 					label={i18n.t('saveLeaderboard')}
 					icon={<CloudUploadIcon />}
 					iconOff={<CloudOff />}
 					checked={isLeaderboardOn}
 					onChange={setIsLeaderboardOn}
-				/>
-				<Toggle
-					label={i18n.t('music')}
-					icon={<Volume2Icon />}
-					iconOff={<VolumeOffIcon />}
-					checked={isMusicOn}
-					onChange={setIsMusicOn}
 				/>
 			</div>
 		</>

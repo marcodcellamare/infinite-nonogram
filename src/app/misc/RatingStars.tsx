@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { StarIcon } from 'lucide-react';
 
-import { timeoutType } from '!/types/timer';
+import { TimeoutType } from '!/types/timer';
 
 interface RatingProps {
 	rating: number;
@@ -30,7 +30,7 @@ const RatingStars = ({
 	const [transitionDuration, setTransitionDuration] = useState(0);
 
 	const ratingRef = useRef(rating);
-	const timeoutRef = useRef<timeoutType>(null);
+	const timeoutRef = useRef<TimeoutType>(null);
 
 	const cleanup = () => {
 		if (timeoutRef.current !== null) {

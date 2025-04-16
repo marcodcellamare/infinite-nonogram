@@ -7,7 +7,7 @@ import Config from '!config';
 import { DicesIcon } from 'lucide-react';
 
 import { DifficultyTypes } from '!/types/settings';
-import { timeoutType } from '!/types/timer';
+import { TimeoutType } from '!/types/timer';
 
 const Randomize = () => {
 	const { i18n } = useTranslation();
@@ -20,7 +20,7 @@ const Randomize = () => {
 		'medium',
 		'hard',
 	]);
-	const timeoutRef = useRef<timeoutType>(null);
+	const timeoutRef = useRef<TimeoutType>(null);
 
 	const randomSize = () =>
 		Math.floor(
