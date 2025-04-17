@@ -32,7 +32,7 @@ const Controller = () => {
 	return (
 		<label
 			className={classNames([
-				'indicator indicator-middle indicator-center outline-2',
+				'indicator indicator-middle indicator-center outline-2 pointer-events-auto',
 				'flex gap-4 items-center justify-center',
 				checked ? 'bg-primary' : 'bg-accent',
 				'rounded-full text-xl py-1 px-6',

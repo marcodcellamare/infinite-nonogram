@@ -6,6 +6,7 @@ import Seed from '../info/Seed';
 import Header from './Header';
 
 import '!/styles/components/Main.css';
+import X from '../info/X';
 
 const Main = () => {
 	useRouteCheck();
@@ -14,6 +15,7 @@ const Main = () => {
 	return (
 		<main className='flex flex-1 relative'>
 			{showEffects ? <Seed /> : null}
+			<X />
 			<Outlet />
 			<Header />
 		</main>

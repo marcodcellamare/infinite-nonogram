@@ -13,16 +13,16 @@ const Progress = () => {
 	);
 
 	return (
-		<div className='w-full relative h-[2px] bg-error'>
+		<div className='w-full relative h-[1rem] bg-error'>
 			<progress
-				className='progress progress-accent block bg-base-200 w-full h-full border-none rounded-none'
+				className='progress progress-accent block bg-white w-full h-full border-none rounded-none'
 				value={totalFound}
 				max={totalAvailable}
 			/>
 			<div
 				className={classNames([
-					'badge badge-xs badge-accent font-bold',
-					'absolute top-1/2 -translate-1/2',
+					'badge badge-xs badge-accent rounded-none font-black',
+					'absolute bottom-0 -translate-x-full',
 					'transition-[left,opacity] duration-150',
 					{
 						'opacity-0':

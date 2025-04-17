@@ -3,8 +3,6 @@ import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
 import classNames from 'classnames';
-import { colorToRgb } from '!/utils/colors';
-import { cssVariable } from '!/utils/misc';
 
 import Void from './Void';
 import Empty from './Empty';
@@ -78,7 +76,7 @@ const Block = ({ row, col }: BlockProps) => {
 		() =>
 			hasRandomOpacityEffect
 				? Math.round(Math.random() * 0.4 * 100) / 100
-				: 0.4,
+				: 0,
 		[hasRandomOpacityEffect]
 	);
 
@@ -133,8 +131,8 @@ const Block = ({ row, col }: BlockProps) => {
 	}, [isError, setIsGlobalError]);
 
 	return (
-		<button
-			type='button'
+		<div
+			role='button'
 			className={classNames([
 				'game-grid-block',
 				'relative aspect-square overflow-hidden',
@@ -144,7 +142,8 @@ const Block = ({ row, col }: BlockProps) => {
 					'game-grid-block-b-strong': row >= rows - 1,
 					'game-grid-block-r-strong': col >= cols - 1,
 					'game-grid-block-glitching': hasGlitchingEffect,
-					'transition-[background-color] duration-100': showEffects,
+					'transition-[background-color] duration-100':
+						showEffects && hasGlitchingEffect,
 					'cursor-pointer': !isDisabled,
 				},
 			])}
@@ -152,11 +151,12 @@ const Block = ({ row, col }: BlockProps) => {
 			onPointerLeave={() => setIsOver(false)}
 			style={
 				{
-					'--block-random-opacity': randomOpacity,
-					'--glitching-delay': `${glitchingDelay}s`,
-					'--block-color': `${colorToRgb(
-						cssVariable('--color-white')
-					)}`,
+					'--block-random-opacity': hasRandomOpacityEffect
+						? randomOpacity
+						: null,
+					'--glitching-delay': hasGlitchingEffect
+						? `${glitchingDelay}s`
+						: null,
 				} as CSSProperties
 			}>
 			{!isRefreshing ? (
@@ -164,7 +164,6 @@ const Block = ({ row, col }: BlockProps) => {
 					{!isCompleted ? (
 						<Void isOver={!isDisabled ? isOver : false} />
 					) : null}
-
 					{isFilled ? (
 						<Filled
 							hasInteracted={hasInteracted}
@@ -203,7 +202,7 @@ const Block = ({ row, col }: BlockProps) => {
 					) : null}
 				</>
 			) : null}
-		</button>
+		</div>
 	);
 };
 export default Block;

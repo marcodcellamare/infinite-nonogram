@@ -7,7 +7,7 @@ const Number = ({ total, isDone }: HintNumbersProps) => {
 	const { showEffects } = useSettings();
 
 	return (
-		<div
+		<span
 			className={classNames([
 				'min-w-[1.3em] h-[1.3em] leading-[1.3em] text-center',
 				{
@@ -17,7 +17,7 @@ const Number = ({ total, isDone }: HintNumbersProps) => {
 				},
 			])}>
 			{total}
-		</div>
+		</span>
 	);
 };
 export default Number;

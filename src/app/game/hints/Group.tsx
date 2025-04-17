@@ -19,10 +19,10 @@ const Group = ({ type, hints, isLineDone }: GroupProps) => {
 	if (!hints) return null;
 
 	return (
-		<ul
+		<div
 			className={classNames([
 				'game-grid-hint-group',
-				'list-none flex flex-grow items-center justify-end',
+				'flex flex-grow items-center justify-end',
 				type === 'col'
 					? 'game-grid-hint-group-col flex-col'
 					: 'game-grid-hint-group-row flex-row',
@@ -34,16 +34,15 @@ const Group = ({ type, hints, isLineDone }: GroupProps) => {
 			{!isRefreshing
 				? hints.map((hint, k) =>
 						hint.filled ? (
-							<li key={k}>
-								<Number
-									total={hint.total}
-									isDone={isLineDone || hint.isDone}
-								/>
-							</li>
+							<Number
+								key={k}
+								total={hint.total}
+								isDone={isLineDone || hint.isDone}
+							/>
 						) : null
 				  )
 				: null}
-		</ul>
+		</div>
 	);
 };
 export default Group;

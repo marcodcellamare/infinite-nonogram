@@ -57,32 +57,84 @@
 			}
 		}
 	},
-	"fonts": [
+	"meta": [
 		{
-			"family": "Roboto",
-			"weights": [
-				400,
-				800
-			],
-			"italic": false
+			"httpEquiv": "Content-Security-Policy",
+			"content": [
+				"default-src 'self'",
+				"script-src 'self' https://www.googletagmanager.com",
+				"connect-src 'self' https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://region1.google-analytics.com https://api.country.is",
+				"style-src 'self' 'unsafe-inline'",
+				"img-src 'self' data:",
+				"font-src 'self'",
+				"frame-src 'self'",
+				"object-src 'none'",
+				"base-uri 'self'",
+				"form-action 'self'",
+				"upgrade-insecure-requests"
+			]
+		},
+		{
+			"httpEquiv": "X-Content-Type-Options",
+			"content": "nosniff"
+		},
+		{
+			"httpEquiv": "Permissions-Policy",
+			"content": "geolocation=(), microphone=(), camera=()"
+		},
+		{
+			"name": "referrer",
+			"content": "strict-origin-when-cross-origin"
+		},
+		{
+			"name": "robots",
+			"content": "index, follow"
 		}
 	],
 	"preload": [
 		{
 			"rel": "dns-prefetch",
-			"href": "https://fonts.googleapis.com"
+			"href": "https://firebase.googleapis.com/"
 		},
 		{
 			"rel": "dns-prefetch",
-			"href": "https://fonts.gstatic.com"
+			"href": "https://identitytoolkit.googleapis.com/"
+		},
+		{
+			"rel": "dns-prefetch",
+			"href": "https://www.googletagmanager.com/"
+		},
+		{
+			"rel": "dns-prefetch",
+			"href": "https://region1.google-analytics.com/"
+		},
+		{
+			"rel": "dns-prefetch",
+			"href": "https://api.country.is/"
 		},
 		{
 			"rel": "preconnect",
-			"href": "https://fonts.googleapis.com"
+			"href": "https://firebase.googleapis.com/",
+			"crossorigin": "anonymous"
 		},
 		{
 			"rel": "preconnect",
-			"href": "https://fonts.googleapis.com",
+			"href": "https://identitytoolkit.googleapis.com/",
+			"crossorigin": "anonymous"
+		},
+		{
+			"rel": "preconnect",
+			"href": "https://www.googletagmanager.com/",
+			"crossorigin": "anonymous"
+		},
+		{
+			"rel": "preconnect",
+			"href": "https://region1.google-analytics.com/",
+			"crossorigin": "anonymous"
+		},
+		{
+			"rel": "preconnect",
+			"href": "https://api.country.is/",
 			"crossorigin": "anonymous"
 		}
 	]

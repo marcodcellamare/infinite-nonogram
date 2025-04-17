@@ -31,7 +31,13 @@ const Seed = () => {
 		<form
 			className='flex flex-col sm:flex-row gap-1'
 			onSubmit={handleSubmit}>
-			<label className='input input-primary w-full'>
+			<label
+				className={classNames([
+					'input input-primary w-full',
+					{
+						'!border-primary/50': isRefreshing || isSpinning,
+					},
+				])}>
 				<strong className='text-accent'>{i18n.t('seed')}</strong>
 				<input
 					ref={inputRef}

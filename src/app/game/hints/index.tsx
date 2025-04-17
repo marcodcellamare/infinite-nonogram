@@ -25,7 +25,7 @@ const Hint = ({ row, col }: HintProps) => {
 			className={classNames([
 				'game-grid-hint',
 				'flex relative',
-				row >= 0 || col >= 0 ? 'bg-base-200' : 'bg-accent',
+				row >= 0 || col >= 0 ? 'bg-base-200/50' : 'bg-accent',
 				{
 					'game-grid-hint-t-strong': row % 5 === 0 || row === -1,
 					'game-grid-hint-l-strong': col % 5 === 0 || col === -1,

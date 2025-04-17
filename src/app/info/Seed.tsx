@@ -25,7 +25,7 @@ const Seed = () => {
 
 		if (isRefreshing) {
 			randomize();
-			intervalRef.current = setInterval(() => randomize(), 30);
+			intervalRef.current = setInterval(randomize, 100);
 		} else {
 			setRandomSeed('');
 		}

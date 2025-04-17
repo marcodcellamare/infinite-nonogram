@@ -3,10 +3,13 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import { cssVariable } from '!/utils/misc';
+import Config from '!config';
 
 import { InfinityIcon } from 'lucide-react';
 
 import pkg from '!package';
+
+type CrossOrigin = 'anonymous' | 'use-credentials' | undefined;
 
 const Meta = () => {
 	const { i18n } = useTranslation();
@@ -38,6 +41,26 @@ const Meta = () => {
 					/>
 				)}`}
 			/>
+			{Config.preload.map((preload, k) => (
+				<link
+					key={k}
+					rel={preload.rel}
+					href={preload.href}
+					crossOrigin={preload.crossorigin as CrossOrigin}
+				/>
+			))}
+			{Config.meta.map((meta, k) => (
+				<meta
+					key={k}
+					name={meta.name}
+					httpEquiv={meta.httpEquiv}
+					content={
+						Array.isArray(meta.content)
+							? meta.content.join('; ')
+							: meta.content
+					}
+				/>
+			))}
 		</>
 	);
 };
