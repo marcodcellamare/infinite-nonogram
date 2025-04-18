@@ -17,8 +17,7 @@ interface HintProps {
 const Hint = ({ row, col }: HintProps) => {
 	const { hints, isCompleted, isDone } = useEngine();
 	const { rows, cols, showIntersections } = useSettings();
-	const { isOverCol, isOverRow, setIsOverRow, setIsOverCol } =
-		useInteraction();
+	const { isOverCol, isOverRow } = useInteraction();
 
 	return (
 		<div
@@ -32,11 +31,7 @@ const Hint = ({ row, col }: HintProps) => {
 					'game-grid-hint-b-strong': row >= rows - 1 || row === -1,
 					'game-grid-hint-r-strong': col >= cols - 1 || col === -1,
 				},
-			])}
-			onPointerEnter={() => {
-				setIsOverRow(undefined);
-				setIsOverCol(undefined);
-			}}>
+			])}>
 			{row >= 0 || col >= 0 ? (
 				<>
 					{col < 0 && hints.rows[row] ? (

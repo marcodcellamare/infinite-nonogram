@@ -25,7 +25,7 @@ const Done = ({ mountIf, delay }: DoneProps) => {
 				<div
 					className={classNames([
 						'game-grid-block-done',
-						'absolute top-0 bottom-0 left-0 right-0',
+						'absolute top-0 bottom-0 left-0 right-0 pointer-events-none',
 						'bg-white/70 mix-blend-overlay',
 					])}
 				/>

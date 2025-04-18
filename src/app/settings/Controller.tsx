@@ -12,22 +12,20 @@ const Controller = () => {
 	const { isAuto, showEffects } = useSettings();
 	const [checked, setChecked] = useState(false);
 
-	const handleChange = (force?: boolean) => {
+	const handleChange = (force?: boolean) =>
 		setChecked((prevChecked) => {
 			if (typeof force === 'boolean') {
 				return force;
 			}
 			return !prevChecked;
 		});
-	};
 
-	useEffect(() => {
-		handleChange(isInteracting === 'right');
-	}, [isInteracting]);
+	useEffect(() => handleChange(isInteracting === 'right'), [isInteracting]);
 
-	useEffect(() => {
-		setIsInteracting(!checked ? 'left' : 'right');
-	}, [checked, setIsInteracting]);
+	useEffect(
+		() => setIsInteracting(!checked ? 'left' : 'right'),
+		[checked, setIsInteracting]
+	);
 
 	return (
 		<label

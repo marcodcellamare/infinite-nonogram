@@ -26,7 +26,8 @@ const Void = ({ isOver }: VoidProps) => {
 				<div
 					className={classNames([
 						'game-grid-block-void',
-						'absolute top-0 bottom-0 left-0 right-0 bg-primary',
+						'absolute top-0 bottom-0 left-0 right-0 pointer-events-none',
+						'bg-primary',
 						isEntering
 							? 'opacity-100 scale-100'
 							: 'opacity-0 scale-80',

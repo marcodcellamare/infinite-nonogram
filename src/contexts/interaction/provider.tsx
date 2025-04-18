@@ -5,100 +5,100 @@ import { useSettings } from '../settings';
 import { InteractionType } from '!/types/interaction';
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
-	const { showIntersections, isAuto } = useSettings();
+	const { isAuto } = useSettings();
 
 	const [isClicked, setIsClicked] = useState(false);
 	const [isInteracting, setIsInteracting] = useState<InteractionType>('left');
-	const [isOverGrid, setIsOverGrid] = useState<boolean>(false);
-	const [isOverCol, setIsOverCol] = useState<number | undefined>();
-	const [isOverRow, setIsOverRow] = useState<number | undefined>();
+	const [isOverCol, setIsOverCol] = useState<number | undefined>(undefined);
+	const [isOverRow, setIsOverRow] = useState<number | undefined>(undefined);
 
-	const gatedSetIsInteracting = useCallback((type: InteractionType) => {
-		setIsInteracting(type);
-	}, []);
-
-	const gatedSetIsOverGrid = useCallback(
-		(isOver: boolean) => {
-			setIsOverGrid(showIntersections ? isOver : false);
-
-			if (!showIntersections || !isOver) {
-				setIsOverCol(undefined);
-				setIsOverRow(undefined);
-			}
-		},
-		[showIntersections]
-	);
-
-	const gatedSetIsOverCol = useCallback(
-		(col?: number) => {
-			setIsOverCol(isOverGrid ? col : undefined);
-		},
-		[isOverGrid]
-	);
-
-	const gatedSetIsOverRow = useCallback(
-		(row?: number) => {
-			setIsOverRow(isOverGrid ? row : undefined);
-		},
-		[isOverGrid]
-	);
+	const memoizedSetIsInteracting = useCallback(setIsInteracting, [
+		setIsInteracting,
+	]);
 
 	const handlePointerDown = useCallback(
 		(e: PointerEvent) => {
+			if (isClicked) return;
 			setIsClicked(true);
 
-			if (isAuto) {
-				if (e.pointerType === 'mouse') {
-					switch (e.button) {
-						default:
-						case 0:
-							setIsInteracting('left');
-							break;
+			if (isAuto && e.pointerType === 'mouse') {
+				switch (e.button) {
+					case 0:
+						setIsInteracting('left');
+						break;
 
-						case 2:
-							setIsInteracting('right');
-					}
+					case 2:
+						setIsInteracting('right');
 				}
 			}
 		},
-		[isAuto]
+		[isAuto, isClicked]
 	);
 
-	const handlePointerUp = () => {
-		setIsClicked(false);
-	};
+	const handlePointerUp = () => setIsClicked(false);
+
+	const handleHover = useCallback((target: HTMLElement, isOver: boolean) => {
+		if (target.classList.contains('game-grid-block')) {
+			if (isOver) {
+				const row = Number(target.dataset.row);
+				const col = Number(target.dataset.col);
+
+				setIsOverCol(col);
+				setIsOverRow(row);
+			} else {
+				setIsOverCol(undefined);
+				setIsOverRow(undefined);
+			}
+		}
+	}, []);
+
+	const handlePointerOver = useCallback(
+		(e: PointerEvent) => handleHover(e.target as HTMLElement, true),
+		[handleHover]
+	);
+
+	const handlePointerOut = useCallback(
+		(e: PointerEvent) => handleHover(e.target as HTMLElement, false),
+		[handleHover]
+	);
 
 	const handleContextMenu = (e: MouseEvent) => e.preventDefault();
 
 	const cleanup = useCallback(() => {
 		document.removeEventListener('pointerdown', handlePointerDown);
 		document.removeEventListener('pointerup', handlePointerUp);
+		document.removeEventListener('pointercancel', handlePointerUp);
+
+		document.removeEventListener('pointerover', handlePointerOver);
+		document.removeEventListener('pointerout', handlePointerOut);
+
 		document.removeEventListener('contextmenu', handleContextMenu);
-	}, [handlePointerDown]);
+	}, [handlePointerDown, handlePointerOver, handlePointerOut]);
 
 	useEffect(() => {
 		cleanup();
 
 		document.addEventListener('pointerdown', handlePointerDown);
 		document.addEventListener('pointerup', handlePointerUp);
+		document.addEventListener('pointercancel', handlePointerUp);
+
+		document.addEventListener('pointerover', handlePointerOver);
+		document.addEventListener('pointerout', handlePointerOut);
+
 		document.addEventListener('contextmenu', handleContextMenu);
 
 		return () => cleanup();
-	}, [handlePointerDown, cleanup]);
+	}, [handlePointerDown, cleanup, handlePointerOver, handlePointerOut]);
 
 	return (
 		<InteractionContext.Provider
 			value={{
 				isClicked,
 				isInteracting,
-				isOverGrid,
 				isOverCol,
 				isOverRow,
 
-				setIsInteracting: gatedSetIsInteracting,
-				setIsOverGrid: gatedSetIsOverGrid,
-				setIsOverCol: gatedSetIsOverCol,
-				setIsOverRow: gatedSetIsOverRow,
+				setIsInteracting: memoizedSetIsInteracting,
 			}}>
 			{children}
 		</InteractionContext.Provider>

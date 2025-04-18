@@ -13,15 +13,15 @@ const Time = () => {
 	return (
 		<div
 			className={classNames([
-				'btn',
+				'btn btn-outline',
 				!isStarted && !isCompleted
-					? 'btn-primary'
+					? 'btn-accent opacity-50'
 					: !isCompleted
 					? 'btn-accent'
-					: 'btn-primary btn-outline',
+					: 'btn-primary',
 				'flex flex-col gap-0 pointer-events-none h-auto px-2 py-1',
 				{
-					'transition-[scale,background-color,color,border-color] duration-500 ease-in-out':
+					'transition-[scale,background-color,color,border-color,opacity] duration-500 ease-in-out':
 						showEffects,
 					'scale-95': !blink,
 				},

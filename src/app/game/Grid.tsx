@@ -1,7 +1,6 @@
 import { CSSProperties, Fragment, useState } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
-import { useInteraction } from '!/contexts/interaction';
 import MountTransition from '!/app/misc/MountTransition';
 import classNames from 'classnames';
 import { colorToRgb } from '!/utils/colors';
@@ -23,7 +22,6 @@ const Grid = () => {
 		difficulty,
 		seed,
 	} = useSettings();
-	const { setIsOverGrid } = useInteraction();
 
 	const [gridKey, setGridKey] = useState('');
 
@@ -93,7 +91,7 @@ const Grid = () => {
 						}>
 						<div
 							className={classNames([
-								'grid',
+								'game-grid-wrapper grid',
 								colSizeClassName[cols],
 								rowSizeClassName[rows],
 								'p-0.5 min-w-fit min-h-fit h-full max-w-full max-h-full',
@@ -119,9 +117,7 @@ const Grid = () => {
 										!isCompleted &&
 										isRefreshing,
 								},
-							])}
-							onPointerEnter={() => setIsOverGrid(true)}
-							onPointerLeave={() => setIsOverGrid(false)}>
+							])}>
 							{Array.from({ length: rows + 1 }).map((_, row) =>
 								Array.from({ length: cols + 1 }).map(
 									(_, col) => {

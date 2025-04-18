@@ -12,9 +12,9 @@ const Perfect = () => {
 		<div
 			className={classNames([
 				'game-grid-block-filled-perfect',
-				'absolute top-0 bottom-0 left-0 right-0 scale-1000',
+				'absolute top-0 bottom-0 left-0 right-0 pointer-events-none scale-500',
 				{
-					'transition-opacity duration-600': showEffects,
+					'transition-opacity duration-500': showEffects,
 					'opacity-0': !isCompleted,
 				},
 			])}

@@ -37,7 +37,7 @@ const Empty = ({ hasInteracted, isError }: EmptyProps) => {
 				<div
 					className={classNames([
 						'game-grid-block-empty',
-						'absolute top-0 bottom-0 left-0 right-0',
+						'absolute top-0 bottom-0 left-0 right-0 pointer-events-none',
 						'bg-base-200 text-sm',
 						isEntering
 							? 'opacity-100 scale-100'

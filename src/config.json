@@ -28,8 +28,7 @@
 			"max": 15,
 			"block": {
 				"size": 2.5,
-				"disabledByError": 0,
-				"__disabledByError": 1000
+				"disabledByError": 0
 			},
 			"hint": {
 				"groupPadding": 0.65,
@@ -63,7 +62,7 @@
 			"content": [
 				"default-src 'self'",
 				"script-src 'self' https://www.googletagmanager.com",
-				"connect-src 'self' https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://region1.google-analytics.com https://api.country.is",
+				"connect-src 'self' https://firebase.googleapis.com https://firestore.googleapis.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com https://identitytoolkit.googleapis.com https://region1.google-analytics.com https://api.country.is",
 				"style-src 'self' 'unsafe-inline'",
 				"img-src 'self' data:",
 				"font-src 'self'",
@@ -94,47 +93,74 @@
 	"preload": [
 		{
 			"rel": "dns-prefetch",
-			"href": "https://firebase.googleapis.com/"
+			"href": "https://firebase.googleapis.com"
 		},
 		{
 			"rel": "dns-prefetch",
-			"href": "https://identitytoolkit.googleapis.com/"
+			"href": "https://firestore.googleapis.com"
 		},
 		{
 			"rel": "dns-prefetch",
-			"href": "https://www.googletagmanager.com/"
+			"href": "https://securetoken.googleapis.com"
 		},
 		{
 			"rel": "dns-prefetch",
-			"href": "https://region1.google-analytics.com/"
+			"href": "https://firebaseinstallations.googleapis.com"
 		},
 		{
 			"rel": "dns-prefetch",
-			"href": "https://api.country.is/"
+			"href": "https://identitytoolkit.googleapis.com"
+		},
+		{
+			"rel": "dns-prefetch",
+			"href": "https://www.googletagmanager.com"
+		},
+		{
+			"rel": "dns-prefetch",
+			"href": "https://region1.google-analytics.com"
+		},
+		{
+			"rel": "dns-prefetch",
+			"href": "https://api.country.is"
 		},
 		{
 			"rel": "preconnect",
-			"href": "https://firebase.googleapis.com/",
+			"href": "https://firebase.googleapis.com",
 			"crossorigin": "anonymous"
 		},
 		{
 			"rel": "preconnect",
-			"href": "https://identitytoolkit.googleapis.com/",
+			"href": "https://firestore.googleapis.com",
 			"crossorigin": "anonymous"
 		},
 		{
 			"rel": "preconnect",
-			"href": "https://www.googletagmanager.com/",
+			"href": "https://securetoken.googleapis.com",
 			"crossorigin": "anonymous"
 		},
 		{
 			"rel": "preconnect",
-			"href": "https://region1.google-analytics.com/",
+			"href": "https://firebaseinstallations.googleapis.com",
 			"crossorigin": "anonymous"
 		},
 		{
 			"rel": "preconnect",
-			"href": "https://api.country.is/",
+			"href": "https://identitytoolkit.googleapis.com",
+			"crossorigin": "anonymous"
+		},
+		{
+			"rel": "preconnect",
+			"href": "https://www.googletagmanager.com",
+			"crossorigin": "anonymous"
+		},
+		{
+			"rel": "preconnect",
+			"href": "https://region1.google-analytics.com",
+			"crossorigin": "anonymous"
+		},
+		{
+			"rel": "preconnect",
+			"href": "https://api.country.is",
 			"crossorigin": "anonymous"
 		}
 	]

@@ -44,7 +44,7 @@ const Filled = ({ hasInteracted, isError }: FilledProps) => {
 				<div
 					className={classNames(
 						'game-grid-block-filled',
-						'absolute top-0 bottom-0 left-0 right-0 text-sm',
+						'absolute top-0 bottom-0 left-0 right-0 text-sm pointer-events-none',
 						isEntering
 							? 'opacity-100 scale-100'
 							: 'opacity-0 scale-10',

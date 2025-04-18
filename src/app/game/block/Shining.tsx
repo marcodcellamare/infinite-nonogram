@@ -7,7 +7,7 @@ const Shining = () => {
 
 	return (
 		<div
-			className='game-grid-block-filled-shining absolute top-0 bottom-0 left-0 right-0 scale-500 mix-blend-overlay opacity-70'
+			className='game-grid-block-filled-shining absolute top-0 bottom-0 left-0 right-0 pointer-events-none scale-500 mix-blend-overlay opacity-70'
 			style={{ '--shining-delay': `${delay.current}s` } as CSSProperties}
 		/>
 	);

@@ -31,7 +31,7 @@
 		background-color: rgba(var(--block-color), 0.7);
 	}
 	60%,
-	100 {
+	100% {
 		background-color: rgba(var(--block-color), 0.3);
 	}
 }

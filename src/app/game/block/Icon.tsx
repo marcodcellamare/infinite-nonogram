@@ -33,7 +33,7 @@ const Icon = ({ hasInteracted, isFilled, isError, isOver }: IconProps) => {
 					ref={nodeRef}
 					className={classNames([
 						'grid-block-icon',
-						'absolute top-0 bottom-0 left-0 right-0',
+						'absolute top-0 bottom-0 left-0 right-0 pointer-events-none',
 						'flex items-center justify-center',
 						isEntering
 							? 'opacity-100 scale-100'

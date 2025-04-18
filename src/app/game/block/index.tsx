@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
@@ -30,16 +30,12 @@ const Block = ({ row, col }: BlockProps) => {
 		showIntersections,
 		showEffects,
 	} = useSettings();
-	const {
-		isClicked,
-		isInteracting,
-		isOverCol,
-		isOverRow,
-		setIsOverCol,
-		setIsOverRow,
-	} = useInteraction();
+	const { isClicked, isInteracting, isOverCol, isOverRow } = useInteraction();
 
-	const [isOver, setIsOver] = useState(false);
+	const isOver = useMemo(
+		() => isOverCol === col && isOverRow === row,
+		[isOverCol, isOverRow, col, row]
+	);
 
 	const isFilled = useMemo(
 		() => (isReady && grid[row][col] ? grid[row][col] : false),
@@ -110,22 +106,6 @@ const Block = ({ row, col }: BlockProps) => {
 	]);
 
 	useEffect(() => {
-		if (showIntersections && isOver) {
-			setIsOverRow(row);
-			setIsOverCol(col);
-		}
-	}, [
-		row,
-		col,
-		setIsOverRow,
-		setIsOverCol,
-		showIntersections,
-		isDisabled,
-		isCompleted,
-		isOver,
-	]);
-
-	useEffect(() => {
 		if (isError) setIsGlobalError(true);
 		return () => setIsGlobalError(false);
 	}, [isError, setIsGlobalError]);
@@ -147,8 +127,8 @@ const Block = ({ row, col }: BlockProps) => {
 					'cursor-pointer': !isDisabled,
 				},
 			])}
-			onPointerEnter={() => setIsOver(true)}
-			onPointerLeave={() => setIsOver(false)}
+			data-row={row}
+			data-col={col}
 			style={
 				{
 					'--block-random-opacity': hasRandomOpacityEffect
@@ -196,9 +176,7 @@ const Block = ({ row, col }: BlockProps) => {
 					{showIntersections &&
 					!isCompleted &&
 					(isOverCol === col || isOverRow === row) ? (
-						<Highlight
-							isTarget={isOverCol === col && isOverRow === row}
-						/>
+						<Highlight isTarget={isOver} />
 					) : null}
 				</>
 			) : null}
