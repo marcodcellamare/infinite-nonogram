@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
+import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
 import Config from '!config';
 
@@ -13,6 +14,7 @@ const Randomize = () => {
 	const { i18n } = useTranslation();
 	const { setSeed, setRows, setCols, setDifficulty, showEffects } =
 		useSettings();
+	const { play: playSound } = useAudio();
 
 	const [isClicked, setIsClicked] = useState(false);
 	const difficultiesRef = useRef<DifficultyTypes[]>([
@@ -39,6 +41,7 @@ const Randomize = () => {
 		if (!isClicked) {
 			cleanup();
 
+			playSound('grid-block-correct');
 			setIsClicked(true);
 			setSeed();
 			setRows(randomSize());
@@ -50,7 +53,7 @@ const Randomize = () => {
 			);
 			timeoutRef.current = setTimeout(() => setIsClicked(false), 500);
 		}
-	}, [isClicked, setSeed, setRows, setCols, setDifficulty]);
+	}, [isClicked, setSeed, setRows, setCols, setDifficulty, playSound]);
 
 	useEffect(() => {
 		return () => cleanup();
@@ -60,6 +63,7 @@ const Randomize = () => {
 		<button
 			className='flex-1 btn btn-outline btn-primary disabled:!bg-secondary disabled:text-white'
 			type='button'
+			onPointerEnter={() => playSound('grid-block-over')}
 			onClick={handleClick}
 			disabled={isClicked}>
 			<DicesIcon

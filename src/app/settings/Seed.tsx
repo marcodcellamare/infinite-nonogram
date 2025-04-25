@@ -1,6 +1,7 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
+import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
 
 import { cleanSeed } from '!/utils/misc';
@@ -10,6 +11,8 @@ const Seed = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const { i18n } = useTranslation();
 	const { seed, setSeed, isRefreshing, showEffects } = useSettings();
+	const { play: playSound } = useAudio();
+
 	const [value, setValue] = useState('');
 	const [isSpinning, setIsSpinning] = useState(false);
 
@@ -44,7 +47,10 @@ const Seed = () => {
 					type='text'
 					value={value}
 					disabled={isRefreshing || isSpinning}
-					onChange={(e) => setValue(cleanSeed(e.target.value))}
+					onChange={(e) => {
+						playSound('grid-block-over');
+						setValue(cleanSeed(e.target.value));
+					}}
 					onFocus={() => setValue('')}
 					onBlur={(e) => {
 						if (e.target.value.trim().length === 0) {
@@ -63,6 +69,7 @@ const Seed = () => {
 							'transition-[color] duration-400': showEffects,
 						},
 					])}
+					onPointerEnter={() => playSound('grid-block-over')}
 					onClick={() => {
 						if (!isRefreshing && !isSpinning) {
 							setSeed();
@@ -88,7 +95,8 @@ const Seed = () => {
 			<button
 				type='submit'
 				className='btn btn-primary'
-				disabled={value.length === 0 || value === seed}>
+				disabled={value.length === 0 || value === seed}
+				onPointerEnter={() => playSound('grid-block-over')}>
 				<CheckIcon className='w-full' />
 			</button>
 		</form>

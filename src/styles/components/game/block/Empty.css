@@ -62,9 +62,9 @@
 	}
 	65%,
 	60% {
-		opacity: 0.15;
+		opacity: 0.125;
 	}
 	50% {
-		opacity: 0.2;
+		opacity: 0.15;
 	}
 }

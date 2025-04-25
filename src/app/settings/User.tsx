@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
+import { useAudio } from '!/contexts/audio';
 import { isOnlyAsterisks } from '!/utils/misc';
 
 import Avatar from '../info/Avatar';
@@ -8,6 +9,7 @@ import CountryBadge from '../misc/CountryBadge';
 const User = () => {
 	const { i18n } = useTranslation();
 	const { user, country, setUser } = useSettings();
+	const { play: playSound } = useAudio();
 
 	return (
 		<div className='flex items-center gap-3'>
@@ -21,13 +23,14 @@ const User = () => {
 				<input
 					type='text'
 					value={user || ''}
-					onChange={(e) =>
+					onChange={(e) => {
+						playSound('grid-block-over');
 						setUser(
 							e.target.value.trim().length > 0
 								? e.target.value
 								: ''
-						)
-					}
+						);
+					}}
 					onBlur={(e) =>
 						setUser(
 							e.target.value.trim().length > 0 &&

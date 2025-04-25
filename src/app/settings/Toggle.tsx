@@ -1,4 +1,5 @@
 import { cloneElement, ReactElement, useEffect } from 'react';
+import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
 
 interface ToggleProps {
@@ -18,6 +19,7 @@ const Toggle = ({
 	disabled = false,
 	onChange,
 }: ToggleProps) => {
+	const { play: playSound } = useAudio();
 	const iconProps = {
 		className: 'text-svg-inline text-lg',
 	};
@@ -34,14 +36,20 @@ const Toggle = ({
 				!disabled ? 'cursor-pointer' : 'cursor-not-allowed',
 				checked ? 'text-secondary' : 'text-base-content/50',
 				disabled ? 'opacity-50' : 'hover:opacity-80',
-			])}>
+			])}
+			onPointerEnter={() =>
+				!disabled ? playSound('grid-block-over') : null
+			}>
 			<input
 				type='checkbox'
 				className='toggle toggle-sm toggle-secondary disabled:opacity-100'
 				checked={checked}
 				disabled={disabled}
 				onChange={(e) => {
-					if (!disabled) onChange(e.target.checked);
+					if (!disabled) {
+						playSound('grid-block-correct');
+						onChange(e.target.checked);
+					}
 				}}
 			/>
 			{icon ? (

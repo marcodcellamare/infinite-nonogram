@@ -1,7 +1,6 @@
 export interface AudioContextProps {
-	refSound: (name: string) => Howl;
-	addSound: (name: string, src: string) => void;
-	playSound: (name: string) => void;
-	playMusic: (name: string, loop?: boolean) => void;
-	stopMusic: () => void;
+	ref: (name: string) => Howl | null;
+	add: (name: string, src: string, volume?: number) => void;
+	play: (name: string) => void;
+	volume: (name: string, volume: number) => void;
 }

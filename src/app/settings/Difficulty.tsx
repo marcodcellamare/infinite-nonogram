@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
+import { useAudio } from '!/contexts/audio';
 
 import DifficultyIcon from '../misc/DifficultyIcon';
 
@@ -9,6 +10,8 @@ import { DifficultyTypes } from '!/types/settings';
 const Difficulty = () => {
 	const { i18n } = useTranslation();
 	const { setDifficulty, difficulty } = useSettings();
+	const { play: playSound } = useAudio();
+
 	const difficultiesRef = useRef<DifficultyTypes[]>([
 		'easy',
 		'medium',
@@ -24,7 +27,11 @@ const Difficulty = () => {
 						className='flex-1 btn btn-sm btn-outline btn-primary disabled:!bg-accent disabled:!text-white'
 						type='button'
 						disabled={d === difficulty}
-						onClick={() => setDifficulty(d)}>
+						onPointerEnter={() => playSound('grid-block-over')}
+						onClick={() => {
+							playSound('grid-block-correct');
+							setDifficulty(d);
+						}}>
 						<DifficultyIcon
 							difficulty={d}
 							className='text-xl hidden md:block'

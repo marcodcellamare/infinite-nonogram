@@ -1,12 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
+import { useAudio } from '!/contexts/audio';
 import { serverTimestamp } from 'firebase/firestore';
 import useFirestoreCollection from '!/hooks/useFirestoreCollection';
 import { useTimer } from '!/contexts/timer';
 import MountTransition from '!/app/misc/MountTransition';
 import classNames from 'classnames';
+import Config from '!config';
 
 import Time from './Time';
 import Points from './Points';
@@ -34,9 +36,12 @@ const Score = () => {
 		isLeaderboardOn,
 	} = useSettings();
 	const { ms: time } = useTimer();
+	const { play: playSound } = useAudio();
 
 	const [title, setTitle] = useState('');
 	const [next, setNext] = useState('');
+
+	const hasWin = useMemo(() => rating >= Config.game.score.win, [rating]);
 
 	const randomizer = useCallback(
 		(path: string) => {
@@ -57,7 +62,13 @@ const Score = () => {
 	}, [randomizer]);
 
 	useEffect(() => {
-		if (!isLeaderboardOn || !isCompleted) return;
+		if (isReady && isCompleted) {
+			playSound(hasWin ? 'ending-loss' : 'ending-victory');
+		}
+	}, [isReady, isCompleted, hasWin, playSound]);
+
+	useEffect(() => {
+		if (!isLeaderboardOn || !isCompleted || !hasWin) return;
 
 		addDocument({
 			date: serverTimestamp(),
@@ -84,6 +95,7 @@ const Score = () => {
 		difficulty,
 		seed,
 		time,
+		hasWin,
 	]);
 
 	return (

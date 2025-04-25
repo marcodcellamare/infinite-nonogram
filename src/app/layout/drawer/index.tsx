@@ -4,7 +4,7 @@ import Wrapper from './Wrapper';
 import Config from '!config';
 
 const Drawer = () => {
-	const [show, setShow] = useState(false);
+	const [show, setShow] = useState(true);
 
 	return (
 		<>

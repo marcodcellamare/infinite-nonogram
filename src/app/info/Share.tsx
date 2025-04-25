@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import useClipboard from '!/hooks/useClipboard';
+import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
 
 import { CheckIcon, CopyIcon } from 'lucide-react';
@@ -8,11 +8,7 @@ import { CheckIcon, CopyIcon } from 'lucide-react';
 const Share = () => {
 	const { i18n } = useTranslation();
 	const { copied, copyToClipboard } = useClipboard();
-
-	const handleClick = useCallback(
-		() => copyToClipboard(window.location.href),
-		[copyToClipboard]
-	);
+	const { play: playSound } = useAudio();
 
 	return (
 		<button
@@ -21,7 +17,11 @@ const Share = () => {
 				'btn flex-1',
 				!copied ? 'btn-outline btn-primary' : 'btn-accent',
 			])}
-			onClick={handleClick}>
+			onPointerEnter={() => playSound('grid-block-over')}
+			onClick={() => {
+				playSound('grid-block-correct');
+				copyToClipboard(window.location.href);
+			}}>
 			{!copied ? (
 				<CopyIcon className='text-svg-inline' />
 			) : (

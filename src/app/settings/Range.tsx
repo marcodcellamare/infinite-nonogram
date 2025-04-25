@@ -1,10 +1,11 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useAudio } from '!/contexts/audio';
+import { useSettings } from '!/contexts/settings';
 import classNames from 'classnames';
 
 import { CircleHelpIcon } from 'lucide-react';
 
 import { TimeoutType } from '!/types/timer';
-import { useSettings } from '!/contexts/settings';
 
 interface RangeProps {
 	label: string;
@@ -28,6 +29,7 @@ const Range = ({
 	onChange,
 }: RangeProps) => {
 	const { showEffects } = useSettings();
+	const { play: playSound } = useAudio();
 
 	const [isOver, setIsOver] = useState(false);
 	const [isChanging, setIsChanging] = useState(false);
@@ -77,8 +79,12 @@ const Range = ({
 					max={max}
 					step={step}
 					value={value}
-					onPointerOver={() => setIsOver(true)}
-					onPointerOut={() => setIsOver(false)}
+					onPointerEnter={() => {
+						playSound('grid-block-over');
+						setIsOver(true);
+					}}
+					onPointerLeave={() => setIsOver(false)}
+					onPointerUp={() => playSound('grid-block-correct')}
 					onChange={(e) => onChange(Number(e.target.value))}
 				/>
 			</div>

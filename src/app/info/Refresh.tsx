@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useSettings } from '!/contexts/settings';
+import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
 
 import { RefreshCcwIcon } from 'lucide-react';
 
 const Refresh = () => {
 	const { isRefreshing, setSeed, showEffects } = useSettings();
+	const { play: playSound } = useAudio();
+
 	const [isSpinning, setIsSpinning] = useState(false);
 
 	return (
@@ -16,6 +19,7 @@ const Refresh = () => {
 				!isSpinning ? 'btn-accent' : '!bg-secondary text-white',
 			])}
 			disabled={isRefreshing || isSpinning}
+			onPointerEnter={() => playSound('grid-block-over')}
 			onClick={() => {
 				if (!isRefreshing && !isSpinning) {
 					setSeed();

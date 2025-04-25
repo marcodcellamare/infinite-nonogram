@@ -15,10 +15,10 @@ const Time = () => {
 			className={classNames([
 				'btn btn-outline',
 				!isStarted && !isCompleted
-					? 'btn-accent opacity-50'
+					? 'btn-primary opacity-50'
 					: !isCompleted
-					? 'btn-accent'
-					: 'btn-primary',
+					? 'btn-primary'
+					: 'btn-accent',
 				'flex flex-col gap-0 pointer-events-none h-auto px-2 py-1',
 				{
 					'transition-[scale,background-color,color,border-color,opacity] duration-500 ease-in-out':

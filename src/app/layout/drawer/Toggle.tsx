@@ -23,8 +23,8 @@ const Toggle = ({
 		htmlFor={Config.drawer}
 		className={classNames(['pointer-events-auto', className])}
 		title={title}
-		onPointerOver={onOver}
-		onPointerOut={onOut}
+		onPointerEnter={onOver}
+		onPointerLeave={onOut}
 		onClick={onClick}>
 		{children}
 	</label>

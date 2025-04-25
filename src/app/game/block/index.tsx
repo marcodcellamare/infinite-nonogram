@@ -1,7 +1,8 @@
-import { CSSProperties, useEffect, useMemo } from 'react';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useEngine } from '!/contexts/engine';
 import { useInteraction } from '!/contexts/interaction';
+import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
 
 import Void from './Void';
@@ -31,6 +32,9 @@ const Block = ({ row, col }: BlockProps) => {
 		showEffects,
 	} = useSettings();
 	const { isClicked, isInteracting, isOverCol, isOverRow } = useInteraction();
+	const { play: playSound } = useAudio();
+
+	const [hasPlayed, setHasPlayed] = useState(false);
 
 	const isOver = useMemo(
 		() => isOverCol === col && isOverRow === row,
@@ -96,19 +100,41 @@ const Block = ({ row, col }: BlockProps) => {
 	}, [
 		row,
 		col,
-		hasInteracted,
 		setInteraction,
 		isDisabled,
 		isOver,
 		isClicked,
 		isInteracting,
-		isGlobalError,
+		isError,
 	]);
 
 	useEffect(() => {
 		if (isError) setIsGlobalError(true);
 		return () => setIsGlobalError(false);
 	}, [isError, setIsGlobalError]);
+
+	useEffect(() => {
+		if (!isDisabled && isOver && !isClicked) {
+			playSound('grid-block-over');
+		}
+	}, [isDisabled, isOver, isClicked, playSound]);
+
+	useEffect(() => {
+		if (!isGlobalError && !hasPlayed && isDisabled && isOver && isClicked) {
+			playSound(!isError ? 'grid-block-correct' : 'grid-block-wrong');
+			setHasPlayed(true);
+		}
+	}, [
+		row,
+		col,
+		hasPlayed,
+		isDisabled,
+		isOver,
+		isClicked,
+		isError,
+		isGlobalError,
+		playSound,
+	]);
 
 	return (
 		<div

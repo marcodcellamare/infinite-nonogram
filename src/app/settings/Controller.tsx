@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useInteraction } from '!/contexts/interaction';
 import { useSettings } from '!/contexts/settings';
+import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
 
 import { MouseIcon, SquareIcon, XIcon } from 'lucide-react';
@@ -10,6 +11,8 @@ const Controller = () => {
 	const { i18n } = useTranslation();
 	const { isInteracting, setIsInteracting } = useInteraction();
 	const { isAuto, showEffects } = useSettings();
+	const { play: playSound } = useAudio();
+
 	const [checked, setChecked] = useState(false);
 
 	const handleChange = (force?: boolean) =>
@@ -44,7 +47,9 @@ const Controller = () => {
 					'transition-[background-color,outline-color] duration-300':
 						showEffects,
 				},
-			])}>
+			])}
+			onPointerEnter={() => playSound('grid-block-over')}
+			onClick={() => playSound('grid-block-correct')}>
 			<span
 				className={classNames([
 					checked

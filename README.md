@@ -23,8 +23,6 @@ FIREBASE_MEASUREMENT_ID=
 
 ### TODO
 
-* Effect when complete line
 * Sound effects
 * Pinch and zoom on mobile
-* Intersections should go disabled on mobile, but not working
 * Hold a key to have right click (trackpad enhance)

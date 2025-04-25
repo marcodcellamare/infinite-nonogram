@@ -1,7 +1,7 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef } from 'react';
 import { useSettings } from '../settings';
 import { AudioContext } from './context';
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 
 export const AudioProvider: React.FC<{ children: ReactNode }> = ({
 	children,
@@ -10,77 +10,70 @@ export const AudioProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
 	const { isMusicOn } = useSettings();
 
-	const [music, setMusic] = useState<Howl | null>(null);
-
 	const soundsRef = useRef<Record<string, Howl>>({});
 
-	const refSound = (name: string) => soundsRef.current[name];
-	const addSound = (name: string, src: string) => {
+	const ref = (name: string): Howl | null => {
 		if (!soundsRef.current[name]) {
-			soundsRef.current[name] = new Howl({ src: [src] });
+			console.warn(`The sound ${name} does not exist.`);
+			return null;
 		}
+		return soundsRef.current[name];
+	};
+	const add = (name: string, src: string, volume: number = 1) => {
+		if (!soundsRef.current[name])
+			soundsRef.current[name] = new Howl({ src: [src], volume });
 	};
 
-	const playSound = useCallback(
+	const play = useCallback(
 		(name: string) => {
-			if (isMusicOn) soundsRef.current[name]?.play();
+			const sound = ref(name);
+			if (!sound || !isMusicOn) return;
+
+			if (sound.state() === 'unloaded') {
+				sound.load();
+
+				sound.once('load', () => sound.play());
+			} else if (sound.state() === 'loaded') {
+				sound.play();
+			}
 		},
 		[isMusicOn]
 	);
 
-	const playMusic = useCallback(
-		(name?: string, loop: boolean = true) => {
-			if (music) {
-				if (!name) {
-					if (isMusicOn) music.play();
-				} else {
-					music.stop();
-				}
-			}
-			if (name && soundsRef.current[name]) {
-				const newMusic = soundsRef.current[name];
+	const volume = (name: string, volume: number) => {
+		const sound = ref(name);
+		if (!sound) return;
 
-				newMusic.loop(loop);
-				if (isMusicOn) newMusic.play();
-
-				setMusic(newMusic);
-			}
-		},
-		[music, isMusicOn]
-	);
-
-	const stopMusic = useCallback(() => {
-		if (music) {
-			music.stop();
-			setMusic(null);
-		}
-	}, [music]);
-
-	useEffect(() => {
-		if (isMusicOn) {
-			playMusic();
-		} else {
-			stopMusic();
-		}
-	}, [isMusicOn, stopMusic, playMusic]);
+		sound.volume(Math.min(1, Math.max(0, volume)));
+	};
 
 	useEffect(() => {
 		const sounds = soundsRef.current;
 
-		return () => {
-			Object.values(sounds).forEach((sound) => sound.unload());
-			music?.unload();
+		return () => Object.values(sounds).forEach((sound) => sound.unload());
+	}, []);
+
+	useEffect(() => {
+		const unlock = () => {
+			const ctx = Howler.ctx;
+
+			if (ctx && ctx.state !== 'running') {
+				ctx.resume().then(() =>
+					console.info('🔓 The AudioContext has been unlocked.')
+				);
+			}
 		};
-	}, [music]);
+		window.addEventListener('pointerdown', unlock, { once: true });
+		return () => window.removeEventListener('pointerdown', unlock);
+	}, []);
 
 	return (
 		<AudioContext.Provider
 			value={{
-				refSound,
-				addSound,
-				playSound,
-				playMusic,
-				stopMusic,
+				ref,
+				add,
+				play,
+				volume,
 			}}>
 			{children}
 		</AudioContext.Provider>

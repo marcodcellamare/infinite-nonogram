@@ -18,20 +18,20 @@
 @keyframes Glitching {
 	0%,
 	56% {
-		background-color: rgba(var(--block-color), 0.6);
+		background-color: rgba(var(--block-color), 0.3);
 	}
 	8%,
 	16%,
 	32% {
-		background-color: rgba(var(--block-color), 0.4);
+		background-color: rgba(var(--block-color), 0.2);
 	}
 	4%,
 	24%,
 	48% {
-		background-color: rgba(var(--block-color), 0.7);
+		background-color: rgba(var(--block-color), 0.4);
 	}
 	60%,
 	100% {
-		background-color: rgba(var(--block-color), 0.3);
+		background-color: rgba(var(--block-color), 0.1);
 	}
 }

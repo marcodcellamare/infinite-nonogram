@@ -1,22 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useTranslation } from 'react-i18next';
+import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
 
 import Toggle from '../layout/drawer/Toggle';
 import Avatar from './Avatar';
+
 import { SettingsIcon } from 'lucide-react';
 
 const User = () => {
 	const { i18n } = useTranslation();
 	const { user, country, showEffects } = useSettings();
+	const { play: playSound } = useAudio();
 
 	const [isOver, setIsOver] = useState(false);
 
 	return (
 		<Toggle
 			className='btn btn-lg btn-outline btn-accent hover:btn-primary text-primary hover:text-accent rounded-full p-1 sm:pe-5 h-auto font-normal max-w-[150px]'
-			onOver={() => setIsOver(true)}
+			onOver={() => {
+				playSound('grid-block-over');
+				setIsOver(true);
+			}}
 			onOut={() => setIsOver(false)}>
 			<div className='bg-accent w-[3rem] sm:w-[2.5rem] aspect-square rounded-full overflow-hidden relative'>
 				<Avatar

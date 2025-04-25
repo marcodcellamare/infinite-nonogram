@@ -76,6 +76,16 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		[grid, interactions]
 	);
 
+	const totalEmptyCorrect = useMemo(
+		() =>
+			grid
+				.flat()
+				.filter(
+					(g, k) => g === false && interactions.flat()[k] === 'right'
+				).length,
+		[grid, interactions]
+	);
+
 	const totalErrors = useMemo(
 		() =>
 			grid
@@ -93,11 +103,6 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		[interactions]
 	);
 
-	const totalInteractionsRight = useMemo(
-		() => interactions.flat().filter((i) => i === 'right').length,
-		[interactions]
-	);
-
 	const isStarted = useMemo(() => totalInteractions > 0, [totalInteractions]);
 
 	const isReady = useMemo(
@@ -108,48 +113,68 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	);
 
 	const rating = useMemo(() => {
-		if (totalAvailable === 0 || (totalFound > 0 && totalCorrect <= 0))
+		if (
+			totalAvailable === 0 ||
+			totalFound === 0 ||
+			totalCorrect === 0 ||
+			totalInteractions === 0
+		)
 			return 0;
 
-		const errorsPenalty = totalErrors / Config.game.score.penalty.errors;
-		const interactionPenalty =
-			totalInteractionsRight / Config.game.score.penalty.interactions;
-
-		const errorsPenaltyNormalized = Math.min(
-			(errorsPenalty / 100) * totalCorrect,
-			totalCorrect
-		);
-		const interactionPenaltyNormalized = Math.min(
-			(interactionPenalty / 100) * totalCorrect,
-			totalCorrect
-		);
+		const errorsPenalty = Math.min(totalErrors, total) / total;
+		const interactionsPenalty =
+			Math.min(totalEmptyCorrect, totalAvailable) / totalAvailable;
 
 		return Math.min(
 			Math.max(
 				0,
-				(totalCorrect -
-					errorsPenaltyNormalized -
-					interactionPenaltyNormalized) /
-					totalAvailable
+				(totalFound / totalAvailable) *
+					(1 - errorsPenalty * Config.game.score.penalty.errors) *
+					(1 -
+						interactionsPenalty *
+							Config.game.score.penalty.interactions)
 			),
 			1
 		);
 	}, [
+		total,
 		totalFound,
 		totalCorrect,
+		totalEmptyCorrect,
 		totalErrors,
-		totalInteractionsRight,
+		totalInteractions,
 		totalAvailable,
 	]);
 
 	const score = useMemo(() => {
-		const timePenalty = 1 / (1 + totalTime / total);
-		const difficultyPenalty = 1 / settings.probability;
-		const gridSizeBonus =
-			total / (Config.game.grid.min * Config.game.grid.min);
+		if (total === 0) return 0;
 
-		return rating * 100 * timePenalty * difficultyPenalty * gridSizeBonus;
-	}, [rating, total, totalTime, settings.probability]);
+		const timePenalty =
+			1 / (1 + (totalTime / total) * Config.game.score.penalty.time);
+
+		const difficultyBonus =
+			Config.game.score.bonus.difficulty[settings.difficulty];
+
+		const perfectBonus =
+			totalErrors === 0 ? Config.game.score.bonus.perfect : 1;
+
+		const gridSizeMinTotal = Config.game.grid.min * Config.game.grid.min;
+		const gridSizeMaxTotal = Config.game.grid.max * Config.game.grid.max;
+		const gridSizeBonus =
+			1 +
+			((total - gridSizeMinTotal) /
+				(gridSizeMaxTotal - gridSizeMinTotal)) *
+				(1.5 - 1);
+
+		return Math.trunc(
+			rating *
+				Config.game.score.multiplier *
+				difficultyBonus *
+				timePenalty *
+				perfectBonus *
+				gridSizeBonus
+		);
+	}, [rating, total, totalTime, totalErrors, settings.difficulty]);
 
 	const isCompleted = useMemo(
 		() => totalFound >= totalAvailable,

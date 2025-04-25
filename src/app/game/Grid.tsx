@@ -1,6 +1,7 @@
-import { CSSProperties, Fragment, useState } from 'react';
+import { CSSProperties, Fragment, useEffect, useState } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
+import { useAudio } from '!/contexts/audio';
 import MountTransition from '!/app/misc/MountTransition';
 import classNames from 'classnames';
 import { colorToRgb } from '!/utils/colors';
@@ -22,6 +23,7 @@ const Grid = () => {
 		difficulty,
 		seed,
 	} = useSettings();
+	const { play: playSound } = useAudio();
 
 	const [gridKey, setGridKey] = useState('');
 
@@ -63,10 +65,17 @@ const Grid = () => {
 		20: 'grid-rows-[min-content_repeat(20,1fr)]',
 	};
 
+	useEffect(() => {
+		if (isRefreshing) {
+			playSound('grid-refresh');
+		}
+	}, [isRefreshing, playSound]);
+
 	return (
 		<MountTransition
 			mountIf={!isCompleted && !isRefreshing}
 			timeout={{
+				start: 100,
 				entering: 300,
 				exiting: !isCompleted ? 300 : 1700,
 			}}
