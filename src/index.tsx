@@ -21,19 +21,19 @@ createRoot(document.getElementById('root')!).render(
 		<FirebaseProvider>
 			<HashRouter>
 				<ResizeProvider>
-					<SettingsProvider>
-						<AudioProvider>
-							<TimerProvider>
-								<InteractionProvider>
-									<ScaleProvider>
+					<ScaleProvider>
+						<SettingsProvider>
+							<AudioProvider>
+								<TimerProvider>
+									<InteractionProvider>
 										<EngineProvider>
 											<App />
 										</EngineProvider>
-									</ScaleProvider>
-								</InteractionProvider>
-							</TimerProvider>
-						</AudioProvider>
-					</SettingsProvider>
+									</InteractionProvider>
+								</TimerProvider>
+							</AudioProvider>
+						</SettingsProvider>
+					</ScaleProvider>
 				</ResizeProvider>
 			</HashRouter>
 		</FirebaseProvider>

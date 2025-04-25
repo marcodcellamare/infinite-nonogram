@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useInteraction } from '!/contexts/interaction';
 import { useSettings } from '!/contexts/settings';
+import { useScale } from '!/contexts/scale';
 import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
 
@@ -10,6 +11,7 @@ import { MouseIcon, SquareIcon, XIcon } from 'lucide-react';
 const Controller = () => {
 	const { i18n } = useTranslation();
 	const { isInteracting, setIsInteracting } = useInteraction();
+	const { isScaling } = useScale();
 	const { isAuto, showEffects } = useSettings();
 	const { play: playSound } = useAudio();
 
@@ -44,8 +46,9 @@ const Controller = () => {
 						!isAuto && !checked,
 					'outline-accent/0 hover:outline-accent': !isAuto && checked,
 					'inset-shadow-sm inset-shadow-black/20': showEffects,
-					'transition-[background-color,outline-color] duration-300':
+					'transition-[background-color,outline-color,opacity] duration-300':
 						showEffects,
+					'opacity-30': isScaling,
 				},
 			])}
 			onPointerEnter={() => playSound('grid-block-over')}

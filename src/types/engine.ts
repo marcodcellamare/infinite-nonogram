@@ -17,6 +17,7 @@ export interface EngineContextProps {
 	isStarted: boolean;
 	isCompleted: boolean;
 	isDone: { rows: boolean[]; cols: boolean[] };
+	hasWin: boolean;
 
 	grid: GridType;
 	interactions: InteractionsGridType;

@@ -72,12 +72,12 @@
 			"httpEquiv": "Content-Security-Policy",
 			"content": [
 				"default-src 'self'",
-				"script-src 'self' https://www.googletagmanager.com",
+				"script-src 'self' https://www.googletagmanager.com https://apis.google.com",
 				"connect-src 'self' https://firebase.googleapis.com https://firestore.googleapis.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com https://identitytoolkit.googleapis.com https://region1.google-analytics.com https://api.country.is",
 				"style-src 'self' 'unsafe-inline'",
 				"img-src 'self' data:",
 				"font-src 'self'",
-				"frame-src 'self'",
+				"frame-src 'self' https://super-nonogram.firebaseapp.com",
 				"object-src 'none'",
 				"base-uri 'self'",
 				"form-action 'self'",
@@ -102,6 +102,10 @@
 		}
 	],
 	"preload": [
+		{
+			"rel": "dns-prefetch",
+			"href": "https://apis.google.com"
+		},
 		{
 			"rel": "dns-prefetch",
 			"href": "https://firebase.googleapis.com"
@@ -133,6 +137,11 @@
 		{
 			"rel": "dns-prefetch",
 			"href": "https://api.country.is"
+		},
+		{
+			"rel": "dns-preconnect",
+			"href": "https://apis.google.com",
+			"crossorigin": "anonymous"
 		},
 		{
 			"rel": "preconnect",

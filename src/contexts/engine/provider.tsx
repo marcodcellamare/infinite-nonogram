@@ -304,6 +304,8 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 		[rowHints, colHints]
 	);
 
+	const hasWin = useMemo(() => rating >= Config.game.score.win, [rating]);
+
 	useEffect(() => init(), [init]);
 
 	useEffect(() => {
@@ -327,6 +329,7 @@ export const EngineProvider = ({ children }: { children: ReactNode }) => {
 				isStarted,
 				isCompleted,
 				isDone,
+				hasWin,
 
 				grid,
 				interactions,

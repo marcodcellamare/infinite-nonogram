@@ -23,7 +23,7 @@ const Score = () => {
 	const { addDocument } = useFirestoreCollection<LeaderboardPlayerProps>(
 		process.env.FIREBASE_LEADERBOARD_COLLECTION ?? ''
 	);
-	const { isReady, isCompleted, score, rating } = useEngine();
+	const { isReady, isCompleted, score, rating, hasWin } = useEngine();
 	const {
 		setSeed,
 		user,
@@ -40,8 +40,6 @@ const Score = () => {
 
 	const [title, setTitle] = useState('');
 	const [next, setNext] = useState('');
-
-	const hasWin = useMemo(() => rating >= Config.game.score.win, [rating]);
 
 	const randomizer = useCallback(
 		(path: string) => {

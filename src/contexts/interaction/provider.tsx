@@ -1,11 +1,13 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { InteractionContext } from './context';
 import { useSettings } from '../settings';
+import { useScale } from '../scale';
 
 import { InteractionType } from '!/types/interaction';
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 	const { isAuto } = useSettings();
+	const { isScaling } = useScale();
 
 	const [isClicked, setIsClicked] = useState(false);
 	const [isInteracting, setIsInteracting] = useState<InteractionType>('left');
@@ -18,7 +20,8 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 
 	const handlePointerDown = useCallback(
 		(e: PointerEvent) => {
-			if (isClicked) return;
+			if (isClicked || isScaling) return;
+
 			setIsClicked(true);
 
 			if (isAuto && e.pointerType === 'mouse') {
@@ -32,25 +35,28 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 				}
 			}
 		},
-		[isAuto, isClicked]
+		[isAuto, isClicked, isScaling]
 	);
 
 	const handlePointerUp = () => setIsClicked(false);
 
-	const handleHover = useCallback((target: HTMLElement, isOver: boolean) => {
-		if (target.classList.contains('game-grid-block')) {
-			if (isOver) {
-				const row = Number(target.dataset.row);
-				const col = Number(target.dataset.col);
+	const handleHover = useCallback(
+		(target: HTMLElement, isOver: boolean) => {
+			if (target.classList.contains('game-grid-block')) {
+				if (!isScaling && isOver) {
+					const row = Number(target.dataset.row);
+					const col = Number(target.dataset.col);
 
-				setIsOverCol(col);
-				setIsOverRow(row);
-			} else {
-				setIsOverCol(undefined);
-				setIsOverRow(undefined);
+					setIsOverCol(col);
+					setIsOverRow(row);
+				} else {
+					setIsOverCol(undefined);
+					setIsOverRow(undefined);
+				}
 			}
-		}
-	}, []);
+		},
+		[isScaling]
+	);
 
 	const handlePointerOver = useCallback(
 		(e: PointerEvent) => handleHover(e.target as HTMLElement, true),

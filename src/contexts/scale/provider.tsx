@@ -5,9 +5,13 @@ import Config from '!config';
 
 import { storageName } from '!/utils/misc';
 
+import { TimeoutType } from '!/types/timer';
+
 export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 	const [scale, setScale] = useState<number>(Config.game.scale.default);
+	const [isScaling, setIsScaling] = useState(false);
 
+	const timeoutRef = useRef<TimeoutType>(null);
 	const storage = useRef({
 		scale: Number(localStorage.getItem(storageName('scale'))),
 	});
@@ -32,43 +36,35 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 
 	const handleWheel = useCallback(
 		(e: WheelEvent) => {
-			if (e.shiftKey) {
-				e.preventDefault();
+			e.preventDefault();
 
-				setScale((prevScale) =>
-					calculateScale(
-						prevScale -
-							Math.sign(e.deltaY || e.deltaX) *
-								Config.game.scale.step
-					)
-				);
-			}
+			setScale((prevScale) =>
+				calculateScale(
+					prevScale -
+						Math.sign(e.deltaY || e.deltaX) * Config.game.scale.step
+				)
+			);
 		},
 		[calculateScale]
 	);
 
-	// TODO to handle the pinch and zoom
-	/*
-	const handleTouchStart = () => {
-		
-		event: TouchEvent
-		
-		if (event.touches.length === 2) {
-			const [touch1, touch2] = event.touches;
+	const handleTouchStart = (e: TouchEvent) => {
+		if (e.touches.length === 2) {
+			const [touch1, touch2] = e.touches;
 			const startDistance = Math.hypot(
 				touch2.pageX - touch1.pageX,
 				touch2.pageY - touch1.pageY
 			);
 
-			const handleTouchMove = (moveEvent: TouchEvent) => {
-				if (moveEvent.touches.length === 2) {
-					const [moveTouch1, moveTouch2] = moveEvent.touches;
+			const handleTouchMove = (eMove: TouchEvent) => {
+				if (eMove.touches.length === 2) {
+					const [moveTouch1, moveTouch2] = eMove.touches;
 					const newDistance = Math.hypot(
 						moveTouch2.pageX - moveTouch1.pageX,
 						moveTouch2.pageY - moveTouch1.pageY
 					);
 
-					const zoomChange = (newDistance - startDistance) * 0.005; // Adjust sensitivity
+					const zoomChange = (newDistance - startDistance) * 0.0005;
 
 					setScale((prevScale) =>
 						Math.min(
@@ -92,22 +88,34 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 			});
 			document.addEventListener('touchend', handleTouchEnd);
 		}
-			
 	};
-	*/
 
-	const cleanup = useCallback(() => {
+	const cleanupEvents = useCallback(() => {
 		document.removeEventListener('wheel', handleWheel);
-		//document.removeEventListener('touchstart', handleTouchStart);
+		document.removeEventListener('touchstart', handleTouchStart);
 	}, [handleWheel]);
 
-	useEffect(() => {
-		localStorage.setItem(storageName('scale'), scale.toString());
-		document.documentElement.style.setProperty('--scale', scale.toString());
-	}, [scale]);
+	const cleanup = () => {
+		if (timeoutRef.current !== null) {
+			clearTimeout(timeoutRef.current);
+			timeoutRef.current = null;
+		}
+	};
 
 	useEffect(() => {
 		cleanup();
+
+		localStorage.setItem(storageName('scale'), scale.toString());
+		document.documentElement.style.setProperty('--scale', scale.toString());
+
+		setIsScaling(true);
+		timeoutRef.current = setTimeout(() => setIsScaling(false), 200);
+
+		return () => cleanup();
+	}, [scale]);
+
+	useEffect(() => {
+		cleanupEvents();
 
 		gatedSetScale(
 			storage.current.scale && !isNaN(storage.current.scale)
@@ -115,19 +123,18 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 				: Config.game.scale.default
 		);
 		document.addEventListener('wheel', handleWheel, { passive: false });
-		/*
 		document.addEventListener('touchstart', handleTouchStart, {
 			passive: false,
 		});
-		*/
 
 		return () => cleanup();
-	}, [gatedSetScale, handleWheel, cleanup]);
+	}, [gatedSetScale, handleWheel, cleanupEvents]);
 
 	return (
 		<ScaleContext.Provider
 			value={{
 				scale,
+				isScaling,
 				setScale: gatedSetScale,
 			}}>
 			{children}
