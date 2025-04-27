@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSettings } from '!/contexts/settings/hook';
 import { useTranslation } from 'react-i18next';
 import { useAudio } from '!/contexts/audio';

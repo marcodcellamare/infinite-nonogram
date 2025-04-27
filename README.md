@@ -23,6 +23,4 @@ FIREBASE_MEASUREMENT_ID=
 
 ### TODO
 
-* Pinch and zoom on mobile
-* Hold a key to have right click (trackpad enhance)
 * Fix sounds on click

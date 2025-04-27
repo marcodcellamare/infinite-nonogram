@@ -72,10 +72,10 @@
 			"httpEquiv": "Content-Security-Policy",
 			"content": [
 				"default-src 'self'",
-				"script-src 'self' https://www.googletagmanager.com https://apis.google.com",
+				"script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://apis.google.com",
 				"connect-src 'self' https://firebase.googleapis.com https://firestore.googleapis.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com https://identitytoolkit.googleapis.com https://region1.google-analytics.com https://api.country.is",
 				"style-src 'self' 'unsafe-inline'",
-				"img-src 'self' data:",
+				"img-src 'self' data: https://www.googletagmanager.com",
 				"font-src 'self'",
 				"frame-src 'self' https://super-nonogram.firebaseapp.com",
 				"object-src 'none'",

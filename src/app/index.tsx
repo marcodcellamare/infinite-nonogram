@@ -21,7 +21,9 @@ const App = () => {
 	return (
 		<>
 			<Meta />
-			<div className='flex flex-col h-screen min-w-xs select-none text-base-content'>
+			<div
+				className='flex flex-col h-screen min-w-xs select-none text-base-content'
+				style={{ height: 'var(--dvh)' }}>
 				<Router />
 				<Progress />
 			</div>

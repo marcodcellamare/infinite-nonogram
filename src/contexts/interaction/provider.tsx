@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { InteractionContext } from './context';
 import { useSettings } from '../settings';
 import { useScale } from '../scale';
@@ -6,13 +6,15 @@ import { useScale } from '../scale';
 import { InteractionType } from '!/types/interaction';
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
-	const { isAuto } = useSettings();
+	const { isAuto, setIsAuto } = useSettings();
 	const { isScaling } = useScale();
 
 	const [isClicked, setIsClicked] = useState(false);
 	const [isInteracting, setIsInteracting] = useState<InteractionType>('left');
 	const [isOverCol, setIsOverCol] = useState<number | undefined>(undefined);
 	const [isOverRow, setIsOverRow] = useState<number | undefined>(undefined);
+
+	const spacePressed = useRef(false);
 
 	const memoizedSetIsInteracting = useCallback(setIsInteracting, [
 		setIsInteracting,
@@ -70,20 +72,30 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 
 	const handleContextMenu = (e: MouseEvent) => e.preventDefault();
 
-	const cleanup = useCallback(() => {
-		document.removeEventListener('pointerdown', handlePointerDown);
-		document.removeEventListener('pointerup', handlePointerUp);
-		document.removeEventListener('pointercancel', handlePointerUp);
+	const handleKeyDown = useCallback(
+		(e: KeyboardEvent) => {
+			if (e.code === 'Space') {
+				if (!spacePressed.current) {
+					spacePressed.current = true;
 
-		document.removeEventListener('pointerover', handlePointerOver);
-		document.removeEventListener('pointerout', handlePointerOut);
+					setIsAuto(false);
+					setIsInteracting((prevIsInteracting) =>
+						prevIsInteracting !== 'left' ? 'left' : 'right'
+					);
+				}
+				e.preventDefault();
+			}
+		},
+		[setIsAuto]
+	);
 
-		document.removeEventListener('contextmenu', handleContextMenu);
-	}, [handlePointerDown, handlePointerOver, handlePointerOut]);
+	const handleKeyUp = (e: KeyboardEvent) => {
+		if (e.code === 'Space') {
+			spacePressed.current = false;
+		}
+	};
 
 	useEffect(() => {
-		cleanup();
-
 		document.addEventListener('pointerdown', handlePointerDown);
 		document.addEventListener('pointerup', handlePointerUp);
 		document.addEventListener('pointercancel', handlePointerUp);
@@ -93,8 +105,23 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 
 		document.addEventListener('contextmenu', handleContextMenu);
 
-		return () => cleanup();
-	}, [handlePointerDown, cleanup, handlePointerOver, handlePointerOut]);
+		window.addEventListener('keydown', handleKeyDown);
+		window.addEventListener('keyup', handleKeyUp);
+
+		return () => {
+			document.removeEventListener('pointerdown', handlePointerDown);
+			document.removeEventListener('pointerup', handlePointerUp);
+			document.removeEventListener('pointercancel', handlePointerUp);
+
+			document.removeEventListener('pointerover', handlePointerOver);
+			document.removeEventListener('pointerout', handlePointerOut);
+
+			document.removeEventListener('contextmenu', handleContextMenu);
+
+			window.removeEventListener('keydown', handleKeyDown);
+			window.removeEventListener('keyup', handleKeyUp);
+		};
+	}, [handlePointerDown, handlePointerOver, handlePointerOut, handleKeyDown]);
 
 	return (
 		<InteractionContext.Provider

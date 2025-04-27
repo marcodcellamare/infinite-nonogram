@@ -72,6 +72,12 @@ const Settings = () => {
 				min={Config.game.scale.min}
 				max={Config.game.scale.max}
 				step={Config.game.scale.step}
+				help={
+					<>
+						<kbd className='kbd kbd-xs'>shift</kbd> +{' '}
+						{i18n.t('scrollwheel')}
+					</>
+				}
 				onChange={setScale}
 			/>
 			<div className='flex flex-col flex-wrap gap-2'>

@@ -1,39 +1,49 @@
-import { ReactNode, useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { ResizeContext } from './context';
 
+import { windowSize } from '!/utils/misc';
+
 export const ResizeProvider = ({ children }: { children: ReactNode }) => {
+	const [width, setWidth] = useState(windowSize.width());
+	const [height, setHeight] = useState(windowSize.height());
+
 	const listeners = useRef<Set<() => void>>(new Set());
-	const handleResizeRef = useRef<(() => void) | null>(null);
 
 	const subscribe = (callback: () => void) => {
 		listeners.current.add(callback);
-		handleResizeRef.current?.();
 
 		return () => listeners.current.delete(callback);
 	};
 
 	useEffect(() => {
-		let timeout: NodeJS.Timeout;
+		const observer = new ResizeObserver(() => {
+			setWidth(windowSize.width());
+			setHeight(windowSize.height());
 
-		const handleResize = () => {
-			clearTimeout(timeout);
+			listeners.current.forEach((callback) => callback());
+		});
 
-			timeout = setTimeout(
-				() => listeners.current.forEach((callback) => callback()),
-				200
-			);
-		};
-		handleResizeRef.current = handleResize;
+		observer.observe(document.documentElement);
 
-		window.addEventListener('resize', handleResize);
-		handleResize();
-
-		return () => window.removeEventListener('resize', handleResize);
+		return () => observer.disconnect();
 	}, []);
+
+	useEffect(
+		() => document.documentElement.style.setProperty('--dvw', `${width}px`),
+		[width]
+	);
+
+	useEffect(
+		() =>
+			document.documentElement.style.setProperty('--dvh', `${height}px`),
+		[height]
+	);
 
 	return (
 		<ResizeContext.Provider
 			value={{
+				width,
+				height,
 				subscribe,
 			}}>
 			{children}

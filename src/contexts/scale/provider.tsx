@@ -36,6 +36,8 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 
 	const handleWheel = useCallback(
 		(e: WheelEvent) => {
+			if (!e.shiftKey) return;
+
 			e.preventDefault();
 
 			setScale((prevScale) =>
@@ -90,11 +92,6 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 		}
 	};
 
-	const cleanupEvents = useCallback(() => {
-		document.removeEventListener('wheel', handleWheel);
-		document.removeEventListener('touchstart', handleTouchStart);
-	}, [handleWheel]);
-
 	const cleanup = () => {
 		if (timeoutRef.current !== null) {
 			clearTimeout(timeoutRef.current);
@@ -115,8 +112,6 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 	}, [scale]);
 
 	useEffect(() => {
-		cleanupEvents();
-
 		gatedSetScale(
 			storage.current.scale && !isNaN(storage.current.scale)
 				? storage.current.scale
@@ -127,8 +122,11 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 			passive: false,
 		});
 
-		return () => cleanup();
-	}, [gatedSetScale, handleWheel, cleanupEvents]);
+		return () => {
+			document.removeEventListener('wheel', handleWheel);
+			document.removeEventListener('touchstart', handleTouchStart);
+		};
+	}, [gatedSetScale, handleWheel]);
 
 	return (
 		<ScaleContext.Provider

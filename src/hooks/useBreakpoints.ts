@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { useResize } from '!/contexts/resize';
 
-import { windowSize } from '!/utils/misc';
 import { cssVariable } from '!/utils/misc';
 import { remToPx } from '!/utils/math';
 
@@ -19,16 +18,15 @@ const useBreakpoints = () => {
 		'2xl': remToPx(parseFloat(cssVariable('--breakpoint-2xl'))),
 	});
 
-	useResize(() => {
+	const { width } = useResize(() =>
 		setCurrent(
 			Object.entries(breakpoints.current)
 				.reverse()
 				.find(
-					([_, breakpoint]) => windowSize.width() >= breakpoint
+					([_, breakpoint]) => width >= breakpoint
 				)?.[0] as BreakpointsType
-		);
-	});
-
+		)
+	);
 	return { breakpoints, currentBreakpoint: current };
 };
 

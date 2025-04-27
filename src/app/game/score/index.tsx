@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
@@ -8,7 +8,6 @@ import useFirestoreCollection from '!/hooks/useFirestoreCollection';
 import { useTimer } from '!/contexts/timer';
 import MountTransition from '!/app/misc/MountTransition';
 import classNames from 'classnames';
-import Config from '!config';
 
 import Time from './Time';
 import Points from './Points';
@@ -61,7 +60,7 @@ const Score = () => {
 
 	useEffect(() => {
 		if (isReady && isCompleted) {
-			playSound(hasWin ? 'ending-loss' : 'ending-victory');
+			playSound(hasWin ? 'ending-victory' : 'ending-loss');
 		}
 	}, [isReady, isCompleted, hasWin, playSound]);
 

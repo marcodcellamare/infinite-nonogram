@@ -14,7 +14,7 @@
 @plugin 'daisyui' {
 	themes: light --default;
 	root: ':root';
-	include: button, link, input, range, toggle, progress, indicator, badge,
+	include: button, link, input, range, toggle, progress, indicator, badge, kbd,
 		loading;
 	logs: true;
 }

@@ -16,7 +16,7 @@ const Header = () => (
 				<div className='order-last sm:order-none w-full flex justify-center self-center'>
 					<Time />
 				</div>
-				<div className='sm:min-w-1/3 sm:flex sm:justify-end gap-1 items-center self-center'>
+				<div className='flex gap-1 sm:min-w-1/3 sm:justify-end items-center self-center'>
 					<Refresh />
 					<User />
 				</div>
