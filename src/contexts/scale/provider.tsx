@@ -16,39 +16,31 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 		scale: Number(localStorage.getItem(storageName('scale'))),
 	});
 
-	const calculateScale = useCallback(
-		(scale: number) =>
-			Math.round(
-				Math.min(
-					Config.game.scale.max,
-					Math.max(Config.game.scale.min, scale)
-				) * 1000
-			) / 1000,
+	const calculateScale = (scale: number) =>
+		Math.round(
+			Math.min(
+				Config.game.scale.max,
+				Math.max(Config.game.scale.min, scale)
+			) * 1000
+		) / 1000;
+
+	const gatedSetScale = useCallback(
+		(scale: number) => setScale(calculateScale(scale)),
 		[]
 	);
 
-	const gatedSetScale = useCallback(
-		(scale: number) => {
-			setScale(calculateScale(scale));
-		},
-		[calculateScale]
-	);
+	const handleWheel = useCallback((e: WheelEvent) => {
+		if (!e.shiftKey) return;
 
-	const handleWheel = useCallback(
-		(e: WheelEvent) => {
-			if (!e.shiftKey) return;
+		e.preventDefault();
 
-			e.preventDefault();
-
-			setScale((prevScale) =>
-				calculateScale(
-					prevScale -
-						Math.sign(e.deltaY || e.deltaX) * Config.game.scale.step
-				)
-			);
-		},
-		[calculateScale]
-	);
+		setScale((prevScale) =>
+			calculateScale(
+				prevScale -
+					Math.sign(e.deltaY || e.deltaX) * Config.game.scale.step * 2
+			)
+		);
+	}, []);
 
 	const handleTouchStart = (e: TouchEvent) => {
 		if (e.touches.length === 2) {

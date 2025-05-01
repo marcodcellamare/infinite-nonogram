@@ -1,0 +1,3 @@
+.app {
+	height: var(--dvh, 100dvh);
+}

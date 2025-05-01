@@ -34,7 +34,13 @@ const Seed = () => {
 
 	return (
 		<div className='absolute top-0 bottom-0 left-0 right-0 pointer-events-none overflow-hidden'>
-			<p className='absolute top-1/2 left-1/2 -translate-1/2 w-[110%] text-[16vw] sm:text-[13vw] md:text-[15vw] lg:text-[13vw] xl:text-[10vw] font-black italic leading-[0.8em] tracking-tighter text-base-100 break-all text-center'>
+			<p
+				className='absolute top-1/2 left-1/2 -translate-1/2 w-[110%] max-h-[100vh] overflow-hidden text-[16vw] sm:text-[13vw] md:text-[15vw] lg:text-[13vw] xl:text-[10vw] font-black italic leading-[0.8em] tracking-tighter text-base-100 break-all text-center'
+				aria-hidden={true}
+				style={{
+					contentVisibility: 'auto',
+					containIntrinsicSize: '20em',
+				}}>
 				{randomSeed || seed}
 			</p>
 		</div>

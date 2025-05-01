@@ -16,6 +16,7 @@ export interface SettingsContextProps {
 	showEffects: boolean;
 	isLeaderboardOn: boolean;
 	isMusicOn: boolean;
+	isDrawerShown: boolean;
 
 	setIsGlobalError: (error: boolean) => void;
 	setUser: (user: string | null) => void;
@@ -28,4 +29,5 @@ export interface SettingsContextProps {
 	setShowEffects: (effects: boolean) => void;
 	setIsLeaderboardOn: (leaderboard: boolean) => void;
 	setIsMusicOn: (music: boolean) => void;
+	setIsDrawerShown: (show: boolean) => void;
 }

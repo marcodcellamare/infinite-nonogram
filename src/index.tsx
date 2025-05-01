@@ -18,11 +18,11 @@ import '!/styles/index.css';
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<FirebaseProvider>
-			<HashRouter>
-				<ResizeProvider>
-					<ScaleProvider>
-						<SettingsProvider>
+		<ResizeProvider>
+			<SettingsProvider>
+				<FirebaseProvider>
+					<HashRouter>
+						<ScaleProvider>
 							<AudioProvider>
 								<TimerProvider>
 									<InteractionProvider>
@@ -32,10 +32,10 @@ createRoot(document.getElementById('root')!).render(
 									</InteractionProvider>
 								</TimerProvider>
 							</AudioProvider>
-						</SettingsProvider>
-					</ScaleProvider>
-				</ResizeProvider>
-			</HashRouter>
-		</FirebaseProvider>
+						</ScaleProvider>
+					</HashRouter>
+				</FirebaseProvider>
+			</SettingsProvider>
+		</ResizeProvider>
 	</StrictMode>
 );

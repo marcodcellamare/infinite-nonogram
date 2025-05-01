@@ -6,7 +6,7 @@ import { useScale } from '../scale';
 import { InteractionType } from '!/types/interaction';
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
-	const { isAuto, setIsAuto } = useSettings();
+	const { isAuto, setIsAuto, isDrawerShown } = useSettings();
 	const { isScaling } = useScale();
 
 	const [isClicked, setIsClicked] = useState(false);
@@ -16,13 +16,24 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 
 	const spacePressed = useRef(false);
 
+	const isOnGame = useCallback(
+		(target: HTMLElement) =>
+			target.classList.contains('game-grid') ||
+			target.classList.contains('game-grid-wrapper') ||
+			target.classList.contains('game-grid-block'),
+		[]
+	);
+
 	const memoizedSetIsInteracting = useCallback(setIsInteracting, [
 		setIsInteracting,
 	]);
 
 	const handlePointerDown = useCallback(
 		(e: PointerEvent) => {
-			if (isClicked || isScaling) return;
+			if (!isOnGame(e.target as HTMLElement) || isClicked || isScaling)
+				return;
+
+			console.log('handlePointerDown');
 
 			setIsClicked(true);
 
@@ -37,10 +48,18 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 				}
 			}
 		},
-		[isAuto, isClicked, isScaling]
+		[isAuto, isClicked, isScaling, isOnGame]
 	);
 
-	const handlePointerUp = () => setIsClicked(false);
+	const handlePointerUp = useCallback(
+		(e: PointerEvent) => {
+			if (!isOnGame(e.target as HTMLElement)) return;
+
+			console.log('handlePointerUp');
+			setIsClicked(false);
+		},
+		[isOnGame]
+	);
 
 	const handleHover = useCallback(
 		(target: HTMLElement, isOver: boolean) => {
@@ -96,18 +115,17 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	useEffect(() => {
-		document.addEventListener('pointerdown', handlePointerDown);
-		document.addEventListener('pointerup', handlePointerUp);
-		document.addEventListener('pointercancel', handlePointerUp);
+		if (!isDrawerShown) {
+			document.addEventListener('pointerdown', handlePointerDown);
+			document.addEventListener('pointerup', handlePointerUp);
+			document.addEventListener('pointercancel', handlePointerUp);
 
-		document.addEventListener('pointerover', handlePointerOver);
-		document.addEventListener('pointerout', handlePointerOut);
+			document.addEventListener('pointerover', handlePointerOver);
+			document.addEventListener('pointerout', handlePointerOut);
 
-		document.addEventListener('contextmenu', handleContextMenu);
-
-		window.addEventListener('keydown', handleKeyDown);
-		window.addEventListener('keyup', handleKeyUp);
-
+			window.addEventListener('keydown', handleKeyDown);
+			window.addEventListener('keyup', handleKeyUp);
+		}
 		return () => {
 			document.removeEventListener('pointerdown', handlePointerDown);
 			document.removeEventListener('pointerup', handlePointerUp);
@@ -116,12 +134,24 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 			document.removeEventListener('pointerover', handlePointerOver);
 			document.removeEventListener('pointerout', handlePointerOut);
 
-			document.removeEventListener('contextmenu', handleContextMenu);
-
 			window.removeEventListener('keydown', handleKeyDown);
 			window.removeEventListener('keyup', handleKeyUp);
 		};
-	}, [handlePointerDown, handlePointerOver, handlePointerOut, handleKeyDown]);
+	}, [
+		isDrawerShown,
+		handlePointerDown,
+		handlePointerUp,
+		handlePointerOver,
+		handlePointerOut,
+		handleKeyDown,
+	]);
+
+	useEffect(() => {
+		document.addEventListener('contextmenu', handleContextMenu);
+
+		return () =>
+			document.removeEventListener('contextmenu', handleContextMenu);
+	}, []);
 
 	return (
 		<InteractionContext.Provider

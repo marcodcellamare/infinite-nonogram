@@ -6,6 +6,8 @@ import Meta from './layout/Meta';
 import Router from './misc/Router';
 import Drawer from './layout/drawer';
 
+import '!/styles/components/App.css';
+
 const App = () => {
 	const { add: addSound } = useAudio();
 
@@ -21,9 +23,7 @@ const App = () => {
 	return (
 		<>
 			<Meta />
-			<div
-				className='flex flex-col h-screen min-w-xs select-none text-base-content'
-				style={{ height: 'var(--dvh)' }}>
+			<div className='app flex flex-col min-w-xs select-none text-base-content'>
 				<Router />
 				<Progress />
 			</div>

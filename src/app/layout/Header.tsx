@@ -7,7 +7,7 @@ import Refresh from '../info/Refresh';
 import Controller from '../settings/Controller';
 
 const Header = () => (
-	<header className='flex absolute top-0 bottom-0 left-0 right-0 pointer-events-none'>
+	<header className='flex absolute top-0 bottom-0 left-0 right-0 pointer-events-none contain-layout'>
 		<div className='flex flex-1 flex-col gap-1 justify-between'>
 			<div className='p-5 md:p-10 flex flex-row gap-1 justify-between flex-wrap sm:flex-nowrap relative'>
 				<div className='sm:min-w-1/3'>
@@ -21,7 +21,7 @@ const Header = () => (
 					<User />
 				</div>
 			</div>
-			<div className='p-5 md:p-10 flex flex-col md:flex-row gap-1 md:justify-between items-center md:items-end flex-wrap lg:flex-nowrap'>
+			<div className='p-5 md:p-10 min-h-[1rem] flex flex-col md:flex-row gap-1 md:justify-between items-center md:items-end flex-wrap lg:flex-nowrap'>
 				<div className='lg:min-w-1/3'>
 					<Status />
 				</div>

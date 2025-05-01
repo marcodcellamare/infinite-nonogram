@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { PointerEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useInteraction } from '!/contexts/interaction';
 import { useSettings } from '!/contexts/settings';
@@ -36,7 +36,7 @@ const Controller = () => {
 		<label
 			className={classNames([
 				'indicator indicator-middle indicator-center outline-2 pointer-events-auto',
-				'flex gap-4 items-center justify-center',
+				'flex gap-4 items-center justify-center contain-layout',
 				checked ? 'bg-primary' : 'bg-accent',
 				'rounded-full text-xl py-1 px-6',
 				{
@@ -52,9 +52,14 @@ const Controller = () => {
 				},
 			])}
 			onPointerEnter={() => playSound('grid-block-over')}
-			onClick={() => playSound('grid-block-correct')}>
+			onPointerDown={(e: PointerEvent) => {
+				e.nativeEvent.stopImmediatePropagation();
+				playSound('grid-block-correct');
+			}}
+			aria-hidden={true}>
 			<span
 				className={classNames([
+					'will-change-transform',
 					checked
 						? 'text-white/30 scale-100'
 						: 'text-white scale-140',
@@ -76,11 +81,11 @@ const Controller = () => {
 					},
 				])}
 				onChange={() => handleChange()}
-				onPointerDown={(e) => e.stopPropagation()}
 				checked={checked}
 			/>
 			<span
 				className={classNames([
+					'will-change-transform',
 					!checked
 						? 'text-white/50 scale-100'
 						: 'text-white scale-140',

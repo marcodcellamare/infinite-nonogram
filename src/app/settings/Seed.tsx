@@ -1,4 +1,11 @@
-import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import {
+	FormEvent,
+	PointerEvent,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import { useAudio } from '!/contexts/audio';
@@ -70,7 +77,9 @@ const Seed = () => {
 						},
 					])}
 					onPointerEnter={() => playSound('grid-block-over')}
-					onClick={() => {
+					onPointerDown={(e: PointerEvent) => {
+						e.nativeEvent.stopImmediatePropagation();
+
 						if (!isRefreshing && !isSpinning) {
 							setSeed();
 							setIsSpinning(true);

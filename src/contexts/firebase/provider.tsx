@@ -1,14 +1,10 @@
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { FirebaseContext } from './context';
-import { initializeApp, getApps } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAnalytics, Analytics, isSupported } from 'firebase/analytics';
-import {
-	getAuth,
-	signInAnonymously,
-	onAuthStateChanged,
-	User,
-} from 'firebase/auth';
+
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
+import { Firestore } from 'firebase/firestore';
+import { Analytics } from 'firebase/analytics';
+import { Auth, User } from 'firebase/auth';
 
 const firebaseConfig = {
 	apiKey: process.env.FIREBASE_API_KEY,
@@ -21,39 +17,60 @@ const firebaseConfig = {
 };
 
 export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
+	const [auth, setAuth] = useState<Auth | null>(null);
 	const [user, setUser] = useState<User | null>(null);
+	const [firestore, setFirestore] = useState<Firestore | null>(null);
+	const [analytics, setAnalytics] = useState<Analytics | null>(null);
 
-	const firebaseApp = useMemo(() => {
+	const isAuthenticated = useMemo(() => user !== null, [user]);
+	const firebaseApp = useMemo<FirebaseApp>(() => {
 		return getApps().length === 0
 			? initializeApp(firebaseConfig)
 			: getApps()[0];
 	}, []);
 
-	const firestore = useMemo(() => getFirestore(firebaseApp), [firebaseApp]);
-	const [analytics, setAnalytics] = useState<Analytics | null>(null);
-	const auth = useMemo(() => getAuth(firebaseApp), [firebaseApp]);
-	const isAuthenticated = useMemo(() => user !== null, [user]);
-
 	useEffect(() => {
-		isSupported().then((supported) => {
-			if (supported) {
-				setAnalytics(getAnalytics(firebaseApp));
-			}
-		});
+		let unsubscribe: (() => void) | null = null;
+
+		(async () => {
+			const { getAuth, onAuthStateChanged, signInAnonymously } =
+				await import('firebase/auth');
+
+			const authInstance = getAuth(firebaseApp);
+			setAuth(authInstance);
+
+			unsubscribe = onAuthStateChanged(authInstance, async (user) => {
+				if (!user) {
+					const credential = await signInAnonymously(authInstance);
+					setUser(credential.user);
+				} else {
+					setUser(user);
+				}
+			});
+		})();
+
+		return () => {
+			if (unsubscribe) unsubscribe();
+		};
 	}, [firebaseApp]);
 
 	useEffect(() => {
-		const unsubscribe = onAuthStateChanged(auth, async (user) => {
-			if (!user) {
-				const credential = await signInAnonymously(auth);
+		(async () => {
+			const { getFirestore } = await import('firebase/firestore');
+			setFirestore(getFirestore(firebaseApp));
+		})();
+	}, [firebaseApp]);
 
-				setUser(credential.user);
-			} else {
-				setUser(user);
+	useEffect(() => {
+		(async () => {
+			const { getAnalytics, isSupported } = await import(
+				'firebase/analytics'
+			);
+			if (await isSupported()) {
+				setAnalytics(getAnalytics(firebaseApp));
 			}
-		});
-		return () => unsubscribe();
-	}, [auth]);
+		})();
+	}, [firebaseApp]);
 
 	return (
 		<FirebaseContext.Provider
@@ -61,6 +78,7 @@ export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
 				app: firebaseApp,
 				firestore,
 				analytics,
+				auth,
 				user,
 				isAuthenticated,
 			}}>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { PointerEvent, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
@@ -56,33 +56,27 @@ const Score = () => {
 	const handleMounted = useCallback(() => {
 		setTitle(randomizer('score.titles'));
 		setNext(randomizer('score.next'));
-	}, [randomizer]);
+		playSound(hasWin ? 'ending-victory' : 'ending-loss');
 
-	useEffect(() => {
-		if (isReady && isCompleted) {
-			playSound(hasWin ? 'ending-victory' : 'ending-loss');
-		}
-	}, [isReady, isCompleted, hasWin, playSound]);
-
-	useEffect(() => {
-		if (!isLeaderboardOn || !isCompleted || !hasWin) return;
-
-		addDocument({
-			date: serverTimestamp(),
-			name: user ?? '',
-			country,
-			score,
-			rating,
-			cols,
-			rows,
-			difficulty,
-			seed,
-			time,
-		});
+		if (isLeaderboardOn && hasWin)
+			addDocument({
+				date: serverTimestamp(),
+				name: user ?? '',
+				country,
+				score,
+				rating,
+				cols,
+				rows,
+				difficulty,
+				seed,
+				time,
+			});
 	}, [
+		randomizer,
+		playSound,
 		isLeaderboardOn,
-		isCompleted,
 		addDocument,
+		hasWin,
 		user,
 		country,
 		score,
@@ -92,7 +86,6 @@ const Score = () => {
 		difficulty,
 		seed,
 		time,
-		hasWin,
 	]);
 
 	return (
@@ -148,8 +141,9 @@ const Score = () => {
 								type='button'
 								className='btn btn-xl btn-secondary rounded-full px-15'
 								disabled={!isCompleted}
-								onClick={() => {
-									if (isCompleted) setSeed();
+								onPointerDown={(e: PointerEvent) => {
+									e.nativeEvent.stopImmediatePropagation();
+									setSeed();
 								}}>
 								<RefreshCwIcon className='text-svg-inline' />{' '}
 								{next}

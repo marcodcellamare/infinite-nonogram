@@ -3,7 +3,6 @@ import useFormatDate from '!/hooks/useFormatDate';
 import { useSettings } from '!/contexts/settings';
 import classNames from 'classnames';
 
-import Toggle from '!/app/layout/drawer/Toggle';
 import DifficultyIcon from '!/app/misc/DifficultyIcon';
 import { BeanIcon, CalendarIcon, GridIcon } from 'lucide-react';
 
@@ -21,11 +20,13 @@ interface GameProps {
 
 const Game = ({ rank, cols, rows, difficulty, seed, date }: GameProps) => {
 	const { i18n } = useTranslation();
-	const { setSeed, setCols, setRows, setDifficulty } = useSettings();
+	const { setSeed, setCols, setRows, setDifficulty, setIsDrawerShown } =
+		useSettings();
 	const { date: formatDate } = useFormatDate();
 
 	return (
-		<Toggle
+		<button
+			type='button'
 			className={classNames([
 				'btn btn-xs btn-link',
 				'!block text-base-300 no-underline truncate',
@@ -42,6 +43,7 @@ const Game = ({ rank, cols, rows, difficulty, seed, date }: GameProps) => {
 				setCols(cols);
 				setRows(rows);
 				setDifficulty(difficulty);
+				setIsDrawerShown(false);
 			}}>
 			{date ? (
 				<span className={rank < 10 ? 'me-2' : 'me-1'}>
@@ -64,7 +66,7 @@ const Game = ({ rank, cols, rows, difficulty, seed, date }: GameProps) => {
 				<BeanIcon className='text-svg-inline me-0.5' />
 				{seed}
 			</span>
-		</Toggle>
+		</button>
 	);
 };
 export default Game;

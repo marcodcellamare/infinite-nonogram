@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react-swc';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import tailwindcss from '@tailwindcss/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
-import compression from 'vite-plugin-compression';
 import * as dotenv from 'dotenv';
 
 // https://vite.dev/config/
@@ -19,7 +18,6 @@ export default defineConfig(({ mode }) => {
 			tailwindcss(),
 			tsconfigPaths(),
 			visualizer({ open: false }),
-			compression(),
 		],
 		define: {
 			'process.env': {
@@ -38,27 +36,45 @@ export default defineConfig(({ mode }) => {
 		},
 		build: {
 			target: 'esnext',
-			rollupOptions: {
-				output: {
-					format: 'es',
-					manualChunks(id) {
-						if (id.includes('node_modules')) {
-							if (id.includes('firebase')) return 'firebase';
-							if (id.includes('i18next')) return 'i18n';
-							if (id.includes('howler')) return 'howler';
-							if (id.includes('lucide-react')) return 'icons';
-							if (id.includes('uuid')) return 'utils';
-							return 'vendor';
-						}
-					},
-				},
-			},
+			emptyOutDir: true,
 			minify: 'terser',
 			terserOptions: {
 				compress: {
 					drop_console: true,
 					drop_debugger: true,
 				},
+				format: {
+					comments: false,
+				},
+			},
+			rollupOptions: {
+				output: {
+					format: 'es',
+					manualChunks(id) {
+						if (id.includes('node_modules')) {
+							if (id.includes('react-dom')) return 'react-dom';
+
+							if (id.includes('react-router')) return 'router';
+
+							if (id.includes('firebase/firestore'))
+								return 'firestore';
+							if (id.includes('firebase')) return 'firebase';
+
+							if (id.includes('i18next')) return 'localization';
+							if (id.includes('howler')) return 'audio';
+							if (id.includes('lucide-react')) return 'icons';
+
+							if (id.includes('uuid')) return 'utils';
+							if (id.includes('culori')) return 'utils';
+							if (id.includes('seedrandom')) return 'utils';
+
+							return 'vendor';
+						}
+					},
+				},
+			},
+			commonjsOptions: {
+				transformMixedEsModules: true,
 			},
 		},
 	};

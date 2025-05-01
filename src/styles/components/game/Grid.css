@@ -1,17 +1,26 @@
 .game-grid {
 	padding: calc(var(--scale) * 6rem);
 
+	> .grid {
+		box-shadow: 0 calc(var(--scale) * 0.5rem) calc(var(--scale) * 8rem)
+			--alpha(var(--color-accent) / 50%);
+	}
+	&.game-grid-right {
+		> .grid {
+			box-shadow: 0 calc(var(--scale) * 0.5rem) calc(var(--scale) * 8rem)
+				--alpha(var(--color-primary) / 100%);
+		}
+	}
+
 	&.game-grid-error {
 		> .grid {
 			animation-name: Shake;
 			animation-duration: 0.2s;
 			animation-iteration-count: infinite;
-		}
-	}
 
-	> .grid {
-		box-shadow: 0 calc(var(--scale) * 0.5rem) calc(var(--scale) * 8rem)
-			--alpha(var(--color-accent) / 50%);
+			box-shadow: 0 calc(var(--scale) * 0.5rem) calc(var(--scale) * 8rem)
+				--alpha(var(--color-error) / 50%);
+		}
 	}
 
 	.game-grid-hint,

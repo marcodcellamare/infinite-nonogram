@@ -13,7 +13,9 @@ const Progress = () => {
 	);
 
 	return (
-		<div className='w-full relative h-[1rem] bg-error'>
+		<div
+			className='relative w-full h-[1rem] overflow-hidden contain-layout'
+			aria-hidden={true}>
 			<progress
 				className='progress progress-accent block bg-white w-full h-full border-none rounded-none'
 				value={totalFound}
@@ -23,14 +25,17 @@ const Progress = () => {
 				className={classNames([
 					'badge badge-xs badge-accent rounded-none font-black',
 					'absolute bottom-0 -translate-x-full',
-					'transition-[left,opacity] duration-150',
+					'transition-[left,opacity] duration-150 will-change-transform',
 					{
 						'opacity-0':
 							totalFoundPercentage === 0 ||
 							totalFoundPercentage === 100,
 					},
 				])}
-				style={{ left: `${totalFoundPercentage}%` }}>
+				style={{
+					left: `${totalFoundPercentage}%`,
+					contentVisibility: 'auto',
+				}}>
 				{percentage(totalFoundPercentage / 100)}
 			</div>
 		</div>

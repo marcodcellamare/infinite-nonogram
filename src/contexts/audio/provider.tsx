@@ -54,7 +54,11 @@ export const AudioProvider: React.FC<{ children: ReactNode }> = ({
 	}, []);
 
 	useEffect(() => {
-		const unlock = () => {
+		const stopImmediatePropagation = (e: PointerEvent) =>
+			e.stopImmediatePropagation();
+		const unlock = (e: PointerEvent) => {
+			stopImmediatePropagation(e);
+
 			const ctx = Howler.ctx;
 
 			if (ctx && ctx.state !== 'running') {
@@ -63,8 +67,15 @@ export const AudioProvider: React.FC<{ children: ReactNode }> = ({
 				);
 			}
 		};
-		window.addEventListener('pointerdown', unlock, { once: true });
-		return () => window.removeEventListener('pointerdown', unlock);
+		document.addEventListener('pointerdown', unlock, { once: true });
+		document.addEventListener('pointerup', stopImmediatePropagation, {
+			once: true,
+		});
+
+		return () => {
+			document.removeEventListener('pointerdown', unlock);
+			document.removeEventListener('pointerup', stopImmediatePropagation);
+		};
 	}, []);
 
 	return (

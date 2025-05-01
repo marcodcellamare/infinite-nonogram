@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { PointerEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import { useAudio } from '!/contexts/audio';
@@ -28,7 +28,8 @@ const Difficulty = () => {
 						type='button'
 						disabled={d === difficulty}
 						onPointerEnter={() => playSound('grid-block-over')}
-						onClick={() => {
+						onPointerDown={(e: PointerEvent) => {
+							e.nativeEvent.stopImmediatePropagation();
 							playSound('grid-block-correct');
 							setDifficulty(d);
 						}}>

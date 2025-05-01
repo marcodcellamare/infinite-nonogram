@@ -26,9 +26,10 @@ const Sousage = ({ className, children }: SousageProps) => {
 	return (
 		<div
 			className={classNames([
-				'btn gap-0 items-stretch h-auto p-0',
+				'btn gap-0 items-stretch h-auto p-0 contain-layout',
 				className,
-			])}>
+			])}
+			aria-hidden={true}>
 			{wrappedChildren}
 		</div>
 	);

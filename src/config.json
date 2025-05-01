@@ -19,7 +19,6 @@
 			"game"
 		]
 	},
-	"drawer": "Settings",
 	"profanity": "numbers",
 	"game": {
 		"grid": {
@@ -28,7 +27,7 @@
 			"max": 15,
 			"block": {
 				"size": 2.5,
-				"disabledByError": 0
+				"disabledByError": 700
 			},
 			"hint": {
 				"groupPadding": 0.65,
@@ -72,7 +71,7 @@
 			"httpEquiv": "Content-Security-Policy",
 			"content": [
 				"default-src 'self'",
-				"script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://apis.google.com",
+				"script-src 'self' https://www.googletagmanager.com https://apis.google.com",
 				"connect-src 'self' https://firebase.googleapis.com https://firestore.googleapis.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com https://identitytoolkit.googleapis.com https://region1.google-analytics.com https://api.country.is",
 				"style-src 'self' 'unsafe-inline'",
 				"img-src 'self' data: https://www.googletagmanager.com",

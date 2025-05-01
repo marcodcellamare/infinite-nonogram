@@ -1,6 +1,7 @@
 import { CSSProperties, Fragment, useEffect, useState } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
+import { useInteraction } from '!/contexts/interaction';
 import { useAudio } from '!/contexts/audio';
 import MountTransition from '!/app/misc/MountTransition';
 import classNames from 'classnames';
@@ -13,6 +14,7 @@ import Hint from './hints';
 import '!/styles/components/game/Grid.css';
 
 const Grid = () => {
+	const { isInteracting } = useInteraction();
 	const { isCompleted } = useEngine();
 	const {
 		showEffects,
@@ -88,7 +90,11 @@ const Grid = () => {
 						key={gridKey}
 						className={classNames([
 							'game-grid',
-							{ 'game-grid-error': isGlobalError },
+							{
+								'game-grid-error': isGlobalError,
+								'game-grid-right':
+									!isGlobalError && isInteracting === 'right',
+							},
 							'flex flex-col grow justify-center items-center my-auto relative',
 						])}
 						style={
@@ -106,7 +112,9 @@ const Grid = () => {
 								'p-0.5 min-w-fit min-h-fit h-full max-w-full max-h-full',
 								'border-5 rounded-lg',
 								!isGlobalError
-									? 'border-accent'
+									? isInteracting === 'left'
+										? 'border-accent'
+										: 'border-primary'
 									: 'border-error',
 								!isEntering
 									? isCompleted
@@ -114,7 +122,7 @@ const Grid = () => {
 										: 'scale-90 opacity-0'
 									: 'opacity-100 scale-100',
 								showEffects
-									? 'transition-[opacity,filter,scale,border-color]'
+									? 'transition-[opacity,filter,scale,border-color,box-shadow]'
 									: 'transition-[opacity,scale,border-color]',
 								!isCompleted
 									? 'duration-300 ease-out'

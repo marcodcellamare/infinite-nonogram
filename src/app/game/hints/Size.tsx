@@ -9,7 +9,7 @@ const Size = () => {
 
 	return (
 		<div className='game-grid-hint-size flex flex-1 items-end justify-end font-bold text-white leading-[1.3em]'>
-			<div className='flex items-end group'>
+			<div className='flex items-end group pointer-events-auto'>
 				<div className='relative'>
 					<span className='transition-[opacity,filter] duration-500 group-hover:opacity-80 group-hover:blur-[0.2rem]'>
 						{cols}

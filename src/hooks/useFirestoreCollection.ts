@@ -1,12 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import {
-	addDoc,
-	collection,
-	Firestore,
-	getDocs,
-	query,
-	QueryConstraint,
-} from 'firebase/firestore';
+import { Firestore, QueryConstraint } from 'firebase/firestore';
 import { useFirebase } from '!/contexts/firebase';
 
 const useFirestoreCollection = <T>(collectionName: string) => {
@@ -16,56 +9,73 @@ const useFirestoreCollection = <T>(collectionName: string) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
-	const myCollection = useMemo(
-		() => collection(firestore as Firestore, collectionName),
-		[firestore, collectionName]
-	);
+	const myCollection = useMemo(() => {
+		if (!firestore) return null;
+
+		return { firestore: firestore as Firestore, collectionName };
+	}, [firestore, collectionName]);
 
 	const getDocuments = useCallback(
-		(queryConstraints: QueryConstraint[] = []) => {
-			if (!isAuthenticated) return;
+		async (queryConstraints: QueryConstraint[] = []) => {
+			if (!isAuthenticated || !myCollection) return;
 
 			setIsLoading(true);
 			setError(null);
 
-			getDocs(query(myCollection, ...queryConstraints))
-				.then((snapshot) =>
-					setDocs(
-						snapshot.docs.map((doc) => ({
-							id: doc.id,
-							...doc.data(),
-						})) as T[]
-					)
-				)
-				.catch((error) => {
-					console.error(error);
-					setError(error.toString());
-				})
-				.finally(() => setIsLoading(false));
+			try {
+				const { collection, getDocs, query } = await import(
+					'firebase/firestore'
+				);
+
+				const colRef = collection(
+					myCollection.firestore,
+					myCollection.collectionName
+				);
+				const q = query(colRef, ...queryConstraints);
+				const snapshot = await getDocs(q);
+
+				setDocs(
+					snapshot.docs.map((doc) => ({
+						id: doc.id,
+						...doc.data(),
+					})) as T[]
+				);
+			} catch (err) {
+				console.error(err);
+				setError(err instanceof Error ? err.message : String(err));
+			} finally {
+				setIsLoading(false);
+			}
 		},
 		[isAuthenticated, myCollection]
 	);
 
 	const addDocument = useCallback(
-		(newDoc: Omit<T, 'id'>) => {
-			if (!isAuthenticated) return;
+		async (newDoc: Omit<T, 'id'>) => {
+			if (!isAuthenticated || !myCollection) return;
 
 			setIsLoading(true);
 			setError(null);
 
-			addDoc(myCollection, newDoc)
-				.catch((error) => {
-					console.error(error);
-					setError(error.toString());
-				})
-				.finally(() => {
-					setIsLoading(false);
-					getDocuments();
-				});
+			try {
+				const { collection, addDoc } = await import(
+					'firebase/firestore'
+				);
+				const colRef = collection(
+					myCollection.firestore,
+					myCollection.collectionName
+				);
+				await addDoc(colRef, newDoc);
+				await getDocuments();
+			} catch (err) {
+				console.error(err);
+				setError(err instanceof Error ? err.message : String(err));
+			} finally {
+				setIsLoading(false);
+			}
 		},
 		[isAuthenticated, myCollection, getDocuments]
 	);
-
 	return { docs, isLoading, error, getDocuments, addDocument };
 };
 export default useFirestoreCollection;

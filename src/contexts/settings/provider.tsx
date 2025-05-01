@@ -18,6 +18,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import useGeoLocation from 'react-ipgeolocation';
 import useBreakpoints from '!/hooks/useBreakpoints';
+
 import Config from '!config';
 
 import { DifficultyTypes } from '!/types/settings';
@@ -40,6 +41,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	const [showEffects, setShowEffects] = useState(true);
 	const [isLeaderboardOn, setIsLeaderboardOn] = useState(true);
 	const [isMusicOn, setIsMusicOn] = useState(true);
+	const [isDrawerShown, setIsDrawerShown] = useState(true);
 
 	const storage = useRef({
 		user:
@@ -111,6 +113,9 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 		setIsLeaderboardOn,
 	]);
 	const memoizedSetIsMusicOn = useCallback(setIsMusicOn, [setIsMusicOn]);
+	const memoizedSetIsDrawerShown = useCallback(setIsDrawerShown, [
+		setIsDrawerShown,
+	]);
 
 	const probability = useMemo((): number => {
 		return (
@@ -279,6 +284,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 				showEffects,
 				isLeaderboardOn,
 				isMusicOn,
+				isDrawerShown,
 
 				setIsGlobalError: gatedSetIsGlobalError,
 				setUser: gatedSetUser,
@@ -291,6 +297,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 				setShowEffects: memoizedSetShowEffects,
 				setIsLeaderboardOn: memoizedSetIsLeaderboardOn,
 				setIsMusicOn: memoizedSetIsMusicOn,
+				setIsDrawerShown: memoizedSetIsDrawerShown,
 			}}>
 			{children}
 		</SettingsContext.Provider>
