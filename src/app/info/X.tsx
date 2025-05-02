@@ -22,7 +22,8 @@ const X = () => {
 							'transition-[background-color] duration-400':
 								showEffects,
 						},
-					])}>
+					])}
+					aria-hidden={true}>
 					<p
 						className={classNames([
 							'absolute top-1/2 left-1/2 -translate-1/2 text-[250vw] leading-[0.8em] text-base-200',

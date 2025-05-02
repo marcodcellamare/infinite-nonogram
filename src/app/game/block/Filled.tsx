@@ -21,11 +21,11 @@ const Filled = ({ hasInteracted, isError }: FilledProps) => {
 	const { showEffects } = useSettings();
 
 	const hasShiningEffect = useMemo(
-		() => showEffects && hasInteracted === 'left' && Math.random() < 0.4,
+		() => showEffects && hasInteracted === 'left' && Math.random() < 0.3,
 		[showEffects, hasInteracted]
 	);
 	const hasRandomOpacityEffect = useMemo(
-		() => showEffects && hasInteracted !== false && Math.random() < 0.6,
+		() => showEffects && hasInteracted !== false && Math.random() < 0.4,
 		[showEffects, hasInteracted]
 	);
 	const randomOpacity = useMemo(

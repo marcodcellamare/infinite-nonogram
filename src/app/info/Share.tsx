@@ -1,4 +1,3 @@
-import { PointerEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import useClipboard from '!/hooks/useClipboard';
 import { useAudio } from '!/contexts/audio';
@@ -19,8 +18,7 @@ const Share = () => {
 				!copied ? 'btn-outline btn-primary' : 'btn-accent',
 			])}
 			onPointerEnter={() => playSound('grid-block-over')}
-			onPointerDown={(e: PointerEvent) => {
-				e.nativeEvent.stopImmediatePropagation();
+			onClick={() => {
 				playSound('grid-block-correct');
 				copyToClipboard(window.location.href);
 			}}>

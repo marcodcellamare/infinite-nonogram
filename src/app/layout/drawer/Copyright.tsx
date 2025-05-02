@@ -1,4 +1,3 @@
-import { PointerEvent } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { openExternalLink } from '!/utils/misc';
 
@@ -20,20 +19,18 @@ const Copyright = () => {
 						<button
 							type='button'
 							className='link hover:text-accent font-bold'
-							onPointerDown={(e: PointerEvent) => {
-								e.nativeEvent.stopImmediatePropagation();
-								openExternalLink(i18n.t('footer.github'));
-							}}
+							onClick={() =>
+								openExternalLink(i18n.t('footer.github'))
+							}
 						/>
 					),
 					buttonRepo: (
 						<button
 							type='button'
 							className='link hover:text-accent font-bold'
-							onPointerDown={(e: PointerEvent) => {
-								e.nativeEvent.stopImmediatePropagation();
-								openExternalLink(i18n.t('footer.repository'));
-							}}
+							onClick={() =>
+								openExternalLink(i18n.t('footer.repository'))
+							}
 						/>
 					),
 				}}

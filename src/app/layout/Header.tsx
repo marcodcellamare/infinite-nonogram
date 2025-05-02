@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Title from '../info/Title';
 import Settings from '../info/Settings';
 import Time from '../info/Time';
@@ -6,7 +8,7 @@ import Status from '../info/Status';
 import Refresh from '../info/Refresh';
 import Controller from '../settings/Controller';
 
-const Header = () => (
+const Header = memo(() => (
 	<header className='flex absolute top-0 bottom-0 left-0 right-0 pointer-events-none contain-layout'>
 		<div className='flex flex-1 flex-col gap-1 justify-between'>
 			<div className='p-5 md:p-10 flex flex-row gap-1 justify-between flex-wrap sm:flex-nowrap relative'>
@@ -34,5 +36,5 @@ const Header = () => (
 			</div>
 		</div>
 	</header>
-);
+));
 export default Header;

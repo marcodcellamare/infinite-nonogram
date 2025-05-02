@@ -1,4 +1,4 @@
-import { PointerEvent, useState } from 'react';
+import { useState } from 'react';
 import { useSettings } from '!/contexts/settings';
 import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
@@ -20,9 +20,7 @@ const Refresh = () => {
 			])}
 			disabled={isRefreshing || isSpinning}
 			onPointerEnter={() => playSound('grid-block-over')}
-			onPointerDown={(e: PointerEvent) => {
-				e.nativeEvent.stopImmediatePropagation();
-
+			onClick={() => {
 				if (!isRefreshing && !isSpinning) {
 					setSeed();
 					if (showEffects) setIsSpinning(true);

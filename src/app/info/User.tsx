@@ -24,7 +24,7 @@ const User = () => {
 				setIsOver(true);
 			}}
 			onPointerLeave={() => setIsOver(false)}
-			onPointerDown={() => setIsDrawerShown(true)}>
+			onClick={() => setIsDrawerShown(true)}>
 			<div className='bg-accent w-[3rem] sm:w-[2.5rem] aspect-square rounded-full overflow-hidden relative'>
 				<Avatar
 					name={user}

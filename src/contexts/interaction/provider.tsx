@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { InteractionContext } from './context';
 import { useSettings } from '../settings';
 import { useScale } from '../scale';
@@ -6,15 +6,13 @@ import { useScale } from '../scale';
 import { InteractionType } from '!/types/interaction';
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
-	const { isAuto, setIsAuto, isDrawerShown } = useSettings();
+	const { isAuto, isDrawerShown } = useSettings();
 	const { isScaling } = useScale();
 
 	const [isClicked, setIsClicked] = useState(false);
 	const [isInteracting, setIsInteracting] = useState<InteractionType>('left');
 	const [isOverCol, setIsOverCol] = useState<number | undefined>(undefined);
 	const [isOverRow, setIsOverRow] = useState<number | undefined>(undefined);
-
-	const spacePressed = useRef(false);
 
 	const isOnGame = useCallback(
 		(target: HTMLElement) =>
@@ -32,8 +30,6 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 		(e: PointerEvent) => {
 			if (!isOnGame(e.target as HTMLElement) || isClicked || isScaling)
 				return;
-
-			console.log('handlePointerDown');
 
 			setIsClicked(true);
 
@@ -55,7 +51,6 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 		(e: PointerEvent) => {
 			if (!isOnGame(e.target as HTMLElement)) return;
 
-			console.log('handlePointerUp');
 			setIsClicked(false);
 		},
 		[isOnGame]
@@ -91,29 +86,6 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 
 	const handleContextMenu = (e: MouseEvent) => e.preventDefault();
 
-	const handleKeyDown = useCallback(
-		(e: KeyboardEvent) => {
-			if (e.code === 'Space') {
-				if (!spacePressed.current) {
-					spacePressed.current = true;
-
-					setIsAuto(false);
-					setIsInteracting((prevIsInteracting) =>
-						prevIsInteracting !== 'left' ? 'left' : 'right'
-					);
-				}
-				e.preventDefault();
-			}
-		},
-		[setIsAuto]
-	);
-
-	const handleKeyUp = (e: KeyboardEvent) => {
-		if (e.code === 'Space') {
-			spacePressed.current = false;
-		}
-	};
-
 	useEffect(() => {
 		if (!isDrawerShown) {
 			document.addEventListener('pointerdown', handlePointerDown);
@@ -122,9 +94,6 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 
 			document.addEventListener('pointerover', handlePointerOver);
 			document.addEventListener('pointerout', handlePointerOut);
-
-			window.addEventListener('keydown', handleKeyDown);
-			window.addEventListener('keyup', handleKeyUp);
 		}
 		return () => {
 			document.removeEventListener('pointerdown', handlePointerDown);
@@ -133,9 +102,6 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 
 			document.removeEventListener('pointerover', handlePointerOver);
 			document.removeEventListener('pointerout', handlePointerOut);
-
-			window.removeEventListener('keydown', handleKeyDown);
-			window.removeEventListener('keyup', handleKeyUp);
 		};
 	}, [
 		isDrawerShown,
@@ -143,7 +109,6 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 		handlePointerUp,
 		handlePointerOver,
 		handlePointerOut,
-		handleKeyDown,
 	]);
 
 	useEffect(() => {

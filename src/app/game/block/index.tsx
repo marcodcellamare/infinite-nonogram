@@ -60,14 +60,14 @@ const Block = ({ row, col }: BlockProps) => {
 	);
 
 	const hasRandomOpacityEffect = useMemo(
-		() => showEffects && hasInteracted === false && Math.random() < 0.5,
+		() => showEffects && hasInteracted === false && Math.random() < 0.3,
 		[showEffects, hasInteracted]
 	);
 
 	const hasGlitchingEffect = useMemo(
 		() =>
 			showEffects && hasInteracted === false && !isRefreshing
-				? Math.random() < 0.2
+				? Math.random() < 0.15
 				: 0,
 		[showEffects, hasInteracted, isRefreshing]
 	);

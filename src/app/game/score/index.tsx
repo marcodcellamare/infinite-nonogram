@@ -1,4 +1,4 @@
-import { PointerEvent, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
@@ -141,10 +141,7 @@ const Score = () => {
 								type='button'
 								className='btn btn-xl btn-secondary rounded-full px-15'
 								disabled={!isCompleted}
-								onPointerDown={(e: PointerEvent) => {
-									e.nativeEvent.stopImmediatePropagation();
-									setSeed();
-								}}>
+								onClick={() => setSeed()}>
 								<RefreshCwIcon className='text-svg-inline' />{' '}
 								{next}
 							</button>

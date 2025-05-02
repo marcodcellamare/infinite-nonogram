@@ -1,4 +1,4 @@
-import { PointerEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
 import { useAudio } from '!/contexts/audio';
@@ -37,41 +37,32 @@ const Randomize = () => {
 		}
 	};
 
-	const handlePointerDown = useCallback(
-		(e: PointerEvent) => {
-			e.nativeEvent.stopImmediatePropagation();
+	const onClick = useCallback(() => {
+		if (isClicked) return;
 
-			if (!isClicked) {
-				cleanup();
+		cleanup();
 
-				playSound('grid-block-correct');
-				setIsClicked(true);
-				setSeed();
-				setRows(randomSize());
-				setCols(randomSize());
-				setDifficulty(
-					difficultiesRef.current[
-						Math.floor(
-							Math.random() * difficultiesRef.current.length
-						)
-					]
-				);
-				timeoutRef.current = setTimeout(() => setIsClicked(false), 500);
-			}
-		},
-		[isClicked, setSeed, setRows, setCols, setDifficulty, playSound]
-	);
+		playSound('grid-block-correct');
+		setIsClicked(true);
+		setSeed();
+		setRows(randomSize());
+		setCols(randomSize());
+		setDifficulty(
+			difficultiesRef.current[
+				Math.floor(Math.random() * difficultiesRef.current.length)
+			]
+		);
+		timeoutRef.current = setTimeout(() => setIsClicked(false), 500);
 
-	useEffect(() => {
 		return () => cleanup();
-	}, []);
+	}, [isClicked, setSeed, setRows, setCols, setDifficulty, playSound]);
 
 	return (
 		<button
 			className='flex-1 btn btn-outline btn-primary disabled:!bg-secondary disabled:text-white'
 			type='button'
 			onPointerEnter={() => playSound('grid-block-over')}
-			onPointerDown={handlePointerDown}
+			onClick={onClick}
 			disabled={isClicked}>
 			<DicesIcon
 				className={classNames([

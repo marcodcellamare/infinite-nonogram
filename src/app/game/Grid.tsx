@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment, useEffect, useState } from 'react';
+import { CSSProperties, Fragment, memo, useEffect, useState } from 'react';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings/hook';
 import { useInteraction } from '!/contexts/interaction';
@@ -13,7 +13,7 @@ import Hint from './hints';
 
 import '!/styles/components/game/Grid.css';
 
-const Grid = () => {
+const Grid = memo(() => {
 	const { isInteracting } = useInteraction();
 	const { isCompleted } = useEngine();
 	const {
@@ -162,5 +162,5 @@ const Grid = () => {
 			}}
 		</MountTransition>
 	);
-};
+});
 export default Grid;
