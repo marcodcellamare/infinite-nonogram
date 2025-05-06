@@ -14,8 +14,8 @@ const App = () => {
 	useEffect(() => {
 		addSound('grid-refresh', '/sounds/grid-refresh.mp3', 0.3);
 		addSound('grid-block-over', '/sounds/grid-block-over.mp3', 0.05);
-		addSound('grid-block-correct', '/sounds/grid-block-correct.mp3', 0.2);
-		addSound('grid-block-wrong', '/sounds/grid-block-wrong.mp3', 0.7);
+		addSound('grid-block-correct', '/sounds/grid-block-correct.mp3', 0.3);
+		addSound('grid-block-wrong', '/sounds/grid-block-wrong.mp3', 0.5);
 		addSound('ending-loss', '/sounds/ending-loss.mp3');
 		addSound('ending-victory', '/sounds/ending-victory.mp3');
 	}, [addSound]);
@@ -24,8 +24,8 @@ const App = () => {
 		<>
 			<Meta />
 			<div className='app flex flex-col min-w-xs select-none text-base-content'>
-				<Router />
 				<Progress />
+				<Router />
 			</div>
 			<Drawer />
 		</>

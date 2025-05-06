@@ -29,7 +29,7 @@ const Game = ({ rank, cols, rows, difficulty, seed, date }: GameProps) => {
 			type='button'
 			className={classNames([
 				'btn btn-xs btn-link',
-				'!block text-base-300 no-underline truncate',
+				'!block text-base-300 max-w-full no-underline truncate',
 				'hover:!no-underline hover:text-accent',
 				rank < 10 ? 'text-xs' : 'text-xxs',
 			])}

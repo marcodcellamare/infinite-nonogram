@@ -1,7 +1,13 @@
 .btn {
-	@apply border-2
-		shadow-none
-		backdrop-blur-xs;
+	&.btn-outline,
+	&.btn-dash {
+		@apply border-2
+			shadow-none
+			backdrop-blur-xs;
+	}
+	&.btn-dash {
+		@apply border-dashed;
+	}
 
 	&.btn-link {
 		@apply p-0

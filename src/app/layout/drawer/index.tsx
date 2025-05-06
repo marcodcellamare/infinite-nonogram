@@ -5,9 +5,7 @@ import classNames from 'classnames';
 
 import Container from './Container';
 import User from '!/app/settings/User';
-import Randomize from '!/app/settings/Randomize';
 import Title from '!/app/info/Title';
-import Share from '!/app/info/Share';
 import Leaderboard from '!/app/info/leaderboard';
 import Settings from './Settings';
 import Copyright from './Copyright';
@@ -62,10 +60,6 @@ const Drawer = () => {
 									<User />
 								</Container>
 								<Settings />
-								<div className='flex flex-wrap gap-0.5'>
-									<Randomize />
-									<Share />
-								</div>
 								{isLeaderboardOn ? (
 									<Container
 										show={isEntering}

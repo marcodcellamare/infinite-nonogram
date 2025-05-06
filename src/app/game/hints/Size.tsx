@@ -14,7 +14,7 @@ const Size = () => {
 					<span className='transition-[opacity,filter] duration-500 group-hover:opacity-80 group-hover:blur-[0.2rem]'>
 						{cols}
 					</span>
-					<ArrowRightIcon className='text-svg-inline absolute top-1/2 left-1/2 -translate-1/2 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100' />
+					<ArrowRightIcon className='text--inline absolute top-1/2 left-1/2 -translate-1/2 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100' />
 				</div>
 				<div>×</div>
 				<div className='relative'>

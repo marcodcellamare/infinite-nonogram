@@ -8,6 +8,8 @@ import Seed from '!/app/settings/Seed';
 import Difficulty from '!/app/settings/Difficulty';
 import Range from '!/app/settings/Range';
 import Toggle from '!/app/settings/Toggle';
+import Randomize from '!/app/settings/Randomize';
+import Share from '!/app/info/Share';
 
 import Config from '!config';
 import {
@@ -80,6 +82,10 @@ const Settings = () => {
 				}
 				onChange={setScale}
 			/>
+			<div className='flex flex-wrap gap-0.5'>
+				<Randomize />
+				<Share />
+			</div>
 			<div className='flex flex-col flex-wrap gap-2'>
 				<Toggle
 					label={i18n.t('music')}

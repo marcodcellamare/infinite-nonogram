@@ -120,21 +120,11 @@ const Block = ({ row, col }: BlockProps) => {
 	}, [isDisabled, isOver, isClicked, playSound]);
 
 	useEffect(() => {
-		if (!isGlobalError && !hasPlayed && isDisabled && isOver && isClicked) {
+		if (!hasPlayed && hasInteracted !== false) {
 			playSound(!isError ? 'grid-block-correct' : 'grid-block-wrong');
 			setHasPlayed(true);
 		}
-	}, [
-		row,
-		col,
-		hasPlayed,
-		isDisabled,
-		isOver,
-		isClicked,
-		isError,
-		isGlobalError,
-		playSound,
-	]);
+	}, [hasPlayed, hasInteracted, isError, playSound]);
 
 	return (
 		<div

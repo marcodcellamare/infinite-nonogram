@@ -12,12 +12,21 @@ const Progress = () => {
 		[totalAvailable, totalFound]
 	);
 
+	const isVisible = useMemo(
+		() => totalFoundPercentage > 0 && totalFoundPercentage < 100,
+		[totalFoundPercentage]
+	);
+
 	return (
 		<div
-			className='relative w-full h-[1rem] overflow-hidden contain-layout'
+			className={classNames([
+				'relative w-full overflow-hidden contain-layout',
+				'transition-[height]',
+				isVisible ? 'h-[1rem]' : 'h-[0rem]',
+			])}
 			aria-hidden={true}>
 			<progress
-				className='progress progress-accent block bg-white w-full h-full border-none rounded-none'
+				className='progress progress-accent block bg-base-100 w-full h-full border-none rounded-none'
 				value={totalFound}
 				max={totalAvailable}
 			/>
@@ -25,11 +34,10 @@ const Progress = () => {
 				className={classNames([
 					'badge badge-xs badge-accent rounded-none font-black',
 					'absolute bottom-0 -translate-x-full',
+					'text-base-100',
 					'transition-[left,opacity] duration-150 will-change-transform',
 					{
-						'opacity-0':
-							totalFoundPercentage === 0 ||
-							totalFoundPercentage === 100,
+						'opacity-0': !isVisible,
 					},
 				])}
 				style={{

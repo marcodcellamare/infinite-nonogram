@@ -34,7 +34,7 @@
 			right: 0;
 			border-top-width: 1px;
 			border-left-width: 1px;
-			border-color: --alpha(var(--color-base-300) / 70%);
+			border-color: --alpha(var(--color-base-300) / 60%);
 			mix-blend-mode: multiply;
 			pointer-events: none;
 		}
@@ -42,24 +42,28 @@
 		&.game-grid-block-t-strong {
 			&::after {
 				border-top-width: 2px;
+				border-top-color: var(--color-base-300);
 			}
 		}
 		&.game-grid-hint-l-strong,
 		&.game-grid-block-l-strong {
 			&::after {
 				border-left-width: 2px;
+				border-left-color: var(--color-base-300);
 			}
 		}
 		&.game-grid-hint-b-strong,
 		&.game-grid-block-b-strong {
 			&::after {
 				border-bottom-width: 2px;
+				border-bottom-color: var(--color-base-300);
 			}
 		}
 		&.game-grid-hint-r-strong,
 		&.game-grid-block-r-strong {
 			&::after {
 				border-right-width: 2px;
+				border-right-color: var(--color-base-300);
 			}
 		}
 	}

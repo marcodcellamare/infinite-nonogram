@@ -11,11 +11,18 @@ const Copyright = () => {
 				values={{
 					year: new Date().getFullYear(),
 					author: i18n.t('footer.author'),
-					repo: i18n.t('footer.repo'),
 				}}
 				components={{
-					strong: <strong />,
 					buttonAuthor: (
+						<button
+							type='button'
+							className='link hover:text-accent font-bold'
+							onClick={() =>
+								openExternalLink(i18n.t('footer.website'))
+							}
+						/>
+					),
+					buttonGitHub: (
 						<button
 							type='button'
 							className='link hover:text-accent font-bold'

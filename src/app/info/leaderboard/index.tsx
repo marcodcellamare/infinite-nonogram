@@ -29,8 +29,27 @@ const Leaderboard = ({ show }: LeaderboardProps) => {
 			orderBy('score', 'desc'),
 			orderBy('time', 'asc'),
 			orderBy('name', 'asc'),
-			limit(50),
+			limit(10),
 		]);
+
+		/*
+		import { getCountFromServer, collection, query, where } from 'firebase/firestore';
+
+const q = query(
+	collection(db, 'yourCollection'),
+	where('name', '>=', ''),
+	where('name', '<=', '\uf8ff'),
+	where('time', '>', 0),
+	where('score', '>', 0),
+	where('rating', '>', 0),
+);
+
+const snapshot = await getCountFromServer(q);
+const totalDocs = snapshot.data().count;
+
+const pageSize = 10;
+const totalPages = Math.ceil(totalDocs / pageSize);
+*/
 	}, [getDocuments, show]);
 
 	return !isLoading ? (
