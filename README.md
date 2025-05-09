@@ -2,7 +2,7 @@
 
 Enjoy endless Nonogram (Picross) puzzles with randomly generated levels and tons of customization options! Test your logic and play your way with different modes and difficulty levels.
 
-## [Play the game](https://marcodcellamare.github.io/infinite-nonogram/)
+## [Play the game »](https://marcodcellamare.github.io/infinite-nonogram/)
 
 ```
 $ npm run dev
