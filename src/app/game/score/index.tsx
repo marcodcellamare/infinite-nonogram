@@ -1,8 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
 import { useAudio } from '!/contexts/audio';
+import { useFirebase } from '!/contexts/firebase';
 import { serverTimestamp } from 'firebase/firestore';
 import useFirestoreCollection from '!/hooks/useFirestoreCollection';
 import { useTimer } from '!/contexts/timer';
@@ -19,6 +20,7 @@ import { LeaderboardPlayerProps } from '!/types/leaderboard';
 
 const Score = () => {
 	const { i18n } = useTranslation();
+	const { logEvent } = useFirebase();
 	const { addDocument } = useFirestoreCollection<LeaderboardPlayerProps>(
 		process.env.FIREBASE_LEADERBOARD_COLLECTION ?? ''
 	);
@@ -71,7 +73,20 @@ const Score = () => {
 				seed,
 				time,
 			});
+
+		logEvent('level_complete', {
+			user,
+			score,
+			rating,
+			cols,
+			rows,
+			difficulty,
+			seed,
+			time,
+			has_win: hasWin,
+		});
 	}, [
+		logEvent,
 		randomizer,
 		playSound,
 		isLeaderboardOn,
@@ -132,7 +147,7 @@ const Score = () => {
 						<div className='flex justify-center my-5'>
 							<Rating />
 						</div>
-						<div className='flex flex-row justify-center gap-0.5'>
+						<div className='flex flex-col items-center gap-0.5'>
 							<Time />
 							<Points />
 						</div>

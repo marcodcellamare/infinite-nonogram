@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '!/contexts/settings/hook';
+import { useFirebase } from '!/contexts/firebase';
 
 import Config from '!config';
 
@@ -11,6 +12,7 @@ const useRouteCheck = () => {
 	const { i18n } = useTranslation();
 	const params = useParams();
 	const navigate = useNavigate();
+	const { logEvent } = useFirebase();
 	const location = useLocation();
 	const {
 		rows,
@@ -135,11 +137,13 @@ const useRouteCheck = () => {
 	}, [navigate, pageId, i18n.language, cols, rows, difficulty, seed]);
 
 	useEffect(() => {
-		checkUrl();
-	}, [checkUrl]);
-
-	useEffect(() => {
-		updateUrl();
-	}, [updateUrl]);
+		logEvent('page_view', {
+			page_location: window.location.href,
+			page_path: location.pathname,
+			page_title: document.title,
+		});
+	}, [logEvent, location.pathname]);
+	useEffect(checkUrl, [checkUrl]);
+	useEffect(updateUrl, [updateUrl]);
 };
 export default useRouteCheck;

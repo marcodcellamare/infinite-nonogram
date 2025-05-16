@@ -1,10 +1,13 @@
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { FirebaseContext } from './context';
+import { useTranslation } from 'react-i18next';
 
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 import { Firestore } from 'firebase/firestore';
 import { Analytics } from 'firebase/analytics';
 import { Auth, User } from 'firebase/auth';
+
+import pkg from '!package';
 
 const firebaseConfig = {
 	apiKey: process.env.FIREBASE_API_KEY,
@@ -17,6 +20,8 @@ const firebaseConfig = {
 };
 
 export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
+	const { i18n } = useTranslation();
+
 	const [auth, setAuth] = useState<Auth | null>(null);
 	const [user, setUser] = useState<User | null>(null);
 	const [firestore, setFirestore] = useState<Firestore | null>(null);
@@ -28,6 +33,24 @@ export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
 			? initializeApp(firebaseConfig)
 			: getApps()[0];
 	}, []);
+
+	const logEvent = useCallback(
+		async (eventName: string, params?: Record<string, any>) => {
+			if (!analytics) return;
+
+			const { logEvent } = await import('firebase/analytics');
+
+			try {
+				logEvent(analytics, eventName, params);
+			} catch (err) {
+				console.warn(
+					`Analytics: Failed to log event "${eventName}"`,
+					err
+				);
+			}
+		},
+		[analytics]
+	);
 
 	useEffect(() => {
 		let unsubscribe: (() => void) | null = null;
@@ -63,14 +86,23 @@ export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
 
 	useEffect(() => {
 		(async () => {
-			const { getAnalytics, isSupported } = await import(
-				'firebase/analytics'
-			);
+			const { getAnalytics, isSupported, setUserProperties } =
+				await import('firebase/analytics');
+
 			if (await isSupported()) {
-				setAnalytics(getAnalytics(firebaseApp));
+				const analytics = getAnalytics(firebaseApp);
+
+				setUserProperties(analytics, {
+					app_version: `${pkg.version}${
+						import.meta.env.DEV ? '.dev' : ''
+					}`,
+					locale: i18n.language,
+					user_role: import.meta.env.DEV ? 'developer' : 'player',
+				});
+				setAnalytics(analytics);
 			}
 		})();
-	}, [firebaseApp]);
+	}, [firebaseApp, i18n.language]);
 
 	return (
 		<FirebaseContext.Provider
@@ -81,6 +113,7 @@ export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
 				auth,
 				user,
 				isAuthenticated,
+				logEvent,
 			}}>
 			{children}
 		</FirebaseContext.Provider>

@@ -24,6 +24,8 @@ const Avatar = ({
 				cssVariable('--color-primary'),
 				cssVariable('--color-secondary'),
 				cssVariable('--color-accent'),
+				cssVariable('--color-info'),
+				cssVariable('--color-warning'),
 			]}
 			className='w-full'
 		/>

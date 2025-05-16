@@ -12,8 +12,7 @@ export default defineConfig(({ mode }) => {
 	const firebaseEnv = dotenv.config({ path: '.env.firebase' }).parsed || {};
 
 	return {
-		//base: './',
-		base: '/infinite-nonogram/',
+		base: mode === 'production' ? '/infinite-nonogram/' : './',
 		plugins: [
 			react(),
 			tailwindcss(),

@@ -7,9 +7,9 @@ import Game from './Game';
 import Score from './Score';
 import Time from './Time';
 import Avatar from '!/app/info/Avatar';
+import RatingStars from '!/app/misc/RatingStars';
 
 import { LeaderboardPlayerProps } from '!/types/leaderboard';
-import RatingStars from '!/app/misc/RatingStars';
 
 const Player = ({
 	rank,

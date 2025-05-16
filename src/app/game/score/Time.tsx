@@ -12,14 +12,14 @@ const Time = () => {
 	const timeUnitsRef = useRef(timeUnits);
 
 	return (
-		<div className='badge badge-lg badge-primary rounded-sm'>
+		<div className='badge badge-lg badge-light rounded-sm'>
 			<ClockIcon className='text-svg-inline' />
 			{i18n.t('score.time')}:
 			<Timer
 				timeUnits={timeUnitsRef.current}
 				units='abbr'
 				separator={false}
-				className='flex gap-1 font-black text-white'
+				className='flex gap-1 font-black text-secondary'
 			/>
 		</div>
 	);

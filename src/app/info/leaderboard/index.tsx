@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { limit, orderBy, where } from 'firebase/firestore';
+import { orderBy, where } from 'firebase/firestore';
 import useFirestoreCollection from '!/hooks/useFirestoreCollection';
 
 import Player from './player';
@@ -20,36 +20,20 @@ const Leaderboard = ({ show }: LeaderboardProps) => {
 	useEffect(() => {
 		if (!show) return;
 
-		getDocuments([
-			where('name', '>=', ''),
-			where('name', '<=', '\uf8ff'),
-			where('time', '>', 0),
-			where('score', '>', 0),
-			where('rating', '>', 0),
-			orderBy('score', 'desc'),
-			orderBy('time', 'asc'),
-			orderBy('name', 'asc'),
-			limit(10),
-		]);
-
-		/*
-		import { getCountFromServer, collection, query, where } from 'firebase/firestore';
-
-const q = query(
-	collection(db, 'yourCollection'),
-	where('name', '>=', ''),
-	where('name', '<=', '\uf8ff'),
-	where('time', '>', 0),
-	where('score', '>', 0),
-	where('rating', '>', 0),
-);
-
-const snapshot = await getCountFromServer(q);
-const totalDocs = snapshot.data().count;
-
-const pageSize = 10;
-const totalPages = Math.ceil(totalDocs / pageSize);
-*/
+		getDocuments(
+			[
+				where('name', '>=', ''),
+				where('name', '<=', '\uf8ff'),
+				where('time', '>', 0),
+				where('score', '>', 0),
+				where('rating', '>', 0),
+				orderBy('score', 'desc'),
+				orderBy('time', 'asc'),
+				orderBy('name', 'asc'),
+				//limit(10),
+			],
+			{ limit: 20, page: 0 }
+		);
 	}, [getDocuments, show]);
 
 	return !isLoading ? (

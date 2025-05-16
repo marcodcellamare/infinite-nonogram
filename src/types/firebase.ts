@@ -10,4 +10,5 @@ export interface FirebaseContextProps {
 	auth: Auth | null;
 	user: User | null;
 	isAuthenticated: boolean;
+	logEvent: (eventName: string, params?: Record<string, any>) => void;
 }

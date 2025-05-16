@@ -13,10 +13,10 @@ const Points = () => {
 	const scoreRef = useRef(score);
 
 	return (
-		<div className='badge badge-lg badge-primary rounded-sm'>
+		<div className='badge badge-lg badge-light rounded-sm'>
 			<ListOrderedIcon className='text-svg-inline' />
 			{i18n.t('score.points')}:
-			<span className='font-black text-white'>
+			<span className='font-black text-secondary'>
 				{number(scoreRef.current)}
 			</span>
 		</div>
