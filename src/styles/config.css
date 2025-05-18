@@ -37,6 +37,6 @@
 	--breakpoint-xl: 80rem;
 	--breakpoint-2xl: 96rem;
 
-	--text-xxs: 0.5rem;
+	--text-xxs: 0.55rem;
 	--text-xxs--line-height: calc(1 / 0.5);
 }

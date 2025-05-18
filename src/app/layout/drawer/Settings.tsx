@@ -50,7 +50,6 @@ const Settings = () => {
 	return (
 		<>
 			<Seed />
-			<Difficulty />
 			<div className='flex flex-col gap-1'>
 				<Range
 					label={i18n.t('size.width')}
@@ -67,6 +66,7 @@ const Settings = () => {
 					onChange={setRows}
 				/>
 			</div>
+			<Difficulty />
 			<Range
 				label={i18n.t('scale')}
 				value={scale}

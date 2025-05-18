@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEngine } from '!/contexts/engine';
 import { useSettings } from '!/contexts/settings';
@@ -72,6 +72,7 @@ const Score = () => {
 				difficulty,
 				seed,
 				time,
+				prod: import.meta.env.PROD,
 			});
 
 		logEvent('level_complete', {

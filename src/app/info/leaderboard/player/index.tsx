@@ -6,6 +6,7 @@ import Name from './Name';
 import Game from './Game';
 import Score from './Score';
 import Time from './Time';
+import Date from './Date';
 import Avatar from '!/app/info/Avatar';
 import RatingStars from '!/app/misc/RatingStars';
 
@@ -56,6 +57,11 @@ const Player = ({
 				rows={rows}
 				difficulty={difficulty}
 				seed={seed}
+			/>
+		</div>
+		<div className='flex flex-col items-end'>
+			<Time time={time} />
+			<Date
 				date={
 					date instanceof Timestamp
 						? date.toDate().toString()
@@ -63,14 +69,13 @@ const Player = ({
 				}
 			/>
 		</div>
-		<Time time={time} />
 		<div className='flex flex-col items-center'>
 			<Score score={score} />
 			<RatingStars
 				rating={rating}
 				stroke='stroke-2 stroke-secondary'
 				fill='fill-secondary'
-				className={rank < 10 ? 'text-xs' : 'text-xxs'}
+				className='text-xxs'
 			/>
 		</div>
 	</>

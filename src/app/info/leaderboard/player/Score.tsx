@@ -8,7 +8,7 @@ const Score = ({ score }: ScoreProps) => {
 	const { number } = useFormatNumber();
 
 	return (
-		<div className='font-mono text-nowrap text-sm text-secondary'>
+		<div className='font-mono text-nowrap text-xs text-secondary'>
 			{number(score)}
 		</div>
 	);

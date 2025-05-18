@@ -18,7 +18,7 @@ const Avatar = ({
 }: AvatarProps) => (
 	<div className={classNames(['avatar relative', className])}>
 		<BoringAvatar
-			name={name || ''}
+			name={`${name || ''}${country || ''}`}
 			variant={variant}
 			colors={[
 				cssVariable('--color-primary'),

@@ -1,7 +1,7 @@
 {
 	"name": "infinite-nonogram",
 	"private": true,
-	"version": "1.2.9",
+	"version": "1.2.10",
 	"author": {
 		"name": "Marco D. Cellamare",
 		"email": "md.cellamare@gmail.com",
@@ -27,7 +27,7 @@
 		"howler": "^2.2.4",
 		"i18next": "^25.0.0",
 		"i18next-browser-languagedetector": "^8.0.2",
-		"lucide-react": "^0.507.0",
+		"lucide-react": "^0.511.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-i18next": "^15.4.0",

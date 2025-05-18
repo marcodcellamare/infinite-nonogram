@@ -15,4 +15,5 @@ export interface LeaderboardPlayerProps {
 	difficulty: DifficultyTypes;
 	seed: string;
 	time: number;
+	prod: boolean;
 }
