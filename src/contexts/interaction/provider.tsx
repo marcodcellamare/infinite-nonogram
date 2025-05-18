@@ -6,13 +6,13 @@ import { useScale } from '../scale';
 import { InteractionType } from '!/types/interaction';
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
-	const { isAuto, isDrawerShown } = useSettings();
+	const { isAuto, isDrawerShown, isRefreshing } = useSettings();
 	const { isScaling } = useScale();
 
 	const [isClicked, setIsClicked] = useState(false);
 	const [isInteracting, setIsInteracting] = useState<InteractionType>('left');
-	const [isOverCol, setIsOverCol] = useState<number | undefined>(undefined);
-	const [isOverRow, setIsOverRow] = useState<number | undefined>(undefined);
+	const [overCol, setOverCol] = useState<number | undefined>(undefined);
+	const [overRow, setOverRow] = useState<number | undefined>(undefined);
 
 	const isOnGame = useCallback(
 		(target: HTMLElement) =>
@@ -63,11 +63,11 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 					const row = Number(target.dataset.row);
 					const col = Number(target.dataset.col);
 
-					setIsOverCol(col);
-					setIsOverRow(row);
+					setOverCol(col);
+					setOverRow(row);
 				} else {
-					setIsOverCol(undefined);
-					setIsOverRow(undefined);
+					setOverCol(undefined);
+					setOverRow(undefined);
 				}
 			}
 		},
@@ -85,6 +85,11 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 	);
 
 	const handleContextMenu = (e: MouseEvent) => e.preventDefault();
+
+	useEffect(() => {
+		setOverCol(undefined);
+		setOverRow(undefined);
+	}, [isRefreshing]);
 
 	useEffect(() => {
 		if (!isDrawerShown) {
@@ -123,8 +128,8 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 			value={{
 				isClicked,
 				isInteracting,
-				isOverCol,
-				isOverRow,
+				overCol,
+				overRow,
 
 				setIsInteracting: memoizedSetIsInteracting,
 			}}>

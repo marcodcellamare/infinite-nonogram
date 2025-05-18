@@ -13,6 +13,7 @@ import Share from '!/app/info/Share';
 
 import Config from '!config';
 import {
+	ArrowBigUpIcon,
 	CloudOff,
 	CloudUploadIcon,
 	LocateIcon,
@@ -76,8 +77,11 @@ const Settings = () => {
 				step={Config.game.scale.step}
 				help={
 					<>
-						<kbd className='kbd kbd-xs'>shift</kbd> +{' '}
-						{i18n.t('scrollwheel')}
+						<kbd className='kbd kbd-xs'>
+							<ArrowBigUpIcon className='text-svg-inline me-1' />{' '}
+							shift
+						</kbd>{' '}
+						+ {i18n.t('scrollwheel')}
 					</>
 				}
 				onChange={setScale}

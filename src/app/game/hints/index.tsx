@@ -17,7 +17,7 @@ interface HintProps {
 const Hint = ({ row, col }: HintProps) => {
 	const { hints, isCompleted, isDone } = useEngine();
 	const { rows, cols, showIntersections } = useSettings();
-	const { isOverCol, isOverRow } = useInteraction();
+	const { overCol, overRow } = useInteraction();
 
 	return (
 		<div
@@ -54,7 +54,7 @@ const Hint = ({ row, col }: HintProps) => {
 			)}
 			{showIntersections &&
 			!isCompleted &&
-			(isOverCol === col || isOverRow === row) ? (
+			(overCol === col || overRow === row) ? (
 				<Highlight />
 			) : null}
 		</div>

@@ -6,7 +6,7 @@ import { useScale } from '!/contexts/scale';
 import { useAudio } from '!/contexts/audio';
 import classNames from 'classnames';
 
-import { MouseIcon, SquareIcon, XIcon } from 'lucide-react';
+import { MouseIcon, SpaceIcon, SquareIcon, XIcon } from 'lucide-react';
 
 const Controller = () => {
 	const { i18n } = useTranslation();
@@ -62,75 +62,82 @@ const Controller = () => {
 	});
 
 	return (
-		<label
-			className={classNames([
-				'indicator indicator-middle indicator-center outline-2 pointer-events-auto',
-				'flex gap-4 items-center justify-center contain-layout',
-				isChecked ? 'bg-primary' : 'bg-accent',
-				'rounded-full text-xl py-1 px-6',
-				{
-					'outline-secondary pointer-events-none': isAuto,
-					'cursor-pointer': !isAuto,
-					'outline-primary/0 hover:outline-primary':
-						!isAuto && !isChecked,
-					'outline-accent/0 hover:outline-accent':
-						!isAuto && isChecked,
-					'inset-shadow-sm inset-shadow-black/20': showEffects,
-					'transition-[background-color,outline-color,opacity] duration-300':
-						showEffects,
-					'opacity-30': isScaling,
-				},
-			])}
-			onPointerEnter={() => playSound('grid-block-over')}>
-			<span
+		<div className='flex flex-col gap-1 items-center'>
+			<kbd className='kbd kbd-xs'>
+				<SpaceIcon className='text-svg-inline me-1' /> spacebar
+			</kbd>
+			<label
 				className={classNames([
-					'pointer-events-none will-change-transform',
-					isChecked
-						? 'text-white/30 scale-100'
-						: 'text-white scale-140',
+					'indicator indicator-middle indicator-center outline-2 pointer-events-auto',
+					'flex gap-4 items-center justify-center contain-layout',
+					isChecked ? 'bg-primary' : 'bg-accent',
+					'rounded-full text-xl py-1 px-6',
 					{
-						'drop-shadow': showEffects,
-						'transition-transform duration-300': showEffects,
-					},
-				])}>
-				<SquareIcon className='text-svg-inline block' />
-			</span>
-			<input
-				type='checkbox'
-				className={classNames([
-					'pointer-events-none toggle toggle-xl toggle-white',
-					'bg-white border-white text-accent',
-					'checked:bg-white checked:border-white checked:text-primary',
-					{
-						'shadow-lg shadow-black/20': showEffects,
+						'outline-secondary pointer-events-none': isAuto,
+						'cursor-pointer': !isAuto,
+						'outline-primary/0 hover:outline-primary':
+							!isAuto && !isChecked,
+						'outline-accent/0 hover:outline-accent':
+							!isAuto && isChecked,
+						'inset-shadow-sm inset-shadow-black/20': showEffects,
+						'transition-[background-color,outline-color,opacity] duration-300':
+							showEffects,
+						'opacity-30': isScaling,
 					},
 				])}
-				checked={isChecked}
-				onChange={() => setIsChecked((prev) => !prev)}
-			/>
-			<span
-				className={classNames([
-					'pointer-events-none will-change-transform',
-					!isChecked
-						? 'text-white/50 scale-100'
-						: 'text-white scale-140',
-					{
-						'drop-shadow': showEffects,
-						'transition-transform duration-300': showEffects,
-					},
-				])}>
-				<XIcon className='text-svg-inline block' />
-			</span>
-			<div
-				className={classNames([
-					'pointer-events-none indicator-item badge badge-secondary rounded-full gap-1',
-					'font-bold uppercase',
-					isAuto ? 'bg-secondary/80 backdrop-blur-sm' : 'opacity-0',
-				])}>
-				<MouseIcon className='text-svg-inline' />
-				{i18n.t('autoShort')}
-			</div>
-		</label>
+				onPointerEnter={() => playSound('grid-block-over')}>
+				<span
+					className={classNames([
+						'pointer-events-none will-change-transform',
+						isChecked
+							? 'text-white/30 scale-100'
+							: 'text-white scale-140',
+						{
+							'drop-shadow': showEffects,
+							'transition-transform duration-300': showEffects,
+						},
+					])}>
+					<SquareIcon className='text-svg-inline block' />
+				</span>
+				<input
+					type='checkbox'
+					className={classNames([
+						'pointer-events-none toggle toggle-xl toggle-white',
+						'bg-white border-white text-accent',
+						'checked:bg-white checked:border-white checked:text-primary',
+						{
+							'shadow-lg shadow-black/20': showEffects,
+						},
+					])}
+					checked={isChecked}
+					onChange={() => setIsChecked((prev) => !prev)}
+				/>
+				<span
+					className={classNames([
+						'pointer-events-none will-change-transform',
+						!isChecked
+							? 'text-white/50 scale-100'
+							: 'text-white scale-140',
+						{
+							'drop-shadow': showEffects,
+							'transition-transform duration-300': showEffects,
+						},
+					])}>
+					<XIcon className='text-svg-inline block' />
+				</span>
+				<div
+					className={classNames([
+						'pointer-events-none indicator-item badge badge-secondary rounded-full gap-1',
+						'font-bold uppercase',
+						isAuto
+							? 'bg-secondary/80 backdrop-blur-sm'
+							: 'opacity-0',
+					])}>
+					<MouseIcon className='text-svg-inline' />
+					{i18n.t('autoShort')}
+				</div>
+			</label>
+		</div>
 	);
 };
 export default Controller;

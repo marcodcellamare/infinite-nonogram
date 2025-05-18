@@ -89,7 +89,7 @@ const Range = ({
 				/>
 			</div>
 			{help ? (
-				<span className='text-xs hidden md:block text-primary italic mt-1'>
+				<span className='text-xs hidden md:block text-primary mt-1'>
 					<CircleHelpIcon className='text-svg-inline' /> {help}
 				</span>
 			) : null}

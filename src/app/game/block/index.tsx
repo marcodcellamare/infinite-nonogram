@@ -31,14 +31,14 @@ const Block = ({ row, col }: BlockProps) => {
 		showIntersections,
 		showEffects,
 	} = useSettings();
-	const { isClicked, isInteracting, isOverCol, isOverRow } = useInteraction();
+	const { isClicked, isInteracting, overCol, overRow } = useInteraction();
 	const { play: playSound } = useAudio();
 
 	const [hasPlayed, setHasPlayed] = useState(false);
 
 	const isOver = useMemo(
-		() => isOverCol === col && isOverRow === row,
-		[isOverCol, isOverRow, col, row]
+		() => overCol === col && overRow === row,
+		[overCol, overRow, col, row]
 	);
 
 	const isFilled = useMemo(
@@ -191,7 +191,7 @@ const Block = ({ row, col }: BlockProps) => {
 					) : null}
 					{showIntersections &&
 					!isCompleted &&
-					(isOverCol === col || isOverRow === row) ? (
+					(overCol === col || overRow === row) ? (
 						<Highlight isTarget={isOver} />
 					) : null}
 				</>
