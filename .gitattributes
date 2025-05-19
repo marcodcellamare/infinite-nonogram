@@ -1,0 +1,8 @@
+# Ignore the build directory
+dist/* linguist-vendored
+
+# Ignore Vite config files if needed
+vite.config.* linguist-generated
+
+# Mark index.html as generated (optional)
+index.html linguist-generated
