@@ -73,6 +73,7 @@ const Player = ({
 			<Score score={score} />
 			<RatingStars
 				rating={rating}
+				hasTransition={false}
 				stroke='stroke-2 stroke-secondary'
 				fill='fill-secondary'
 				className='text-xxs'

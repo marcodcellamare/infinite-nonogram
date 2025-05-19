@@ -6,9 +6,11 @@ Enjoy endless Nonogram (Picross) puzzles with randomly generated levels and tons
 
 ```
 $ npm run dev
+$ npm run dev:host
 $ npm run build
 $ npm run lint
 $ npm run preview
+$ npm run deploy
 ```
 
 ### Remember to add your Firebase configuration file (.env.firebase)

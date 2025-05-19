@@ -7,6 +7,7 @@ import { TimeoutType } from '!/types/timer';
 
 interface RatingProps {
 	rating: number;
+	hasTransition?: boolean;
 	stroke?: string;
 	fill?: string;
 	className?: string;
@@ -22,6 +23,7 @@ const Stars = ({ className = '' }: { className?: string }) =>
 
 const RatingStars = ({
 	rating,
+	hasTransition = true,
 	stroke = 'stroke-primary',
 	fill = 'fill-primary',
 	className = '',
@@ -41,14 +43,19 @@ const RatingStars = ({
 
 	useEffect(() => {
 		cleanup();
-		setTransitionDuration((rating * 100) / 70);
 
-		timeoutRef.current = setTimeout(
-			() => setWidth(Math.round(ratingRef.current * 100)),
-			1000
-		);
+		if (hasTransition) {
+			setTransitionDuration((rating * 100) / 70);
+
+			timeoutRef.current = setTimeout(
+				() => setWidth(Math.round(ratingRef.current * 100)),
+				1000
+			);
+		} else {
+			setWidth(Math.round(ratingRef.current * 100));
+		}
 		return () => cleanup();
-	}, [rating]);
+	}, [rating, hasTransition]);
 
 	return (
 		<div className={classNames(['relative', className])}>
@@ -56,7 +63,11 @@ const RatingStars = ({
 				<Stars className={classNames([stroke])} />
 			</div>
 			<div
-				className='flex flex-nowrap gap-0.2 absolute top-0 left-0 overflow-hidden transition-[width] ease-out'
+				className={classNames([
+					'flex flex-nowrap gap-0.2',
+					'absolute top-0 left-0 overflow-hidden',
+					{ 'transition-[width] ease-out': hasTransition },
+				])}
 				style={{
 					width: `${width}%`,
 					transitionDuration: `${transitionDuration}s`,

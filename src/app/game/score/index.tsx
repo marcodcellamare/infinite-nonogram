@@ -60,7 +60,7 @@ const Score = () => {
 		setNext(randomizer('score.next'));
 		playSound(hasWin ? 'ending-victory' : 'ending-loss');
 
-		if (isLeaderboardOn && hasWin)
+		if (isLeaderboardOn && hasWin) {
 			addDocument({
 				date: serverTimestamp(),
 				name: user ?? '',
@@ -74,6 +74,7 @@ const Score = () => {
 				time,
 				prod: import.meta.env.PROD,
 			});
+		}
 
 		logEvent('level_complete', {
 			user,
@@ -84,6 +85,7 @@ const Score = () => {
 			difficulty,
 			seed,
 			time,
+			prod: import.meta.env.PROD,
 			has_win: hasWin,
 		});
 	}, [

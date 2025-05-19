@@ -3,12 +3,13 @@ import { useEngine } from '!/contexts/engine';
 import useFormatNumber from '!/hooks/useFormatNumber';
 import { colorToRgb } from '!/utils/colors';
 import { cssVariable } from '!/utils/misc';
+import classNames from 'classnames';
 
 import RatingStars from '!/app/misc/RatingStars';
 import { AwardIcon } from 'lucide-react';
 
 const Rating = () => {
-	const { rating } = useEngine();
+	const { rating, hasWin } = useEngine();
 	const { percentage } = useFormatNumber();
 
 	const ratingRef = useRef(rating);
@@ -16,7 +17,7 @@ const Rating = () => {
 	return (
 		<div className='indicator indicator-bottom indicator-center relative'>
 			<div
-				className='animate-bounce'
+				className={classNames({ 'animate-bounce': hasWin })}
 				style={{
 					filter: `drop-shadow(0 0 1.5rem rgba(${colorToRgb(
 						cssVariable('--color-white')

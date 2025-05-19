@@ -27,7 +27,11 @@ export const FirebaseProvider = ({ children }: { children: ReactNode }) => {
 	const [firestore, setFirestore] = useState<Firestore | null>(null);
 	const [analytics, setAnalytics] = useState<Analytics | null>(null);
 
-	const isAuthenticated = useMemo(() => user !== null, [user]);
+	const isAuthenticated = useMemo(
+		() => auth !== null && user !== null && firestore !== null,
+		[auth, user, firestore]
+	);
+
 	const firebaseApp = useMemo<FirebaseApp>(() => {
 		return getApps().length === 0
 			? initializeApp(firebaseConfig)

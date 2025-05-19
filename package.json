@@ -1,7 +1,10 @@
 {
 	"name": "infinite-nonogram",
 	"private": true,
-	"version": "1.2.11",
+	"version": "1.2.12",
+	"repository": {
+		"url": "https://github.com/marcodcellamare/infinite-nonogram"
+	},
 	"author": {
 		"name": "Marco D. Cellamare",
 		"email": "md.cellamare@gmail.com",
