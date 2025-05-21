@@ -1,7 +1,7 @@
 {
 	"name": "infinite-nonogram",
 	"private": true,
-	"version": "1.2.12",
+	"version": "1.2.13",
 	"repository": {
 		"url": "https://github.com/marcodcellamare/infinite-nonogram"
 	},
