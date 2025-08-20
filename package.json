@@ -1,7 +1,7 @@
 {
 	"name": "infinite-nonogram",
 	"private": false,
-	"version": "1.2.13",
+	"version": "1.2.14",
 	"repository": {
 		"url": "https://github.com/marcodcellamare/infinite-nonogram"
 	},
@@ -12,7 +12,6 @@
 	},
 	"license": "UNLICENSED",
 	"created": "2025-02-13",
-	"homepage": "./",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
@@ -23,14 +22,14 @@
 		"deploy": "gh-pages -d dist"
 	},
 	"dependencies": {
-		"boring-avatars": "^1.11.2",
+		"boring-avatars": "^2.0.1",
 		"classnames": "^2.5.1",
 		"culori": "^4.0.1",
-		"firebase": "^11.3.1",
+		"firebase": "^12.1.0",
 		"howler": "^2.2.4",
 		"i18next": "^25.0.0",
 		"i18next-browser-languagedetector": "^8.0.2",
-		"lucide-react": "^0.511.0",
+		"lucide-react": "^0.540.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-i18next": "^15.4.0",
@@ -45,16 +44,16 @@
 		"@tailwindcss/vite": "^4.0.6",
 		"@types/culori": "^4.0.0",
 		"@types/howler": "^2.2.12",
-		"@types/node": "^22.13.1",
+		"@types/node": "^24.3.0",
 		"@types/react": "^19.0.8",
 		"@types/react-dom": "^19.0.3",
 		"@types/react-transition-group": "^4.4.12",
 		"@types/seedrandom": "^3.0.8",
 		"@typescript-eslint/eslint-plugin": "^8.24.0",
 		"@typescript-eslint/parser": "^8.24.0",
-		"@vitejs/plugin-react-swc": "^3.5.0",
+		"@vitejs/plugin-react-swc": "^4.0.1",
 		"daisyui": "^5.0.0-beta.7",
-		"dotenv": "^16.4.7",
+		"dotenv": "^17.2.1",
 		"eslint": "^9.20.0",
 		"eslint-import-resolver-typescript": "^4.2.1",
 		"eslint-plugin-import": "^2.31.0",
@@ -64,12 +63,12 @@
 		"eslint-plugin-react-refresh": "^0.4.19",
 		"gh-pages": "^6.3.0",
 		"globals": "^16.0.0",
-		"rollup-plugin-visualizer": "^5.14.0",
+		"rollup-plugin-visualizer": "^6.0.3",
 		"tailwindcss": "^4.0.10",
 		"terser": "^5.39.0",
 		"typescript": "^5.8.2",
 		"typescript-eslint": "^8.22.0",
-		"vite": "^6.1.0",
+		"vite": "^7.1.3",
 		"vite-tsconfig-paths": "^5.1.4"
 	}
 }
