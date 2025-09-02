@@ -1,13 +1,13 @@
-import { useEngine } from '!/contexts/engine';
-import { useSettings } from '!/contexts/settings/hook';
-import { useInteraction } from '!/contexts/interaction';
+import { useEngine } from '@/contexts/engine';
+import { useSettings } from '@/contexts/settings/hook';
+import { useInteraction } from '@/contexts/interaction';
 import classNames from 'classnames';
 
 import Group from './Group';
 import Size from './Size';
 import Highlight from '../block/Highlight';
 
-import '!/styles/components/game/hints/Main.css';
+import '@/styles/components/game/hints/Main.css';
 
 interface HintProps {
 	row: number;

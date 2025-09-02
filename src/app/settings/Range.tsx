@@ -1,11 +1,11 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { useAudio } from '!/contexts/audio';
-import { useSettings } from '!/contexts/settings';
+import { useAudio } from '@/contexts/audio';
+import { useSettings } from '@/contexts/settings';
 import classNames from 'classnames';
 
 import { CircleHelpIcon } from 'lucide-react';
 
-import { TimeoutType } from '!/types/timer';
+import { TimeoutType } from '@/types/timer';
 
 interface RangeProps {
 	label: string;
@@ -90,7 +90,7 @@ const Range = ({
 			</div>
 			{help ? (
 				<span className='text-xs hidden md:block text-primary mt-1'>
-					<CircleHelpIcon className='text-svg-inline' /> {help}
+					<CircleHelpIcon className='text-svg' /> {help}
 				</span>
 			) : null}
 		</div>

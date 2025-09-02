@@ -1,4 +1,4 @@
-import { useSettings } from '!/contexts/settings/hook';
+import { useSettings } from '@/contexts/settings/hook';
 
 import {
 	CloudOff,
@@ -23,7 +23,7 @@ const Preferences = () => {
 	} = useSettings();
 
 	return (
-		<div className='flex flex-col gap-1.5 px-1.5 py-3 bg-base-200/50 text-svg-inline text-sm text-base-content/30 rounded-full backdrop-blur-xs'>
+		<div className='flex flex-col gap-1.5 px-1.5 py-3 bg-base-200/50 text-svg text-sm text-base-content/30 rounded-full backdrop-blur-xs'>
 			{isMusicOn ? (
 				<Volume2Icon className='text-secondary' />
 			) : (

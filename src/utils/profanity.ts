@@ -1,5 +1,5 @@
-import badWords from '!/assets/bad-words.json';
-import Config from '!config';
+import badWords from '@/assets/bad-words.json';
+import Config from '@config';
 
 export const optimizeArray = (words: string[]): string[] => {
 	const wordSet = new Set(

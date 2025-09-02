@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import classNames from 'classnames';
-import { useSettings } from '!/contexts/settings';
+import { useSettings } from '@/contexts/settings';
 
 interface ContainerProps {
 	show: boolean;

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import useClipboard from '!/hooks/useClipboard';
-import { useAudio } from '!/contexts/audio';
+import useClipboard from '@/hooks/useClipboard';
+import { useAudio } from '@/contexts/audio';
 import classNames from 'classnames';
 
 import { CheckIcon, CopyIcon } from 'lucide-react';
@@ -23,9 +23,9 @@ const Share = () => {
 				copyToClipboard(window.location.href);
 			}}>
 			{!copied ? (
-				<CopyIcon className='text-svg-inline' />
+				<CopyIcon className='text-svg' />
 			) : (
-				<CheckIcon className='text-svg-inline' />
+				<CheckIcon className='text-svg' />
 			)}{' '}
 			{i18n.t(!copied ? 'clipboard.copyUrl' : 'clipboard.copied')}
 		</button>

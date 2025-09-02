@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { useSettings } from '!/contexts/settings/hook';
-import { useScale } from '!/contexts/scale';
-import useFormatNumber from '!/hooks/useFormatNumber';
+import { useSettings } from '@/contexts/settings/hook';
+import { useScale } from '@/contexts/scale';
+import useFormatNumber from '@/hooks/useFormatNumber';
 
-import Sousage from '!/app/misc/sousage';
-import SousageItem from '!/app/misc/sousage/Item';
-import DifficultyIcon from '!/app/misc/DifficultyIcon';
+import Sousage from '@/app/misc/Sousage';
+import SousageItem from '@/app/misc/Sousage/Item';
+import DifficultyIcon from '@/app/misc/DifficultyIcon';
 import { GridIcon, SearchIcon } from 'lucide-react';
 
 const Settings = () => {

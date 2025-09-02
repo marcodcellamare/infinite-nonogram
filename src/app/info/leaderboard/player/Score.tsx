@@ -1,4 +1,4 @@
-import useFormatNumber from '!/hooks/useFormatNumber';
+import useFormatNumber from '@/hooks/useFormatNumber';
 
 interface ScoreProps {
 	score: number;

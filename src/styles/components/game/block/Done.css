@@ -1,10 +1,9 @@
+@reference '@/styles/config.css';
+
 .game-grid-block-done {
-	animation-name: Glowing;
-	animation-duration: 1s;
-	animation-fill-mode: both;
-	animation-iteration-count: 1;
+	@apply animate-[glowing_1s_both_1];
 }
-@keyframes Glowing {
+@keyframes glowing {
 	0% {
 		opacity: 0;
 	}

@@ -1,4 +1,8 @@
+@reference '@/styles/config.css';
+
 .game-grid-block-filled-perfect {
+	@apply animate-[light-bounce_7s_ease-in-out_both_infinite];
+
 	background: linear-gradient(
 		-45deg,
 		rgba(255, 0, 0, 1) 0%,
@@ -13,13 +17,8 @@
 		rgba(251, 7, 217, 1) 90%,
 		rgba(255, 0, 0, 1) 100%
 	);
-	animation-name: LightBounce;
-	animation-fill-mode: both;
-	animation-duration: 7s;
-	animation-iteration-count: infinite;
-	animation-timing-function: ease-in-out;
 }
-@keyframes LightBounce {
+@keyframes light-bounce {
 	0%,
 	10%,
 	100% {

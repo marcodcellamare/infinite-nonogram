@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom';
-import useRouteCheck from '!/hooks/useRouteCheck';
-import { useSettings } from '!/contexts/settings';
+import useRouteCheck from '@/hooks/useRouteCheck';
+import { useSettings } from '@/contexts/settings';
 
 import Seed from '../info/Seed';
 import Header from './Header';
 
-import '!/styles/components/Main.css';
+import '@/styles/components/Main.css';
 import X from '../info/X';
 
 const Main = () => {

@@ -2,7 +2,7 @@ import { InfinityIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 
-import pkg from '!package';
+import pkg from '@package';
 
 interface TitleProps {
 	size?: 'md' | 'lg';

@@ -1,4 +1,4 @@
-import { TimeUnit, TimeUnits } from '!/types/timer';
+import { TimeUnit, TimeUnits } from '@/types/timer';
 
 const unitsInSeconds = <Record<TimeUnit, number>>{
 	years: 60 * 60 * 24 * 365,

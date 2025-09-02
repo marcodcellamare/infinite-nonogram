@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { useAudio } from '!/contexts/audio';
+import { useAudio } from '@/contexts/audio';
 
 import Progress from './info/Progress';
 import Meta from './layout/Meta';
 import Router from './misc/Router';
-import Drawer from './layout/drawer';
+import Drawer from './layout/Drawer';
 
-import '!/styles/components/App.css';
+import '@/styles/components/App.css';
 
 const App = () => {
 	const { add: addSound } = useAudio();

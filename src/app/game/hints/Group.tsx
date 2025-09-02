@@ -1,11 +1,11 @@
-import { useSettings } from '!/contexts/settings';
+import { useSettings } from '@/contexts/settings';
 import classNames from 'classnames';
 
 import Number from './Number';
 
-import { HintNumbersProps } from '!/types/engine';
+import { HintNumbersProps } from '@/types/engine';
 
-import '!/styles/components/game/hints/Group.css';
+import '@/styles/components/game/hints/Group.css';
 
 interface GroupProps {
 	type: 'row' | 'col';

@@ -1,5 +1,5 @@
-import Timer from '!/app/misc/Timer';
-import { msToTimeUnits } from '!/utils/timer';
+import Timer from '@/app/misc/Timer';
+import { msToTimeUnits } from '@/utils/timer';
 
 interface TimeProps {
 	time: number;

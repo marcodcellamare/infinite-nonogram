@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useInteraction } from '!/contexts/interaction';
-import { useSettings } from '!/contexts/settings';
-import { useScale } from '!/contexts/scale';
-import { useAudio } from '!/contexts/audio';
+import { useInteraction } from '@/contexts/interaction';
+import { useSettings } from '@/contexts/settings';
+import { useScale } from '@/contexts/scale';
+import { useAudio } from '@/contexts/audio';
 import classNames from 'classnames';
 
 import { MouseIcon, SpaceIcon, SquareIcon, XIcon } from 'lucide-react';
@@ -63,8 +63,8 @@ const Controller = () => {
 
 	return (
 		<div className='flex flex-col gap-1 items-center'>
-			<kbd className='kbd kbd-xs'>
-				<SpaceIcon className='text-svg-inline me-1' /> spacebar
+			<kbd className='kbd kbd-xs hidden lg:block'>
+				<SpaceIcon className='text-svg me-1' /> spacebar
 			</kbd>
 			<label
 				className={classNames([
@@ -97,7 +97,7 @@ const Controller = () => {
 							'transition-transform duration-300': showEffects,
 						},
 					])}>
-					<SquareIcon className='text-svg-inline block' />
+					<SquareIcon className='text-svg block' />
 				</span>
 				<input
 					type='checkbox'
@@ -123,7 +123,7 @@ const Controller = () => {
 							'transition-transform duration-300': showEffects,
 						},
 					])}>
-					<XIcon className='text-svg-inline block' />
+					<XIcon className='text-svg block' />
 				</span>
 				<div
 					className={classNames([
@@ -133,7 +133,7 @@ const Controller = () => {
 							? 'bg-secondary/80 backdrop-blur-sm'
 							: 'opacity-0',
 					])}>
-					<MouseIcon className='text-svg-inline' />
+					<MouseIcon className='text-svg' />
 					{i18n.t('autoShort')}
 				</div>
 			</label>

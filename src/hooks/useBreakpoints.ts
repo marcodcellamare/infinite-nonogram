@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
-import { useResize } from '!/contexts/resize';
+import { useResize } from '@/contexts/resize';
 
-import { cssVariable } from '!/utils/misc';
-import { remToPx } from '!/utils/math';
+import { cssVariable } from '@/utils/misc';
+import { remToPx } from '@/utils/math';
 
-import { BreakpointsType } from '!/types/misc';
+import { BreakpointsType } from '@/types/misc';
 
 const useBreakpoints = () => {
 	const [current, setCurrent] = useState<BreakpointsType | ''>('');

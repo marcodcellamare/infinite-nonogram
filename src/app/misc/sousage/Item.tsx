@@ -28,7 +28,7 @@ const Item = ({
 				'border-l-1 border-black/10': !isFirst,
 			},
 		])}>
-		{cloneElement(icon, { className: 'text-svg-inline text-2xl' })}
+		{cloneElement(icon, { className: 'text-svg text-2xl' })}
 		<span className='flex flex-col items-start'>
 			<span className='text-xs leading-[1.2em]'>
 				<strong>{title}</strong>

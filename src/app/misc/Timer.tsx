@@ -2,7 +2,7 @@ import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 
-import { TimeUnit, TimeUnits } from '!/types/timer';
+import { TimeUnit, TimeUnits } from '@/types/timer';
 
 interface TimerProps {
 	timeUnits: TimeUnits;

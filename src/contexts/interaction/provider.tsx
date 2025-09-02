@@ -3,7 +3,7 @@ import { InteractionContext } from './context';
 import { useSettings } from '../settings';
 import { useScale } from '../scale';
 
-import { InteractionType } from '!/types/interaction';
+import { InteractionType } from '@/types/interaction';
 
 export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 	const { isAuto, isDrawerShown, isRefreshing } = useSettings();

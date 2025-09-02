@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { ResizeContext } from './context';
 
-import { windowSize } from '!/utils/misc';
+import { windowSize } from '@/utils/misc';
 
 export const ResizeProvider = ({ children }: { children: ReactNode }) => {
 	const [width, setWidth] = useState(windowSize.width());

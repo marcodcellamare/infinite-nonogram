@@ -2,7 +2,7 @@ import classNames from 'classnames';
 
 import { BabyIcon, BrainIcon, GraduationCapIcon } from 'lucide-react';
 
-import { DifficultyTypes } from '!/types/settings';
+import { DifficultyTypes } from '@/types/settings';
 
 interface DifficultyIconProps {
 	difficulty: DifficultyTypes;
@@ -13,7 +13,7 @@ const DifficultyIcon = ({
 	difficulty,
 	className = '',
 }: DifficultyIconProps) => {
-	className = classNames(['text-svg-inline', className]);
+	className = classNames(['text-svg', className]);
 
 	return {
 		easy: <BabyIcon className={className} />,

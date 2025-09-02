@@ -1,39 +1,22 @@
+@reference '@/styles/config.css';
+
 .game-grid-block-empty {
 	&::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		box-shadow: inset 0 calc(var(--scale) * 1.3rem)
-			calc(var(--scale) * 0.7rem);
-		opacity: 0.3;
-		color: var(--color-primary);
+		@apply content-[''] absolute inset-0
+			shadow-[inset_0_calc(var(--scale)*1.3rem)_calc(var(--scale)*0.7rem)]
+			opacity-30 text-primary;
 	}
 	&.game-grid-block-empty-error {
-		&::before {
-			color: var(--color-error);
-		}
+		@apply before:text-error;
 	}
 	&.game-grid-block-empty-glitch {
 		&::after {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			background-color: var(--color-primary);
-			animation-name: EmptyGlitch;
-			animation-fill-mode: both;
-			animation-duration: 1.5s;
-			animation-iteration-count: infinite;
-			animation-delay: var(--glitch-delay);
+			@apply content-[''] absolute inset-0
+				bg-primary animate-[empty-glitch_1.5s_var(--glitch-delay)_both_infinite];
 		}
 	}
 }
-@keyframes EmptyGlitch {
+@keyframes empty-glitch {
 	0%,
 	10%,
 	15%,

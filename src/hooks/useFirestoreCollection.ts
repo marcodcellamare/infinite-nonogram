@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Firestore, QueryConstraint } from 'firebase/firestore';
-import { useFirebase } from '!/contexts/firebase';
+import { useFirebase } from '@/contexts/firebase';
 
 const useFirestoreCollection = <T>(collectionName: string) => {
 	const { firestore, isAuthenticated } = useFirebase();

@@ -1,4 +1,5 @@
+@reference '@/styles/config.css';
+
 .grid-block-icon {
-	text-shadow: 0 calc(var(--scale) * 0.2rem) 0.2rem
-		--alpha(var(--color-primary) / 25%);
+	@apply text-shadow-[0_calc(var(--scale)*0.2rem)_0.2rem_--alpha(var(--color-primary)/25%)];
 }

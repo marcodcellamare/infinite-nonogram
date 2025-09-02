@@ -1,25 +1,15 @@
+@reference '@/styles/config.css';
+
 .game-grid-block-filled {
 	&::after {
-		content: '';
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		box-shadow: inset 0 calc(var(--scale) * -0.5rem) 0.1rem
-			var(--color-base-content);
-		opacity: 0.25;
+		@apply content-[''] absolute inset-0
+			shadow-[inset_0_calc(var(--scale)*-0.5rem)_0.1rem_var(--color-base-content)]
+			opacity-25;
 	}
 	&.game-grid-block-filled-random {
 		&::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			background-color: var(--color-primary);
-			opacity: var(--filled-random-opacity);
+			@apply content-[''] absolute inset-0
+				bg-primary opacity-(--filled-random-opacity);
 		}
 	}
 }

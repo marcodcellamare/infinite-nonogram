@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSettings } from '!/contexts/settings/hook';
-import { useAudio } from '!/contexts/audio';
+import { useSettings } from '@/contexts/settings/hook';
+import { useAudio } from '@/contexts/audio';
 
 import DifficultyIcon from '../misc/DifficultyIcon';
 
-import { DifficultyTypes } from '!/types/settings';
+import { DifficultyTypes } from '@/types/settings';
 
 const Difficulty = () => {
 	const { i18n } = useTranslation();

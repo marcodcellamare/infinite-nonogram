@@ -1,14 +1,14 @@
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSettings } from '!/contexts/settings/hook';
-import { useAudio } from '!/contexts/audio';
+import { useSettings } from '@/contexts/settings/hook';
+import { useAudio } from '@/contexts/audio';
 import classNames from 'classnames';
-import Config from '!config';
+import Config from '@config';
 
 import { DicesIcon } from 'lucide-react';
 
-import { DifficultyTypes } from '!/types/settings';
-import { TimeoutType } from '!/types/timer';
+import { DifficultyTypes } from '@/types/settings';
+import { TimeoutType } from '@/types/timer';
 
 const Randomize = () => {
 	const { i18n } = useTranslation();
@@ -66,7 +66,7 @@ const Randomize = () => {
 			disabled={isClicked}>
 			<DicesIcon
 				className={classNames([
-					'text-svg-inline',
+					'text-svg',
 					{
 						'duration-500': showEffects,
 						'transition-[rotate] rotate-360':

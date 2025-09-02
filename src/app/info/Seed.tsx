@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSettings } from '!/contexts/settings/hook';
-import { generateSeed } from '!/utils/misc';
+import { useSettings } from '@/contexts/settings/hook';
+import { generateSeed } from '@/utils/misc';
 
-import { IntervalType } from '!/types/timer';
+import { IntervalType } from '@/types/timer';
 
 const Seed = () => {
 	const { seed, isRefreshing } = useSettings();
@@ -55,7 +55,7 @@ const Seed = () => {
 
 	return (
 		<div
-			className='absolute top-0 bottom-0 left-0 right-0 pointer-events-none overflow-hidden contain-layout'
+			className='absolute inset-0 pointer-events-none overflow-hidden contain-layout'
 			aria-hidden={true}>
 			<div className='absolute top-1/2 left-1/2 -translate-1/2 w-[110%] max-h-[100vh] text-[16vw] font-black italic leading-[0.8em] tracking-tighter text-base-100 text-center'>
 				{splittedSeed.map((s, k) => (

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { useEngine } from '!/contexts/engine';
-import useFormatNumber from '!/hooks/useFormatNumber';
+import { useEngine } from '@/contexts/engine';
+import useFormatNumber from '@/hooks/useFormatNumber';
 import classNames from 'classnames';
 
 const Progress = () => {

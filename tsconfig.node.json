@@ -1,27 +1,11 @@
 {
+	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
-		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-		"target": "esnext",
-		"lib": [
-			"ES2023"
-		],
-		"module": "esnext",
-		"skipLibCheck": true,
-		/* Bundler mode */
-		"moduleResolution": "bundler",
-		"allowImportingTsExtensions": true,
-		"isolatedModules": true,
-		"moduleDetection": "force",
-		"noEmit": true,
-		/* Linting */
-		"strict": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noFallthroughCasesInSwitch": true,
-		"noUncheckedSideEffectImports": true,
-		"composite": true
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo"
 	},
 	"include": [
-		"vite.config.ts"
+		"vite.config.ts",
+		"vite.alias.ts",
+		"src"
 	]
 }

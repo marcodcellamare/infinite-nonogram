@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSettings } from '!/contexts/settings/hook';
+import { useSettings } from '@/contexts/settings/hook';
 
 import Favicon from '../misc/Favicon';
-import Config from '!config';
+import Config from '@config';
 
-import pkg from '!package';
+import pkg from '@package';
 
 type CrossOrigin = 'anonymous' | 'use-credentials' | undefined;
 

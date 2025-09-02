@@ -1,11 +1,11 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { ScaleContext } from './context';
 
-import Config from '!config';
+import Config from '@config';
 
-import { storageName } from '!/utils/misc';
+import { storageName } from '@/utils/misc';
 
-import { TimeoutType } from '!/types/timer';
+import { TimeoutType } from '@/types/timer';
 
 export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 	const [scale, setScale] = useState<number>(Config.game.scale.default);

@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useSettings } from '!/contexts/settings/hook';
-import { useFirebase } from '!/contexts/firebase';
+import { useSettings } from '@/contexts/settings/hook';
+import { useFirebase } from '@/contexts/firebase';
 
-import Config from '!config';
+import Config from '@config';
 
-import { DifficultyTypes } from '!/types/settings';
+import { DifficultyTypes } from '@/types/settings';
 
 const useRouteCheck = () => {
 	const { i18n } = useTranslation();

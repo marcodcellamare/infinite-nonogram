@@ -1,6 +1,6 @@
-import { useInteraction } from '!/contexts/interaction';
-import { useSettings } from '!/contexts/settings';
-import MountTransition from '!/app/misc/MountTransition';
+import { useInteraction } from '@/contexts/interaction';
+import { useSettings } from '@/contexts/settings';
+import MountTransition from '@/app/misc/MountTransition';
 import classNames from 'classnames';
 
 import { XIcon } from 'lucide-react';
@@ -16,7 +16,7 @@ const X = () => {
 			{({ isEntering }) => (
 				<div
 					className={classNames([
-						'absolute top-0 bottom-0 left-0 right-0 pointer-events-none overflow-hidden',
+						'absolute inset-0 pointer-events-none overflow-hidden',
 						isEntering ? 'bg-base-200/50' : 'bg-base-200/0',
 						{
 							'transition-[background-color] duration-400':
@@ -35,7 +35,7 @@ const X = () => {
 									showEffects,
 							},
 						])}>
-						<XIcon className='text-svg-inline' />
+						<XIcon className='text-svg' />
 					</p>
 				</div>
 			)}

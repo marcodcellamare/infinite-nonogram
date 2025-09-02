@@ -1,6 +1,6 @@
-import { useTimer } from '!/contexts/timer/hook';
-import { useEngine } from '!/contexts/engine';
-import { useSettings } from '!/contexts/settings';
+import { useTimer } from '@/contexts/timer/hook';
+import { useEngine } from '@/contexts/engine';
+import { useSettings } from '@/contexts/settings';
 import classNames from 'classnames';
 
 import Timer from '../misc/Timer';

@@ -1,12 +1,12 @@
 import { CSSProperties, useMemo } from 'react';
-import { useSettings } from '!/contexts/settings';
-import { useEngine } from '!/contexts/engine';
-import MountTransition from '!/app/misc/MountTransition';
+import { useSettings } from '@/contexts/settings';
+import { useEngine } from '@/contexts/engine';
+import MountTransition from '@/app/misc/MountTransition';
 import classNames from 'classnames';
 
-import { InteractionType } from '!/types/interaction';
+import { InteractionType } from '@/types/interaction';
 
-import '!/styles/components/game/block/Empty.css';
+import '@/styles/components/game/block/Empty.css';
 
 interface EmptyProps {
 	hasInteracted: InteractionType | false;
@@ -37,7 +37,7 @@ const Empty = ({ hasInteracted, isError }: EmptyProps) => {
 				<div
 					className={classNames([
 						'game-grid-block-empty',
-						'absolute top-0 bottom-0 left-0 right-0 pointer-events-none',
+						'absolute inset-0 pointer-events-none',
 						'bg-base-200 text-sm',
 						isEntering
 							? 'opacity-100 scale-100'

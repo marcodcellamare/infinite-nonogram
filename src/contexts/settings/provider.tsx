@@ -14,15 +14,15 @@ import {
 	generateUser,
 	storageName,
 	generateSeed,
-} from '!/utils/misc';
+} from '@/utils/misc';
 import { v4 as uuidv4 } from 'uuid';
 import useGeoLocation from 'react-ipgeolocation';
-import useBreakpoints from '!/hooks/useBreakpoints';
+import useBreakpoints from '@/hooks/useBreakpoints';
 
-import Config from '!config';
+import Config from '@config';
 
-import { DifficultyTypes } from '!/types/settings';
-import { TimeoutType } from '!/types/timer';
+import { DifficultyTypes } from '@/types/settings';
+import { TimeoutType } from '@/types/timer';
 
 export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	const geoLocation = useGeoLocation();

@@ -1,75 +1,52 @@
-.game-grid {
-	padding: calc(var(--scale) * 6rem);
+@reference '@/styles/config.css';
 
-	> .grid {
-		box-shadow: 0 calc(var(--scale) * 0.5rem) calc(var(--scale) * 8rem)
-			--alpha(var(--color-accent) / 50%);
+.game-grid {
+	@apply p-[calc(var(--scale)*6rem)];
+
+	.game-grid-wrapper {
+		@apply shadow-[0_calc(var(--scale)*0.5rem)_calc(var(--scale)*8rem)_--alpha(var(--color-accent)/50%)];
 	}
+
 	&.game-grid-right {
-		> .grid {
-			box-shadow: 0 calc(var(--scale) * 0.5rem) calc(var(--scale) * 8rem)
-				--alpha(var(--color-primary) / 100%);
+		.game-grid-wrapper {
+			@apply shadow-[0_calc(var(--scale)*0.5rem)_calc(var(--scale)*8rem)_--alpha(var(--color-primary)/50%)];
 		}
 	}
 
 	&.game-grid-error {
-		> .grid {
-			animation-name: Shake;
-			animation-duration: 0.2s;
-			animation-iteration-count: infinite;
-
-			box-shadow: 0 calc(var(--scale) * 0.5rem) calc(var(--scale) * 8rem)
-				--alpha(var(--color-error) / 50%);
+		.game-grid-wrapper {
+			@apply shadow-[0_calc(var(--scale)*0.5rem)_calc(var(--scale)*8rem)_--alpha(var(--color-error)/50%)]
+				animate-[shake_0.2s_infinite];
 		}
 	}
 
 	.game-grid-hint,
 	.game-grid-block {
 		&::after {
-			content: '';
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			border-top-width: 1px;
-			border-left-width: 1px;
-			border-color: --alpha(var(--color-base-300) / 60%);
-			mix-blend-mode: multiply;
-			pointer-events: none;
+			@apply content-[''] absolute inset-0
+				border-t border-l border-base-300/60
+				mix-blend-multiply pointer-events-none;
 		}
 		&.game-grid-hint-t-strong,
 		&.game-grid-block-t-strong {
-			&::after {
-				border-top-width: 2px;
-				border-top-color: var(--color-base-300);
-			}
+			@apply after:border-t-2 after:border-t-base-300;
 		}
 		&.game-grid-hint-l-strong,
 		&.game-grid-block-l-strong {
-			&::after {
-				border-left-width: 2px;
-				border-left-color: var(--color-base-300);
-			}
+			@apply after:border-l-2 after:border-l-base-300;
 		}
 		&.game-grid-hint-b-strong,
 		&.game-grid-block-b-strong {
-			&::after {
-				border-bottom-width: 2px;
-				border-bottom-color: var(--color-base-300);
-			}
+			@apply after:border-b-2 after:border-b-base-300;
 		}
 		&.game-grid-hint-r-strong,
 		&.game-grid-block-r-strong {
-			&::after {
-				border-right-width: 2px;
-				border-right-color: var(--color-base-300);
-			}
+			@apply after:border-r-2 after:border-r-base-300;
 		}
 	}
 }
 
-@keyframes Shake {
+@keyframes shake {
 	0%,
 	100% {
 		transform: translateX(0) rotate(0);

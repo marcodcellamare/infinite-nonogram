@@ -1,5 +1,5 @@
 import { cloneElement, ReactElement, useEffect } from 'react';
-import { useAudio } from '!/contexts/audio';
+import { useAudio } from '@/contexts/audio';
 import classNames from 'classnames';
 
 interface ToggleProps {
@@ -21,7 +21,7 @@ const Toggle = ({
 }: ToggleProps) => {
 	const { play: playSound } = useAudio();
 	const iconProps = {
-		className: 'text-svg-inline text-lg',
+		className: 'text-svg text-lg',
 	};
 
 	useEffect(() => {

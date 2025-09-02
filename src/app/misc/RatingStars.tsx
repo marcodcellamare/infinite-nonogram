@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { StarIcon } from 'lucide-react';
 
-import { TimeoutType } from '!/types/timer';
+import { TimeoutType } from '@/types/timer';
 
 interface RatingProps {
 	rating: number;
@@ -17,7 +17,7 @@ const Stars = ({ className = '' }: { className?: string }) =>
 	new Array(3).fill(0).map((_, k) => (
 		<StarIcon
 			key={k}
-			className={classNames(['text-svg-inline', className])}
+			className={classNames(['text-svg', className])}
 		/>
 	));
 

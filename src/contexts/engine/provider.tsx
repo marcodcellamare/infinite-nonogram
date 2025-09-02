@@ -1,18 +1,18 @@
 import { useState, ReactNode, useEffect, useCallback, useMemo } from 'react';
 import { EngineContext } from './context';
 
-import { useTimer } from '!/contexts/timer/hook';
+import { useTimer } from '@/contexts/timer/hook';
 import { useSettings } from '../settings/hook';
 
 import seedrandom from 'seedrandom';
-import Config from '!config';
+import Config from '@config';
 
 import {
 	GridType,
 	HintNumbersProps,
 	InteractionsGridType,
-} from '!/types/engine';
-import { InteractionType } from '!/types/interaction';
+} from '@/types/engine';
+import { InteractionType } from '@/types/interaction';
 
 export const EngineProvider = ({ children }: { children: ReactNode }) => {
 	const settings = useSettings();

@@ -1,22 +1,10 @@
+@reference '@/styles/config.css';
+
 .game-grid-block-void {
-	box-shadow: inset 0 0 calc(var(--scale) * 0.6rem) var(--color-base-content);
+	@apply shadow-[inset_0_0_calc(var(--scale)*0.6rem)_var(--color-base-content)];
 
 	&::after {
-		content: '';
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-
-		background-image: repeating-linear-gradient(
-			45deg,
-			var(--color-base-200) 0,
-			var(--color-base-200) 0.15rem,
-			transparent 0,
-			transparent 50%
-		);
-		background-size: 0.5rem 0.5rem;
-		mix-blend-mode: multiply;
+		@apply content-[''] absolute inset-0
+			bg-size-[0.5rem_0.5rem] mix-blend-multiply;
 	}
 }

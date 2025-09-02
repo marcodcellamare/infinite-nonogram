@@ -1,4 +1,4 @@
-import CountryBadge from '!/app/misc/CountryBadge';
+import CountryBadge from '@/app/misc/CountryBadge';
 import classNames from 'classnames';
 
 interface NameProps {

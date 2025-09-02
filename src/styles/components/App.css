@@ -1,3 +1,5 @@
+@reference '@/styles/config.css';
+
 .app {
-	height: var(--dvh, 100dvh);
+	@apply h-(--dvh,100dvh);
 }

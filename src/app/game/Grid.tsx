@@ -1,17 +1,17 @@
 import { CSSProperties, Fragment, memo, useEffect, useState } from 'react';
-import { useEngine } from '!/contexts/engine';
-import { useSettings } from '!/contexts/settings/hook';
-import { useInteraction } from '!/contexts/interaction';
-import { useAudio } from '!/contexts/audio';
-import MountTransition from '!/app/misc/MountTransition';
+import { useEngine } from '@/contexts/engine';
+import { useSettings } from '@/contexts/settings/hook';
+import { useInteraction } from '@/contexts/interaction';
+import { useAudio } from '@/contexts/audio';
+import MountTransition from '@/app/misc/MountTransition';
 import classNames from 'classnames';
-import { colorToRgb } from '!/utils/colors';
-import { cssVariable } from '!/utils/misc';
+import { colorToRgb } from '@/utils/colors';
+import { cssVariable } from '@/utils/misc';
 
 import Block from './block';
 import Hint from './hints';
 
-import '!/styles/components/game/Grid.css';
+import '@/styles/components/game/Grid.css';
 
 const Grid = memo(() => {
 	const { isInteracting } = useInteraction();

@@ -1,5 +1,8 @@
+@reference '@/styles/config.css';
+
 main {
-	background-color: var(--color-base-100);
+	@apply bg-base-100 bg-size-[0.5rem_0.5rem] bg-fixed;
+
 	background-image: repeating-linear-gradient(
 		45deg,
 		var(--color-base-200) 0,
@@ -7,6 +10,4 @@ main {
 		transparent 0,
 		transparent 50%
 	);
-	background-size: 0.5rem 0.5rem;
-	background-attachment: fixed;
 }

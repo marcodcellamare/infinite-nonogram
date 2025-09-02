@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useDisplayNames from '!/hooks/useDisplayNames';
+import useDisplayNames from '@/hooks/useDisplayNames';
 import classNames from 'classnames';
 
 interface CountryBadgeProps {

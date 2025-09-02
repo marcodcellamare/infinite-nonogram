@@ -1,21 +1,16 @@
+@reference '@/styles/config.css';
+
 .game-grid-block {
-	min-width: calc(var(--scale) * var(--grid-block-size));
-	min-height: calc(var(--scale) * var(--grid-block-size));
-	font-size: calc(var(--text-4xl) * var(--scale));
-	background-color: rgba(
-		var(--block-color),
-		var(--block-random-opacity, 0.4)
-	);
+	@apply min-w-[calc(var(--scale)*var(--grid-block-size))]
+		min-h-[calc(var(--scale)*var(--grid-block-size))]
+		text-[calc(var(--text-4xl)*var(--scale))]
+		bg-[rgba(var(--block-color),var(--block-random-opacity,0.4))];
 
 	&.game-grid-block-glitching {
-		animation-name: Glitching;
-		animation-fill-mode: both;
-		animation-duration: 1s;
-		animation-iteration-count: infinite;
-		animation-delay: var(--glitching-delay);
+		@apply animate-[glitching_1s_var(--glitching-delay)_both_infinite];
 	}
 }
-@keyframes Glitching {
+@keyframes glitching {
 	0%,
 	56% {
 		background-color: rgba(var(--block-color), 0.3);

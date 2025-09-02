@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { orderBy, where, limit } from 'firebase/firestore';
-import useFirestoreCollection from '!/hooks/useFirestoreCollection';
-import { useSettings } from '!/contexts/settings';
+import useFirestoreCollection from '@/hooks/useFirestoreCollection';
+import { useSettings } from '@/contexts/settings';
 
-import Player from './player';
+import Player from './Player';
 import Info from './Info';
 import { CloudOffIcon, FrownIcon } from 'lucide-react';
 
-import { LeaderboardPlayerProps } from '!/types/leaderboard';
+import { LeaderboardPlayerProps } from '@/types/leaderboard';
 
 interface LeaderboardProps {
 	show: boolean;
@@ -16,7 +16,7 @@ interface LeaderboardProps {
 const Leaderboard = ({ show }: LeaderboardProps) => {
 	const { getDocuments, docs, isLoading, error } =
 		useFirestoreCollection<LeaderboardPlayerProps>(
-			process.env.FIREBASE_LEADERBOARD_COLLECTION ?? ''
+			import.meta.env.VITE_FIREBASE_LEADERBOARD_COLLECTION ?? ''
 		);
 	const { difficulty, cols, rows } = useSettings();
 
@@ -58,11 +58,11 @@ const Leaderboard = ({ show }: LeaderboardProps) => {
 							)}
 						</div>
 					) : (
-						<FrownIcon className='text-svg-inline text-3xl text-secondary' />
+						<FrownIcon className='text-svg text-3xl text-secondary' />
 					)
 				) : (
 					<div className='text-error'>
-						<CloudOffIcon className='text-svg-inline text-3xl mb-1' />
+						<CloudOffIcon className='text-svg text-3xl mb-1' />
 						<div className='text-xs font-bold text-wrap break-words'>
 							{error}
 						</div>

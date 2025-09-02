@@ -1,30 +1,20 @@
+@reference '@/styles/config.css';
+
 .game-grid-hint-group {
-	font-size: calc(var(--text-xs) * var(--scale));
+	@apply text-[calc(var(--text-xs)*var(--scale))];
 
 	&.game-grid-hint-group-col {
-		padding-top: calc(var(--scale) * var(--grid-hint-group-padding));
-		padding-bottom: calc(var(--scale) * var(--grid-hint-group-padding));
-		padding-left: 0;
-		padding-right: 0;
+		@apply px-0 py-[calc(var(--scale)*var(--grid-hint-group-padding))];
 
 		> li {
-			padding-top: calc(var(--scale) * var(--grid-hint-padding));
-			padding-bottom: calc(var(--scale) * var(--grid-hint-padding));
-			padding-left: 0;
-			padding-right: 0;
+			@apply px-0 py-[calc(var(--scale)*var(--grid-hint-padding))];
 		}
 	}
 	&.game-grid-hint-group-row {
-		padding-top: 0;
-		padding-bottom: 0;
-		padding-left: calc(var(--scale) * var(--grid-hint-group-padding));
-		padding-right: calc(var(--scale) * var(--grid-hint-group-padding));
+		@apply px-[calc(var(--scale)*var(--grid-hint-group-padding))] py-0;
 
 		> li {
-			padding-top: 0;
-			padding-bottom: 0;
-			padding-left: calc(var(--scale) * var(--grid-hint-padding));
-			padding-right: calc(var(--scale) * var(--grid-hint-padding));
+			@apply px-[calc(var(--scale)*var(--grid-hint-padding))] py-0;
 		}
 	}
 }

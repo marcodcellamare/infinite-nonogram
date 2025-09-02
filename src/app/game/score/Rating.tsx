@@ -1,11 +1,11 @@
 import { useRef } from 'react';
-import { useEngine } from '!/contexts/engine';
-import useFormatNumber from '!/hooks/useFormatNumber';
-import { colorToRgb } from '!/utils/colors';
-import { cssVariable } from '!/utils/misc';
+import { useEngine } from '@/contexts/engine';
+import useFormatNumber from '@/hooks/useFormatNumber';
+import { colorToRgb } from '@/utils/colors';
+import { cssVariable } from '@/utils/misc';
 import classNames from 'classnames';
 
-import RatingStars from '!/app/misc/RatingStars';
+import RatingStars from '@/app/misc/RatingStars';
 import { AwardIcon } from 'lucide-react';
 
 const Rating = () => {
@@ -31,7 +31,7 @@ const Rating = () => {
 				/>
 			</div>
 			<div className='indicator-item badge badge-xl bg-white text-secondary border-none rounded-full shadow'>
-				<AwardIcon className='text-svg-inline' />
+				<AwardIcon className='text-svg' />
 				<span className='font-black'>
 					{percentage(ratingRef.current, 1)}
 				</span>

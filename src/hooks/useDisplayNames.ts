@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import Config from '!config';
+import Config from '@config';
 
 const useDisplayNames = () => {
 	const { i18n } = useTranslation();

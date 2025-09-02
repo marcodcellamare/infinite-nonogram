@@ -1,4 +1,6 @@
+@reference '@/styles/config.css';
+
 .game-grid-hint {
-	min-width: calc(var(--scale) * var(--grid-block-size));
-	min-height: calc(var(--scale) * var(--grid-block-size));
+	@apply min-w-[calc(var(--scale)*var(--grid-block-size))]
+		min-h-[calc(var(--scale)*var(--grid-block-size))];
 }

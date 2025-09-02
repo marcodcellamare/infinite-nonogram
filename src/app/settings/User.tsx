@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { useSettings } from '!/contexts/settings/hook';
-import { useAudio } from '!/contexts/audio';
-import { isOnlyAsterisks } from '!/utils/misc';
+import { useSettings } from '@/contexts/settings/hook';
+import { useAudio } from '@/contexts/audio';
+import { isOnlyAsterisks } from '@/utils/misc';
 
 import Avatar from '../info/Avatar';
 import CountryBadge from '../misc/CountryBadge';

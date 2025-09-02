@@ -1,17 +1,16 @@
+@reference '@/styles/config.css';
+
 .game-grid-block-filled-shining {
+	@apply animate-[shining_10s_var(--shining-delay)_both_infinite];
+
 	background: linear-gradient(
 		-45deg,
 		--alpha(var(--color-white) / 0%) 40%,
 		var(--color-white) 50%,
 		--alpha(var(--color-white) / 0%) 60%
 	);
-	animation-name: Shining;
-	animation-fill-mode: both;
-	animation-duration: 10s;
-	animation-iteration-count: infinite;
-	animation-delay: var(--shining-delay);
 }
-@keyframes Shining {
+@keyframes shining {
 	0% {
 		transform-origin: 100% 100%;
 	}

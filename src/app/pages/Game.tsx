@@ -3,7 +3,7 @@ import Score from '../game/score';
 
 const Game = () => (
 	<>
-		<div className='flex absolute top-0 bottom-0 left-0 right-0 scrollbar overflow-auto'>
+		<div className='flex absolute inset-0 scrollbar overflow-auto'>
 			<Grid />
 		</div>
 		<Score />

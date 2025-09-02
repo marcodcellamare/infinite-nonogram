@@ -10,7 +10,7 @@ import Controller from '../settings/Controller';
 import Preferences from '../info/Preferences';
 
 const Header = memo(() => (
-	<header className='flex absolute top-0 bottom-0 left-0 right-0 pointer-events-none contain-layout'>
+	<header className='flex absolute inset-0 pointer-events-none contain-layout'>
 		<div className='p-5 md:p-10 flex flex-1 flex-col gap-1 justify-between'>
 			<div className='flex flex-row gap-1 justify-between flex-wrap sm:flex-nowrap relative'>
 				<div className='sm:min-w-1/3'>

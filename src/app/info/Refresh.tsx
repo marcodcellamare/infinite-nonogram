@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useSettings } from '!/contexts/settings';
-import { useAudio } from '!/contexts/audio';
+import { useSettings } from '@/contexts/settings';
+import { useAudio } from '@/contexts/audio';
 import classNames from 'classnames';
 
 import { RefreshCcwIcon } from 'lucide-react';
@@ -28,7 +28,7 @@ const Refresh = () => {
 			}}>
 			<RefreshCcwIcon
 				className={classNames([
-					'text-svg-inline text-xl pointer-events-none',
+					'text-svg text-xl pointer-events-none',
 					{
 						'duration-500': showEffects,
 						'transition-[rotate] -rotate-360':

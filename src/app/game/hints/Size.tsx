@@ -1,8 +1,8 @@
-import { useSettings } from '!/contexts/settings';
+import { useSettings } from '@/contexts/settings';
 
 import { ArrowDownIcon, ArrowRightIcon } from 'lucide-react';
 
-import '!/styles/components/game/hints/Size.css';
+import '@/styles/components/game/hints/Size.css';
 
 const Size = () => {
 	const { cols, rows } = useSettings();
@@ -14,14 +14,14 @@ const Size = () => {
 					<span className='transition-[opacity,filter] duration-500 group-hover:opacity-80 group-hover:blur-[0.2rem]'>
 						{cols}
 					</span>
-					<ArrowRightIcon className='text-svg-inline absolute top-1/2 left-1/2 -translate-1/2 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100' />
+					<ArrowRightIcon className='text-svg absolute top-1/2 left-1/2 -translate-1/2 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100' />
 				</div>
 				<div>×</div>
 				<div className='relative'>
 					<span className='transition-[opacity,filter] duration-500 group-hover:opacity-80 group-hover:blur-[0.2rem]'>
 						{rows}
 					</span>
-					<ArrowDownIcon className='text-svg-inline absolute top-1/2 left-1/2 -translate-1/2 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100' />
+					<ArrowDownIcon className='text-svg absolute top-1/2 left-1/2 -translate-1/2 text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100' />
 				</div>
 			</div>
 		</div>

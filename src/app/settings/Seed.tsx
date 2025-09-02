@@ -1,10 +1,10 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSettings } from '!/contexts/settings/hook';
-import { useAudio } from '!/contexts/audio';
+import { useSettings } from '@/contexts/settings/hook';
+import { useAudio } from '@/contexts/audio';
 import classNames from 'classnames';
 
-import { cleanSeed } from '!/utils/misc';
+import { cleanSeed } from '@/utils/misc';
 import { CheckIcon, RefreshCcwIcon } from 'lucide-react';
 
 const Seed = () => {

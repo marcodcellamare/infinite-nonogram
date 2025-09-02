@@ -1,8 +1,8 @@
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
-import { useSettings } from '!/contexts/settings/hook';
-import { useEngine } from '!/contexts/engine';
-import { useInteraction } from '!/contexts/interaction';
-import { useAudio } from '!/contexts/audio';
+import { useSettings } from '@/contexts/settings/hook';
+import { useEngine } from '@/contexts/engine';
+import { useInteraction } from '@/contexts/interaction';
+import { useAudio } from '@/contexts/audio';
 import classNames from 'classnames';
 
 import Void from './Void';
@@ -12,7 +12,7 @@ import Icon from './Icon';
 import Filled from './Filled';
 import Done from './Done';
 
-import '!/styles/components/game/block/Main.css';
+import '@/styles/components/game/block/Main.css';
 
 interface BlockProps {
 	row: number;

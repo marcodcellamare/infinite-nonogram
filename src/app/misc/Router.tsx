@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Main from '!/app/layout/Main';
-import Game from '!/app/pages/Game';
-import Config from '!config';
+import Main from '@/app/layout/Main';
+import Game from '@/app/pages/Game';
+import Config from '@config';
 
 const Router = () => {
 	const { i18n } = useTranslation();

@@ -1,7 +1,7 @@
-import { useSettings } from '!/contexts/settings';
+import { useSettings } from '@/contexts/settings';
 import classNames from 'classnames';
 
-import { HintNumbersProps } from '!/types/engine';
+import { HintNumbersProps } from '@/types/engine';
 
 const Number = ({ total, isDone }: HintNumbersProps) => {
 	const { showEffects } = useSettings();

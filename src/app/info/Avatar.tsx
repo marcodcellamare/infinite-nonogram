@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { cssVariable } from '!/utils/misc';
+import { cssVariable } from '@/utils/misc';
 
 import BoringAvatar from 'boring-avatars';
 

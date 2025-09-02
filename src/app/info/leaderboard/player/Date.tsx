@@ -1,6 +1,6 @@
-import useFormatDate from '!/hooks/useFormatDate';
+import useFormatDate from '@/hooks/useFormatDate';
 
-import { DateType } from '!/types/leaderboard';
+import { DateType } from '@/types/leaderboard';
 
 interface DateProps {
 	date?: DateType | undefined;

@@ -1,13 +1,13 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useEngine } from '!/contexts/engine';
-import { useSettings } from '!/contexts/settings';
-import { useAudio } from '!/contexts/audio';
-import { useFirebase } from '!/contexts/firebase';
+import { useEngine } from '@/contexts/engine';
+import { useSettings } from '@/contexts/settings';
+import { useAudio } from '@/contexts/audio';
+import { useFirebase } from '@/contexts/firebase';
 import { serverTimestamp } from 'firebase/firestore';
-import useFirestoreCollection from '!/hooks/useFirestoreCollection';
-import { useTimer } from '!/contexts/timer';
-import MountTransition from '!/app/misc/MountTransition';
+import useFirestoreCollection from '@/hooks/useFirestoreCollection';
+import { useTimer } from '@/contexts/timer';
+import MountTransition from '@/app/misc/MountTransition';
 import classNames from 'classnames';
 
 import Time from './Time';
@@ -16,13 +16,13 @@ import Rating from './Rating';
 
 import { RefreshCwIcon } from 'lucide-react';
 
-import { LeaderboardPlayerProps } from '!/types/leaderboard';
+import { LeaderboardPlayerProps } from '@/types/leaderboard';
 
 const Score = () => {
 	const { i18n } = useTranslation();
 	const { logEvent } = useFirebase();
 	const { addDocument } = useFirestoreCollection<LeaderboardPlayerProps>(
-		process.env.FIREBASE_LEADERBOARD_COLLECTION ?? ''
+		import.meta.env.VITE_FIREBASE_LEADERBOARD_COLLECTION ?? ''
 	);
 	const { isReady, isCompleted, score, rating, hasWin } = useEngine();
 	const {
@@ -123,7 +123,7 @@ const Score = () => {
 				<div
 					className={classNames([
 						'overlay overflow-hidden',
-						'fixed top-0 bottom-0 left-0 right-0 z-10',
+						'fixed inset-0 z-10',
 						'flex justify-center items-center',
 						isEntering ? 'opacity-100' : 'opacity-0',
 						{
@@ -160,8 +160,7 @@ const Score = () => {
 								className='btn btn-xl btn-secondary rounded-full px-15'
 								disabled={!isCompleted}
 								onClick={() => setSeed()}>
-								<RefreshCwIcon className='text-svg-inline' />{' '}
-								{next}
+								<RefreshCwIcon className='text-svg' /> {next}
 							</button>
 						</div>
 					</div>

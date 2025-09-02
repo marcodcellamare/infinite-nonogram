@@ -1,5 +1,5 @@
 import { Trans, useTranslation } from 'react-i18next';
-import { openExternalLink } from '!/utils/misc';
+import { openExternalLink } from '@/utils/misc';
 
 const Copyright = () => {
 	const { i18n } = useTranslation();

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useSettings } from '!/contexts/settings/hook';
+import { useSettings } from '@/contexts/settings/hook';
 import { useTranslation } from 'react-i18next';
-import { useAudio } from '!/contexts/audio';
+import { useAudio } from '@/contexts/audio';
 import classNames from 'classnames';
 
 import Avatar from './Avatar';
@@ -36,7 +36,7 @@ const User = () => {
 				/>
 				<SettingsIcon
 					className={classNames([
-						'text-svg-inline absolute top-1/2 left-1/2 -translate-1/2',
+						'text-svg absolute top-1/2 left-1/2 -translate-1/2',
 						'text-3xl sm:text-2xl text-primary',
 						{
 							'transition-[opacity,scale] duration-300':

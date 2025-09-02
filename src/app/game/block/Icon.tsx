@@ -1,12 +1,12 @@
 import { useRef } from 'react';
-import { useEngine } from '!/contexts/engine';
-import { useSettings } from '!/contexts/settings';
-import MountTransition from '!/app/misc/MountTransition';
+import { useEngine } from '@/contexts/engine';
+import { useSettings } from '@/contexts/settings';
+import MountTransition from '@/app/misc/MountTransition';
 import classNames from 'classnames';
 
-import { InteractionType } from '!/types/interaction';
+import { InteractionType } from '@/types/interaction';
 
-import '!/styles/components/game/block/Icon.css';
+import '@/styles/components/game/block/Icon.css';
 
 interface IconProps {
 	hasInteracted: InteractionType | false;
@@ -33,7 +33,7 @@ const Icon = ({ hasInteracted, isFilled, isError, isOver }: IconProps) => {
 					ref={nodeRef}
 					className={classNames([
 						'grid-block-icon',
-						'absolute top-0 bottom-0 left-0 right-0 pointer-events-none',
+						'absolute inset-0 pointer-events-none',
 						'flex items-center justify-center',
 						isEntering
 							? 'opacity-100 scale-100'

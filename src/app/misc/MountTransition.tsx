@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import { TimeoutType } from '!/types/timer';
+import { TimeoutType } from '@/types/timer';
 
 type StatusType =
 	| 'idle'

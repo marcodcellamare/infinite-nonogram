@@ -1,17 +1,17 @@
 import { useTranslation } from 'react-i18next';
-import { useSettings } from '!/contexts/settings/hook';
-import { useScale } from '!/contexts/scale';
-import useFormatNumber from '!/hooks/useFormatNumber';
-import useBreakpoints from '!/hooks/useBreakpoints';
+import { useSettings } from '@/contexts/settings/hook';
+import { useScale } from '@/contexts/scale';
+import useFormatNumber from '@/hooks/useFormatNumber';
+import useBreakpoints from '@/hooks/useBreakpoints';
 
-import Seed from '!/app/settings/Seed';
-import Difficulty from '!/app/settings/Difficulty';
-import Range from '!/app/settings/Range';
-import Toggle from '!/app/settings/Toggle';
-import Randomize from '!/app/settings/Randomize';
-import Share from '!/app/info/Share';
+import Seed from '@/app/settings/Seed';
+import Difficulty from '@/app/settings/Difficulty';
+import Range from '@/app/settings/Range';
+import Toggle from '@/app/settings/Toggle';
+import Randomize from '@/app/settings/Randomize';
+import Share from '@/app/info/Share';
 
-import Config from '!config';
+import Config from '@config';
 import {
 	ArrowBigUpIcon,
 	CloudOff,
@@ -78,8 +78,7 @@ const Settings = () => {
 				help={
 					<>
 						<kbd className='kbd kbd-xs'>
-							<ArrowBigUpIcon className='text-svg-inline me-1' />{' '}
-							shift
+							<ArrowBigUpIcon className='text-svg me-1' /> shift
 						</kbd>{' '}
 						+ {i18n.t('scrollwheel')}
 					</>

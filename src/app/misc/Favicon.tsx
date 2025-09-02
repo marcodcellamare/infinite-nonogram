@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { cssVariable } from '!/utils/misc';
+import { cssVariable } from '@/utils/misc';
 
 import { InfinityIcon } from 'lucide-react';
 

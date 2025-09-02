@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
-import { useSettings } from '!/contexts/settings';
+import { useSettings } from '@/contexts/settings';
 import classNames from 'classnames';
 
 import { ArrowRightIcon } from 'lucide-react';
 
-import { DifficultyTypes } from '!/types/settings';
+import { DifficultyTypes } from '@/types/settings';
 
 interface GameProps {
 	rank: number;
@@ -42,7 +42,7 @@ const Game = ({ rank, cols, rows, difficulty, seed }: GameProps) => {
 					setIsDrawerShown(false);
 				}}>
 				<span>
-					<ArrowRightIcon className='text-svg-inline me-0.5' />
+					<ArrowRightIcon className='text-svg me-0.5' />
 					{seed}
 				</span>
 			</button>

@@ -7,10 +7,10 @@ import Game from './Game';
 import Score from './Score';
 import Time from './Time';
 import Date from './Date';
-import Avatar from '!/app/info/Avatar';
-import RatingStars from '!/app/misc/RatingStars';
+import Avatar from '@/app/info/Avatar';
+import RatingStars from '@/app/misc/RatingStars';
 
-import { LeaderboardPlayerProps } from '!/types/leaderboard';
+import { LeaderboardPlayerProps } from '@/types/leaderboard';
 
 const Player = ({
 	rank,
