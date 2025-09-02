@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useSettings } from '@/contexts/settings';
+import { useTranslation } from 'react-i18next';
 import { useAudio } from '@/contexts/audio';
 import classNames from 'classnames';
 
 import { RefreshCcwIcon } from 'lucide-react';
 
 const Refresh = () => {
+	const { t } = useTranslation();
 	const { isRefreshing, setSeed, showEffects } = useSettings();
 	const { play: playSound } = useAudio();
 
@@ -18,6 +20,7 @@ const Refresh = () => {
 				'btn btn-sm btn-outline btn-circle',
 				!isSpinning ? 'btn-accent' : '!bg-secondary text-white',
 			])}
+			aria-label={t('refresh')}
 			disabled={isRefreshing || isSpinning}
 			onPointerEnter={() => playSound('grid-block-over')}
 			onClick={() => {

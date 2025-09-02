@@ -25,7 +25,7 @@ const Timer = ({
 	blink = false,
 	className = '',
 }: TimerProps) => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 
 	const timeUnitsIntersection = useMemo(
 		() =>
@@ -56,17 +56,14 @@ const Timer = ({
 							{units !== false ? (
 								<span className='counter-label'>
 									{units === 'abbr'
-										? i18n
-												.t(`timeUnits.${unit}`, {
-													count: value,
-												})
+										? t(`timeUnits.${unit}`, {
+												count: value,
+										  })
 												.toLowerCase()
 												.substring(0, 1)
-										: ` ${i18n
-												.t(`timeUnits.${unit}`, {
-													count: value,
-												})
-												.toLowerCase()}`}
+										: ` ${t(`timeUnits.${unit}`, {
+												count: value,
+										  }).toLowerCase()}`}
 								</span>
 							) : (
 								false
@@ -87,7 +84,7 @@ const Timer = ({
 										  units === false
 											? ', '
 											: units === 'normal'
-											? ` ${i18n.t('and').toLowerCase()} `
+											? ` ${t('and').toLowerCase()} `
 											: null
 										: separator}
 								</span>

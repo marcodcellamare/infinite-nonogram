@@ -8,7 +8,7 @@ import DifficultyIcon from '../misc/DifficultyIcon';
 import { DifficultyTypes } from '@/types/settings';
 
 const Difficulty = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { setDifficulty, difficulty } = useSettings();
 	const { play: playSound } = useAudio();
 
@@ -27,6 +27,7 @@ const Difficulty = () => {
 						className='flex-1 btn btn-sm btn-outline btn-primary disabled:!bg-accent disabled:!text-white'
 						type='button'
 						disabled={d === difficulty}
+						aria-lavel={t(`difficulties.${d}`)}
 						onPointerEnter={() => playSound('grid-block-over')}
 						onClick={() => {
 							playSound('grid-block-correct');
@@ -36,7 +37,7 @@ const Difficulty = () => {
 							difficulty={d}
 							className='text-xl hidden md:block'
 						/>
-						{i18n.t(`difficulties.${d}`)}
+						{t(`difficulties.${d}`)}
 					</button>
 				);
 			})}

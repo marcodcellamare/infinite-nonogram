@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 
 const Settings = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const {
 		rows,
 		cols,
@@ -53,14 +53,14 @@ const Settings = () => {
 			<Seed />
 			<div className='flex flex-col gap-1'>
 				<Range
-					label={i18n.t('size.width')}
+					label={t('size.width')}
 					value={cols}
 					min={Config.game.grid.min}
 					max={Config.game.grid.max}
 					onChange={setCols}
 				/>
 				<Range
-					label={i18n.t('size.height')}
+					label={t('size.height')}
 					value={rows}
 					min={Config.game.grid.min}
 					max={Config.game.grid.max}
@@ -69,7 +69,7 @@ const Settings = () => {
 			</div>
 			<Difficulty />
 			<Range
-				label={i18n.t('scale')}
+				label={t('scale')}
 				value={scale}
 				showValue={percentage(scale)}
 				min={Config.game.scale.min}
@@ -80,7 +80,7 @@ const Settings = () => {
 						<kbd className='kbd kbd-xs'>
 							<ArrowBigUpIcon className='text-svg me-1' /> shift
 						</kbd>{' '}
-						+ {i18n.t('scrollwheel')}
+						+ {t('scrollwheel')}
 					</>
 				}
 				onChange={setScale}
@@ -91,21 +91,21 @@ const Settings = () => {
 			</div>
 			<div className='flex flex-col flex-wrap gap-2'>
 				<Toggle
-					label={i18n.t('music')}
+					label={t('music')}
 					icon={<Volume2Icon />}
 					iconOff={<VolumeOffIcon />}
 					checked={isMusicOn}
 					onChange={setIsMusicOn}
 				/>
 				<Toggle
-					label={i18n.t('effects')}
+					label={t('effects')}
 					icon={<SparklesIcon />}
 					iconOff={<SparkleIcon />}
 					checked={showEffects}
 					onChange={setShowEffects}
 				/>
 				<Toggle
-					label={i18n.t('auto')}
+					label={t('auto')}
 					icon={<MouseIcon />}
 					iconOff={<MouseOffIcon />}
 					checked={isAuto}
@@ -113,7 +113,7 @@ const Settings = () => {
 					onChange={setIsAuto}
 				/>
 				<Toggle
-					label={i18n.t('intersections')}
+					label={t('intersections')}
 					icon={<LocateIcon />}
 					iconOff={<LocateOffIcon />}
 					checked={showIntersections}
@@ -121,7 +121,7 @@ const Settings = () => {
 					onChange={setShowIntersections}
 				/>
 				<Toggle
-					label={i18n.t('saveLeaderboard')}
+					label={t('saveLeaderboard')}
 					icon={<CloudUploadIcon />}
 					iconOff={<CloudOff />}
 					checked={isLeaderboardOn}

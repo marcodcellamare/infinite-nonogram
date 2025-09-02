@@ -2,7 +2,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { openExternalLink } from '@/utils/misc';
 
 const Copyright = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 
 	return (
 		<div className='text-xs text-primary'>
@@ -10,15 +10,16 @@ const Copyright = () => {
 				i18nKey='footer.copyright'
 				values={{
 					year: new Date().getFullYear(),
-					author: i18n.t('footer.author'),
+					author: t('footer.author'),
 				}}
 				components={{
 					buttonAuthor: (
 						<button
 							type='button'
 							className='link hover:text-accent font-bold'
+							aria-label={t('footer.website')}
 							onClick={() =>
-								openExternalLink(i18n.t('footer.website'))
+								openExternalLink(t('footer.website'))
 							}
 						/>
 					),
@@ -26,17 +27,17 @@ const Copyright = () => {
 						<button
 							type='button'
 							className='link hover:text-accent font-bold'
-							onClick={() =>
-								openExternalLink(i18n.t('footer.github'))
-							}
+							aria-label={t('footer.github')}
+							onClick={() => openExternalLink(t('footer.github'))}
 						/>
 					),
 					buttonRepo: (
 						<button
 							type='button'
 							className='link hover:text-accent font-bold'
+							aria-label={t('footer.repository')}
 							onClick={() =>
-								openExternalLink(i18n.t('footer.repository'))
+								openExternalLink(t('footer.repository'))
 							}
 						/>
 					),

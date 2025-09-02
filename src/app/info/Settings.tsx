@@ -9,7 +9,7 @@ import DifficultyIcon from '@/app/misc/DifficultyIcon';
 import { GridIcon, SearchIcon } from 'lucide-react';
 
 const Settings = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { rows, cols, difficulty } = useSettings();
 	const { scale } = useScale();
 	const { percentage } = useFormatNumber();
@@ -18,17 +18,17 @@ const Settings = () => {
 		<Sousage className='btn-outline btn-primary'>
 			<SousageItem
 				title={`${cols}×${rows}`}
-				description={i18n.t('grid')}
+				description={t('grid')}
 				icon={<GridIcon />}
 			/>
 			<SousageItem
-				title={i18n.t(`difficulties.${difficulty}`)}
-				description={i18n.t('difficulty')}
+				title={t(`difficulties.${difficulty}`)}
+				description={t('difficulty')}
 				icon={<DifficultyIcon difficulty={difficulty} />}
 			/>
 			<SousageItem
 				title={percentage(scale)}
-				description={i18n.t('scale')}
+				description={t('scale')}
 				icon={<SearchIcon />}
 			/>
 		</Sousage>

@@ -7,7 +7,7 @@ import Avatar from '../info/Avatar';
 import CountryBadge from '../misc/CountryBadge';
 
 const User = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { user, country, setUser } = useSettings();
 	const { play: playSound } = useAudio();
 
@@ -19,7 +19,7 @@ const User = () => {
 				className='max-w-[4rem]'
 			/>
 			<label className='input input-primary w-full'>
-				<strong className='text-accent'>{i18n.t('user')}</strong>
+				<strong className='text-accent'>{t('user')}</strong>
 				<input
 					type='text'
 					value={user || ''}

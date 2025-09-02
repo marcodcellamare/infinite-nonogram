@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { CheckIcon, CopyIcon } from 'lucide-react';
 
 const Share = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { copied, copyToClipboard } = useClipboard();
 	const { play: playSound } = useAudio();
 
@@ -17,6 +17,7 @@ const Share = () => {
 				'btn flex-1',
 				!copied ? 'btn-outline btn-primary' : 'btn-accent',
 			])}
+			aria-label={t('clipboard.copyUrl')}
 			onPointerEnter={() => playSound('grid-block-over')}
 			onClick={() => {
 				playSound('grid-block-correct');
@@ -27,7 +28,7 @@ const Share = () => {
 			) : (
 				<CheckIcon className='text-svg' />
 			)}{' '}
-			{i18n.t(!copied ? 'clipboard.copyUrl' : 'clipboard.copied')}
+			{t(!copied ? 'clipboard.copyUrl' : 'clipboard.copied')}
 		</button>
 	);
 };

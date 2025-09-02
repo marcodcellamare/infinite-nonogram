@@ -22,6 +22,11 @@
 	"scrollwheel": "Scrollwheel",
 	"randomize": "Randomize",
 	"and": "And",
+	"refresh": "Refresh",
+	"use-this-seed": "Use this Seed",
+	"settings": "Settings",
+	"close-settings": "Close settings",
+	"play-this-game": "Play this game",
 	"size": {
 		"width": "Width",
 		"height": "Height"

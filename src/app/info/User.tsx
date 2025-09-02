@@ -9,7 +9,7 @@ import Avatar from './Avatar';
 import { SettingsIcon } from 'lucide-react';
 
 const User = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { user, country, showEffects, setIsDrawerShown } = useSettings();
 	const { play: playSound } = useAudio();
 
@@ -23,6 +23,7 @@ const User = () => {
 				playSound('grid-block-over');
 				setIsOver(true);
 			}}
+			aria-label={t('settings')}
 			onPointerLeave={() => setIsOver(false)}
 			onClick={() => setIsDrawerShown(true)}>
 			<div className='bg-accent w-[3rem] sm:w-[2.5rem] aspect-square rounded-full overflow-hidden relative'>
@@ -47,7 +48,7 @@ const User = () => {
 				/>
 			</div>
 			<div className='hidden sm:flex flex-col flex-1 min-w-0 text-xs text-start leading-[1em]'>
-				<div className='font-bold'>{i18n.t('user')}</div>
+				<div className='font-bold'>{t('user')}</div>
 				<div className='overflow-hidden text-ellipsis whitespace-nowrap'>
 					{user}
 				</div>

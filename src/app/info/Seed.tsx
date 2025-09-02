@@ -55,11 +55,15 @@ const Seed = () => {
 
 	return (
 		<div
-			className='absolute inset-0 pointer-events-none overflow-hidden contain-layout'
+			className='absolute inset-0 pointer-events-none overflow-hidden'
 			aria-hidden={true}>
 			<div className='absolute top-1/2 left-1/2 -translate-1/2 w-[110%] max-h-[100vh] text-[16vw] font-black italic leading-[0.8em] tracking-tighter text-base-100 text-center'>
 				{splittedSeed.map((s, k) => (
-					<div key={k}>{s}</div>
+					<div
+						key={k}
+						className='contain-layout w-full min-h-20 lg:min-h-35'>
+						{s}
+					</div>
 				))}
 			</div>
 		</div>

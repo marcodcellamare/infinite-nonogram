@@ -15,7 +15,7 @@ interface GameProps {
 }
 
 const Game = ({ rank, cols, rows, difficulty, seed }: GameProps) => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { setSeed, setCols, setRows, setDifficulty, setIsDrawerShown } =
 		useSettings();
 
@@ -29,11 +29,10 @@ const Game = ({ rank, cols, rows, difficulty, seed }: GameProps) => {
 					'hover:!no-underline hover:text-accent',
 					rank < 10 ? 'text-xs' : 'text-xxs',
 				])}
-				title={`${i18n.t('grid')}: ${cols}×${rows} - ${i18n.t(
-					'difficulty'
-				)}: ${i18n.t(`difficulties.${difficulty}`)} - ${i18n.t(
-					'seed'
-				)}: ${seed}`}
+				aria-label={t('play-this-game')}
+				title={`${t('grid')}: ${cols}×${rows} - ${t('difficulty')}: ${t(
+					`difficulties.${difficulty}`
+				)} - ${t('seed')}: ${seed}`}
 				onClick={() => {
 					setSeed(seed);
 					setCols(cols);

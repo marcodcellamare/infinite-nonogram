@@ -41,7 +41,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
 	const [showEffects, setShowEffects] = useState(true);
 	const [isLeaderboardOn, setIsLeaderboardOn] = useState(true);
 	const [isMusicOn, setIsMusicOn] = useState(true);
-	const [isDrawerShown, setIsDrawerShown] = useState(true);
+	const [isDrawerShown, setIsDrawerShown] = useState(false);
 
 	const storage = useRef({
 		user:

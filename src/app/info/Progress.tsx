@@ -20,7 +20,7 @@ const Progress = () => {
 	return (
 		<div
 			className={classNames([
-				'relative w-full overflow-hidden contain-layout',
+				'progress-wrapper absolute top-0 left-0 right-0 overflow-hidden contain-layout z-10',
 				'transition-[height]',
 				isVisible ? 'h-[1rem]' : 'h-[0rem]',
 			])}

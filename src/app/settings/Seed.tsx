@@ -9,7 +9,7 @@ import { CheckIcon, RefreshCcwIcon } from 'lucide-react';
 
 const Seed = () => {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { seed, setSeed, isRefreshing, showEffects } = useSettings();
 	const { play: playSound } = useAudio();
 
@@ -39,7 +39,7 @@ const Seed = () => {
 						'!border-primary/50': isRefreshing || isSpinning,
 					},
 				])}>
-				<strong className='text-accent'>{i18n.t('seed')}</strong>
+				<strong className='text-accent'>{t('seed')}</strong>
 				<input
 					ref={inputRef}
 					type='text'
@@ -67,6 +67,7 @@ const Seed = () => {
 							'transition-[color] duration-400': showEffects,
 						},
 					])}
+					aria-label={t('refresh')}
 					onPointerEnter={() => playSound('grid-block-over')}
 					onClick={() => {
 						if (!isRefreshing && !isSpinning) {
@@ -94,6 +95,7 @@ const Seed = () => {
 				type='submit'
 				className='btn btn-primary'
 				disabled={value.length === 0 || value === seed}
+				aria-label={t('use-this-seed')}
 				onPointerEnter={() => playSound('grid-block-over')}>
 				<CheckIcon className='w-full' />
 			</button>

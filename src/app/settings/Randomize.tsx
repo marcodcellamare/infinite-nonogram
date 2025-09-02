@@ -11,7 +11,7 @@ import { DifficultyTypes } from '@/types/settings';
 import { TimeoutType } from '@/types/timer';
 
 const Randomize = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { setSeed, setRows, setCols, setDifficulty, showEffects } =
 		useSettings();
 	const { play: playSound } = useAudio();
@@ -62,6 +62,7 @@ const Randomize = () => {
 			className='flex-1 btn btn-outline btn-primary disabled:!bg-secondary disabled:text-white'
 			type='button'
 			onPointerEnter={() => playSound('grid-block-over')}
+			aria-label={t('randomize')}
 			onClick={onClick}
 			disabled={isClicked}>
 			<DicesIcon
@@ -75,7 +76,7 @@ const Randomize = () => {
 					},
 				])}
 			/>
-			{i18n.t('randomize')}
+			{t('randomize')}
 		</button>
 	);
 };

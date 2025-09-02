@@ -19,7 +19,7 @@ import { RefreshCwIcon } from 'lucide-react';
 import { LeaderboardPlayerProps } from '@/types/leaderboard';
 
 const Score = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { logEvent } = useFirebase();
 	const { addDocument } = useFirestoreCollection<LeaderboardPlayerProps>(
 		import.meta.env.VITE_FIREBASE_LEADERBOARD_COLLECTION ?? ''
@@ -44,7 +44,7 @@ const Score = () => {
 
 	const randomizer = useCallback(
 		(path: string) => {
-			const texts = i18n.t(path, {
+			const texts = t(path, {
 				returnObjects: true,
 			}) as string[];
 
@@ -52,7 +52,7 @@ const Score = () => {
 				? texts[Math.floor(Math.random() * texts.length)]
 				: '';
 		},
-		[i18n]
+		[t]
 	);
 
 	const handleMounted = useCallback(() => {
@@ -159,6 +159,7 @@ const Score = () => {
 								type='button'
 								className='btn btn-xl btn-secondary rounded-full px-15'
 								disabled={!isCompleted}
+								aria-label={next}
 								onClick={() => setSeed()}>
 								<RefreshCwIcon className='text-svg' /> {next}
 							</button>

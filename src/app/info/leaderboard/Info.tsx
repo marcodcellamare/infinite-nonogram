@@ -5,7 +5,7 @@ import DifficultyIcon from '@/app/misc/DifficultyIcon';
 import { GridIcon } from 'lucide-react';
 
 const Info = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { difficulty, cols, rows } = useSettings();
 
 	return (
@@ -16,7 +16,7 @@ const Info = () => {
 			</span>
 			<span className='badge badge-sm badge-outline badge-primary rounded-sm gap-1 font-bold'>
 				<DifficultyIcon difficulty={difficulty} />
-				{i18n.t(`difficulties.${difficulty}`)}
+				{t(`difficulties.${difficulty}`)}
 			</span>
 		</div>
 	);

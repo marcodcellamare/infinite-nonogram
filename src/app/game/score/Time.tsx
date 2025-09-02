@@ -6,7 +6,7 @@ import Timer from '@/app/misc/Timer';
 import { ClockIcon } from 'lucide-react';
 
 const Time = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { timeUnits } = useTimer();
 
 	const timeUnitsRef = useRef(timeUnits);
@@ -14,7 +14,7 @@ const Time = () => {
 	return (
 		<div className='badge badge-lg badge-light rounded-sm'>
 			<ClockIcon className='text-svg' />
-			{i18n.t('score.time')}:
+			{t('score.time')}:
 			<Timer
 				timeUnits={timeUnitsRef.current}
 				units='abbr'

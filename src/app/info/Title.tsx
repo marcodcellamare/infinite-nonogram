@@ -9,7 +9,7 @@ interface TitleProps {
 }
 
 const Title = ({ size = 'md' }: TitleProps) => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 
 	return (
 		<h1
@@ -21,7 +21,7 @@ const Title = ({ size = 'md' }: TitleProps) => {
 			])}>
 			<InfinityIcon className='inline-block md:block w-[1em] h-[1em] scale-250 origin-[80%_50%] md:origin-center mr-5' />
 			<span className='relative inline-block'>
-				{i18n.t('title')}
+				{t('title')}
 				<span className='absolute top-0 left-0 -translate-1/2 badge badge-xs badge-accent'>
 					v{pkg.version}
 				</span>

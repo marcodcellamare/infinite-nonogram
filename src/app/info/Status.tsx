@@ -9,7 +9,7 @@ import { Grid2X2Icon, SquareIcon, SquareDashedIcon } from 'lucide-react';
 import { useSettings } from '@/contexts/settings';
 
 const Status = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { number } = useFormatNumber();
 	const { showEffects } = useSettings();
 	const {
@@ -27,8 +27,8 @@ const Status = () => {
 				subTitle={number(total - totalInteractions)}
 				description={
 					<>
-						<strong>{i18n.t('status.available')}</strong>/
-						{i18n.t('status.total')}
+						<strong>{t('status.available')}</strong>/
+						{t('status.total')}
 					</>
 				}
 				icon={<Grid2X2Icon />}
@@ -36,7 +36,7 @@ const Status = () => {
 			/>
 			<SousageItem
 				title={number(totalFound)}
-				description={i18n.t('status.found')}
+				description={t('status.found')}
 				icon={<SquareIcon />}
 				className={classNames([
 					'bg-accent/10',
@@ -48,7 +48,7 @@ const Status = () => {
 			/>
 			<SousageItem
 				title={number(totalErrors)}
-				description={i18n.t('status.errors')}
+				description={t('status.errors')}
 				icon={<SquareDashedIcon />}
 				className={classNames([
 					'bg-error/10',

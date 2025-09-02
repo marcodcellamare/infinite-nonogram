@@ -12,7 +12,7 @@ import Settings from './Settings';
 import Copyright from './Copyright';
 
 const Drawer = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { isDrawerShown, setIsDrawerShown, showEffects, isLeaderboardOn } =
 		useSettings();
 
@@ -37,6 +37,7 @@ const Drawer = () => {
 								].includes(status),
 							},
 						])}
+						aria-label={t('close-settings')}
 						onClick={() => setIsDrawerShown(false)}>
 						<ArrowRightIcon className='text-svg text-4xl md:text-6xl absolute top-1/2 right-5 md:right-10 -translate-y-1/2 text-base-100 opacity-50 group-hover:opacity-100 transition-opacity duration-150 ease-in-out' />
 					</button>
@@ -66,7 +67,7 @@ const Drawer = () => {
 								{isLeaderboardOn ? (
 									<Container
 										show={isEntering}
-										label={i18n.t('leaderboard.title')}>
+										label={t('leaderboard.title')}>
 										<Leaderboard show={status === 'done'} />
 									</Container>
 								) : null}

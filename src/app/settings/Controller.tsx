@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { MouseIcon, SpaceIcon, SquareIcon, XIcon } from 'lucide-react';
 
 const Controller = () => {
-	const { i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { isInteracting, setIsInteracting } = useInteraction();
 	const { isScaling } = useScale();
 	const { isAuto, showEffects, isDrawerShown, setIsAuto } = useSettings();
@@ -134,7 +134,7 @@ const Controller = () => {
 							: 'opacity-0',
 					])}>
 					<MouseIcon className='text-svg' />
-					{i18n.t('autoShort')}
+					{t('autoShort')}
 				</div>
 			</label>
 		</div>
