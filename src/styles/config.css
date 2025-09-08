@@ -22,12 +22,78 @@
 @plugin 'daisyui/theme' {
 	name: 'light';
 	default: true;
-	--color-primary: var(--color-slate-500);
+
+	--color-palette-red: #fa3e70;
+	--color-palette-purple: #cb6af7;
+	--color-palette-blue: #7f62df;
+	--color-palette-brown: #a39484;
+
+	--color-palette-green: #00e8c1;
+	--color-palette-yellow: #f2dc8a;
+
+	--color-palette-light-gray: #e8edec;
+	--color-palette-light-gray2: #f2f5f4;
+	--color-palette-light-gray3: #e1e8e6;
+	--color-palette-gray: #c2cfcd;
+	--color-palette-dark-gray: #807d80;
+	--color-palette-darker-gray: #545254;
+
+	/**/
+
+	--color-neutral: var(--color-palette-gray);
+	--color-neutral-content: var(--color-palette-dark-gray);
+
+	--color-base-100: var(--color-palette-light-gray);
+	--color-base-200: var(--color-palette-light-gray2);
+	--color-base-300: var(--color-palette-light-gray3);
+	--color-base-content: var(--color-palette-dark-gray);
+
+	--color-primary: var(--color-palette-dark-gray);
+	--color-primary-content: var(--color-palette-gray);
+	--color-secondary: var(--color-palette-purple);
+	--color-secondary-content: color-mix(
+		in srgb,
+		var(--color-palette-purple),
+		black 30%
+	);
+	--color-accent: var(--color-palette-green);
+	--color-accent-content: color-mix(
+		in srgb,
+		var(--color-palette-green),
+		black 30%
+	);
+
+	--color-info: var(--color-palette-blue);
+	--color-info-content: color-mix(
+		in srgb,
+		var(--color-palette-blue),
+		black 30%
+	);
+	--color-success: var(--color-palette-green);
+	--color-success-content: color-mix(
+		in srgb,
+		var(--color-palette-green),
+		black 30%
+	);
+	--color-warning: var(--color-palette-yellow);
+	--color-warning-content: color-mix(
+		in srgb,
+		var(--color-palette-yellow),
+		black 30%
+	);
+	--color-error: var(--color-palette-red);
+	--color-error-content: color-mix(
+		in srgb,
+		var(--color-palette-red),
+		black 30%
+	);
+
+	/* --color-primary: var(--color-slate-500);
 	--color-primary-content: var(--color-slate-200);
 	--color-base-content: var(--color-slate-700);
 	--color-base-100: var(--color-slate-100);
 	--color-base-200: var(--color-slate-200);
-	--color-base-300: var(--color-slate-300);
+	--color-base-300: var(--color-slate-300); */
 }
 
 @theme {

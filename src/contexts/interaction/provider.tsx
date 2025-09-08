@@ -89,6 +89,7 @@ export const InteractionProvider = ({ children }: { children: ReactNode }) => {
 	useEffect(() => {
 		setOverCol(undefined);
 		setOverRow(undefined);
+		setIsClicked(false);
 	}, [isRefreshing]);
 
 	useEffect(() => {

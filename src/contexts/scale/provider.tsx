@@ -29,17 +29,25 @@ export const ScaleProvider = ({ children }: { children: ReactNode }) => {
 		[]
 	);
 
+	const acc = useRef(0);
+
 	const handleWheel = useCallback((e: WheelEvent) => {
 		if (!e.shiftKey) return;
 
 		e.preventDefault();
+		acc.current += e.deltaY || e.deltaX;
 
-		setScale((prevScale) =>
-			calculateScale(
-				prevScale -
-					Math.sign(e.deltaY || e.deltaX) * Config.game.scale.step * 2
-			)
-		);
+		if (Math.abs(acc.current) >= 25) {
+			setScale((prevScale) =>
+				calculateScale(
+					prevScale -
+						Math.sign(e.deltaY || e.deltaX) *
+							Config.game.scale.step *
+							2
+				)
+			);
+			acc.current = 0;
+		}
 	}, []);
 
 	const handleTouchStart = (e: TouchEvent) => {

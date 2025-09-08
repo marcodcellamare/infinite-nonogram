@@ -61,8 +61,8 @@
 			},
 			"penalty": {
 				"time": 0.0000001,
-				"errors": 0.9,
-				"interactions": 0.5
+				"errors": 0.8,
+				"interactions": 0.001
 			}
 		}
 	},

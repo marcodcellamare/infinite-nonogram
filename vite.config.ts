@@ -75,6 +75,10 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 				...env,
 				...firebaseEnv,
 			},
+			'import.meta.env': {
+				...env,
+				...firebaseEnv,
+			},
 		},
 		server: {
 			watch: {

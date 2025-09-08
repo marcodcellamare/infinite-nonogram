@@ -16,7 +16,7 @@ const X = () => {
 			{({ isEntering }) => (
 				<div
 					className={classNames([
-						'absolute inset-0 pointer-events-none overflow-hidden',
+						'absolute inset-0 pointer-events-none overflow-hidden contain-layout',
 						isEntering ? 'bg-base-200/50' : 'bg-base-200/0',
 						{
 							'transition-[background-color] duration-400':
@@ -24,9 +24,9 @@ const X = () => {
 						},
 					])}
 					aria-hidden={true}>
-					<p
+					<XIcon
 						className={classNames([
-							'absolute top-1/2 left-1/2 -translate-1/2 text-[250vw] leading-[0.8em] text-base-200',
+							'absolute top-1/2 left-1/2 -translate-1/2 size-[200vh] lg:size-[240vh] stroke-3 lg:stroke-4 text-base-300',
 							isEntering
 								? 'opacity-100 scale-100'
 								: 'opacity-0 scale-150',
@@ -34,9 +34,8 @@ const X = () => {
 								'transition-[opacity,scale] duration-400':
 									showEffects,
 							},
-						])}>
-						<XIcon className='text-svg' />
-					</p>
+						])}
+					/>
 				</div>
 			)}
 		</MountTransition>
